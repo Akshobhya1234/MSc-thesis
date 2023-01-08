@@ -1,2 +1,261 @@
 \chapter{Algebraic Structures in Proof Assistant Systems - Survey}
-Algebraic Structures in Proof Assistant Systems - Survey \cite{popescu2014gamygdala}
+
+The proof assistant systems are computer software that helps to derive formal proofs with a joint effort of computers and humans. Computer proof assistants are used to formalize theories, and extend them by logical reasoning and defining properties. \cite{2019arXiv191203028S} These systems are used to perform mathematics on computers. The proof assistant systems are widely used in defining and proving rather than doing numerical computations. The automated theorem proving is different from proof assistants in that they have less expressivity and make it almost impossible to define a generic mathematical theory. In \cite{CaretteBigMath}. the author discusses several concerns on considering the proofs that are exclusively verified using a computer to be considered as a valid mathematical proof. However, the proofs written using the proof assistant systems are widely accepted among mathematicians and computer scientists.\\ \\
+The strength of any system is directly dependent on the availability of standard libraries for those systems. The standard libraries are expected to provide resources to ease the use of such systems. In \cite{BuildingDiamond}, the author discusses the difficulties in building such large libraries. One such problem is to structurally derive algebraic structures from one another in the hierarchy without explicitly defining axioms that become redundant. The author also proposes a solution to make use of the interrelationship in mathematics and thus reduce the efforts in building the library.\\ \\ We consider the four more commonly used proof assistant systems that are all dependently typed, higher order programming languages that supports (atleast partially) proof by reflection. Proof by reflection is a technique where the system allows to derive proofs by systematic reasoning methods.
+
+Agda 2 is a proof assistant system where proofs are expressed in a functional programming style. The Agda standard library aims to provide tools to ease the effort of writing proofs and also programs. The current version of the Agda standard library (1.7) is fully supported for the changes and developments in Agda. It provides clear documentation for installation, contribution, and style guide for the standard library.\\ \\
+Idris is developed as a functional programming language but is also used as a proof assistant system. The proofs are alike with coq and the type systems in Idris is uniform with agda. Idris 2 is a self-hosted programming language that combines linear-type-system. In this article, Idris 2 and Idris in used interchangeably and refer to Idris 2. Currently, there are no official package managers for Idris 2. However, several versions are under development. \\ \\
+Coq \cite{Paulin-Mohring2012} is a theorem proving system that is written in the Ocaml programming language. It was first released in 1989 and is one of the most widely used proof assistant systems to define mathematical definitions, theory and to write proofs. The mathematical components library (1.12.0) includes various topics from data structures to algebra. In this article, we consider the mathematical component repository (mathcomp) that contains formalized mathematical theories. \cite{assia_mahboubi_2021_4457887} The latest available release of mathcomp library is 1.12.0. The mathcomp library was started with the Four Colour Theorem to support formal proof of the odd order theorem. \\ \\
+Lean \cite{10.1145/3372885.3373824} is an open-source project by Microsoft Research. Lean is a proof assistant system written in C++. The last official version of Lean was 3.4.2 and is now supported by the lean community. Lean 4 is the latest version of Lean and is a complete rewrite of previous versions of Lean. The mathlib \cite{10.1145/3372885.3373824} library for lean 3 has the most coverage of algebra compared to the other 3 proof assistant systems discussed in the paper. The mathlib library of Lean is also maintained by the lean community for community versions of lean. It was developed on a small library that was in lean. It contained definitions of natural numbers, integers, and lists and had some coverage over algebra hierarchy. The latest version of mathlib has over 2794 definitions of algebra [3]. \\ \\
+The main aim of this paper is to provide documentation for the algebraic coverage in various proof assistant systems. The most commonly used proof assistant systems are Agda, Idris2, Coq, and Lean. In this article, the latest available versions are considered i.e., Agda standard library 1.7, Idris 2.0,The Mathematical Components Library 1.13.0, and The Lean mathematical library. 
+
+\section{Experimental setup}
+It is not time efficient to manually look for the definitions in a large library. The source code of the standard libraries of Agda, Idris, Coq and lean are publicly available. We created a web crawler that extracts the code from the source code webpage and built a regular expression that is unique to each system to extract definitions. Thus a part of the process of building the table 1. was automated. Since the standard libraries are open source projects, it is difficult to maintain uniformity in the code. For example the definition might start with comment in the same line or structure parameters might be written in a new line. All this makes it difficult to correctly build the regular expression and will necessitate the task of verifying the results manually to some extent.   
+
+The rest of the article is structured as follows. Section 2 discuss about the algebraic structure definitions and its coverage in the proof assistant systems, while the section 3 covers the morphism definitions in those systems. The properties and solvers coverage in presented in section 4. The last section of the paper is the conclusion and discussion.
+
+\section{Algebraci Structures}
+The Agda standard library provides definitions with bundled versions of several algebraic structures. Algebra hierarchy is followed in defining structures \cite{CaretteBigMath}. As an example, a semigroup is derived from magma and a monoid from semigroup.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+record IsMagma (∙ : Op\textsubscript{2} A) : Set (a ⊔ ℓ) where
+  field
+    isEquivalence : IsEquivalence _≈_
+    ∙-cong        : Congruent\textsubscript{2} ∙
+
+  open IsEquivalence isEquivalence public
+\end{Verbatim}
+\begin{comment}
+  setoid : Setoid a ℓ
+  setoid = record { isEquivalence = isEquivalence }
+
+  ∙-cong\textsuperscript{l} : LeftCongruent ∙
+  ∙-cong\textsuperscript{l} y≈z = ∙-cong refl y≈z
+
+  ∙-cong\textsuperscript{r} : RightCongruent ∙
+  ∙-cong\textsuperscript{r} y≈z = ∙-cong y≈z refl
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\}]
+record IsSemigroup (∙ : Op\textsubscript{2} A) : Set (a ⊔ ℓ) where
+  field
+    isMagma : IsMagma ∙
+    assoc   : Associative ∙
+
+  open IsMagma isMagma public
+
+\end{Verbatim}
+The same follows for the bundle definitions of respective structures. Since the current version of the library has a limited number of structures, there might arise a problem of extending the hierarchy as described in [2]. One exemption for this hierarchical definition is the definition of a lattice. A lattice is defined independently in the standard library to overcome the redundant idempotent fields. A lattice structure that is defined in terms of join and meet semilattice is being added as a biased structure. The 1.7 version of the agda standard library has the definitions of structures with the respective bundle versions of Magma, Commutative Magma, to Ring, CommutativeRing, and Boolean Algebra. Another definition of most of the above algebraic structures is provided as a direct product of two other instances of algebraic structures. However, from semigroups, the structures are defined in terms of relevant categories. The structures also include respective bundle definitions. A module is an abelian group with the ring of scalars. The ring of scalars has an identity element. The agda standard library defines left, right, and bi semimodules and modules. A similar hierarchical approach as other algebraic structures is followed in defining modules. As an example, a module is defined using bimodules and bimodules using bi-semimodules. An alternative definition of modules is given in “Algebra.Module.Structure.Biased”. The structures have respective bundled versions. \\ \\
+In Idris 2, there is a considerable overlap of abstract algebra and category theory. The library defines various algebraic structures that include semigroup, monoid, group, abelian-group, semiring, and ring. It follows a hierarchical approach in defining structures similar to that in agda. For example, a semigroup is defined as a set with a binary operation that is associative and a monoid is defined in terms of semigroup with an identity element. Idris addresses identity as a neutral element.
+
+\begin{Verbatim}
+interface Semigroup t where
+  (<+>) : t -> t -> t
+  semigroupOpIsAssociative : (l, c, r : t) -> l <+> (c <+> r) = (l <+> c) <+> r
+
+interface Semigroup t => Monoid t where
+  neutral : t
+  monoidNeutralIsNeutralL : (l : t) -> l <+> neutral = l
+  monoidNeutralIsNeutralR : (r : t) -> neutral <+> r = r
+\end{Verbatim}
+
+The algebra structures design hierarchy of the mathcomp library is inspired by the Packing mathematical structures. The ssralg file defines most of the basic algebraic structures with their type, packers, and canonical properties. The hierarchy extends from Zmodule, rings to ring morphisms. The countalg file extends ssralg file to define countable types.\\ \\
+The mathlib extends the algebra hierarchy from semigroup to ordered fields. The library defines instances of free magma, free semigroup, free Abelian group, etc. An example of semigroup structure definition in the library is given below:
+
+\begin{Verbatim}
+structure semigroup (G : Type u) :
+  Type u  
+  mul : G → G → G 
+  mul_assoc : forall (a b c : G), (a * b) * c = a * b * c
+\end{Verbatim}
+
+Other instances of semigroups are derived from the definition of semigroup structure such as commutative semigroup, left and right cancellative semgroup. Similar definitions are extended from monoid and other structures. \\ \\
+
+\begin{longtable}{|l|l|l|l|l|}
+\caption{ Algebraic structures in proof assistant systems} \label{tab:long} \\
+
+\hline \multicolumn{1}{|c|}{\textbf{Algebraic Structure}} & \multicolumn{1}{c|}{\textbf{Agda}} & \multicolumn{1}{c|}{\textbf{Coq}} & \multicolumn{1}{c|}{\textbf{Idris}} & \multicolumn{1}{c|}{\textbf{Lean}} \\ \hline 
+\endfirsthead
+
+\multicolumn{5}{c}%
+{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{Algebraic Structure}} & \multicolumn{1}{c|}{\textbf{Agda}} & \multicolumn{1}{c|}{\textbf{Coq}} &  \multicolumn{1}{c|}{\textbf{Idris}} & \multicolumn{1}{c|}{\textbf{Lean}}  \\ \hline 
+\endhead
+
+\hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+        Magma &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L32}{\checkmark} & - & - & - \\ \hline
+        Commutative Magma &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L49}{\checkmark} & - & - & - \\ \hline
+        Selective Magma &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L57}{\checkmark} & - & - & - \\ \hline
+	IdempotentMagma & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L56}{\checkmark} & - & - &  - \\ \hline
+	AlternativeMagma & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L63}{\checkmark} & - & - &  - \\ \hline
+	FlexibleMagma & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L76}{\checkmark} & - & - &  - \\ \hline
+	MedialMagma & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L832}{\checkmark} & - & - &  - \\ \hline
+	SemiMedialMagma & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L90}{\checkmark} & - & - &  - \\ \hline
+        Semigroup &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L65}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/ssreflect/bigop.v#L1184}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L7}{\checkmark} & \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/group/defs.lean#L94}{\checkmark} \\ \hline
+        Band &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L73}{\checkmark} & - & - & - \\ \hline
+        Commutative Semigroup &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L81}{\checkmark} & - & - &\href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/group/defs.lean#L116}{\checkmark} \\ \hline
+        Semilattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L32}{\checkmark} & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/395e27554fc8db530ad6a1c3dbaff0a602653aa6/src/order/lattice.lean#L86}{\checkmark} \\ \hline
+        Unital magma &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L98}{\checkmark} & - & - & - \\ \hline
+        Monoid &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L112}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/ssreflect/bigop.v#L323}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L12}{\checkmark} &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/group/defs.lean#L377}{\checkmark} \\ \hline
+        Commutative monoid &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L132}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/ssreflect/bigop.v#L336}{\checkmark} & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/group/defs.lean#L420}{\checkmark} \\ \hline
+        Idempotent commutative monoid &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L149}{\checkmark} & - & - & - \\ \hline
+        Bounded Semilattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L70}{\checkmark} & - & - & - \\ \hline
+	Bounded Meetsemilattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L84}{\checkmark} & - & - & - \\ \hline
+	Bounded Joinsemilattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L97}{\checkmark} & - & - & - \\ \hline
+	Invertible Magma  &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L165}{\checkmark} & - & - & - \\ \hline
+	IsInvertible UnitalMagma  &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L179}{\checkmark} & - & - & - \\ \hline
+        Quasigroup &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L557}{\checkmark} & - & - & - \\ \hline
+        Loop &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L565}{\checkmark} & - & - & - \\ \hline
+	Moufang Loop &  \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L932}{\checkmark}  & - & - & -\\ \hline
+	Left Bol Loop &  \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L918}{\checkmark}  & - & - & -\\ \hline
+	Middle Bol Loop &  \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L940}{\checkmark}  & - & - & -\\ \hline
+	Right Bol Loop &  \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L925}{\checkmark}  & - & - & -\\ \hline
+        NilpotentGroup & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/group_theory/nilpotent.lean#L135}{\checkmark} \\ \hline
+        CyclicGroup & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/395e27554fc8db530ad6a1c3dbaff0a602653aa6/src/group_theory/specific_groups/cyclic.lean#L56}{\checkmark} \\ \hline
+        SubGroup & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/395e27554fc8db530ad6a1c3dbaff0a602653aa6/src/group_theory/subgroup/basic.lean#L100}{\checkmark} \\ \hline
+        Group &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L199}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/fingroup/fingroup.v#L734}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L29}{\checkmark} &  \href{https://github.com/leanprover-community/mathlib/blob/395e27554fc8db530ad6a1c3dbaff0a602653aa6/src/algebra/group/defs.lean#L600}{\checkmark} \\ \hline
+        Abelian group &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L238}{\checkmark} & - &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L53}{\checkmark} &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/group_theory/abelianization.lean#L35}{\checkmark} \\ \hline
+        Lattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L125}{\checkmark} & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/order/lattice.lean#L460}{\checkmark} \\ \hline
+        Distributive lattice &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L157}{\checkmark} & - & - & - \\ \hline
+        Near semiring &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L260}{\checkmark} & - & - & - \\ \hline
+        Semiringwithout one &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L292}{\checkmark} & - & - & - \\ \hline
+        Idempotent Semiring &  \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L545}{\checkmark} & - & - & - \\ \hline
+        Commutative semiring without one &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L325}{\checkmark} & - & - & - \\ \hline
+        Semiring without annihilating zero &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L346}{\checkmark} & - & - & - \\ \hline
+        Semiring   &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L394}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/algebra/ssralg.v#L3575}{\checkmark} & - &\href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/ring/basic.lean#L119}{\checkmark} \\ \hline
+        Commutative semiring &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L419}{\checkmark} & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/ring/basic.lean#L588}{\checkmark} \\ \hline
+	Non associative ring & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L695}{\checkmark} & - & - &  - \\ \hline
+	Nearring & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L741}{\checkmark} & - & - &  - \\ \hline
+	Quasiring & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L572	}{\checkmark} & - & - &  - \\ \hline
+        Local ring & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/ring_theory/ideal/local_ring.lean#L35}{\checkmark} \\ \hline
+        Noetherian ring & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/ring_theory/noetherian.lean#L661}{\checkmark} \\ \hline
+        Ordered ring & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/order/ring.lean#L853}{\checkmark} \\ \hline
+        Cancellative commutative semiring &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L446}{\checkmark} & - & - & - \\ \hline
+        Sub ring & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/order/ring.lean#L853}{\checkmark} \\ \hline
+        Ring &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L459}{\checkmark} &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L905}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L85}{\checkmark} &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/ring/basic.lean#L632}{\checkmark} \\ \hline
+        Unit Ring & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L626}{\checkmark} &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L2878}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L119}{\checkmark} & - \\ \hline
+        Commutative Unit ring & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L3203}{\checkmark} & - & - \\ \hline
+        Commutative ring &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Structures.agda#L531}{\checkmark} &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L2529}{\checkmark} & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/ring/basic.lean#L812}{\checkmark} \\ \hline
+        Integral Domain & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L4593}{\checkmark} & - & - \\ \hline
+        LieAlgebra & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/lie/basic.lean#L61}{\checkmark} \\ \hline
+        LieRing module & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/lie/basic.lean#L68}{\checkmark} \\ \hline
+	Lie module & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/lie/basic.lean#L76}{\checkmark} \\ \hline
+        Boolean algebra &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Lattice/Structures.agda#L180}{\checkmark} & - & - & - \\ \hline
+        Preleft semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L31}{\checkmark} & - & - & - \\ \hline
+        Left semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L42}{\checkmark} & - & - & - \\ \hline
+        Preright semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L78}{\checkmark} & - & - & - \\ \hline
+        right semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L89}{\checkmark} & - & - & - \\ \hline
+        Bi semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L132}{\checkmark} & - & - & - \\ \hline
+        Semimodule &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L169}{\checkmark} & - & - &  - \\ \hline
+        Left module &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L183}{\checkmark} &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L1550}{\checkmark} & - & - \\ \hline
+        Right module &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L211}{\checkmark} & - & - & - \\ \hline
+        Bi module &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L246}{\checkmark} & - & - & - \\ \hline
+        Module &  \href{https://github.com/agda/agda-stdlib/blob/42d13fdea1b1861e545c5a0799d605edfa0acc31/src/Algebra/Module/Structures.agda#L284}{\checkmark} & \href{https://github.com/math-comp/math-comp/blob/c553e54b4c5465539fb6e45295e2b9e778cd4ef1/mathcomp/algebra/ssralg.v#L5073}{\checkmark} & - &  \href{https://github.com/leanprover-community/mathlib/blob/395e27554fc8db530ad6a1c3dbaff0a602653aa6/src/algebra/module/basic.lean#L50}{\checkmark} \\ \hline
+        Field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L4777}{\checkmark} &  \href{https://github.com/idris-lang/Idris2/blob/78ff2059f39cb65ad9ed09dec1416621b6e662a5/libs/contrib/Control/Algebra.idr#L153}{\checkmark} &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/field/basic.lean#L163}{\checkmark} \\ \hline
+        Decidable Field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L5068}{\checkmark} & - & - \\ \hline
+        Closed field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L5311}{\checkmark} & - & - \\ \hline
+        Algebra & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L2681}{\checkmark} & - &  -\\ \hline
+        Unit algebra & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L3281}{\checkmark} & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/algebra/basic.lean#L114}{\checkmark} \\ \hline
+        Lalgebra & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L1710}{\checkmark} & - & - \\ \hline
+        Commutative unit algebra & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L3353}{\checkmark} & - & - \\ \hline
+        Commutative algebra & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssralg.v#L2754}{\checkmark} & - & - \\ \hline
+        NumDomain & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L160}{\checkmark} & - & - \\ \hline
+        Normed Zmodule & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L252}{\checkmark} & - & - \\ \hline
+        Num field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L500}{\checkmark} & - & - \\ \hline
+        Real domain & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L706}{\checkmark} & - & - \\ \hline
+        Real field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L860}{\checkmark} & - & - \\ \hline
+        Real closed field & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ssrnum.v#L1067}{\checkmark} & - & - \\ \hline
+        Vector space & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/vector.v#L110}{\checkmark} & - & - \\ \hline
+        Zmodule Quotients type & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ring_quotient.v#L99}{\checkmark} & - & - \\ \hline
+        Ring Quotient type & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ring_quotient.v#L204}{\checkmark} & - & - \\ \hline
+        Unit rint quotient type & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/ring_quotient.v#L313}{\checkmark} & - & - \\ \hline
+        Additive group & - &  \href{https://github.com/math-comp/math-comp/blob/ec8eaf48eb1e257ac2024edfb2eed2b96d4b4ec0/mathcomp/algebra/finalg.v#L155}{\checkmark} & - & - \\ \hline
+        characteristic zero & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/char_zero.lean#L38}{\checkmark} \\ \hline
+        Domain & - & - & - &  \href{https://github.com/leanprover-community/mathlib/blob/c25bd03efeb4f89dfd92e1a598a5ae86c61a26d3/src/algebra/ring/basic.lean#L999}{\checkmark} \\ \hline
+        Chain Complex & - & - & - &  \href{}{\checkmark} \\ \hline
+	Kleene Algebra & \href{https://github.com/agda/agda-stdlib/blob/f7bfeba6cfc03b9488e6d91ea0b011831f53be8a/src/Algebra/Structures.agda#L552}{\checkmark} & - & - &  - \\ \hline
+	IsHeytingCommutativeRing & \href{https://github.com/agda/agda-stdlib/blob/53433ec465de63d77a38e3e4f5d9d486c69544f2/src/Algebra/Apartness/Structures.agda#L29}{\checkmark} & - & - &  - \\ \hline
+	IsHeytingField & \href{https://github.com/agda/agda-stdlib/blob/53433ec465de63d77a38e3e4f5d9d486c69544f2/src/Algebra/Apartness/Structures.agda#L46}{\checkmark} & - & - &  - \\ \hline
+\end{longtable}
+
+\section{Morphism}
+One of the benefits of the Agda standard library is that it provides morphisms for the structures defined in the library. A raw bundle instance is defined in Algebra. Bundles and the morphisms for those raw structures are provided. For example, raw magma is used in magma morphisms. The library defines homomorphism, monomorphism, and isomorphism for those structures. The library also provides the composition of morphisms between algebraic structures. The morphism definitions for Magma, Monoid, Group, NearSemiring, Semiring, Ring, Lattice are available in the standard library. An example of magma morphisms as defined in the standard library is as follows.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+  record IsMagmaHomomorphism (\(\llbracket_\rrbracket\) : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isRelHomomorphism : IsRelHomomorphism _≈\textsubscript{1}_ _≈\textsubscript{2}_ \(\llbracket_\rrbracket\) 
+      homo              : Homomorphic\textsubscript{2} \(\llbracket_\rrbracket\)  _∙_ _◦_
+
+    open IsRelHomomorphism isRelHomomorphism public
+      renaming (cong to \(\llbracket\rrbracket\) -cong)
+\end{Verbatim}
+
+\begin{comment}
+  record IsMagmaMonomorphism (\(\llbracket_\rrbracket\) : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isMagmaHomomorphism : IsMagmaHomomorphism \(\llbracket_\rrbracket\) 
+      injective           : Injective \(\llbracket_\rrbracket\) 
+
+    open IsMagmaHomomorphism isMagmaHomomorphism public
+
+    isRelMonomorphism : IsRelMonomorphism _≈\textsubscript{1}_ _≈\textsubscript{2}_ \(\llbracket_\rrbracket\) 
+    isRelMonomorphism = record
+      { isHomomorphism = isRelHomomorphism
+      ; injective      = injective
+      }
+
+
+  record IsMagmaIsomorphism (\(\llbracket_\rrbracket\) : A → B) : Set (a ⊔ b ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isMagmaMonomorphism : IsMagmaMonomorphism \(\llbracket_\rrbracket\) 
+      surjective          : Surjective \(\llbracket_\rrbracket\) 
+
+    open IsMagmaMonomorphism isMagmaMonomorphism public
+
+    isRelIsomorphism : IsRelIsomorphism _≈\textsubscript{1}_ _≈\textsubscript{2}_ \(\llbracket_\rrbracket\) 
+    isRelIsomorphism = record
+      { isMonomorphism = isRelMonomorphism
+      ; surjective     = surjective
+      }
+\end{comment}
+
+Similar definitions for monomorphism and isomorphism are included in agda standard library.\\
+The morphism definitions in the Idris library define morphisms in category theory. A group homomorphism is a structure-preserving function between two groups and is defined as follows :
+
+
+\begin{Verbatim}
+interface (Group a, Group b) => GroupHomomorphism a b where
+  to : a -> b
+
+  toGroup : (x, y : a) ->  to (x <+> y) = (to x) <+> (to y)
+
+\end{Verbatim}
+
+The group theory directory defines groups, group morphisms, subgroups, cyclic, nilpotent groups, and isomorphism theorems. There is no group homomorphism instead, it is defined with proofs for map-one and map-mul for monoid homomorphism. The definition of monoid homomorphism is give below:
+
+\begin{Verbatim}
+structure monoid_hom (M : Type*) (N : Type*) [mul_one_class M] [mul_one_class N]
+  extends one_hom M N, mul_hom M N
+\end{Verbatim}
+
+  The mathlib library extends monoid and groups to define rings and ring morphisms. Bundled structure is used to define ring morphisms.
+
+\section{Properties}
+The Agda standard library provides constructs of modules such as a bi-product construct and tensor unit using two R-modules. The library also includes the relation between function properties with basal setoid and sets for propositional equalities. The library includes ring, monoid solvers for equations of the same. However, these solvers are under construction and not optimized for performance.\\ \\
+The coq library has rings and field tactics to achieve algebraic manipulations in some of the algebraic structures. The library also includes specialized tactics such as interval and gappa to work with real numbers and floating point nubmers. \cite{Paulin-Mohring2012} \\ \\
+The Idris library defines properties or laws of algebraic structures. The unique-Inverse defines that the inverses of monoids are unique. Other laws on groups include self-squaring i.e., identity element of a group is self-squaring, inverse elements of a group satisfy the commutative property, laws of double negation. It also defines squareIdCommutative i.e., a group is abelian if every square in a group is neutral, inverseNeutralIsNeutral, and other properties of an algebraic group. The Latin-square-property is defined as for any two elements a and b, ax =b and ya = b exists. Other algebraic properties for groups are y = z if x + y = x + z, y = z if y + x = z + x, ab = 0 -> a = b-1, and ab = 0 -> a-1 = b. An example of a definition is shown below.
+\begin{Verbatim}
+public export
+neutralProductInverseL : Group ty => (a, b : ty) ->
+  a <+> b = neutral {ty} -> inverse a = b
+neutralProductInverseL a b prf =
+  cancelLeft a (inverse a) b $
+    trans (groupInverseIsInverseL a) $ sym prf
+\end{Verbatim}
+The library also includes laws on homomorphism that homomorphism over group preserves identity and inverses. Some laws on ring structures are also included in the library such as x0 = 0, (-x)y = -(xy), x(-y) = -(xy), (-x)(-y) = xy, (-1)x = -x, and x(-1) = -x.
+The algebraic coverage of Idris 2 is limited and is under development. There are no official definitions for solvers or higher structures such as modules, fields, or vector space. The Idris 2 is comparatively new and is under continuous development to strengthen the language and also as a mechanical reasoning system.\\ \\
+The mathlib library of Lean 3 includes algebra over rings such as associative algebra over a commutative ring, Lie algebra, Clifford algebra, etc. Lie algebra is defined as a module satisfying Jacobi identity. Without scalar multiplication, a lie algebra is a lie ring. The library extends rings to define fields and division ring covering many aspects of fields such as the existence of closure for a field, Galois correspondence, rupture field, and others.
