@@ -33,8 +33,12 @@
 \newunicodechar{≈}{\ensuremath{\mathnormal\approx}}
 \newunicodechar{←}{\ensuremath{\mathnormal\from}}
 \newunicodechar{→}{\ensuremath{\mathnormal\to}}
-\newunicodechar{∀}{\ensuremath{\mathnormal\forall}}
 \newunicodechar{ε}{\ensuremath{\mathnormal\epsilon}}
+\newunicodechar{∀}{\ensuremath{\mathnormal\forall}}
+\newunicodechar{⟦}{\ensuremath{\mathnormal\llbracket}}
+\newunicodechar{⟧}{\ensuremath{\mathnormal\rrbracket}}
+\newunicodechar{∘}{\ensuremath{\mathnormal\circ}}
+\newunicodechar{∎}{\ensuremath{\mathnormal\blacksquare}}	
 \numberwithin{equation}{section} % Numbers equations based on their section
 
 % ********************************
@@ -42,17 +46,17 @@
 \include{definitions} % LaTeX variables for preface pages/headers
     
 \beforepreface % Half title page, title page, declaration page   
-  %\include{layabstr} % Lay Abstract
+  \include{layabstr} % Lay Abstract
   \include{abstr} % Abstract
   \include{dedic} % Dedication
   \include{acknowledgements} % Acknowledgements
   \referencepages % Table of Contents, List of Figures, List of Tables
   \include{notation}
-  %\academicstatement{academicachievementdeclaration}
+  \academicstatement{academicachievementdeclaration}
 \afterpreface
   
   
-  \include{introduction}                  
+  \include{Introduction}                  
         \setcounter{figure}{0}
         \setcounter{equation}{0}
         \setcounter{table}{0}

@@ -1,2 +1,656 @@
 \chapter{Theory Of Quasigroup and Loop in Agda}
-Theory Of Quasigroup and Loop in Agda
+Applications of non associative algebras are explored in various fields of study. For example, Einstein's formula of addition of velocities gives a loop structure, Quasigroups of various orders are used in field of cryptography, Lie algebra is used in differential geometry. Proof assistant systems such as Agda are helpful in verifying some of the properties of these structures. They are interactive software that help to derive complex mathematical proofs. In this chapter we formalize two important non associative algebras - quasigroup, loop structure. A Quasigroup (Q, ∙, /, \textbackslash ) is a type (2,2,2) algebra for which the binary operations \textbackslash  and / are defined such that division is always possible.  A loop is a quasigroup with identity. We explore morphisms and direct product for these structures and derive proofs for some of the properties of these structures. \\
+\section{Definition}
+A set that has a binary operation is called Magma. In this case a Magma is total and should not be confused with groupoid that need not be total. Let Q be a non empty set. Left and division is defined with identities.
+\begin{equation} \label{eq_L-leftdivides}
+y = x ∙ (x \textbackslash{} y)
+\end{equation}
+\begin{equation} \label{eq_L-rightdivides}
+y = x \textbackslash{} (x ∙ y)
+\end{equation}
+\begin{equation} \label{eq_R-leftdivides}
+y = (y / x) ∙ x
+\end{equation}
+\begin{equation} \label{eq_Rirightdivides}
+y = (y ∙ x) / x\\
+\end{equation}
+The Agda definition is given below
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+LeftDivides\textsuperscript{l}  : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+LeftDivides\textsuperscript{l}  _∙_  _\textbackslash\textbackslash_ = ∀ x y → (x ∙ (x \textbackslash\textbackslash y)) ≈ y
+
+LeftDivides\textsuperscript{r} : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+LeftDivides\textsuperscript{r} _∙_ _\textbackslash\textbackslash_ = ∀ x y → (x \textbackslash\textbackslash (x ∙ y)) ≈ y
+
+RightDivides\textsuperscript{l}  : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+RightDivides\textsuperscript{l}  _∙_ _//_ = ∀ x y → ((y // x) ∙ x) ≈ y
+
+RightDivides\textsuperscript{r} : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+RightDivides\textsuperscript{r} _∙_ _//_ = ∀ x y → ((y ∙ x) // x) ≈ y
+\end{Verbatim}
+\end{center}
+ We can combine the left and right division as follows
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+LeftDivides : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+LeftDivides ∙ \textbackslash\textbackslash = (LeftDivides\textsuperscript{l} ∙ \textbackslash\textbackslash) × (LeftDivides\textsuperscript{r} ∙ \textbackslash\textbackslash)
+
+RightDivides : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
+RightDivides ∙ // = (RightDivides\textsuperscript{l} ∙ //) × (RightDivides\textsuperscript{r} ∙ //)
+\end{Verbatim}
+\end{center}
+Note that we use // and \textbackslash\textbackslash instead of / and \textbackslash respectively to overcome the conflict with overloaded or escape characters. 
+
+The Quasigroup structure can be structurally derived from Magma in Agda as 
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+record IsQuasigroup (∙ \textbackslash\textbackslash // : Op\textsubscript{2} A) : Set (a ⊔ ℓ) where
+  field
+    isMagma       : IsMagma ∙
+    \textbackslash\textbackslash-cong       : Congruent\textsubscript{2} \textbackslash\textbackslash
+    //-cong       : Congruent\textsubscript{2} //
+    leftDivides   : LeftDivides ∙ \textbackslash\textbackslash
+    rightDivides  : RightDivides ∙ //
+
+  open IsMagma isMagma public
+\end{Verbatim}
+\begin{comment}
+  \textbackslash\textbackslash-cong\textsuperscript{l} : LeftCongruent \textbackslash\textbackslash
+  \textbackslash\textbackslash-cong\textsuperscript{l} y≈z = \textbackslash\textbackslash-cong refl y≈z
+
+  \textbackslash\textbackslash-cong\textsuperscript{r} : RightCongruent \textbackslash\textbackslash
+  \textbackslash\textbackslash-cong\textsuperscript{r} y≈z = \textbackslash\textbackslash-cong y≈z refl
+
+  //-cong\textsuperscript{l} : LeftCongruent //
+  //-cong\textsuperscript{l} y≈z = //-cong refl y≈z
+
+  //-cong\textsuperscript{r} : RightCongruent //
+  //-cong\textsuperscript{r} y≈z = //-cong y≈z refl
+
+  leftDivides\textsuperscript{l} : LeftDivides\textsuperscript{l} ∙ \textbackslash\textbackslash
+  leftDivides\textsuperscript{l} = proj\textsubscript{1} leftDivides
+
+  leftDivides\textsuperscript{r} : LeftDivides\textsuperscript{r} ∙ \textbackslash\textbackslash
+  leftDivides\textsuperscript{r} = proj\textsubscript{2} leftDivides
+
+  rightDivides\textsuperscript{l} : RightDivides\textsuperscript{l} ∙ //
+  rightDivides\textsuperscript{l} = proj\textsubscript{1} rightDivides
+
+  rightDivides\textsuperscript{r} : RightDivides\textsuperscript{r} ∙ //
+  rightDivides\textsuperscript{r} = proj\textsubscript{2} rightDivides
+\end{comment}
+
+A loop is a quasigroup that has identity element.
+\begin{equation}\label{eq_lineslope}
+x ∙ e = e ∙ x = x
+\end{equation}
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+LeftIdentity : A → Op\textsubscript{2} A → Set _
+LeftIdentity e _∙_ = ∀ x → (e ∙ x) ≈ x
+
+RightIdentity : A → Op\textsubscript{2} A → Set _
+RightIdentity e _∙_ = ∀ x → (x ∙ e) ≈ x
+
+Identity : A → Op\textsubscript{2} A → Set _
+Identity e ∙ = (LeftIdentity e ∙) × (RightIdentity e ∙)
+\end{Verbatim}
+\end{center}
+Loop structure can be structurally derived from quasigroup.
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+record IsLoop (∙ \textbackslash\textbackslash // : Op\textsubscript{2} A) (ε : A) : Set (a ⊔ ℓ) where
+  field
+    isQuasigroup : IsQuasigroup ∙ \textbackslash\textbackslash //
+    identity         : Identity ε ∙
+
+  open IsQuasigroup isQuasigroup public
+\end{Verbatim}
+\end{center}
+\begin{comment}
+  identity\textsuperscript{l} : LeftIdentity ε ∙
+  identity\textsuperscript{l} = proj\textsubscript{1} identity
+
+  identity\textsuperscript{r} : RightIdentity ε ∙
+  identity\textsuperscript{r} = proj\textsubscript{2} identity
+\end{comment}
+
+A loop is called a right bol loop if it satisfies the identity  (Equation~\ref{eq_rightbol})
+\begin{equation}\label{eq_rightbol}
+ ((z ∙ x) ∙ y) ∙ x = z ∙ ((x ∙ y) ∙ x)
+\end{equation}
+A loop is called a left bol loop if it satisfies the identity (Equation~\ref{eq_leftbol})
+\begin{equation}\label{eq_leftbol}
+ x ∙ (y ∙ (x ∙ z)) = (x ∙ (y ∙ x)) ∙ z
+\end{equation}
+A loop is called middle bol loop if it satisfies the identity (Equation~\ref{eq_middlebol}) 
+\begin{equation}\label{eq_middlebol}
+(z ∙ x) ∙ (y ∙ z) = z ∙ ((x ∙ y) ∙ z)
+\end{equation}
+A left-right bol loop is called a moufang loop if it satisfies identity (Equation~\ref{eq_moufang})
+\begin{equation}\label{eq_moufang}
+(z ∙ x) ∙ (y ∙ z) = z ∙ ((x ∙ y) ∙ z)
+\end{equation} 
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+LeftBol : Op\textsubscript{2} A → Set _
+LeftBol _∙_ = ∀ x y z → (x ∙ (y ∙ (x ∙ z))) ≈ ((x ∙ (y ∙ x)) ∙ z )
+
+RightBol : Op\textsubscript{2} A → Set _
+RightBol _∙_ = ∀ x y z → (((z ∙ x) ∙ y) ∙ x) ≈ (z ∙ ((x ∙ y) ∙ x))
+
+MiddleBol : Op\textsubscript{2} A → Op\textsubscript{2} A  → Op\textsubscript{2} A  → Set _
+MiddleBol _∙_ _\textbackslash\textbackslash_ _//_ = ∀ x y z → (x ∙ ((y ∙ z) \textbackslash\textbackslash x)) ≈ ((x // z) ∙ (y \textbackslash\textbackslash x))
+\end{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+Identical : Op\textsubscript{2}  A → Set _
+Identical _∙_ = ∀ x y z → ((z ∙ x) ∙ (y ∙ z)) ≈ (z ∙ ((x ∙ y) ∙ z))
+\end{Verbatim}
+\end{center}
+\section{Morphism}
+A structure preserving map f between two structures of same type is called morphism or homomorphism. That is f : A \(\rightarrow\) B and ∙ is an operation on the structure then homomorphism is defined as f(x ∙ y) = f(x) ∙ f(y). A homomorphism that is injective is called monomorphism. If the structures are identical that is they are more than just similar in structure then we can compare the structures with isomorphism. A homomorphism that is bijective is called isomorphism. 
+The quasigroup homomorphism preserves both left and right division operations.
+\begin{comment}
+module QuasigroupMorphisms (Q\textsubscript{1} : RawQuasigroup a ℓ\textsubscript{1}) (Q\textsubscript{2} : RawQuasigroup b ℓ\textsubscript{2}) where
+
+  open RawQuasigroup Q\textsubscript{1} renaming (Carrier to A; ∙-rawMagma to ∙-rawMagma\textsubscript{1};
+                                  \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{1}; //-rawMagma to //-rawMagma\textsubscript{1};
+                                  _≈_ to _≈\textsubscript{1}_; _∙_ to _∙\textsubscript{1}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{1}_; _//_ to _//\textsubscript{1}_)
+  open RawQuasigroup Q\textsubscript{2} renaming (Carrier to B; ∙-rawMagma to ∙-rawMagma\textsubscript{2};
+                                  \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{2}; //-rawMagma to //-rawMagma\textsubscript{2};
+                                  _≈_ to _≈\textsubscript{2}_; _∙_ to _∙\textsubscript{2}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{2}_; _//_ to _//\textsubscript{2}_)
+
+  module ∙  = MagmaMorphisms ∙-rawMagma\textsubscript{1} ∙-rawMagma\textsubscript{2}
+  module \textbackslash\textbackslash = MagmaMorphisms \textbackslash\textbackslash-rawMagma\textsubscript{1} \textbackslash\textbackslash-rawMagma\textsubscript{2}
+  module // = MagmaMorphisms //-rawMagma\textsubscript{1} //-rawMagma\textsubscript{2}
+
+  open MorphismDefinitions A B _≈\textsubscript{2}_
+  open FunctionDefinitions _≈\textsubscript{1}_ _≈\textsubscript{2}_
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+   field
+     isRelHomomorphism : IsRelHomomorphism _≈\textsubscript{1}_ _≈\textsubscript{2}_ ⟦_⟧
+     ∙-homo            : Homomorphic\textsubscript{2} ⟦_⟧ _∙\textsubscript{1}_ _∙\textsubscript{2}_
+     \textbackslash\textbackslash-homo           : Homomorphic\textsubscript{2} ⟦_⟧ _\textbackslash\textbackslash\textsubscript{1}_ _\textbackslash\textbackslash\textsubscript{2}_
+     //-homo           : Homomorphic\textsubscript{2} ⟦_⟧ _//\textsubscript{1}_ _//\textsubscript{2}_
+
+   open IsRelHomomorphism isRelHomomorphism public
+     renaming (cong to ⟦⟧-cong)
+\end{Verbatim}
+\begin{comment}
+    ∙-isMagmaHomomorphism : ∙.IsMagmaHomomorphism ⟦_⟧
+    ∙-isMagmaHomomorphism = record
+      \{ isRelHomomorphism = isRelHomomorphism
+      ; homo = ∙-homo
+      \}
+
+    \textbackslash\textbackslash-isMagmaHomomorphism : \textbackslash\textbackslash.IsMagmaHomomorphism ⟦_⟧
+    \textbackslash\textbackslash-isMagmaHomomorphism = record
+      \{ isRelHomomorphism  = isRelHomomorphism
+      ; homo = \textbackslash\textbackslash-homo
+      \}
+
+    //-isMagmaHomomorphism : //.IsMagmaHomomorphism ⟦_⟧
+    //-isMagmaHomomorphism = record
+      \{ isRelHomomorphism  = isRelHomomorphism
+      ; homo = //-homo
+      \}
+\end{comment}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+ record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+   field
+     isQuasigroupHomomorphism : IsQuasigroupHomomorphism ⟦_⟧
+     injective                : Injective ⟦_⟧
+
+   open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
+\end{Verbatim}
+\begin{comment}
+
+    ∙-isMagmaMonomorphism   : ∙.IsMagmaMonomorphism ⟦_⟧
+    ∙-isMagmaMonomorphism   = record
+      \{ isMagmaHomomorphism = ∙-isMagmaHomomorphism
+      ; injective           = injective
+      \}
+
+    \textbackslash\textbackslash-isMagmaMonomorphism  : \textbackslash\textbackslash.IsMagmaMonomorphism ⟦_⟧
+    \textbackslash\textbackslash-isMagmaMonomorphism  = record
+      \{ isMagmaHomomorphism = \textbackslash\textbackslash-isMagmaHomomorphism
+      ; injective                   = injective
+      \}
+
+    //-isMagmaMonomorphism  : //.IsMagmaMonomorphism ⟦_⟧
+    //-isMagmaMonomorphism  = record
+      \{ isMagmaHomomorphism = //-isMagmaHomomorphism
+      ; injective           = injective
+      \}
+
+    open //.IsMagmaMonomorphism //-isMagmaMonomorphism public
+      using (isRelMonomorphism)
+
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+ record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isQuasigroupMonomorphism : IsQuasigroupMonomorphism ⟦_⟧
+      surjective               : Surjective ⟦_⟧
+
+    open IsQuasigroupMonomorphism isQuasigroupMonomorphism public
+\end{Verbatim}
+\begin{comment}
+    ∙-isMagmaIsomorphism    : ∙.IsMagmaIsomorphism ⟦_⟧
+    ∙-isMagmaIsomorphism    = record
+      \{ isMagmaMonomorphism = ∙-isMagmaMonomorphism
+      ; surjective          = surjective
+      \}
+
+    \textbackslash\textbackslash-isMagmaIsomorphism   : \textbackslash\textbackslash.IsMagmaIsomorphism ⟦_⟧
+    \textbackslash\textbackslash-isMagmaIsomorphism   = record
+      \{ isMagmaMonomorphism = \textbackslash\textbackslash-isMagmaMonomorphism
+      ; surjective          = surjective
+      \}
+
+    //-isMagmaIsomorphism   : //.IsMagmaIsomorphism ⟦_⟧
+    //-isMagmaIsomorphism   = record
+      \{ isMagmaMonomorphism = //-isMagmaMonomorphism
+      ; surjective          = surjective
+      \}
+
+    open //.IsMagmaIsomorphism //-isMagmaIsomorphism public
+      using (isRelIsomorphism)
+\end{comment}
+
+The loop morphism preserves left and right divisions along with the identity element 
+
+\begin{comment}
+module LoopMorphisms (L\textsubscript{1} : RawLoop a ℓ\textsubscript{1}) (L\textsubscript{2} : RawLoop b ℓ\textsubscript{2}) where
+
+  open RawLoop L\textsubscript{1} renaming (Carrier to A; ∙-rawMagma to ∙-rawMagma\textsubscript{1};
+                            \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{1}; //-rawMagma to //-rawMagma\textsubscript{1};
+                             _≈_ to _≈\textsubscript{1}_; _∙_ to _∙\textsubscript{1}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{1}_; _//_ to _//\textsubscript{1}_; ε to ε\textsubscript{1})
+  open RawLoop L\textsubscript{2} renaming (Carrier to B; ∙-rawMagma to ∙-rawMagma\textsubscript{2};
+                            \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{2}; //-rawMagma to //-rawMagma\textsubscript{2};
+                            _≈_ to _≈\textsubscript{2}_; _∙_ to _∙\textsubscript{2}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{2}_; _//_ to _//\textsubscript{2}_ ; ε to ε\textsubscript{2})
+  open MorphismDefinitions A B _≈\textsubscript{2}_
+  open FunctionDefinitions _≈\textsubscript{1}_ _≈\textsubscript{2}_
+
+  open QuasigroupMorphisms (RawLoop.rawQuasigroup L\textsubscript{1}) (RawLoop.rawQuasigroup L\textsubscript{2})
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+ record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isQuasigroupHomomorphism : IsQuasigroupHomomorphism ⟦_⟧
+      ε-homo                   : Homomorphic\textsubscript{o} ⟦_⟧ ε\textsubscript{1} ε\textsubscript{2}
+
+    open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
+
+  record IsLoopMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isLoopHomomorphism   : IsLoopHomomorphism ⟦_⟧
+      injective            : Injective ⟦_⟧
+
+    open IsLoopHomomorphism isLoopHomomorphism public
+
+  record IsLoopIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2}) where
+    field
+      isLoopMonomorphism   : IsLoopMonomorphism ⟦_⟧
+      surjective           : Surjective ⟦_⟧
+
+       open IsLoopMonomorphism isLoopMonomorphism public
+\end{Verbatim}
+\section{Morphism composition}
+If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same structure such that g : b \(\rightarrow\) c then composition of morphism can be defined as g ∘ f : a \(\rightarrow\) c.
+\begin{comment}
+module _ \{Q\textsubscript{1} : RawQuasigroup a ℓ\textsubscript{1}\}  \{Q\textsubscript{2} : RawQuasigroup b ℓ\textsubscript{2}\} \{Q\textsubscript{3} : RawQuasigroup c ℓ\textsubscript{3}\}
+         (open RawQuasigroup) (≈\textsubscript{3}-trans : Transitive (_≈_ Q\textsubscript{3}))
+         \{f : Carrier Q\textsubscript{1} → Carrier Q\textsubscript{2}\} \{g : Carrier Q\textsubscript{2} → Carrier Q\textsubscript{3}\}  where
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isQuasigroupHomomorphism : IsQuasigroupHomomorphism Q\textsubscript{1} Q\textsubscript{2} f
+    → IsQuasigroupHomomorphism Q\textsubscript{2} Q\textsubscript{3} g 
+    → IsQuasigroupHomomorphism Q\textsubscript{1} Q\textsubscript{3} (g ∘ f)
+  isQuasigroupHomomorphism f-homo g-homo = record
+    \{ isRelHomomorphism = isRelHomomorphism		
+		F.isRelHomomorphism
+		G.isRelHomomorphism
+    ; ∙-homo    = λ x y → ≈\textsubscript{3}-trans 
+		(G.⟦⟧-cong ( F.∙-homo x y )) 
+		( G.∙-homo (f x) (f y) )
+    ; \textbackslash\textbackslash-homo     = λ x y → ≈\textsubscript{3}-trans 
+		(G.⟦⟧-cong ( F.\textbackslash\textbackslash-homo x y )) 
+		( G.\textbackslash\textbackslash-homo (f x) (f y) )
+    ; //-homo     = λ x y → ≈\textsubscript{3}-trans 
+		(G.⟦⟧-cong ( F.//-homo x y )) 
+		( G.//-homo (f x) (f y) )
+    \} where module F = IsQuasigroupHomomorphism f-homo; 
+	     module G = IsQuasigroupHomomorphism g-homo
+
+\end{Verbatim}
+\begin{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isQuasigroupMonomorphism : IsQuasigroupMonomorphism Q\textsubscript{1} Q\textsubscript{2} f
+    → IsQuasigroupMonomorphism Q\textsubscript{2} Q\textsubscript{3} g  
+    → IsQuasigroupMonomorphism  Q\textsubscript{1} Q\textsubscript{3} (g ∘ f)
+  isQuasigroupMonomorphism f-mono g-mono = record
+    \{ isQuasigroupHomomorphism = isQuasigroupHomomorphism 
+					 F.isQuasigroupHomomorphism
+					 G.isQuasigroupHomomorphism
+    ; injective = F.injective ∘ G.injective
+    \} where module F = IsQuasigroupMonomorphism f-mono;  
+	      module G = IsQuasigroupMonomorphism g-mono
+
+\end{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isQuasigroupIsomorphism : IsQuasigroupIsomorphism Q\textsubscript{1} Q\textsubscript{2} f
+    → IsQuasigroupIsomorphism Q\textsubscript{2} Q\textsubscript{3} g → IsQuasigroupIsomorphism  Q\textsubscript{1} Q\textsubscript{3} (g ∘ f)
+  isQuasigroupIsomorphism f-iso g-iso = record
+    \{ isQuasigroupMonomorphism = isQuasigroupMonomorphism F.isQuasigroupMonomorphism
+					 G.isQuasigroupMonomorphism
+    ; surjective               = Func.surjective (_≈_ Q\textsubscript{1}) (_≈_ Q\textsubscript{2}) (_≈_ Q\textsubscript{3}) 
+				≈\textsubscript{3}-trans G.⟦⟧-cong F.surjective G.surjective
+    \} where module F = IsQuasigroupIsomorphism f-iso; 
+	      module G = IsQuasigroupIsomorphism g-iso
+
+\end{Verbatim}
+\end{comment}
+\begin{comment}
+module _ \{L\textsubscript{1} : RawLoop a ℓ\textsubscript{1}\} \{L\textsubscript{2} : RawLoop b ℓ\textsubscript{2}\} \{L\textsubscript{3} : RawLoop c ℓ\textsubscript{3}\}
+         (open RawLoop)  (≈\textsubscript{3}-trans : Transitive (_≈_ L\textsubscript{3}))
+         \{f : Carrier L\textsubscript{1} → Carrier L\textsubscript{2}\}  \{g : Carrier L\textsubscript{2} → Carrier L\textsubscript{3}\} where
+\end{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isLoopHomomorphism : IsLoopHomomorphism L\textsubscript{1} L\textsubscript{2} f
+    → IsLoopHomomorphism L\textsubscript{2} L\textsubscript{3} g → IsLoopHomomorphism L\textsubscript{1} L\textsubscript{3} (g ∘ f)
+  isLoopHomomorphism f-homo g-homo = record
+    \{ isQuasigroupHomomorphism = isQuasigroupHomomorphism ≈\textsubscript{3}-trans
+                     F.isQuasigroupHomomorphism G.isQuasigroupHomomorphism
+    ; ε-homo              = ≈\textsubscript{3}-trans (G.⟦⟧-cong F.ε-homo) G.ε-homo
+    \} where module F = IsLoopHomomorphism f-homo;
+	      module G = IsLoopHomomorphism g-homo
+\end{Verbatim}
+\begin{comment}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isLoopMonomorphism : IsLoopMonomorphism L\textsubscript{1} L\textsubscript{2} f
+    → IsLoopMonomorphism L\textsubscript{2} L\textsubscript{3} g → IsLoopMonomorphism L\textsubscript{1} L\textsubscript{3} (g ∘ f)
+  isLoopMonomorphism f-mono g-mono = record
+    \{ isLoopHomomorphism = isLoopHomomorphism F.isLoopHomomorphism 
+				G.isLoopHomomorphism
+    ; injective = F.injective ∘ G.injective
+    \} where module F = IsLoopMonomorphism f-mono; 
+                 module G = IsLoopMonomorphism g-mono
+\end{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+  isLoopIsomorphism : IsLoopIsomorphism L\textsubscript{1} L\textsubscript{2} f
+    → IsLoopIsomorphism L\textsubscript{2} L\textsubscript{3} g → IsLoopIsomorphism L\textsubscript{1} L\textsubscript{3} (g ∘ f)
+  isLoopIsomorphism f-iso g-iso = record
+    \{ isLoopMonomorphism = isLoopMonomorphism F.isLoopMonomorphism G.isLoopMonomorphism
+    ; surjective               = Func.surjective (_≈_ L\textsubscript{1}) (_≈_ L\textsubscript{2}) (_≈_ L\textsubscript{3})
+				 ≈\textsubscript{3}-trans G.⟦⟧-cong F.surjective G.surjective
+    \} where module F = IsLoopIsomorphism f-iso; 
+                 module G = IsLoopIsomorphism g-iso
+\end{Verbatim}
+\end{comment}
+
+Monomorphism and isomorphism compositions constructs for quasigroup and loop are defined similar to homomorphism and can be found in agda standard library.
+\section{DirectProduct}
+The direct product M \(\times\) N of two quasigroups M and N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N. The direct product construct of left (right/middle) bol loop and moufang loop can be found in agda standard library and can be derived from loop structure.
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+quasigroup : Quasigroup a ℓ\textsubscript{1} → Quasigroup b ℓ\textsubscript{2}
+		 → Quasigroup (a ⊔ b) (ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2})
+quasigroup M N = record
+  \{ _\textbackslash\textbackslash_  = zip M._\textbackslash\textbackslash_ N._\textbackslash\textbackslash_
+  ; _//_    = zip M._//_ N._//_
+  ; isQuasigroup = record
+    \{ isMagma = Magma.isMagma (magma M.magma N.magma)
+    ; \textbackslash\textbackslash-cong = zip M.\textbackslash\textbackslash-cong N.\textbackslash\textbackslash-cong
+    ; //-cong = zip M.//-cong N.//-cong
+    ; leftDivides = (λ x y → M.leftDivides\textsuperscript{l} ,
+		 N.leftDivides\textsuperscript{l} <*> x <*> y),
+		  (λ x y → M.leftDivides\textsuperscript{r} , 
+		N.leftDivides\textsuperscript{r} <*> x <*> y)
+    ; rightDivides = (λ x y → M.rightDivides\textsuperscript{l} ,
+		 N.rightDivides\textsuperscript{l} <*> x <*> y), 
+		    (λ x y → M.rightDivides\textsuperscript{r} ,
+		 N.rightDivides\textsuperscript{r} <*> x <*> y)
+    \}
+  \} where module M = Quasigroup M; module N = Quasigroup N
+\end{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+loop : Loop a ℓ\textsubscript{1} → Loop b ℓ\textsubscript{2} → Loop (a ⊔ b) (ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2})
+loop M N = record
+  \{ ε = M.ε , N.ε
+  ; isLoop = record
+    \{ isQuasigroup = Quasigroup.isQuasigroup
+		 (quasigroup M.quasigroup N.quasigroup)
+    ; identity = (M.identity\textsuperscript{l} , N.identity\textsuperscript{l} <*>_),
+                     (M.identity\textsuperscript{r} , N.identity\textsuperscript{r} <*>_)
+    \}
+  \} where module M = Loop M; module N = Loop N
+\end{Verbatim}
+
+\section{Properties}
+In this section we prove some of the properties of quasigroups and loops in Agda.
+\subsection{Properties of Quasigroup}
+Let (Q, ∙, /, \textbackslash ) be a quasigroup then \\
+a) Q is cancellative
+A quasigroup is left cancellative if x ∙ y = x ∙ z then y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A quasigroup is cancellative if it is both left and right cancellative.\\
+b) \(\forall x, y, z \in Q\): x ∙ y = z then y = x \textbackslash z\\
+c) \(\forall x, y, z \in Q\): x ∙ y = z then x = z / y\\
+
+Proof:
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+a)
+cancel\textsuperscript{l} : LeftCancellative _∙_
+cancel\textsuperscript{l} x \{y\} \{z\} eq = begin
+  y             ≈⟨ sym( leftDivides\textsuperscript{r}  x y) ⟩
+  x \textbackslash\textbackslash (x ∙ y)  ≈⟨ \textbackslash\textbackslash-cong\textsuperscript{l} eq ⟩
+  x \textbackslash\textbackslash (x ∙ z)  ≈⟨ leftDivides\textsuperscript{r}  x z ⟩
+  z             ∎
+
+cancel\textsuperscript{r} : RightCancellative _∙_
+cancel\textsuperscript{r} \{x\} y z eq = begin
+  y             ≈⟨ sym( rightDivides\textsuperscript{r}  x y) ⟩
+  (y ∙ x) // x  ≈⟨ //-cong\textsuperscript{r}  eq ⟩
+  (z ∙ x) // x  ≈⟨ rightDivides\textsuperscript{r}  x z ⟩
+  z             ∎
+
+cancel : Cancellative _∙_
+cancel = cancel\textsuperscript{l} , cancel\textsuperscript{r} 
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+b)
+y≈x\textbackslash{z} : ∀ x y z → x ∙ y ≈ z → y ≈ x \textbackslash\textbackslash  z
+y≈x\textbackslash{z} x y z eq = begin
+  y             ≈⟨ sym (leftDivides\textsuperscript{r} x y) ⟩
+  x \textbackslash\textbackslash  (x ∙ y) ≈⟨ \textbackslash\textbackslash -cong\textsuperscript{l} eq ⟩
+  x \textbackslash\textbackslash  z       ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+c)
+x≈z/y : ∀ x y z → x ∙ y ≈ z → x ≈ z // y
+x≈z/y x y z eq = begin
+  x            ≈⟨ sym (rightDivides\textsuperscript{r} y x) ⟩
+  (x ∙ y) // y ≈⟨ //-cong\textsuperscript{r} eq ⟩
+  z // y       ∎
+\end{Verbatim}
+
+\subsection{Properties of Loop}
+Properties of division operation holds for a loop. \\
+Let (L, ∙, /, \textbackslash ) be a Loop with identity x ∙ e = x then the following properties holds \\
+a)\(\forall x \in L\): x / x = e \\
+b)\(\forall x \in L\):  x \textbackslash x = e\\
+c)\(\forall x \in L\): e \textbackslash x = x \\
+d)\(\forall x \in L\):  x / e = x \\
+Proof:
+\begin{center}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+a)
+x//x≈ε : ∀ x → x // x ≈ ε
+x//x≈ε x = begin
+  x // x       ≈⟨ //-cong\textsuperscript{r} (sym (identity\textsuperscript{l} x)) ⟩
+  (ε ∙ x) // x  ≈⟨ rightDivides\textsuperscript{r} x ε ⟩
+  ε             ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+b)
+x\textbackslash\textbackslash{x}≈ε : ∀ x → x \textbackslash\textbackslash x ≈ ε
+x\textbackslash\textbackslash{x}≈ε x = begin
+  x \textbackslash\textbackslash x      ≈⟨ \textbackslash\textbackslash-cong\textsuperscript{l} (sym (identity\textsuperscript{r} x )) ⟩
+  x \textbackslash\textbackslash (x ∙ ε) ≈⟨ leftDivides\textsuperscript{r} x ε ⟩
+  ε            ∎
+\end{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+c)
+ε\textbackslash\textbackslash{x}≈x : ∀ x → ε \textbackslash\textbackslash x ≈ x
+ε\textbackslash\textbackslash{x}≈x x = begin
+  ε \textbackslash\textbackslash x       ≈⟨ sym (identity\textsuperscript{l} (ε \textbackslash\textbackslash x)) ⟩
+  ε ∙ (ε \textbackslash\textbackslash x) ≈⟨ leftDivides\textsuperscript{l} ε x ⟩
+  x            ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+d)
+x//ε≈x : ∀ x → x // ε ≈ x
+x//ε≈x x = begin
+ x // ε       ≈⟨ sym (identity\textsuperscript{r} (x // ε)) ⟩
+ (x // ε) ∙ ε  ≈⟨ rightDivides\textsuperscript{l} ε x ⟩
+ x             ∎
+
+\end{Verbatim}
+\end{center}
+Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following identities holds.\\
+a)\(\forall x y z \in M\): x ∙ ((y ∙ x) \textbackslash x) = y \textbackslash x \\
+b)\(\forall x y z \in M\): x ∙ ((x ∙ z) \textbackslash x) = x // z\\
+c)\(\forall x y z \in M\): x ∙ (z \textbackslash x) ≈ (x / z) ∙ x\\
+d)\(\forall x y z \in M\): (x / (y ∙ z)) ∙ x ≈ (x / z) ∙ (y \textbackslash x)\\
+e)\(\forall x y z \in M\): (x / (y ∙ x)) ∙ x ≈ y \textbackslash x\\
+f)\(\forall x y z \in M\): (x / (x ∙ z)) ∙ x ≈ x / z
+
+Proof:
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+a)
+xyx\textbackslash{x}≈y\textbackslash\textbackslash{x} : ∀ x y → x ∙ ((y ∙ x) \textbackslash\textbackslash x) ≈ y \textbackslash\textbackslash x
+xyx\textbackslash{x}≈y\textbackslash\textbackslash{x} x y = begin
+  x ∙ ((y ∙ x) \textbackslash\textbackslash x)   ≈⟨ middleBol x y x ⟩
+  (x // x) ∙ (y \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{r} (x//x≈ε x) ⟩
+  ε ∙ (y \textbackslash\textbackslash x)        ≈⟨ identity\textsuperscript{l} ((y \textbackslash\textbackslash x)) ⟩
+  y \textbackslash\textbackslash x             ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+b)
+xxz\textbackslash\textbackslash{x}≈x//z : ∀ x z → x ∙ ((x ∙ z) \textbackslash\textbackslash x) ≈ x // z
+xxz\textbackslash\textbackslash{x}≈x//z x z = begin
+  x ∙ ((x ∙ z) \textbackslash\textbackslash x)  ≈⟨ middleBol x x z ⟩
+  (x // z) ∙ (x \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{l} (x\textbackslash\textbackslash{x}≈ε x) ⟩
+  (x // z) ∙ ε        ≈⟨ identity\textsuperscript{r} ((x // z)) ⟩
+  x // z             ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+c)
+xz\textbackslash\textbackslash{x}≈x//zx : ∀ x z → x ∙ (z \textbackslash\textbackslash x) ≈ (x // z) ∙ x
+xz\textbackslash\textbackslash{x}≈x//zx x z = begin
+  x ∙ (z \textbackslash\textbackslash x)      ≈⟨ ∙-cong\textsuperscript{l} (\textbackslash\textbackslash-cong\textsuperscript{r}( sym (identity\textsuperscript{l} z))) ⟩
+  x ∙ ((ε ∙ z) \textbackslash\textbackslash x) ≈⟨ middleBol x ε z ⟩
+  x // z ∙ (ε \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{l} (ε\textbackslash\textbackslash{x}≈x x) ⟩
+  x // z ∙ x        ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+d)
+x//yzx≈x//zy\textbackslash\textbackslash{x} : ∀ x y z → (x // (y ∙ z)) ∙ x ≈ (x // z) ∙ (y \textbackslash\textbackslash x)
+x//yzx≈x//zy\textbackslash\textbackslash{x} x y z = begin
+ (x // (y ∙ z)) ∙ x  ≈⟨ sym (xz\textbackslash\textbackslash{x}≈x//zx x ((y ∙ z))) ⟩
+ x ∙ ((y ∙ z) \textbackslash\textbackslash x)  ≈⟨ middleBol x y z ⟩
+ (x // z) ∙ (y \textbackslash\textbackslash x) ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+e)
+x//yxx≈y\textbackslash\textbackslash{x} : ∀ x y → (x // (y ∙ x)) ∙ x ≈ y \textbackslash\textbackslash x
+x//yxx≈y\textbackslash\textbackslash{x} x y = begin
+  (x // (y ∙ x)) ∙ x  ≈⟨ x//yzx≈x//zy\textbackslash\textbackslash{x}  x y x ⟩
+  (x // x) ∙ (y \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{r}(x//x≈ε x) ⟩
+  ε ∙ (y \textbackslash\textbackslash x)        ≈⟨ identity\textsuperscript{l} ((y \textbackslash\textbackslash x)) ⟩
+  y \textbackslash\textbackslash x              ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+f)
+x//xzx≈x//z : ∀ x z → (x // (x ∙ z)) ∙ x ≈ x // z
+x//xzx≈x//z x z = begin
+  (x // (x ∙ z)) ∙ x  ≈⟨ x//yzx≈x//zy\textbackslash\textbackslash{x} x x z ⟩
+  (x // z) ∙ (x \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{l} (x\textbackslash\textbackslash{x}≈ε x) ⟩
+  (x // z) ∙ ε        ≈⟨ identity\textsuperscript{r} (x // z) ⟩
+  x // z             ∎     
+\end{Verbatim}
+
+\subsection{Properties of Moufang Loop}
+Let (M, ∙, /, \textbackslash ) be a moufang loop then the following identities holds.\\
+a) Moufang loop is alternative. \\
+A moufang loop is left alternative if it satisfies (x ∙ x) ∙ y = x ∙ (x ∙ y), a moufang loop is right alternative if it satisfies x ∙ (y ∙ y) = (x ∙ y) ∙ y and if a moufang loop alternative if it is both left and right alternative. \\
+b) Moufang loop is flexible \\
+A Moufant loop is flexible if it satisfies flexible identity (x ∙ y) ∙ x = x ∙ (y ∙ x)\\
+c)\(\forall x y z \in M\): z ∙ (x ∙ (z ∙ y)) = ((z ∙ x) ∙ z) ∙ y\\
+d)\(\forall x y z \in M\): x ∙ (z ∙ (y ∙ z)) = ((x ∙ z) ∙ y) ∙ z \\
+e)\(\forall x y z \in M\): z ∙ ((x ∙ y) ∙ z) = (z ∙ (x ∙ y)) ∙ z \\
+Proof:
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+a)
+alternative\textsuperscript{l} : LeftAlternative _∙_
+alternative\textsuperscript{l} x y = begin
+  (x ∙ x) ∙ y       ≈⟨ ∙-cong\textsuperscript{r} (∙-cong\textsuperscript{l} (sym (identity\textsuperscript{l} x))) ⟩
+  (x ∙ (ε ∙ x)) ∙ y ≈⟨ sym (leftBol x ε y) ⟩
+  x ∙ (ε ∙ (x ∙ y)) ≈⟨ ∙-cong\textsuperscript{l} (identity\textsuperscript{l} ((x ∙ y))) ⟩
+  x ∙ (x ∙ y)       ∎
+
+alternative\textsuperscript{r} : RightAlternative _∙_
+alternative\textsuperscript{r} x y = begin
+  x ∙ (y ∙ y)         ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r}(sym (identity\textsuperscript{r} y))) ⟩
+  x ∙ ((y ∙ ε) ∙ y)   ≈⟨ sym (rightBol y ε x) ⟩
+  ((x ∙ y) ∙ ε ) ∙ y  ≈⟨ ∙-cong\textsuperscript{r} (identity\textsuperscript{r} ((x ∙ y))) ⟩
+  (x ∙ y) ∙ y         ∎
+
+alternative : Alternative _∙_
+alternative = alternative\textsuperscript{l} , alternative\textsuperscript{r}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+b)
+flex : Flexible _∙_
+flex x y = begin
+  (x ∙ y) ∙ x       ≈⟨ ∙-cong\textsuperscript{l} (sym (identity\textsuperscript{l} x)) ⟩
+  (x ∙ y) ∙ (ε ∙ x) ≈⟨ identical y ε x ⟩
+  x ∙ ((y ∙ ε) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r} (identity\textsuperscript{r} y)) ⟩
+  x ∙ (y ∙ x)       ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+c)
+z∙xzy≈zxz∙y : ∀ x y z → (z ∙ (x ∙ (z ∙ y))) ≈ (((z ∙ x) ∙ z) ∙ y)
+z∙xzy≈zxz∙y x y z = sym (begin
+  ((z ∙ x) ∙ z) ∙ y ≈⟨ (∙-cong\textsuperscript{r}  (flex z x )) ⟩
+  (z ∙ (x ∙ z)) ∙ y ≈⟨ sym (leftBol z x y) ⟩
+  z ∙ (x ∙ (z ∙ y)) ∎)
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+d)
+x∙zyz≈xzy∙z : ∀ x y z → (x ∙ (z ∙ (y ∙ z))) ≈ (((x ∙ z) ∙ y) ∙ z)
+x∙zyz≈xzy∙z x y z = begin
+  x ∙ (z ∙ (y ∙ z))  ≈⟨ (∙-cong\textsuperscript{l}  (sym (flex z y ))) ⟩
+  x ∙ ((z ∙ y) ∙  z) ≈⟨ sym (rightBol z y x) ⟩
+  ((x ∙ z) ∙ y) ∙ z  ∎
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+e)
+z∙xyz≈zxy∙z : ∀ x y z → (z ∙ ((x ∙ y) ∙ z)) ≈ ((z ∙ (x ∙ y)) ∙ z)
+z∙xyz≈zxy∙z x y z = sym (flex z (x ∙ y))
+\end{Verbatim}
