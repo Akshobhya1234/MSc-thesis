@@ -1,0 +1,2 @@
+Add morphism composition in apendix?
+Add bolloop and moufang loop structure in apendix?
