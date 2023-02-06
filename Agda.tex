@@ -1,0 +1,100 @@
+\chapter{Background Agda}
+Agda is a functional programming language developed by Ulf Norell. Agda is used as a proof assistant system that supports higher order logic with dependently typed pattern matching that is used to prove theorems about inductive types. 
+
+\section{Agda Notation}
+In this section we discuss the programming notations in Agda that will be used in the later chapters of the thesis.
+A → B denotes a function from set A to set B\\
+a : A denotes a is an element in A \\
+f : A → B denotes that f is a some map from set A to set B\\
+Op₁ denotes the unary operation on the set.
+\{a : A\} denotes the implicit argument a in A. 
+\begin{Verbatim}
+Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
+Op₁ A = A → A
+\end{Verbatim}
+\textunderscore ∙ denotes unary operation ∙ and underscore denotes the placement of the argument. \\
+Op₂ denotes binary operation on the set
+\begin{Verbatim}
+Op₂ : ∀ {ℓ} → Set ℓ → Set ℓ
+Op₂ A = A → A → A
+\end{Verbatim}
+level (or universe) is a primitive type in Agda. \\
+a ⊔ ℓ denotes the least upper bound of the levels a and ℓ.
+\textunderscore ∙\textunderscore  denotes binary operation ∙ . Underscore denotes the placement of the arguments.\\
+
+\section{Structure definition}
+Algebraic structures are defined as record types in Agda. Record types are defined using the keyword record. Records types are used to group values together and they provide named fields to generalise dependent product types. The structures are obtained by wrapping the predicates that are expressed as "is-a" relation. ~\citep{hu2021formalizing}
+\begin{Verbatim}
+record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
+  field
+    isEquivalence : IsEquivalence _≈_
+    ∙-cong        : Congruent₂ ∙
+
+  open IsEquivalence isEquivalence public
+\end{Verbatim}
+In the above example structure IsMagma is defined as a record type with fields isEquivalence and ∙-cong. ∙ is a binary operation on set A. a ⊔ ℓ is the least upper bound for the set. \textunderscore  ≈ \textunderscore is the binary operation argument for IsEquivalence. If a relation P on set A is equivalent to relation Q on set B, then we say f preserves p for some map f from set A to B. Congruent₂ ∙ represents that the binary operation ∙ preserves equivalence relation. IsEquivalence and Congruent₂ are predicates defined in standard library.\\
+We open the module isEquivalence to be able to use it in defining other structures in the algebra hierarchy. The open statement is made public using the keyword public to be able to re-export the names from another module.\\
+Morphisms of the structure are defined as record type in Agda standard library.\\
+Agda standart library defines the bundled version of the structures that contains the operations of the structures, sets and axioms. 
+\begin{Verbatim}
+record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
+  infixl 7 _∙_
+  infix  4 _≈_
+  field
+    Carrier : Set c
+    _≈_     : Rel Carrier ℓ
+    _∙_     : Op₂ Carrier
+    isMagma : IsMagma _≈_ _∙_
+
+  open IsMagma isMagma public
+
+  rawMagma : RawMagma _ _
+  rawMagma = record { _≈_ = _≈_; _∙_ = _∙_ }
+
+  open RawMagma rawMagma public
+    using (_≉_)
+\end{Verbatim}
+Above is the bundled version of IsMagma structure. RawMagma is the raw version of the magma with only the operators and set. infix<l,r> denotes the fixity and precedence of the operator. using keyword is used to export only the fields that are mentioned in its arguments. \\
+When exporting the modules we may need to rename the fields to avoid having duplicate names.
+\begin{Verbatim}
+  open IsMagma *-isMagma public
+    using ()
+    renaming
+    ( ∙-congˡ  to *-congˡ
+    ; ∙-congʳ  to *-congʳ
+    )
+\end{Verbatim} 
+Keyword renaming is used to rename the fields. In the above sample code, we rename ∙-congˡ  to *-congˡ and ∙-congʳ  to *-congʳ.
+
+\subsection{Proofs in Agda}
+A setoid is a set with equivalence relation. In Agda beginning of the proof is given using "begin". IsRelatedTo is a type defined to infer arguments even if the underlying equality evaluates. 
+\begin{Verbatim}
+begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
+begin relTo x∼y = x∼y
+\end{Verbatim}
+standard step to relation is defined as step-∼
+\begin{Verbatim}
+step-∼ : ∀ x {y z} → y IsRelatedTo z → x ∼ y → x IsRelatedTo z
+step-∼ _ (relTo y∼z) x∼y = relTo (trans x∼y y∼z)
+\end{Verbatim}
+step using equality is given as
+\begin{Verbatim}
+step-≈ = Base.step-∼
+syntax step-≈ x y≈z x≈y = x ≈⟨ x≈y ⟩ y≈z
+\end{Verbatim}
+The termination of the proof is given using \textunderscore ∎
+\begin{Verbatim}
+_∎ : ∀ x → x IsRelatedTo x
+x ∎ = relTo refl
+\end{Verbatim}
+Agda supports quantifiers. Universal quantifier is denoted as \(\forall\) and existential quantifier is denoted as \(\exists\) 
+
+Below is the example to the proposition x ∙ (y ∙ z) = (x ∙ y) ∙ z  for a semigroup i.e., a Magma with associative property (x ∙ (y ∙ z) = (x ∙ y) ∙ z) 
+\begin{Verbatim}
+x∙yz≈xy∙z : ∀ x y z → x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z
+x∙yz≈xy∙z x y z = begin 
+  x ∙ (y ∙ z) ≈⟨ sym (assoc x y z) ⟩ 
+  (x ∙ y) ∙ z ∎
+\end{Verbatim}
+In the proposition x y z are in set S that is a semigroup. "sym (assoc x y z)" is the reasoning for the proof.
+

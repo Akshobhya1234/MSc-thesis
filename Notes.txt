@@ -1,2 +1,6 @@
 Add morphism composition in apendix?
 Add bolloop and moufang loop structure in apendix?
+
+A groupoid, semigroup, quasigroup, ringoid, and semiring can be empty.
+ Monoids, groups, and rings must have at least one element,
+ while division algebras and fields must have at least two elements.

@@ -49,6 +49,7 @@
 \newunicodechar{⁻}{\ensuremath{\mathnormal\textsuperscript{-}}}	
 \newunicodechar{₃}{\ensuremath{\mathnormal\textsubscript{3}}}
 \newunicodechar{‿}{\ensuremath{\mathnormal\smile}}
+\newunicodechar{∼}{\ensuremath{\mathnormal\sim}}
 
 \numberwithin{equation}{section} % Numbers equations based on their section
 
@@ -65,13 +66,21 @@
   \include{notation}
   \academicstatement{academicachievementdeclaration}
 \afterpreface
-  
-  
-  \include{Introduction}                  
+      \include{UniversalAlgebra}                  
+        \setcounter{figure}{0}
+        \setcounter{equation}{0}
+        \setcounter{table}{0}
+
+      \include{Agda}                  
         \setcounter{figure}{0}
         \setcounter{equation}{0}
         \setcounter{table}{0}
         
+  \include{Introduction}                  
+        \setcounter{figure}{0}
+        \setcounter{equation}{0}
+        \setcounter{table}{0}
+
   \include{algebrasurvey}                  
         \setcounter{figure}{0}
         \setcounter{equation}{0}
