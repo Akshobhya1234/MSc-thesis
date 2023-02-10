@@ -14,7 +14,7 @@ A set S with two binary operations + and * generally called addition and multipl
 \forall a, b, x \in S: If b + x  ∙ a \leq x then, b  ∙ (a *) \leq x
 \end{equation}
 In Agda, strong axioms of \(\star\) are given. That is equivalance is directly given and kleene algebra with partial and pre order structures are defined in Algebra.Ordered hierarchy. 
-\begin{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
 StarRightExpansive : A → Op\textsubscript{2} A → Op\textsubscript{2} A 
 	→ Op\textsubscript{1} A → Set _
 StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) ≈ (x *)
@@ -34,7 +34,7 @@ StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) ≈ x
 	→ (b ∙ (a *)) ≈ x
 \end{Verbatim}
 The Kleene algebra can be structurally derived from idempotent semiring. 
-\begin{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
 record IsKleeneAlgebra (+ * : Op\textsubscript{2} A) (⋆ : Op\textsubscript{1} A)
 		 (0# 1# : A) : Set (a ⊔ ℓ) where
   field
@@ -45,7 +45,7 @@ record IsKleeneAlgebra (+ * : Op\textsubscript{2} A) (⋆ : Op\textsubscript{1} 
   open IsIdempotentSemiring isIdempotentSemiring public
 \end{Verbatim}
 The bundle version of kleene algebra is defined as: 
-\begin{Verbatim}
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
 record KleeneAlgebra c ℓ : Set (suc (c ⊔ ℓ)) where
   infix  8 _⋆
   infixl 7 _*_

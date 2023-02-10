@@ -1,6 +1,14 @@
 Add morphism composition in apendix?
 Add bolloop and moufang loop structure in apendix?
 
+"CITATION"
+Agda -> developed by ...
+Agda -> more info
+
+Universal algebra for computer science. (TB)
+Kleene algebra -> RATH Agda -> * superscript
+\text in equation
+
 A groupoid, semigroup, quasigroup, ringoid, and semiring can be empty.
  Monoids, groups, and rings must have at least one element,
  while division algebras and fields must have at least two elements.
