@@ -1,35 +1,51 @@
 \chapter{Background Universal Algebra}
 
-In the recent years, universal algebra has seen an exponential growth in its study of theories and applications \cite{sankappanavar1981course}. Universal algebra is the study of algebraic structures and its properties. Algebraic structure contains a set A called the carrier set and some operations and axioms such that the operation satisfies the axioms. \\ \\
-Formal definition for algebra is given in \cite{sankappanavar1981course} as \\ "For A a nonempty set and n a nonnegative integer we define A\textsuperscript{0} = \{\(\emptyset\)\} , and, for n > 0, A\textsuperscript{n} is the set of n-tuples of elements from A. An n-ary operation (or function) on A is any function f from A\textsuperscript{n} to A; n is the arity (or rank) of f. A finitary operation is an n-ary operation, for some n. The image of <a\textsubscript{1}, . . ., a\textsubscript{n}> under an n-ary operation f is denoted by f(a\textsubscript{1}, . . ., a\textsubscript{n}). An operation f on A is called a nullary operation (or constant) if its arity is zero; it is completely determined by the image f(\(\emptyset\)) in A of the only element \(\emptyset\) in A\textsuperscript{0}, and as such it is convenient to identify it with the element f(\(\emptyset\)). Thus a nullary operation is thought of as an element of A. An operation f on A is unary, binary, or ternary if its arity is 1,2, or 3, respectively"\\ \\
-Group structure is one of the early structures studied in universal algebra. A group G is an algebra with one nullary, one unary and one binary operation represented as (G, ∙, \textsuperscript{-1}, 1) which satisfy the following axioms. \\
-Associativity - ∀ x y z \(\in\) G, x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z)\\
-Identity - ∀ x \(\in\) G, x ∙ 1 ≈ 1 ∙ x ≈ x\\
-Inverse - ∀ x \(\in\) G, x ∙ x \textsuperscript{-1} ≈  x \textsuperscript{-1} ∙ x ≈ 1\\
-Where ≈ is the equivalence relation defined later in the chapter.
+By the eary 18th century, mathematicians had discovered how to solve polynomial equation of up-to degree 4. There was no general rule to solve a polynomial equation of any degree. To answer this question, mathematician Evariste Galois came up with a tool called group. Around this time other mathematicians worked on modulus theory and geometry and realized that this tool became helpful in solving other complex problems. \cite{enwiki:1107380309} Knowing the usefulness of this tool, mathematicians abstracted out the axioms of the group into a general tool. Thus evolved the structure group that we know today. As group theory evolved, other abstract structures were invented to solve problems. This gave rise to a new field in mathematics called abstract algebra. Abstract algebra is the study of algebraic structure and its models or examples.  Algebraic structure contains a set A called the carrier set and some operations and axioms such that the operation satisfies the axioms. Some mathematicians were only interested in studying the structures themselves and not the models. This study is called Universal algebra.  In the recent years, universal algebra has seen an exponential growth in its study of theories and applications \cite{sankappanavar1981course}. Universal algebra is the study of algebraic structures and its properties. 
 
 \section{Relation and function}
-In this section a brief overview of relation and function is discussed\\
-The Cartesian product between two sets X and Y,  X \(\times\) Y is defined as \{(x,y) : x \(\in\) X and y \(\in\) Y \} \\
-A binary relation is a subset of the Cartesian product of two sets that is a mapping between one set called domain to the other set called the codomain. A binary relation R on the set X to Y is denoted as an ordered pair (x,y) or xRy and element x in X and y in Y. \\
+In order to understand algebraic structures, it is essential to know some basics of relations and functions. In this section, we briefly discuss relations and functions. We can start with defining a set. A set is a well defined collection of objects. The Cartesian product between two sets X and Y,  X \(\times\) Y is defined as \{(x,y) : x \(\in\) X and y \(\in\) Y \} \\
+A binary relation is a subset of the Cartesian product of two sets that is a mapping between one set called domain to the other set called the co-domain. A binary relation R on the set X to Y is denoted as an ordered pair (x,y) or xRy and element x in X and y in Y. \\
 A reflexive relation R on set X is a subset on X \(\times\) X is defined as R : \{(x,x) : x \(\in\) X \} and can be denoted as xRx \\
 A symmetric relation R on set X is a subset of X \(\times\) X is defined as R : \(\forall x y \in \) X: xRy ⟺ yRx \\
 A relation R is said to be transitive on set X, is a subset of X \(\times\) X if ∀ x y z  \(\in\) X if (x,y) in R and (y,z) in R then (x,z) is in R\\
 A relation R is equivalence if it is reflexive, symmetric and transitive. \\
-If in a relation, if every element in domain is mapped to only one element in the codomain, then we call it a function.\\
-A function f is injective if f maps distinct elements of domain to distinct elements of codomain.
-Image of the function is the set of all elements in codomain that is reachable from the function f in its domain.\\
-A function is called surjective if the image of the function is same as its codomain.\\
-A function is called bijective if it is both injective and surjective.
+If in a relation, if every element in domain is mapped to only one element in the co-domain, then we call it a function.\\
+A function f is injective if f maps distinct elements of domain to distinct elements of co-domain.
+Image of the function is the set of all elements in co-domain that is reachable from the function f in its domain.\\
+A function is called surjective if the image of the function is same as its co-domain.\\
+A function is called bijective if it is both injective and surjective.\\
+An operation is defined as a function that can take zero or more inputs and maps it to a well defined output value. The number of operands is the arity of the operation.
 
-\section{Universe and type}
+\section{Universe, type and signature}
 According to Russel's paradox \cite{russell2020principles} the collection of all set is not a set. The naive set theory defines a set as well defined collection of objects. The paradox defines the set of all sets that are not the member of themselves. This develops to two kinds of contradiction. \cite{russelPara}\\
 1. If the set contains itself, then it should not be a member of itself by definition\\
 2. If the set does not contain itself the it is not a member of itself.\\
 For this reason, in Agda not every type is a set and the set type can be defined using keyword Set\textsubscript{1}. "A type whose elements are types are called universe" \cite{universeagda}. This primitive type is useful to define and prove theorems about functions that operate on large set.\\
 \\
-The type of an algebra is also called the language of the algebra is a set of function symbols. Each member of this set is assigned a positive number that is the arity of the member. For example an algebra of type(2,0) denotes an algebra with one binary operation and one nullary operation. The group structure defined in previous section is of type (2,1,0). That is ∙ is a binary operation, \textsuperscript{-1} is a unary operation and 1 is the nullary operation. 
+Formal definition for algebra is given in \cite{sankappanavar1981course} as \\ "For A a nonempty set and n a nonnegative integer we define A\textsuperscript{0} = \{\(\emptyset\)\} , and, for n > 0, A\textsuperscript{n} is the set of n-tuples of elements from A. An n-ary operation (or function) on A is any function f from A\textsuperscript{n} to A; n is the arity (or rank) of f. A finitary operation is an n-ary operation, for some n. The image of <a\textsubscript{1}, . . ., a\textsubscript{n}> under an n-ary operation f is denoted by f(a\textsubscript{1}, . . ., a\textsubscript{n}). An operation f on A is called a nullary operation (or constant) if its arity is zero; it is completely determined by the image f(\(\emptyset\)) in A of the only element \(\emptyset\) in A\textsuperscript{0}, and as such it is convenient to identify it with the element f(\(\emptyset\)). Thus a nullary operation is thought of as an element of A. An operation f on A is unary, binary, or ternary if its arity is 1,2, or 3, respectively"\\ \\
+Group structure is one of the early structures studied in universal algebra. A group G is an algebra with one nullary, one unary and one binary operation represented as (G, ∙, \textsuperscript{-1}, 1) which satisfy the following axioms. \\
+Associativity - ∀ x y z \(\in\) G, x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z)\\
+Identity - ∀ x \(\in\) G, x ∙ 1 ≈ 1 ∙ x ≈ x\\
+Inverse - ∀ x \(\in\) G, x ∙ x \textsuperscript{-1} ≈  x \textsuperscript{-1} ∙ x ≈ 1\\
+Where ≈ is the equivalence relation defined later in the chapter.\\
+
+The type of an algebra is also called the language of the algebra is a set of function symbols. Each member of this set is assigned a positive number that is the arity of the member. For example an algebra of type(2,0) denotes an algebra with one binary operation and one nullary operation. The group structure defined in previous section is of type (2,1,0). That is ∙ is a binary operation, \textsuperscript{-1} is a unary operation and 1 is the nullary operation. \\
+
+A collection of relation and operations with their arity on the set of an algebraic structure is the signature if the algebraic structure. A structure with \(\Omega\) signature is called as \(\Omega\) algebra.
 
 \section{Congruence and Morphism}
-For an algebra A of type F, congruence relation \(\theta\) on A is defined using compatibility property that states that for each n-ary function symbol f \(\in\) F and x\textsubscript{i} , y\textsubscript{i} \(\in\) A, If x\textsubscript{i} \(\theta\) y\textsubscript{i}  holds for \(1\leq i \leq n\) then f\textsuperscript{A}(x\textsubscript{1},...,x\textsubscript{n})\(\theta\)f\textsuperscript{A}(y\textsubscript{1},....,y\textsubscript{n}) holds. \cite{sankappanavar1981course}
+The congruence relation for an algebraic structure can be defined as an equivalence relation that is compatible with structure such that the operations are well defined on the equivalence class. A more formal definition is for an algebra A of type F, congruence relation \(\theta\) on A is defined using compatibility property that states that for each n-ary function symbol f \(\in\) F and x\textsubscript{i} , y\textsubscript{i} \(\in\) A, If x\textsubscript{i} \(\theta\) y\textsubscript{i}  holds for \(1\leq i \leq n\) then f\textsuperscript{A}(x\textsubscript{1},...,x\textsubscript{n})\(\theta\)f\textsuperscript{A}(y\textsubscript{1},....,y\textsubscript{n}) holds. \cite{sankappanavar1981course}.\\
+
+Morphism is a structure preserving map between two structures that is an abstraction that generalizes this map between two structures or mathematical objects in general. \\
+If A and B are two algebras of same type F, then a homomorphism is defined as a mapping \(\alpha\) from algebra A to B such that
+\begin{center}
+\(\alpha f\textsuperscript{A}(a\textsubscript{1},a\textsubscript{2},....,a\textsubscript{n}) = f\textsuperscript{B}(\alpha a\textsubscript{1},\alpha a\textsubscript{2},....,\alpha a\textsubscript{n})\)\\
+\end{center}
+for each n-ary f in F and each sequence a\textsubscript{1},a\textsubscript{2},....,a\textsubscript{n} from A. In \cite{sankappanavar1981course}, the author proves that if \(\alpha\): A \(\rightarrow\) B and \(\beta\): A \(\rightarrow\) B are homomorphisms on algebra A to B such that \(\alpha (a) = \beta (a) \) then \(\alpha\) = \(\beta\)
 \\
+
+For two algebras A and B, if \(\alpha\) : A \(\rightarrow\) B  is a homomorphism from A to B, if \(\alpha\) satisfies one-to-one mapping (i.e., \(\alpha\) is injective) then the morphism \(\alpha\) is called monomorphism. \\
+
+For two algebras A and B, if \(\alpha\) : A \(\rightarrow\) B  is a Monomorphism from A to B, if \(\alpha\) is a bijection from A to B, then \(\alpha\) is called isomorphism.
+
+In \cite{sankappanavar1981course}, the author proves that the composite of two homomorphism (monomorphism/isomorphism) is also a homomorphism (monomorphism/isomorphism).
