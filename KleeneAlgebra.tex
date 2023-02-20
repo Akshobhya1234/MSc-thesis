@@ -1,4 +1,6 @@
 \chapter{Theory of Kleene Algebra in Agda}
+Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for his invention of finite automata and regular expressions. Kleene algebras are used in various contexts such as relational algebra, automata and formal theory, design and analysis of algorithms and program analysis and compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes operations from regular expressions. The axiomization of the algebra if regular events was recently proposed in 1966 but it was in 1984, a completeness theorem for relational algebra with a proper subclass of Kleene algebra was given. \cite{kozen1994completeness}. Although there are some differences in axioms of kleene algebra, in this chapter we consider the axioms defined in \cite{kozen1994completeness}
+
 \section{Definition}
 A set S with two binary operations + and * generally called addition and multiplication such that (S,+) is a commutative monoid, (S,*) is a monoid and + distributes over * with annhiliating zero is called a semiring. A semiring satisfying idempotent property is called idempotent semiring. A Kleene Algebra over set S is idempotent semiring with \( \star \) operator that satisfies the following axioms.
 \begin{equation}\label{eq_starrightexpansive}

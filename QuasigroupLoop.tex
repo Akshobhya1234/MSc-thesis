@@ -1,7 +1,7 @@
 \chapter{Theory Of Quasigroup and Loop in Agda}
-Applications of non associative algebras are explored in various fields of study. For example, Einstein's formula of addition of velocities gives a loop structure, Quasigroups of various orders are used in field of cryptography, Lie algebra is used in differential geometry. Proof assistant systems such as Agda are helpful in verifying some of the properties of these structures. They are interactive software that help to derive complex mathematical proofs. In this chapter we formalize two important non associative algebras - quasigroup, loop structure. A Quasigroup (Q, ∙, /, \textbackslash ) is a type (2,2,2) algebra for which the binary operations \textbackslash  and / are defined such that division is always possible.  A loop is a quasigroup with identity. We explore morphisms and direct product for these structures and derive proofs for some of the properties of these structures. \\
+Applications of non associative algebras are explored in various fields of study. For example, Einstein's formula of addition of velocities gives a loop structure \cite{ungar2007einstein}. Quasigroups of various orders are used in field of cryptography \cite{phillips2010automated}. Lie algebra is used in differential geometry\cite{quasigroupWiki}. Proof assistant systems such as Agda are helpful in verifying some of the properties of these structures. They are interactive software that help to derive complex mathematical proofs. In this chapter we formalize two important non associative algebras - quasigroup, loop structure. A Quasigroup (Q, ∙, /, \textbackslash ) is a type (2,2,2) algebra for which the binary operations \textbackslash  and / are defined such that division is always possible.  A loop is a quasigroup with identity. We explore morphisms and direct product for these structures and derive proofs for some of the properties of these structures. \\
 \section{Definition}
-A set that has a binary operation is called Magma. In this case a Magma is total and should not be confused with groupoid that need not be total. Let Q be a non empty set. Left and division is defined with identities.
+A set that has a binary operation is called Magma. In this case a Magma is total and should not be confused with groupoid that need not be total.  Left and division is defined with identities.
 \begin{equation} \label{eq_L-leftdivides}
 y = x ∙ (x \textbackslash{} y)
 \end{equation}
@@ -12,10 +12,9 @@ y = x \textbackslash{} (x ∙ y)
 y = (y / x) ∙ x
 \end{equation}
 \begin{equation} \label{eq_Rirightdivides}
-y = (y ∙ x) / x\\
+y = (y ∙ x) / x
 \end{equation}
 The Agda definition is given below
-\begin{center}
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 LeftDivides\textsuperscript{l}  : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
 LeftDivides\textsuperscript{l}  _∙_  _\textbackslash\textbackslash_ = ∀ x y → (x ∙ (x \textbackslash\textbackslash y)) ≈ y
@@ -29,9 +28,9 @@ RightDivides\textsuperscript{l}  _∙_ _//_ = ∀ x y → ((y // x) ∙ x) ≈ y
 RightDivides\textsuperscript{r} : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
 RightDivides\textsuperscript{r} _∙_ _//_ = ∀ x y → ((y ∙ x) // x) ≈ y
 \end{Verbatim}
-\end{center}
+
  We can combine the left and right division as follows
-\begin{center}
+
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 LeftDivides : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
 LeftDivides ∙ \textbackslash\textbackslash = (LeftDivides\textsuperscript{l} ∙ \textbackslash\textbackslash) × (LeftDivides\textsuperscript{r} ∙ \textbackslash\textbackslash)
@@ -39,7 +38,7 @@ LeftDivides ∙ \textbackslash\textbackslash = (LeftDivides\textsuperscript{l} �
 RightDivides : Op\textsubscript{2} A → Op\textsubscript{2} A → Set _
 RightDivides ∙ // = (RightDivides\textsuperscript{l} ∙ //) × (RightDivides\textsuperscript{r} ∙ //)
 \end{Verbatim}
-\end{center}
+
 Note that we use // and \textbackslash\textbackslash instead of / and \textbackslash respectively to overcome the conflict with overloaded or escape characters. 
 
 The Quasigroup structure can be structurally derived from Magma in Agda as 
@@ -85,7 +84,7 @@ A loop is a quasigroup that has identity element.
 \begin{equation}\label{eq_lineslope}
 x ∙ e = e ∙ x = x
 \end{equation}
-\begin{center}
+
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 LeftIdentity : A → Op\textsubscript{2} A → Set _
 LeftIdentity e _∙_ = ∀ x → (e ∙ x) ≈ x
@@ -96,9 +95,9 @@ RightIdentity e _∙_ = ∀ x → (x ∙ e) ≈ x
 Identity : A → Op\textsubscript{2} A → Set _
 Identity e ∙ = (LeftIdentity e ∙) × (RightIdentity e ∙)
 \end{Verbatim}
-\end{center}
+
 Loop structure can be structurally derived from quasigroup.
-\begin{center}
+
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 record IsLoop (∙ \textbackslash\textbackslash // : Op\textsubscript{2} A) (ε : A) : Set (a ⊔ ℓ) where
   field
@@ -107,7 +106,7 @@ record IsLoop (∙ \textbackslash\textbackslash // : Op\textsubscript{2} A) (ε 
 
   open IsQuasigroup isQuasigroup public
 \end{Verbatim}
-\end{center}
+
 \begin{comment}
   identity\textsuperscript{l} : LeftIdentity ε ∙
   identity\textsuperscript{l} = proj\textsubscript{1} identity
@@ -132,7 +131,7 @@ A left-right bol loop is called a moufang loop if it satisfies identity (Equatio
 \begin{equation}\label{eq_moufang}
 (z ∙ x) ∙ (y ∙ z) = z ∙ ((x ∙ y) ∙ z)
 \end{equation} 
-\begin{center}
+
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 LeftBol : Op\textsubscript{2} A → Set _
 LeftBol _∙_ = ∀ x y z → (x ∙ (y ∙ (x ∙ z))) ≈ ((x ∙ (y ∙ x)) ∙ z )
@@ -147,7 +146,7 @@ MiddleBol _∙_ _\textbackslash\textbackslash_ _//_ = ∀ x y z → (x ∙ ((y �
 Identical : Op\textsubscript{2}  A → Set _
 Identical _∙_ = ∀ x y z → ((z ∙ x) ∙ (y ∙ z)) ≈ (z ∙ ((x ∙ y) ∙ z))
 \end{Verbatim}
-\end{center}
+
 \section{Morphism}
 A structure preserving map f between two structures of same type is called morphism or homomorphism. That is f : A \(\rightarrow\) B and ∙ is an operation on the structure then homomorphism is defined as f(x ∙ y) = f(x) ∙ f(y). A homomorphism that is injective is called monomorphism. If the structures are identical that is they are more than just similar in structure then we can compare the structures with isomorphism. A homomorphism that is bijective is called isomorphism. 
 The quasigroup homomorphism preserves both left and right division operations.
@@ -486,7 +485,7 @@ b)\(\forall x \in L\):  x \textbackslash x = e\\
 c)\(\forall x \in L\): e \textbackslash x = x \\
 d)\(\forall x \in L\):  x / e = x \\
 Proof:
-\begin{center}
+
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
 a)
 x//x≈ε : ∀ x → x // x ≈ ε
@@ -523,7 +522,7 @@ x//ε≈x x = begin
 
 \end{Verbatim}
 \subsection{Properties of Middle bol loop}
-\end{center}
+
 Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following identities holds.\\
 a)\(\forall x y z \in M\): x ∙ ((y ∙ x) \textbackslash x) = y \textbackslash x \\
 b)\(\forall x y z \in M\): x ∙ ((x ∙ z) \textbackslash x) = x // z\\
