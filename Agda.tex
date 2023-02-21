@@ -1,29 +1,47 @@
 \chapter{Background Agda}
-Agda is a functional programming language developed by Ulf Norell. Agda is used as a proof assistant system that supports higher order logic with dependently typed pattern matching that is used to prove theorems about inductive types. 
+Agda is a dependently typed programming. Agda is pure in the sense that the functions have no effect and does not use state. Agda uses lazy evaluation. That is the expressions are not evaluated until the are needed. Therefore in Agda, the order of evaluation is hard to predict. Strict evaluation is to evaluate all arguments to the function before evaluating the function. Since Agda is lazy, both strict and lazy evaluation will give the same output \cite{kidney2020finiteness} Agda is total. A function in agda gives output in a finite amount of time for a valid input.\\
+The process of validating and imposing constraints on values is called type checking. Agda can be compiled to haskell or javascript but it is only type checked so it can be used as a proof assistant. Agda is based on unified theory of dependent types \cite{enwiki:1127496533} hence the program written in Agda is in line with the Martin-Löf Type Theory \cite{kidney2020finiteness}. This chapter provides a brief overview of programming in Agda in the context of algebraic structures. 
 
-\section{Agda Notation}
-In this section we discuss the programming notations in Agda that will be used in the later chapters of the thesis.\\
-A → B denotes a function from set A to set B\\
-a : A denotes a is an element in A \\
-f : A → B denotes that f is a some map from set A to set B\\
-Op₁ denotes the unary operation on the set.
-\{a : A\} denotes the implicit argument a in A. 
+\section{Types and functions}
+Agda provides logical framework in the sense that the core of Agda provides a framework that gives the type Set and dependent functions (x : A) \(\rightarrow\) B. Agda supports inductive types.\cite{10.1007/978-3-642-03359-9_6}. Agda provides simple types and parameter types. These data types are declared using the keyword data. \\
+\begin{Verbatim}
+ data Nat : Set where
+   zero : Nat
+   suc  : Nat -> Nat
+\end{Verbatim}
+In the above example, Nat is the data type that has two constructors zero and suc. Constructor are used ti assign values tot eh variables in the type. This type is called inductive type. In this example, the smallest set is a set containing an element zero and is closed under the function suc. Since the properties of this function can be proved inductively, the type us called inductive type. \cite{enwiki:1127496533}\\ The datatype can be have parameters and	 indexed.  
+Another way of defining a type is using the keyword record. A record type can be defined by referencing other types and creating a synonym. An example of record type is discussed later in the chapter when we define the algebraic structure.\\
+Since types are values in Agda, there is no real way to distinguish between them. If bool is a simple type or type\textsubscript{0}, then what is the type of type\textsubscript{0}? Note that this is similar to the Rusell's paradox that is discussed in previous chapter. Agda uses universe polymorphism to resolve this issue. That is the type of `true` is Bool and its type is type\textsubscript{0}. The type of  type\textsubscript{0} is type\textsubscript{1} and so on. \cite{kidney2020finiteness}.\\
+
+The functions in Agda is very similar to function in Haskell. A function in Agda is defined by declaring the type followed by the clauses \cite{agdaFunction}. 
+\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+f : (x\textsubscript{1} : A\textsubscript{1}) → … → (x\textsubscript{n} : A\textsubscript{n}) → B
+f p₁ … p\textsubscript{n} = d
+…
+f q₁ … q\textsubscript{n} = e
+\end{Verbatim} 
+Where f is the function identified, p\textsubscript{i} and q\textsubscript{i} are the patterns of type A\textsubscript{i}. d and e are expressions. 
+The agda documentation discuss other techniques to define a function such as using dot patterns, absurd patterns, as patterns and case trees \cite{agdaFunction}.\\
+
+An operator in agda is also defined as a function. Underscore is used to indicate where an argument is expected. and operator can be defined as 
+\begin{Verbatim}
+_and_ : Bool → Bool → Bool
+true and x = x
+false and _ = false
+\end{Verbatim}
+
+In context of algebra, agda defines unary (Op\textsubscript{1}) and binary (Op\textsubscript{2}) operations.
 \begin{Verbatim}
 Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
 Op₁ A = A → A
 \end{Verbatim}
-\textunderscore ∙ denotes unary operation ∙ and underscore denotes the placement of the argument. \\
-Op₂ denotes binary operation on the set
 \begin{Verbatim}
 Op₂ : ∀ {ℓ} → Set ℓ → Set ℓ
 Op₂ A = A → A → A
 \end{Verbatim}
-level (or universe) is a primitive type in Agda. \\
-a ⊔ ℓ denotes the least upper bound of the levels a and ℓ.
-\textunderscore ∙\textunderscore  denotes binary operation ∙ . Underscore denotes the placement of the arguments.\\
 
 \section{Structure definition}
-Algebraic structures are defined as record types in Agda. Record types are defined using the keyword record. Records types are used to group values together and they provide named fields to generalise dependent product types. The structures are obtained by wrapping the predicates that are expressed as "is-a" relation. ~\citep{hu2021formalizing}
+Algebraic structures are defined as record types in Agda. Records types are used to group values together and they provide named fields to generalise dependent product types. The structures are obtained by wrapping the predicates that are expressed as "is-a" relation. ~\citep{hu2021formalizing}
 \begin{Verbatim}
 record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
   field
@@ -66,13 +84,14 @@ When exporting the modules we may need to rename the fields to avoid having dupl
 \end{Verbatim} 
 Keyword renaming is used to rename the fields. In the above sample code, we rename ∙-congˡ  to *-congˡ and ∙-congʳ  to *-congʳ.
 
-\subsection{Proofs in Agda}
-A setoid is a set with equivalence relation. In Agda beginning of the proof is given using "begin". IsRelatedTo is a type defined to infer arguments even if the underlying equality evaluates. 
+\subsection{Equational Proofs in Agda}
+
+In Agda, an equational proof starts with "begin". 
 \begin{Verbatim}
 begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
 begin relTo x∼y = x∼y
 \end{Verbatim}
-standard step to relation is defined as step-∼
+IsRelatedTo is a type defined to infer arguments even if the underlying equality evaluates. standard step to relation is defined as step-∼
 \begin{Verbatim}
 step-∼ : ∀ x {y z} → y IsRelatedTo z → x ∼ y → x IsRelatedTo z
 step-∼ _ (relTo y∼z) x∼y = relTo (trans x∼y y∼z)
