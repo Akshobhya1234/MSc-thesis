@@ -85,8 +85,8 @@ When exporting the modules we may need to rename the fields to avoid having dupl
 Keyword renaming is used to rename the fields. In the above sample code, we rename ∙-congˡ  to *-congˡ and ∙-congʳ  to *-congʳ.
 
 \subsection{Equational Proofs in Agda}
-
-In Agda, an equational proof starts with "begin". 
+In the Russell's paradox discussed in the previous sections, if a theorem is to be proved, we need to use the axiom that is the theorem itself. To overcome this dutch mathematician L. E. J. Brouwer discovered intuitionism that led to constructive mathematics \cite{enwiki:1122615242}. In constructive mathematics, knowledge comes with implicit arguments. In constructive proofs, the existence of a mathematical object is given by giving a way to create the method. \cite{enwiki:1090644431}. In agda, a function to and from a each type is provided if there is a bijection between two types. Dependently typed language agda thus allow to compile and run proofs \cite{kidney2020finiteness}.  
+In Agda, `begin` is used to indicate the start of the proof. begin is a function that relates two objects. 
 \begin{Verbatim}
 begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
 begin relTo x∼y = x∼y
