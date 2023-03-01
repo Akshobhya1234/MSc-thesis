@@ -1,3 +1,18 @@
-\chapter{Conclusion}
+\chapter{Conclusion and Future Work}
+The main of this work is to study algebraic structures in proof assistant systems. To define the scope the work we do a survey on coverage of algebraic on four proof assistant systems that are agda, idris, coq and lean 3.The thesis shows how to define a structure with some of its constructs and properties in agda. We divide this into three main chapters based on closeness of structures that is quasigroup and loop, semigroup and ring, and kleene algebra. We then analyze five problems that arises when defining algebraic structures in proof systems and give a brief overview of how it can be tackled with product family algebra. \\
 
-Every thesis also needs a concluding chapter
+In section ~\ref{contribution} we summarize the contributions of this work and how it refers to the research outline described in Chapter 1. Section ~\ref{future} discuss some extensions or future work of this work. 
+
+\section{Summary of contributions}
+\label{contribution}
+Universal algebra is a well studied and evolving branch of mathematics. Proof systems are useful in automated reasoning and becoming popular in research and applications more than ever. Chapter 1 provides a overview of quantitative use of algebraic structures in proof assistant systems. We create a 'clickable' table that takes to the definition of structures in the standard libraries of the systems studied (agda, idris, lean and coq). \\
+
+This leads to define the scope of contribution to agda standard library. Chapter 5 is dedicated to study the structures quasigroup, loop and their variations. Chapter 6 provides an overview of semigroup and ring structures with their properties and morphisms. Chapter 7 is dedicated to study of kleene algebra and it's properties in agda. Along with these structures, we define structures unital magma, invertible magma, invertible unital magma, idempotent magma, alternate magma, flexible magma, semimedial magma, medial magma, with their direct products and morphisms.\\
+
+Our approach of defining these structures led us to analyze the problems such as ambiguity in naming, equivalent and identical structures. Chapter 8 discuss how these problems becomes more evident in proof systems that might be ignored in classical 'pen-and-paper' technique. We give an overview of how product family algebra can be used to represent and tackle these problems.
+
+\section{Future work}
+\label{future}
+Our work can be extended in different ways and agda standard library is evolving with many contributions. The direct products defined in this thesis do not clearly differentiate between direct products and products and co-products. There is currently discussion on agda standard library to overcome this issue but the changes are yet to come. Product family algebra is a powerful tool to solve many problems in ontologies, cryptography and other fields. Only a brief overview of how this tool can be used is discussed in Chapter 8. A more detailed study with implementation is required to concretely say to what extent the discussed problems can be solved. This work will rely on human efforts in building strong libraries in field of abstract algebra. A more robust and reliable generative library will be helpful to reduce human efforts. 
+
+
