@@ -10,10 +10,10 @@ A set S with two binary operations + and * generally called addition and multipl
 1 + (x *) ∙ x \leq x *
 \end{equation}
 \begin{equation}\label{eq_starleftdestructive}
-\forall a, b, x \in S: If b + a  ∙ x \leq x then, (a *)  ∙ b \leq x
+\forall a, b, x \in S: \  \text{If} \ b + a  ∙ x \leq x \ \text{then},\  (a *)  ∙ b \leq x
 \end{equation}
 \begin{equation}\label{eq_starrightdestructive}
-\forall a, b, x \in S: If b + x  ∙ a \leq x then, b  ∙ (a *) \leq x
+\forall a, b, x \in S: \  \text{If} \ b + x  ∙ a \leq x \  \text{then},\  b  ∙ (a *) \leq x
 \end{equation}
 In Agda, strong axioms of \(\star\) are given. That is equivalance is directly given and kleene algebra with partial and pre order structures are defined in Algebra.Ordered hierarchy. 
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
@@ -47,7 +47,7 @@ record IsKleeneAlgebra (+ * : Op\textsubscript{2} A) (⋆ : Op\textsubscript{1} 
   open IsIdempotentSemiring isIdempotentSemiring public
 \end{Verbatim}
 The bundle version of kleene algebra is defined as: 
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+\begin{Verbatim}[commandchars=\\\{\}]
 record KleeneAlgebra c ℓ : Set (suc (c ⊔ ℓ)) where
   infix  8 _⋆
   infixl 7 _*_
@@ -105,23 +105,26 @@ kleeneAlgebra K L = record
 \section{Properties}
 In this section we prove some of the properties of Kleene algebra
 
-Let (K, +, *, \(\star\), 0, 1) be a Kleene algebra then,
-a) 0⋆ = 1\\
-b) 1⋆ = 1\\
-c) \(\forall x \in K\): 1 + x⋆ = x⋆\\
-d) \(\forall x \in K\): x + x * x⋆ = x⋆\\
-e) \(\forall x \in K\): x + x⋆ * x = x⋆\\
-f) \(\forall x \in K\): x + x⋆ = x⋆\\
-g) \(\forall x \in K\): 1 + x + x⋆ = x⋆\\
-h) \(\forall x \in K\): 0 + x + x⋆ = x⋆\\
-i) \(\forall x \in K\): x⋆ * x⋆ = x⋆\\
-j) \(\forall x \in K\): x⋆⋆ = x⋆\\
-k) \(\forall x , y \in K\): If x = y then, x⋆ = y⋆\\
-l) \(\forall a, b, x \in K\): If a * x = x * b then, a⋆ * x = x * b⋆\\
-m) \(\forall x, y \in K\): (x * y) ⋆ * x ≈ x * (y * x) ⋆\\
+Let (K, +, *, \(\star\), 0, 1) be a Kleene algebra then:
+\begin{enumerate}
+\item 0⋆ = 1
+\item 1⋆ = 1
+\item \(\forall x \in K\): 1 + x⋆ = x⋆
+\item \(\forall x \in K\): x + x * x⋆ = x⋆
+\item \(\forall x \in K\): x + x⋆ * x = x⋆
+\item \(\forall x \in K\): x + x⋆ = x⋆
+\item \(\forall x \in K\): 1 + x + x⋆ = x⋆
+\item \(\forall x \in K\): 0 + x + x⋆ = x⋆
+\item \(\forall x \in K\): x⋆ * x⋆ = x⋆
+\item \(\forall x \in K\): x⋆⋆ = x⋆
+\item \(\forall x , y \in K\): If x = y then, x⋆ = y⋆
+\item \(\forall a, b, x \in K\): If a * x = x * b then, a⋆ * x = x * b⋆
+\item \(\forall x, y \in K\): (x * y) ⋆ * x ≈ x * (y * x) ⋆
+\end{enumerate}
 Proof:
+\begin{enumerate}
+\item
 \begin{Verbatim}
-a)
 0⋆≈1 : 0# ⋆ ≈ 1#
 0⋆≈1 = begin
   0# ⋆           ≈⟨ sym (starExpansiveˡ 0#) ⟩
@@ -129,9 +132,8 @@ a)
   1# + 0#        ≈⟨ +-identityʳ 1# ⟩
   1#             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-b)
 1+11≈1 : 1# + 1# * 1# ≈ 1#
 1+11≈1 = begin
   1# + 1# * 1#  ≈⟨ +-congˡ ( *-identityʳ 1#) ⟩
@@ -144,9 +146,8 @@ b)
   1# ⋆ * 1#  ≈⟨ starDestructiveˡ 1# 1# 1# 1+11≈1 ⟩
   1#         ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-c)
 1+x⋆≈x⋆ : ∀ x → 1# + x ⋆ ≈ x ⋆
 1+x⋆≈x⋆ x = sym (begin
   x ⋆                   ≈⟨ sym (starExpansiveʳ x) ⟩
@@ -155,9 +156,8 @@ c)
   1# + (1# + x * x ⋆)   ≈⟨ +-congˡ (starExpansiveʳ x) ⟩
   1# + x ⋆              ∎)
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-d)
 x⋆+xx⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ ≈ x ⋆
 x⋆+xx⋆≈x⋆ x = begin
   x ⋆ + x * x ⋆         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
@@ -167,9 +167,8 @@ x⋆+xx⋆≈x⋆ x = begin
   x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
   x ⋆                   ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-e)
 x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
 x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
@@ -179,9 +178,8 @@ x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
   x ⋆                   ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-f)
 x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
 x+x⋆≈x⋆ x = begin
   x + x ⋆                  ≈⟨ +-congˡ (sym (starExpansiveʳ x)) ⟩
@@ -194,9 +192,8 @@ x+x⋆≈x⋆ x = begin
   1# + x * x ⋆             ≈⟨ (starExpansiveʳ x) ⟩
   x ⋆                      ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-g)
 1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
 1+x+x⋆≈x⋆ x = begin
   1# + x + x ⋆    ≈⟨ +-assoc 1# x (x ⋆) ⟩
@@ -204,9 +201,8 @@ g)
   1# + x ⋆        ≈⟨ 1+x⋆≈x⋆ x ⟩
   x ⋆             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-h)
 0+x+x⋆≈x⋆ : ∀ x → 0# + x + x ⋆ ≈ x ⋆
 0+x+x⋆≈x⋆ x = begin
   0# + x + x ⋆    ≈⟨ +-assoc 0# x (x ⋆) ⟩
@@ -214,15 +210,13 @@ h)
   (x + x ⋆)       ≈⟨ x+x⋆≈x⋆ x ⟩
   x ⋆             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-i)
 x⋆x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ ≈ x ⋆
 x⋆x⋆≈x⋆ x = starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆≈x⋆ x)
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-j)
 1+x⋆x⋆≈x⋆ : ∀ x → 1# + x ⋆ * x ⋆ ≈ x ⋆
 1+x⋆x⋆≈x⋆ x = begin
   1# + x ⋆ * x ⋆  ≈⟨ +-congˡ (x⋆x⋆≈x⋆ x) ⟩
@@ -235,9 +229,8 @@ x⋆⋆≈x⋆ x = begin
   (x ⋆) ⋆ * 1#   ≈⟨ starDestructiveˡ (x ⋆) 1# (x ⋆) (1+x⋆x⋆≈x⋆ x) ⟩
   x ⋆            ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-k)
 x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈  y → 1# + x * y ⋆ ≈ y ⋆
 x≈y⇒1+xy⋆≈y⋆ x y eq = begin
   1# + x * y ⋆  ≈⟨ +-congˡ (*-congʳ (eq)) ⟩
@@ -250,10 +243,10 @@ x≈y⇒x⋆≈y⋆ x y eq = begin
   x ⋆ * 1#  ≈⟨ (starDestructiveˡ x 1# (y ⋆) (x≈y⇒1+xy⋆≈y⋆ x y eq)) ⟩
   y ⋆       ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-l)
-ax≈xb⇒x+axb⋆≈xb⋆ : ∀ x a b → a * x ≈ x * b → x + a * (x * b ⋆) ≈ x * b ⋆
+ax≈xb⇒x+axb⋆≈xb⋆ : ∀ x a b → 
+	a * x ≈ x * b → x + a * (x * b ⋆) ≈ x * b ⋆
 ax≈xb⇒x+axb⋆≈xb⋆ x a b eq = begin
   x + a * (x * b ⋆)       ≈⟨ +-congˡ (sym(*-assoc a x (b ⋆))) ⟩
   x + a * x * b ⋆         ≈⟨ +-congʳ (sym (*-identityʳ x)) ⟩
@@ -264,11 +257,12 @@ ax≈xb⇒x+axb⋆≈xb⋆ x a b eq = begin
   x * b ⋆                 ∎
 
 ax≈xb⇒a⋆x≈xb⋆ : ∀ x a b → a * x ≈ x * b → a ⋆ * x ≈ x * b ⋆
-ax≈xb⇒a⋆x≈xb⋆ x a b eq = starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆≈xb⋆ x a b eq)
+ax≈xb⇒a⋆x≈xb⋆ x a b eq = 
+	starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆≈xb⋆ x a b eq)
 \end{Verbatim}
-
+\item
 \begin{Verbatim}
-m)
 [xy]⋆x≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x ≈ x * (y * x) ⋆
 [xy]⋆x≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
 \end{Verbatim}
+\end{enumerate}

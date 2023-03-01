@@ -433,14 +433,15 @@ loop M N = record
 In this section we prove some of the properties of quasigroups and loops in Agda.
 \subsection{Properties of Quasigroup}
 Let (Q, ∙, /, \textbackslash ) be a quasigroup then \\
-a) Q is cancellative
-A quasigroup is left cancellative if x ∙ y = x ∙ z then y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A quasigroup is cancellative if it is both left and right cancellative.\\
-b) \(\forall x, y, z \in Q\): x ∙ y = z then y = x \textbackslash z\\
-c) \(\forall x, y, z \in Q\): x ∙ y = z then x = z / y\\
-
+\begin{enumerate}
+\item Q is cancellative. A quasigroup is left cancellative if x ∙ y = x ∙ z then y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A quasigroup is cancellative if it is both left and right cancellative.
+\item \(\forall x, y, z \in Q\): x ∙ y = z then y = x \textbackslash z
+\item \(\forall x, y, z \in Q\): x ∙ y = z then x = z / y
+\end{enumerate}
 Proof:
+\begin{enumerate}
+\item 
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-a)
 cancel\textsuperscript{l} : LeftCancellative _∙_
 cancel\textsuperscript{l} x \{y\} \{z\} eq = begin
   y             ≈⟨ sym( leftDivides\textsuperscript{r}  x y) ⟩
@@ -459,8 +460,8 @@ cancel : Cancellative _∙_
 cancel = cancel\textsuperscript{l} , cancel\textsuperscript{r} 
 \end{Verbatim}
 
+\item 
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-b)
 y≈x\textbackslash{z} : ∀ x y z → x ∙ y ≈ z → y ≈ x \textbackslash\textbackslash  z
 y≈x\textbackslash{z} x y z eq = begin
   y             ≈⟨ sym (leftDivides\textsuperscript{r} x y) ⟩
@@ -468,72 +469,74 @@ y≈x\textbackslash{z} x y z eq = begin
   x \textbackslash\textbackslash  z       ∎
 \end{Verbatim}
 
+\item 
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-c)
 x≈z/y : ∀ x y z → x ∙ y ≈ z → x ≈ z // y
 x≈z/y x y z eq = begin
   x            ≈⟨ sym (rightDivides\textsuperscript{r} y x) ⟩
   (x ∙ y) // y ≈⟨ //-cong\textsuperscript{r} eq ⟩
   z // y       ∎
 \end{Verbatim}
+\end{enumerate}
 
 \subsection{Properties of Loop}
 Properties of division operation holds for a loop. \\
-Let (L, ∙, /, \textbackslash ) be a Loop with identity x ∙ e = x then the following properties holds \\
-a)\(\forall x \in L\): x / x = e \\
-b)\(\forall x \in L\):  x \textbackslash x = e\\
-c)\(\forall x \in L\): e \textbackslash x = x \\
-d)\(\forall x \in L\):  x / e = x \\
+Let (L, ∙, /, \textbackslash ) be a Loop with identity x ∙ e = x then the following properties holds 
+\begin{enumerate}
+\item \(\forall x \in L\): x / x = e 
+\item \(\forall x \in L\):  x \textbackslash x = e
+\item \(\forall x \in L\): e \textbackslash x = x 
+\item \(\forall x \in L\):  x / e = x 
+\end{enumerate}
 Proof:
-
+\begin{enumerate}
+\item 
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-a)
 x//x≈ε : ∀ x → x // x ≈ ε
 x//x≈ε x = begin
   x // x       ≈⟨ //-cong\textsuperscript{r} (sym (identity\textsuperscript{l} x)) ⟩
   (ε ∙ x) // x  ≈⟨ rightDivides\textsuperscript{r} x ε ⟩
   ε             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-b)
 x\textbackslash\textbackslash{x}≈ε : ∀ x → x \textbackslash\textbackslash x ≈ ε
 x\textbackslash\textbackslash{x}≈ε x = begin
   x \textbackslash\textbackslash x      ≈⟨ \textbackslash\textbackslash-cong\textsuperscript{l} (sym (identity\textsuperscript{r} x )) ⟩
   x \textbackslash\textbackslash (x ∙ ε) ≈⟨ leftDivides\textsuperscript{r} x ε ⟩
   ε            ∎
 \end{Verbatim}
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-c)
 ε\textbackslash\textbackslash{x}≈x : ∀ x → ε \textbackslash\textbackslash x ≈ x
 ε\textbackslash\textbackslash{x}≈x x = begin
   ε \textbackslash\textbackslash x       ≈⟨ sym (identity\textsuperscript{l} (ε \textbackslash\textbackslash x)) ⟩
   ε ∙ (ε \textbackslash\textbackslash x) ≈⟨ leftDivides\textsuperscript{l} ε x ⟩
   x            ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-d)
 x//ε≈x : ∀ x → x // ε ≈ x
 x//ε≈x x = begin
  x // ε       ≈⟨ sym (identity\textsuperscript{r} (x // ε)) ⟩
  (x // ε) ∙ ε  ≈⟨ rightDivides\textsuperscript{l} ε x ⟩
  x             ∎
-
 \end{Verbatim}
+\end{enumerate}
 \subsection{Properties of Middle bol loop}
-
-Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following identities holds.\\
-a)\(\forall x y z \in M\): x ∙ ((y ∙ x) \textbackslash x) = y \textbackslash x \\
-b)\(\forall x y z \in M\): x ∙ ((x ∙ z) \textbackslash x) = x // z\\
-c)\(\forall x y z \in M\): x ∙ (z \textbackslash x) ≈ (x / z) ∙ x\\
-d)\(\forall x y z \in M\): (x / (y ∙ z)) ∙ x ≈ (x / z) ∙ (y \textbackslash x)\\
-e)\(\forall x y z \in M\): (x / (y ∙ x)) ∙ x ≈ y \textbackslash x\\
-f)\(\forall x y z \in M\): (x / (x ∙ z)) ∙ x ≈ x / z
-
+Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following identities holds.
+\begin{enumerate}
+\item \(\forall x y z \in M\): x ∙ ((y ∙ x) \textbackslash x) = y \textbackslash x 
+\item \(\forall x y z \in M\): x ∙ ((x ∙ z) \textbackslash x) = x // z
+\item \(\forall x y z \in M\): x ∙ (z \textbackslash x) ≈ (x / z) ∙ x
+\item \(\forall x y z \in M\): (x / (y ∙ z)) ∙ x ≈ (x / z) ∙ (y \textbackslash x)
+\item \(\forall x y z \in M\): (x / (y ∙ x)) ∙ x ≈ y \textbackslash x
+\item \(\forall x y z \in M\): (x / (x ∙ z)) ∙ x ≈ x / z
+\end{enumerate}
 Proof:
+\begin{enumerate}
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-a)
 xyx\textbackslash{x}≈y\textbackslash\textbackslash{x} : ∀ x y → x ∙ ((y ∙ x) \textbackslash\textbackslash x) ≈ y \textbackslash\textbackslash x
 xyx\textbackslash{x}≈y\textbackslash\textbackslash{x} x y = begin
   x ∙ ((y ∙ x) \textbackslash\textbackslash x)   ≈⟨ middleBol x y x ⟩
@@ -541,9 +544,8 @@ xyx\textbackslash{x}≈y\textbackslash\textbackslash{x} x y = begin
   ε ∙ (y \textbackslash\textbackslash x)        ≈⟨ identity\textsuperscript{l} ((y \textbackslash\textbackslash x)) ⟩
   y \textbackslash\textbackslash x             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-b)
 xxz\textbackslash\textbackslash{x}≈x//z : ∀ x z → x ∙ ((x ∙ z) \textbackslash\textbackslash x) ≈ x // z
 xxz\textbackslash\textbackslash{x}≈x//z x z = begin
   x ∙ ((x ∙ z) \textbackslash\textbackslash x)  ≈⟨ middleBol x x z ⟩
@@ -551,9 +553,8 @@ xxz\textbackslash\textbackslash{x}≈x//z x z = begin
   (x // z) ∙ ε        ≈⟨ identity\textsuperscript{r} ((x // z)) ⟩
   x // z             ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-c)
 xz\textbackslash\textbackslash{x}≈x//zx : ∀ x z → x ∙ (z \textbackslash\textbackslash x) ≈ (x // z) ∙ x
 xz\textbackslash\textbackslash{x}≈x//zx x z = begin
   x ∙ (z \textbackslash\textbackslash x)      ≈⟨ ∙-cong\textsuperscript{l} (\textbackslash\textbackslash-cong\textsuperscript{r}( sym (identity\textsuperscript{l} z))) ⟩
@@ -561,18 +562,16 @@ xz\textbackslash\textbackslash{x}≈x//zx x z = begin
   x // z ∙ (ε \textbackslash\textbackslash x) ≈⟨ ∙-cong\textsuperscript{l} (ε\textbackslash\textbackslash{x}≈x x) ⟩
   x // z ∙ x        ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-d)
 x//yzx≈x//zy\textbackslash\textbackslash{x} : ∀ x y z → (x // (y ∙ z)) ∙ x ≈ (x // z) ∙ (y \textbackslash\textbackslash x)
 x//yzx≈x//zy\textbackslash\textbackslash{x} x y z = begin
  (x // (y ∙ z)) ∙ x  ≈⟨ sym (xz\textbackslash\textbackslash{x}≈x//zx x ((y ∙ z))) ⟩
  x ∙ ((y ∙ z) \textbackslash\textbackslash x)  ≈⟨ middleBol x y z ⟩
  (x // z) ∙ (y \textbackslash\textbackslash x) ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-e)
 x//yxx≈y\textbackslash\textbackslash{x} : ∀ x y → (x // (y ∙ x)) ∙ x ≈ y \textbackslash\textbackslash x
 x//yxx≈y\textbackslash\textbackslash{x} x y = begin
   (x // (y ∙ x)) ∙ x  ≈⟨ x//yzx≈x//zy\textbackslash\textbackslash{x}  x y x ⟩
@@ -580,9 +579,8 @@ x//yxx≈y\textbackslash\textbackslash{x} x y = begin
   ε ∙ (y \textbackslash\textbackslash x)        ≈⟨ identity\textsuperscript{l} ((y \textbackslash\textbackslash x)) ⟩
   y \textbackslash\textbackslash x              ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-f)
 x//xzx≈x//z : ∀ x z → (x // (x ∙ z)) ∙ x ≈ x // z
 x//xzx≈x//z x z = begin
   (x // (x ∙ z)) ∙ x  ≈⟨ x//yzx≈x//zy\textbackslash\textbackslash{x} x x z ⟩
@@ -590,19 +588,20 @@ x//xzx≈x//z x z = begin
   (x // z) ∙ ε        ≈⟨ identity\textsuperscript{r} (x // z) ⟩
   x // z             ∎     
 \end{Verbatim}
-
+\end{enumerate}
 \subsection{Properties of Moufang Loop}
-Let (M, ∙, /, \textbackslash ) be a moufang loop then the following identities holds.\\
-a) Moufang loop is alternative. \\
-A moufang loop is left alternative if it satisfies (x ∙ x) ∙ y = x ∙ (x ∙ y), a moufang loop is right alternative if it satisfies x ∙ (y ∙ y) = (x ∙ y) ∙ y and if a moufang loop alternative if it is both left and right alternative. \\
-b) Moufang loop is flexible \\
-A Moufant loop is flexible if it satisfies flexible identity (x ∙ y) ∙ x = x ∙ (y ∙ x)\\
-c)\(\forall x y z \in M\): z ∙ (x ∙ (z ∙ y)) = ((z ∙ x) ∙ z) ∙ y\\
-d)\(\forall x y z \in M\): x ∙ (z ∙ (y ∙ z)) = ((x ∙ z) ∙ y) ∙ z \\
-e)\(\forall x y z \in M\): z ∙ ((x ∙ y) ∙ z) = (z ∙ (x ∙ y)) ∙ z \\
+Let (M, ∙, /, \textbackslash ) be a moufang loop then the following identities holds.
+\begin{enumerate}
+\item Moufang loop is alternative. A moufang loop is left alternative if it satisfies (x ∙ x) ∙ y = x ∙ (x ∙ y), a moufang loop is right alternative if it satisfies x ∙ (y ∙ y) = (x ∙ y) ∙ y and if a moufang loop alternative if it is both left and right alternative. 
+\item Moufang loop is flexible. A Moufant loop is flexible if it satisfies flexible identity (x ∙ y) ∙ x = x ∙ (y ∙ x)
+\item \(\forall x y z \in M\): z ∙ (x ∙ (z ∙ y)) = ((z ∙ x) ∙ z) ∙ y
+\item \(\forall x y z \in M\): x ∙ (z ∙ (y ∙ z)) = ((x ∙ z) ∙ y) ∙ z 
+\item \(\forall x y z \in M\): z ∙ ((x ∙ y) ∙ z) = (z ∙ (x ∙ y)) ∙ z 
+\end{enumerate}
 Proof:
+\begin{enumerate}
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-a)
 alternative\textsuperscript{l} : LeftAlternative _∙_
 alternative\textsuperscript{l} x y = begin
   (x ∙ x) ∙ y       ≈⟨ ∙-cong\textsuperscript{r} (∙-cong\textsuperscript{l} (sym (identity\textsuperscript{l} x))) ⟩
@@ -620,9 +619,8 @@ alternative\textsuperscript{r} x y = begin
 alternative : Alternative _∙_
 alternative = alternative\textsuperscript{l} , alternative\textsuperscript{r}
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\}]
-b)
 flex : Flexible _∙_
 flex x y = begin
   (x ∙ y) ∙ x       ≈⟨ ∙-cong\textsuperscript{l} (sym (identity\textsuperscript{l} x)) ⟩
@@ -630,27 +628,25 @@ flex x y = begin
   x ∙ ((y ∙ ε) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r} (identity\textsuperscript{r} y)) ⟩
   x ∙ (y ∙ x)       ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-c)
 z∙xzy≈zxz∙y : ∀ x y z → (z ∙ (x ∙ (z ∙ y))) ≈ (((z ∙ x) ∙ z) ∙ y)
 z∙xzy≈zxz∙y x y z = sym (begin
   ((z ∙ x) ∙ z) ∙ y ≈⟨ (∙-cong\textsuperscript{r}  (flex z x )) ⟩
   (z ∙ (x ∙ z)) ∙ y ≈⟨ sym (leftBol z x y) ⟩
   z ∙ (x ∙ (z ∙ y)) ∎)
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-d)
 x∙zyz≈xzy∙z : ∀ x y z → (x ∙ (z ∙ (y ∙ z))) ≈ (((x ∙ z) ∙ y) ∙ z)
 x∙zyz≈xzy∙z x y z = begin
   x ∙ (z ∙ (y ∙ z))  ≈⟨ (∙-cong\textsuperscript{l}  (sym (flex z y ))) ⟩
   x ∙ ((z ∙ y) ∙  z) ≈⟨ sym (rightBol z y x) ⟩
   ((x ∙ z) ∙ y) ∙ z  ∎
 \end{Verbatim}
-
+\item
 \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-e)
 z∙xyz≈zxy∙z : ∀ x y z → (z ∙ ((x ∙ y) ∙ z)) ≈ ((z ∙ (x ∙ y)) ∙ z)
 z∙xyz≈zxy∙z x y z = sym (flex z (x ∙ y))
 \end{Verbatim}
+\end{enumerate}
