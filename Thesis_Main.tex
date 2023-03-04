@@ -24,8 +24,17 @@
 \usepackage[hidelinks]{hyperref} % Linking to LaTeX labels and external URLs
 \usepackage{newunicodechar}
 \usepackage{fourier}
-\usepackage{fancyvrb}
 \usepackage{comment}
+
+% For nice captions and floating environments, such as for my code snippets
+\usepackage{caption}
+
+\usepackage[newfloat,outputdir=build]{minted}
+% Credits to Arash Esbati (https://tex.stackexchange.com/a/254177) for the
+% listings-related component of minted usage.
+
+\usemintedstyle{colorful}
+\input{macros}
 
 \newunicodechar{λ}{\ensuremath{\mathnormal\lambda}}
 \newunicodechar{∙}{\ensuremath{\mathnormal\cdot}}
@@ -52,6 +61,7 @@
 \newunicodechar{₃}{\ensuremath{\mathnormal\textsubscript{3}}}
 \newunicodechar{‿}{\ensuremath{\mathnormal\smile}}
 \newunicodechar{∼}{\ensuremath{\mathnormal\sim}}
+\newunicodechar{×}{\ensuremath{\mathnormal\times}}
 
 
 \numberwithin{equation}{section} % Numbers equations based on their section
@@ -118,7 +128,7 @@
 \end{appendix}
 
 % The bibliography is set up to allow for multiple bib files
-\bibliographystyle{ACM-Reference-Format}
+\bibliographystyle{ieeetran}
 \nocite{*}
 \bibliography{references}
 

@@ -1,61 +1,84 @@
 \chapter{Theory of Semigroup and Ring in Agda}
-In early 20th century, mathematician Hilbert proposed the H\textsubscript{10} problem that argues if there exists a useful approach to verify whether a general Diophantine equation is solvable. \cite{larchey2020hilbert}. Although this problem was solved by 1970, In 1987 Siekmann and Szabo concluded that the unification problem of D\textsubscript{A}-rewriting system cannot be predicted. In \cite{deng2016characterizations} the author proposes a type (2,2,0) algebra that is a semigroup that is a general construct of D\textsubscript{A}-rewriting system. Other applications of semigroup in finite automata systems, probability theory and partial differential equations are explored in \cite{liaqat2021some}.\\
+In early 20th century, mathematician Hilbert proposed the H\textsubscript{10}
+problem that argues if there exists a useful approach to verify whether a
+general Diophantine equation is solvable. \cite{larchey2020hilbert}. Although
+this problem was solved by 1970, In 1987 Siekmann and Szabo concluded that the
+unification problem of D\textsubscript{A}-rewriting system cannot be predicted.
+In \cite{deng2016characterizations} the author proposes a type (2,2,0) algebra
+that is a semigroup that is a general construct of D\textsubscript{A}-rewriting
+system. Other applications of semigroup in finite automata systems, probability
+theory and partial differential equations are explored in
+\cite{liaqat2021some}.\\
 
-Ring is an algebraic structure has its applications in various branch if studies. Ring structures are studied in number theory \cite{noauthor_undated-eq}, quantum computing \cite{netto2008influence}, in cryptography \cite{ringcrypt} and many other fields. More variations of rings such as nearring, quasiring, ideal ring are being explored to make ring theory more dynamic, concrete and useable. The aim of this chapter is to define these structures and prove some of the most commonly used properties in the standard library that can help build other systems that uses these structures.
+Ring is an algebraic structure has its applications in various branch if
+studies. Ring structures are studied in number theory
+\cite{noauthor_undated-eq}, quantum computing \cite{netto2008influence}, in
+cryptography \cite{ringcrypt} and many other fields. More variations of rings
+such as nearring, quasiring, ideal ring are being explored to make ring theory
+more dynamic, concrete and useable. The aim of this chapter is to define these
+structures and prove some of the most commonly used properties in the standard
+library that can help build other systems that uses these structures.
 \section{Definition}
-A set that has a binary operation is called Magma. Magma with associative property is called a semigroup. For binary operation \(∙\) on a set S, the associative property is defined as 
+A set that has a binary operation is called Magma. Magma with associative
+property is called a semigroup. For binary operation \(∙\) on a set S, the
+associative property is defined as 
 \begin{equation}
 \forall x y z \in S : x ∙ (y ∙ z) = (x ∙ y) ∙ z.
 \end{equation}
- A semigroup that satisfies commutative property is called commutative semigroup. For binary operation \( ∙ \) on a set S, commutative property is defined as 
+ A semigroup that satisfies commutative property is called commutative
+ semigroup. For binary operation \( ∙ \) on a set S, commutative property is
+ defined as 
 \begin{equation}
 \forall x y \in S : x ∙ y = y ∙ x
 \end{equation}
 The definition of associative and commutative property in Agda.
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-	Associative : Op\textsubscript{2} A → Set _
-	Associative _∙_ = ∀ x y z → ((x ∙ y) ∙ z) ≈ (x ∙ (y ∙ z))
+\begin{minted}[breaklines,samepage]{Agda}
+Associative : Op₂ A → Set _
+Associative _∙_ = ∀ x y z → ((x ∙ y) ∙ z) ≈ (x ∙ (y ∙ z))
 
-	Commutative : Op\textsubscript{2} A → Set _
-	Commutative _∙_ = ∀ x y → (x ∙ y) ≈ (y ∙ x)
-\end{Verbatim}
+Commutative : Op₂ A → Set _
+Commutative _∙_ = ∀ x y → (x ∙ y) ≈ (y ∙ x)
+\end{minted}
 
 The Semigroup structure can be structurally derived from Magma in Agda as 
 
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-	record IsSemigroup (∙ : Op\textsubscript{2} A) : Set (a ⊔ ℓ) where
-	  field
-	    isMagma : IsMagma ∙
-	    assoc   : Associative ∙
-	
-	  open IsMagma isMagma public
-\end{Verbatim}
-Similarly commutative semigroup can be derived from semigroup as
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-	record IsCommutativeSemigroup (∙ : Op\textsubscript{2} A) : Set (a ⊔ ℓ) where
-	  field
-	    isSemigroup : IsSemigroup ∙
-	    comm        : Commutative ∙
-	
-	  open IsSemigroup isSemigroup public
-\end{Verbatim}
-Semigroup and commutative semigroup structure definitions with direct product and morphism constructs were previously defined in agda standard library and hence will not be discussed in details in this chapter.\\
-Non associative ring is an algebraic structure with two binary operations addition and multiplication. Addition is an abelian group and multiplication is unital magma and multiplication distributes over addition. A unital magma is a magma with identity element. 
-\begin{Verbatim}
-record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
-  field
-    +-isAbelianGroup : IsAbelianGroup + 0# -_
-    *-cong           : Congruent₂ *
-    identity         : Identity 1# *
-    distrib          : * DistributesOver +
-    zero             : Zero 0# *
+\begin{minted}[breaklines,samepage]{Agda}
+record IsSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
+field
+  isMagma : IsMagma ∙
+  assoc   : Associative ∙
 
-  open IsAbelianGroup +-isAbelianGroup public
-\end{Verbatim}
+open IsMagma isMagma public
+\end{minted}
+Similarly, commutative semigroup can be derived from semigroup as
+\begin{minted}[breaklines,samepage]{Agda}
+record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
+field
+  isSemigroup : IsSemigroup ∙
+  comm        : Commutative ∙
+
+open IsSemigroup isSemigroup public
+\end{minted}
+Semigroup and commutative semigroup structure definitions with direct product
+and morphism constructs were previously defined in agda standard library and
+hence will not be discussed in details in this chapter.\\
+Non-associative ring is an algebraic structure with two binary operations
+addition and multiplication. Addition is an abelian group and multiplication is
+unital magma and multiplication distributes over addition. A unital magma is a
+magma with identity element. 
+\begin{minted}[breaklines,samepage]{Agda}
+record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
+field
+  +-isAbelianGroup : IsAbelianGroup + 0# -_
+  *-cong           : Congruent₂ *
+  *-identity       : Identity 1# *
+  distrib          : * DistributesOver +
+  zero             : Zero 0# *
+\end{minted}
 
 A quasiring is a type (2,2) algebraic structure for which both addition and multiplication is a monoid and multiplication distributes over addition.
 
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
   field
     +-isMonoid    : IsMonoid + 0#
@@ -66,11 +89,13 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
     zero          : Zero 0# *
 
   open IsMonoid +-isMonoid public
-\end{Verbatim}
+\end{minted}
 
-A quasiring with additive inverse is called a nearring. This implies that for nearring addition is a group and multiplication is a monoid and multiplication distributes over addition.
+A quasiring with additive inverse is called a nearring. This implies that for
+nearring addition is a group and multiplication is a monoid and multiplication
+distributes over addition.
 
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
   field
     isQuasiring : IsQuasiring + * 0# 1#
@@ -78,10 +103,10 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
     ⁻¹-cong     : Congruent₁ _⁻¹
 
   open IsQuasiring isQuasiring public
-\end{Verbatim}
+\end{minted}
 
 Ring without one or rig or ring without unit is an algebraic structure with two binary operations such that addition is an abelian group and multiplication is a semigroup and multiplication distributes over addition Ring is rig with identity.
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ) where
   field
     +-isAbelianGroup : IsAbelianGroup + 0# -_
@@ -91,40 +116,45 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
     zero             : Zero 0# *
 
   open IsAbelianGroup +-isAbelianGroup public
-\end{Verbatim}
+\end{minted}
 \section{Morphism} 
-A structure preserving map between two structures is called morphism. In this section morphism of ring without one is given. Morphisms of other structures that are structurally different from ring without one discussed in this section can be found in agda standard library
-\begin{Verbatim}
-  record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      +-isGroupHomomorphism : +.IsGroupHomomorphism ⟦_⟧
-      *-homo : Homomorphic₂ ⟦_⟧ _*₁_ _*₂_
+A structure preserving map between two structures is called morphism. In this
+section morphism of ring without one is given. Morphisms of other structures
+that are structurally different from ring without one discussed in this section
+can be found in agda standard library
+\begin{minted}[breaklines,samepage]{Agda}
+record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    +-isGroupHomomorphism : +.IsGroupHomomorphism ⟦_⟧
+    *-homo : Homomorphic₂ ⟦_⟧ _*₁_ _*₂_
 
-    open +.IsGroupHomomorphism +-isGroupHomomorphism public
-      renaming (homo to +-homo; ε-homo to 0#-homo;
-		 isMagmaHomomorphism to +-isMagmaHomomorphism)
-\end{Verbatim} 
+  open +.IsGroupHomomorphism +-isGroupHomomorphism public
+    renaming (homo to +-homo; ε-homo to 0#-homo;
+    isMagmaHomomorphism to +-isMagmaHomomorphism)
+\end{minted} 
 A Homomorphism that is injective is called monomorphism 
-\begin{Verbatim}
-  record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
-      injective                    : Injective ⟦_⟧
+\begin{minted}[breaklines,samepage]{Agda}
+record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
+    injective                    : Injective ⟦_⟧
 
-    open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
-\end{Verbatim}
+  open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
+\end{minted}
 A monomorphism that is bijective is called an isomorphism
-\begin{Verbatim}
-  record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
-      injective                    : Injective ⟦_⟧
+\begin{minted}[breaklines,samepage]{Agda}
+record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
+    injective                    : Injective ⟦_⟧
 
-    open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
-\end{Verbatim}
+  open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
+\end{minted}
 \section{Morphism composition}
-If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same structure such that g : b \(\rightarrow\) c then composition of morphism can be defined as g ∘ f : a \(\rightarrow\) c.
-\begin{Verbatim}
+If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same
+structure such that g : b \(\rightarrow\) c then composition of morphism can be
+defined as g ∘ f : a \(\rightarrow\) c.
+\begin{minted}[breaklines,samepage]{Agda}
   isRingWithoutOneHomomorphism
     : IsRingWithoutOneHomomorphism R₁ R₂ f
     → IsRingWithoutOneHomomorphism R₂ R₃ g
@@ -136,11 +166,12 @@ If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same
 		(G.⟦⟧-cong (F.*-homo x y)) (G.*-homo (f x) (f y))
     } where module F = IsRingWithoutOneHomomorphism f-homo;
 		 module G = IsRingWithoutOneHomomorphism g-homo
-\end{Verbatim}
+\end{minted}
 
 \section{Direct Product}
-The direct product M \(\times\) N of two ring without one structures M and N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
-\begin{Verbatim}
+The direct product M \(\times\) N of two ring without one structures M and N is
+defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+\begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
 		RingWithoutOne b ℓ₂ → RingWithoutOne (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 ringWithoutOne R S = record
@@ -159,9 +190,10 @@ ringWithoutOne R S = record
       }
 
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
-\end{Verbatim}
-The direct product M \(\times\) N of two non associative ring a structures M and N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
-\begin{Verbatim}
+\end{minted}
+The direct product M \(\times\) N of two non associative ring a structures M and
+N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+\begin{minted}[breaklines,samepage]{Agda}
 nonAssociativeRing : NonAssociativeRing a ℓ₁ →
 		 NonAssociativeRing b ℓ₂ → NonAssociativeRing (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 nonAssociativeRing R S = record
@@ -181,9 +213,10 @@ nonAssociativeRing R S = record
       }
 
   } where module R = NonAssociativeRing R; module S = NonAssociativeRing S
-\end{Verbatim}
-The direct product M \(\times\) N of two quasiring a structures M and N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
-\begin{Verbatim}
+\end{minted}
+The direct product M \(\times\) N of two quasiring a structures M and N is
+defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+\begin{minted}[breaklines,samepage]{Agda}
 quasiring : Quasiring a ℓ₁ →
 		 Quasiring b ℓ₂ → Quasiring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 quasiring R S = record
@@ -205,9 +238,10 @@ quasiring R S = record
       }
 
   } where module R = Quasiring R; module S = Quasiring S
-\end{Verbatim}
-The direct product M \(\times\) N of two nearring a structures M and N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
-\begin{Verbatim}
+\end{minted}
+The direct product M \(\times\) N of two nearring a structures M and N is
+defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+\begin{minted}[breaklines,samepage]{Agda}
 nearring : Nearring a ℓ₁ → 
 		Nearring b ℓ₂ → Nearring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 nearring R S =  record
@@ -219,9 +253,10 @@ nearring R S =  record
       ; ⁻¹-cong     = map R.⁻¹-cong S.⁻¹-cong
       }
   } where module R = Nearring R; module S = Nearring S
-\end{Verbatim}
+\end{minted}
 \section{Properties}
-This section only provides proof for properties that was contributed by the author and other properties can be found in agda standard library.
+This section only provides proof for properties that was contributed by the
+author and other properties can be found in agda standard library.
 \subsection{Properties of Semigroup}
 Let (S, ∙) be a semigroup then
 \begin{enumerate}
@@ -232,69 +267,73 @@ Let (S, ∙) be a semigroup then
 Proof:
 \begin{enumerate}
 \item
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-alternative\textsuperscript{l} : LeftAlternative _∙_
-alternative\textsuperscript{l} x y = assoc x x y
+\begin{minted}[breaklines,samepage]{Agda}
+alternativeˡ : LeftAlternative _∙_
+alternativeˡ x y = assoc x x y
 
-alternative\textsuperscript{r} : RightAlternative _∙_
-alternative\textsuperscript{r} x y = sym (assoc x y y)
+alternativeʳ : RightAlternative _∙_
+alternativeʳ x y = sym (assoc x y y)
 
 alternative : Alternative _∙_
-alternative = alternative\textsuperscript{l} , alternative\textsuperscript{r}
-\end{Verbatim}
+alternative = alternativeˡ , alternativeʳ
+\end{minted}
  \item
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+ \begin{minted}[breaklines,samepage]{Agda}
 flexible : Flexible _∙_
 flexible x y = assoc x y x
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+\begin{minted}[breaklines,samepage]{Agda}
 xy∙xx≈x∙yxx : ∀ x y → (x ∙ y) ∙ (x ∙ x) ≈ x ∙ (y ∙ (x ∙ x))
 xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
-\end{Verbatim}
+\end{minted}
 \end{enumerate}
 \subsection{Properties of Commutative Semigroup}
 Let (S, ∙) be a commutative semigroup then
 \begin{enumerate}
-\item S is semimedial. The commutative semigroup S is left semimedial if  \( \forall x y z \in S: (x ∙ x) ∙ (y ∙ z) = (x ∙ y) ∙ (x ∙ z) \) and right semimedial if \( \forall x y z \in S: (y ∙ z) ∙ (x ∙ x) = (y ∙ x) ∙ (z ∙ x) \). A structure is semimedial if it is both left and right semimedial. 
-\item S is middle semimedia.  The commutative semigroup S is middle semimedial if  \(\forall x y z  \in S: (x ∙ y) ∙ (z ∙ x) = (x ∙ z) ∙ (y ∙ x)\)
+\item S is semimedial. The commutative semigroup S is left semimedial if  \(
+\forall x y z \in S: (x ∙ x) ∙ (y ∙ z) = (x ∙ y) ∙ (x ∙ z) \) and right
+semimedial if \( \forall x y z \in S: (y ∙ z) ∙ (x ∙ x) = (y ∙ x) ∙ (z ∙ x) \).
+A structure is semimedial if it is both left and right semimedial. 
+\item S is middle semimedia.  The commutative semigroup S is middle semimedial
+if  \(\forall x y z  \in S: (x ∙ y) ∙ (z ∙ x) = (x ∙ z) ∙ (y ∙ x)\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
 \item
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-semimedial\textsuperscript{l} : LeftSemimedial _∙_
-semimedial\textsuperscript{l} x y z = begin
-  (x ∙ x) ∙ (y ∙ z) ≈⟨ assoc x x (y ∙ z) ⟩
-  x ∙ (x ∙ (y ∙ z)) ≈⟨ ∙-cong\textsuperscript{l} (sym (assoc x y z)) ⟩
-  x ∙ ((x ∙ y) ∙ z) ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r} (comm x y)) ⟩
-  x ∙ ((y ∙ x) ∙ z) ≈⟨ ∙-cong\textsuperscript{l} (assoc y x z) ⟩
-  x ∙ (y ∙ (x ∙ z)) ≈⟨ sym (assoc x y ((x ∙ z))) ⟩
-  (x ∙ y) ∙ (x ∙ z) ∎
+\begin{minted}[breaklines,samepage]{Agda}
+semimedialˡ : LeftSemimedial _∙_
+semimedialˡ x y z = begin
+(x ∙ x) ∙ (y ∙ z) ≈⟨ assoc x x (y ∙ z) ⟩
+x ∙ (x ∙ (y ∙ z)) ≈⟨ ∙-congˡ (sym (assoc x y z)) ⟩
+x ∙ ((x ∙ y) ∙ z) ≈⟨ ∙-congˡ (∙-congʳ (comm x y)) ⟩
+x ∙ ((y ∙ x) ∙ z) ≈⟨ ∙-congˡ (assoc y x z) ⟩
+x ∙ (y ∙ (x ∙ z)) ≈⟨ sym (assoc x y ((x ∙ z))) ⟩
+(x ∙ y) ∙ (x ∙ z) ∎
 
-semimedial\textsuperscript{r} : RightSemimedial _∙_
-semimedial\textsuperscript{r} x y z = begin
-  (y ∙ z) ∙ (x ∙ x) ≈⟨ assoc y z (x ∙ x) ⟩
-  y ∙ (z ∙ (x ∙ x)) ≈⟨ ∙-cong\textsuperscript{l} (sym (assoc z x x)) ⟩
-  y ∙ ((z ∙ x) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r} (comm z x)) ⟩
-  y ∙ ((x ∙ z) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} (assoc x z x) ⟩
-  y ∙ (x ∙ (z ∙ x)) ≈⟨ sym (assoc y x ((z ∙ x))) ⟩
-  (y ∙ x) ∙ (z ∙ x) ∎
+semimedialʳ : RightSemimedial _∙_
+semimedialʳ x y z = begin
+(y ∙ z) ∙ (x ∙ x) ≈⟨ assoc y z (x ∙ x) ⟩
+y ∙ (z ∙ (x ∙ x)) ≈⟨ ∙-congˡ (sym (assoc z x x)) ⟩
+y ∙ ((z ∙ x) ∙ x) ≈⟨ ∙-congˡ (∙-congʳ (comm z x)) ⟩
+y ∙ ((x ∙ z) ∙ x) ≈⟨ ∙-congˡ (assoc x z x) ⟩
+y ∙ (x ∙ (z ∙ x)) ≈⟨ sym (assoc y x ((z ∙ x))) ⟩
+(y ∙ x) ∙ (z ∙ x) ∎
 
 semimedial : Semimedial _∙_
-semimedial = semimedial\textsuperscript{l} , semimedial\textsuperscript{r}
-\end{Verbatim}
+semimedial = semimedialˡ , semimedialʳ
+\end{minted}
 \item
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
+\begin{minted}[breaklines,samepage]{Agda}
 middleSemimedial : ∀ x y z → (x ∙ y) ∙ (z ∙ x) ≈ (x ∙ z) ∙ (y ∙ x)
 middleSemimedial x y z = begin
   (x ∙ y) ∙ (z ∙ x) ≈⟨ assoc x y ((z ∙ x)) ⟩
-  x ∙ (y ∙ (z ∙ x)) ≈⟨ ∙-cong\textsuperscript{l} (sym (assoc y z x)) ⟩
-  x ∙ ((y ∙ z) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} (∙-cong\textsuperscript{r} (comm y z)) ⟩
-  x ∙ ((z ∙ y) ∙ x) ≈⟨ ∙-cong\textsuperscript{l} ( assoc z y x) ⟩
+  x ∙ (y ∙ (z ∙ x)) ≈⟨ ∙-congˡ (sym (assoc y z x)) ⟩
+  x ∙ ((y ∙ z) ∙ x) ≈⟨ ∙-congˡ (∙-congʳ (comm y z)) ⟩
+  x ∙ ((z ∙ y) ∙ x) ≈⟨ ∙-congˡ ( assoc z y x) ⟩
   x ∙ (z ∙ (y ∙ x)) ≈⟨ sym (assoc x z ((y ∙ x))) ⟩
   (x ∙ z) ∙ (y ∙ x) ∎
-\end{Verbatim}
+\end{minted}
 \end{enumerate}
 \subsection{Properties of Ring without one}
 Let (R, +, *, -, 0) be ring without one structure then:
@@ -305,7 +344,7 @@ Let (R, +, *, -, 0) be ring without one structure then:
 proof:
 \begin{enumerate}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 -‿distribˡ-* : ∀ x y → - (x * y) ≈ - x * y
 -‿distribˡ-* x y = sym $ begin
   - x * y                        
@@ -324,9 +363,9 @@ proof:
 	≈⟨ +-identityˡ (- (x * y)) ⟩
   - (x * y)                      
 	∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 -‿distribʳ-* : ∀ x y → - (x * y) ≈ x * - y
 -‿distribʳ-* x y = sym $ begin
   x * - y                        
@@ -345,7 +384,7 @@ proof:
 	≈⟨ +-identityʳ (- (x * y)) ⟩
   - (x * y)                      
 	∎
-\end{Verbatim}
+\end{minted}
 \end{enumerate}
 \subsection{Properties of Ring}
 Let (R, +, *, -, 0, 1) be a ring structure then
@@ -358,15 +397,15 @@ Let (R, +, *, -, 0, 1) be a ring structure then
 Proof:
 \begin{enumerate}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 -1*x≈-x : ∀ x → - 1# * x ≈ - x
 -1*x≈-x x = begin
   - 1# * x    ≈⟨ sym (-‿distribˡ-* 1# x ) ⟩
   - (1# * x)  ≈⟨ -‿cong ( *-identityˡ x ) ⟩
   - x         ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x+x≈x⇒x≈0 : ∀ x → x + x ≈ x → x ≈ 0#
 x+x≈x⇒x≈0 x eq = begin
   x ≈⟨ sym(+-identityʳ x) ⟩
@@ -375,21 +414,21 @@ x+x≈x⇒x≈0 x eq = begin
   x + x - x ≈⟨ +-congʳ(eq) ⟩
   x - x ≈⟨ -‿inverseʳ x ⟩
   0# ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x[y-z]≈xy-xz : ∀ x y z → x * (y - z) ≈ x * y - x * z
 x[y-z]≈xy-xz x y z = begin
   x * (y - z)      ≈⟨ distribˡ x y (- z) ⟩
   x * y + x * - z  ≈⟨ +-congˡ (sym (-‿distribʳ-* x z)) ⟩
   x * y - x * z    ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 [y-z]x≈yx-zx : ∀ x y z → (y - z) * x ≈ (y * x) - (z * x)
 [y-z]x≈yx-zx x y z = begin
   (y - z) * x      ≈⟨ distribʳ x y (- z) ⟩
   y * x + - z * x  ≈⟨ +-congˡ (sym (-‿distribˡ-* z x)) ⟩
   y * x - z * x    ∎
-\end{Verbatim}
+\end{minted}
 \end{enumerate}

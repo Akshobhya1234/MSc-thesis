@@ -1,8 +1,23 @@
 \chapter{Theory of Kleene Algebra in Agda}
-Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for his invention of finite automata and regular expressions. Kleene algebras are used in various contexts such as relational algebra, automata and formal theory, design and analysis of algorithms and program analysis and compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes operations from regular expressions. The axiomization of the algebra if regular events was recently proposed in 1966 but it was in 1984, a completeness theorem for relational algebra with a proper subclass of Kleene algebra was given. \cite{kozen1994completeness}. Although there are some differences in axioms of kleene algebra, in this chapter we consider the axioms defined in \cite{kozen1994completeness}
+Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for
+his invention of finite automata and regular expressions. Kleene algebras are
+used in various contexts such as relational algebra, automata and formal theory,
+design and analysis of algorithms and program analysis and compiler optimization
+\cite{kozen1997kleene}. Kleene algebra generalizes operations from regular
+expressions. The axiomization of the algebra if regular events was recently
+proposed in 1966 but it was in 1984, a completeness theorem for relational
+algebra with a proper subclass of Kleene algebra was given.
+\cite{kozen1994completeness}. Although there are some differences in axioms of
+kleene algebra, in this chapter we consider the axioms defined in
+\cite{kozen1994completeness}
 
 \section{Definition}
-A set S with two binary operations + and * generally called addition and multiplication such that (S,+) is a commutative monoid, (S,*) is a monoid and + distributes over * with annhiliating zero is called a semiring. A semiring satisfying idempotent property is called idempotent semiring. A Kleene Algebra over set S is idempotent semiring with \( \star \) operator that satisfies the following axioms.
+A set S with two binary operations + and * generally called addition and
+multiplication such that (S,+) is a commutative monoid, (S,*) is a monoid and +
+distributes over * with annhiliating zero is called a semiring. A semiring
+satisfying idempotent property is called idempotent semiring. A Kleene Algebra
+over set S is idempotent semiring with \( \star \) operator that satisfies the
+following axioms.
 \begin{equation}\label{eq_starrightexpansive}
 1 + (x ∙ (x *)) \leq x *
 \end{equation}
@@ -15,97 +30,77 @@ A set S with two binary operations + and * generally called addition and multipl
 \begin{equation}\label{eq_starrightdestructive}
 \forall a, b, x \in S: \  \text{If} \ b + x  ∙ a \leq x \  \text{then},\  b  ∙ (a *) \leq x
 \end{equation}
-In Agda, strong axioms of \(\star\) are given. That is equivalance is directly given and kleene algebra with partial and pre order structures are defined in Algebra.Ordered hierarchy. 
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-StarRightExpansive : A → Op\textsubscript{2} A → Op\textsubscript{2} A 
-	→ Op\textsubscript{1} A → Set _
+In Agda, strong axioms of \(\star\) are given. That is equivalance is directly
+given and kleene algebra with partial and pre order structures are defined in
+Algebra.Ordered hierarchy. 
+\begin{minted}[breaklines,samepage]{Agda}
+StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
 StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) ≈ (x *)
 
-StarLeftExpansive : A → Op\textsubscript{2} A → Op\textsubscript{2} A
-	 → Op\textsubscript{1} A → Set _
+StarLeftExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
 StarLeftExpansive e _+_ _∙_ _* = ∀ x →  (e + ((x *) ∙ x)) ≈ (x *)
 
-StarLeftDestructive : Op\textsubscript{2} A → Op\textsubscript{2} A
-	 → Op\textsubscript{1} A → Set _
-StarLeftDestructive _+_ _∙_ _* = ∀ a b x → (b + (a ∙ x)) ≈ x 
-	→ ((a *) ∙ b) ≈ x
+StarExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
+StarExpansive e _+_ _∙_ _* = (StarLeftExpansive e _+_ _∙_ _*) × (StarRightExpansive e _+_ _∙_ _*)
 
-StarRightDestructive : Op\textsubscript{2} A → Op\textsubscript{2} A
-	 → Op\textsubscript{1} A → Set _
-StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) ≈ x 
-	→ (b ∙ (a *)) ≈ x
-\end{Verbatim}
+StarLeftDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
+StarLeftDestructive _+_ _∙_ _* = ∀ a b x → (b + (a ∙ x)) ≈ x → ((a *) ∙ b) ≈ x
+
+StarRightDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
+StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) ≈ x → (b ∙ (a *)) ≈ x
+
+StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
+StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
+\end{minted}
 The Kleene algebra can be structurally derived from idempotent semiring. 
-\begin{Verbatim}[commandchars=\\\{\},samepage=true]
-record IsKleeneAlgebra (+ * : Op\textsubscript{2} A) (⋆ : Op\textsubscript{1} A)
-		 (0# 1# : A) : Set (a ⊔ ℓ) where
-  field
-    isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
-    starExpansive         : StarExpansive 1# + * ⋆
-    starDestructive       : StarDestructive + * ⋆
+\begin{minted}[breaklines,samepage]{Agda}
+record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
+field
+  isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
+  starExpansive         : StarExpansive 1# + * ⋆
+  starDestructive       : StarDestructive + * ⋆
 
-  open IsIdempotentSemiring isIdempotentSemiring public
-\end{Verbatim}
+open IsIdempotentSemiring isIdempotentSemiring public
+\end{minted}
 The bundle version of kleene algebra is defined as: 
-\begin{Verbatim}[commandchars=\\\{\}]
+\begin{minted}[breaklines,samepage]{Agda}
 record KleeneAlgebra c ℓ : Set (suc (c ⊔ ℓ)) where
-  infix  8 _⋆
-  infixl 7 _*_
-  infixl 6 _+_
-  infix  4 _≈_
-  field
-    Carrier               : Set c
-    _≈_                   : Rel Carrier ℓ
-    _+_                   : Op₂ Carrier
-    _*_                   : Op₂ Carrier
-    _⋆                    : Op₁ Carrier
-    0#                    : Carrier
-    1#                    : Carrier
-    isKleeneAlgebra       : IsKleeneAlgebra _≈_ _+_ _*_ _⋆ 0# 1#
+infix  8 _⋆
+infixl 7 _*_
+infixl 6 _+_
+infix  4 _≈_
+field
+  Carrier               : Set c
+  _≈_                   : Rel Carrier ℓ
+  _+_                   : Op₂ Carrier
+  _*_                   : Op₂ Carrier
+  _⋆                    : Op₁ Carrier
+  0#                    : Carrier
+  1#                    : Carrier
+  isKleeneAlgebra       : IsKleeneAlgebra _≈_ _+_ _*_ _⋆ 0# 1#
 
-  open IsKleeneAlgebra isKleeneAlgebra public
-
-  idempotentSemiring : IdempotentSemiring _ _
-  idempotentSemiring = record \{ isIdempotentSemiring = isIdempotentSemiring \}
-
-  open IdempotentSemiring idempotentSemiring public
-    using
-    ( _≉_; +-rawMagma; +-magma; +-unitalMagma; +-commutativeMagma
-    ; +-semigroup; +-commutativeSemigroup
-    ; *-rawMagma; *-magma; *-semigroup
-    ; +-rawMonoid; +-monoid; +-commutativeMonoid
-    ; *-rawMonoid; *-monoid
-    ; nearSemiring; semiringWithoutOne
-    ; semiringWithoutAnnihilatingZero
-    ; rawSemiring; semiring
-    )
-\end{Verbatim}
+open IsKleeneAlgebra isKleeneAlgebra public
+\end{minted}
 \section{Direct Product}
-The direct product K \(\times\) L of two kleene algebra structures K and NL is defined as a pair (k,l) where k\(\in\) K and l \(\in\) L.
-\begin{Verbatim}
-kleeneAlgebra : KleeneAlgebra a ℓ\textsubscript{1} 
-	→ KleeneAlgebra b ℓ\textsubscript{2} →
-	 KleeneAlgebra (a ⊔ b) (ℓ\textsubscript{1} ⊔ ℓ\textsubscript{2})
+The direct product K \(\times\) L of two kleene algebra structures K and NL is
+defined as a pair (k,l) where k\(\in\) K and l \(\in\) L.
+\begin{minted}[breaklines,samepage]{Agda}
+kleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 kleeneAlgebra K L = record
   { isKleeneAlgebra = record
-      { isIdempotentSemiring = IdempotentSemiring.isIdempotentSemiring 
-		(idempotentSemiring K.idempotentSemiring L.idempotentSemiring)
+      { isIdempotentSemiring = IdempotentSemiring.isIdempotentSemiring (idempotentSemiring K.idempotentSemiring L.idempotentSemiring)
       ; starExpansive = (λ x → (K.starExpansiveˡ  , L.starExpansiveˡ) <*> x)
                       , (λ x → (K.starExpansiveʳ  , L.starExpansiveʳ) <*> x)
-      ; starDestructive = (λ a b x x₁ →
-		 (K.starDestructiveˡ  , L.starDestructiveˡ)
-		 <*> a <*> b <*> x <*> x₁)
-                        , (λ a b x x₁ → 
-		(K.starDestructiveʳ  , L.starDestructiveʳ)
-		 <*> a <*> b <*> x <*> x₁)
+      ; starDestructive = (λ a b x x₁ → (K.starDestructiveˡ  , L.starDestructiveˡ) <*> a <*> b <*> x <*> x₁)
+                        , (λ a b x x₁ → (K.starDestructiveʳ  , L.starDestructiveʳ) <*> a <*> b <*> x <*> x₁)
       }
   } where module K = KleeneAlgebra K;  module L = KleeneAlgebra L
-\end{Verbatim}
+\end{minted}
 
 \section{Properties}
-In this section we prove some of the properties of Kleene algebra
+In this section we prove some properties of kleene algebra
 
-Let (K, +, *, \(\star\), 0, 1) be a Kleene algebra then:
+Let (K, +, *, \(\star\), 0, 1) be a kleene algebra then:
 \begin{enumerate}
 \item 0⋆ = 1
 \item 1⋆ = 1
@@ -124,16 +119,16 @@ Let (K, +, *, \(\star\), 0, 1) be a Kleene algebra then:
 Proof:
 \begin{enumerate}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 0⋆≈1 : 0# ⋆ ≈ 1#
 0⋆≈1 = begin
   0# ⋆           ≈⟨ sym (starExpansiveˡ 0#) ⟩
   1# + 0# ⋆ * 0# ≈⟨ +-congˡ ( zeroʳ (0# ⋆)) ⟩
   1# + 0#        ≈⟨ +-identityʳ 1# ⟩
   1#             ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 1+11≈1 : 1# + 1# * 1# ≈ 1#
 1+11≈1 = begin
   1# + 1# * 1#  ≈⟨ +-congˡ ( *-identityʳ 1#) ⟩
@@ -145,9 +140,9 @@ Proof:
   1# ⋆       ≈⟨ sym (*-identityʳ (1# ⋆)) ⟩
   1# ⋆ * 1#  ≈⟨ starDestructiveˡ 1# 1# 1# 1+11≈1 ⟩
   1#         ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 1+x⋆≈x⋆ : ∀ x → 1# + x ⋆ ≈ x ⋆
 1+x⋆≈x⋆ x = sym (begin
   x ⋆                   ≈⟨ sym (starExpansiveʳ x) ⟩
@@ -155,9 +150,9 @@ Proof:
   1# + 1# + x * x ⋆     ≈⟨ +-assoc 1# 1# ((x * x ⋆ )) ⟩
   1# + (1# + x * x ⋆)   ≈⟨ +-congˡ (starExpansiveʳ x) ⟩
   1# + x ⋆              ∎)
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x⋆+xx⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ ≈ x ⋆
 x⋆+xx⋆≈x⋆ x = begin
   x ⋆ + x * x ⋆         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
@@ -166,9 +161,9 @@ x⋆+xx⋆≈x⋆ x = begin
   x ⋆ + (1# + x * x ⋆)  ≈⟨ +-congˡ (starExpansiveʳ x) ⟩
   x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
   x ⋆                   ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
 x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
@@ -177,9 +172,9 @@ x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + (1# + x ⋆ * x)  ≈⟨ +-congˡ (starExpansiveˡ x) ⟩
   x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
   x ⋆                   ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
 x+x⋆≈x⋆ x = begin
   x + x ⋆                  ≈⟨ +-congˡ (sym (starExpansiveʳ x)) ⟩
@@ -191,32 +186,32 @@ x+x⋆≈x⋆ x = begin
   1# + x * (1# + x ⋆)      ≈⟨ +-congˡ (*-congˡ (1+x⋆≈x⋆ x)) ⟩
   1# + x * x ⋆             ≈⟨ (starExpansiveʳ x) ⟩
   x ⋆                      ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
 1+x+x⋆≈x⋆ x = begin
   1# + x + x ⋆    ≈⟨ +-assoc 1# x (x ⋆) ⟩
   1# + (x + x ⋆)  ≈⟨ +-congˡ (x+x⋆≈x⋆ x) ⟩
   1# + x ⋆        ≈⟨ 1+x⋆≈x⋆ x ⟩
   x ⋆             ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 0+x+x⋆≈x⋆ : ∀ x → 0# + x + x ⋆ ≈ x ⋆
 0+x+x⋆≈x⋆ x = begin
   0# + x + x ⋆    ≈⟨ +-assoc 0# x (x ⋆) ⟩
   0# + (x + x ⋆)  ≈⟨ +-identityˡ ((x + x ⋆)) ⟩
   (x + x ⋆)       ≈⟨ x+x⋆≈x⋆ x ⟩
   x ⋆             ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x⋆x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ ≈ x ⋆
 x⋆x⋆≈x⋆ x = starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆≈x⋆ x)
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 1+x⋆x⋆≈x⋆ : ∀ x → 1# + x ⋆ * x ⋆ ≈ x ⋆
 1+x⋆x⋆≈x⋆ x = begin
   1# + x ⋆ * x ⋆  ≈⟨ +-congˡ (x⋆x⋆≈x⋆ x) ⟩
@@ -228,9 +223,9 @@ x⋆⋆≈x⋆ x = begin
   (x ⋆) ⋆        ≈⟨ sym (*-identityʳ ((x ⋆) ⋆)) ⟩
   (x ⋆) ⋆ * 1#   ≈⟨ starDestructiveˡ (x ⋆) 1# (x ⋆) (1+x⋆x⋆≈x⋆ x) ⟩
   x ⋆            ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈  y → 1# + x * y ⋆ ≈ y ⋆
 x≈y⇒1+xy⋆≈y⋆ x y eq = begin
   1# + x * y ⋆  ≈⟨ +-congˡ (*-congʳ (eq)) ⟩
@@ -242,9 +237,9 @@ x≈y⇒x⋆≈y⋆ x y eq = begin
   x ⋆       ≈⟨ sym (*-identityʳ (x ⋆)) ⟩
   x ⋆ * 1#  ≈⟨ (starDestructiveˡ x 1# (y ⋆) (x≈y⇒1+xy⋆≈y⋆ x y eq)) ⟩
   y ⋆       ∎
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 ax≈xb⇒x+axb⋆≈xb⋆ : ∀ x a b → 
 	a * x ≈ x * b → x + a * (x * b ⋆) ≈ x * b ⋆
 ax≈xb⇒x+axb⋆≈xb⋆ x a b eq = begin
@@ -259,10 +254,10 @@ ax≈xb⇒x+axb⋆≈xb⋆ x a b eq = begin
 ax≈xb⇒a⋆x≈xb⋆ : ∀ x a b → a * x ≈ x * b → a ⋆ * x ≈ x * b ⋆
 ax≈xb⇒a⋆x≈xb⋆ x a b eq = 
 	starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆≈xb⋆ x a b eq)
-\end{Verbatim}
+\end{minted}
 \item
-\begin{Verbatim}
+\begin{minted}[breaklines,samepage]{Agda}
 [xy]⋆x≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x ≈ x * (y * x) ⋆
 [xy]⋆x≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
-\end{Verbatim}
+\end{minted}
 \end{enumerate}

@@ -1,0 +1,10 @@
+build/
+.vscode/
+Thesis_Main.aux
+Thesis_Main.fdb_latexmk
+Thesis_Main.fls
+Thesis_Main.log
+Thesis_Main.pyg
+
+
+
