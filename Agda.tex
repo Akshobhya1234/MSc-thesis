@@ -1,78 +1,87 @@
 \chapter{Agda}
-Agda is a dependently typed programming. Agda is pure in the sense that the
-functions have no effect and does not use state. Agda uses lazy evaluation. That
-is the expressions are not evaluated until they are needed. Therefore, in Agda,
-the order of evaluation is hard to predict. Strict evaluation is to evaluate all
-arguments to the function before evaluating the function. Since Agda is lazy,
-both strict and lazy evaluation will give the same output
-\cite{kidney2020finiteness} Agda is total. A function in agda gives output in a
-finite amount of time for a valid input.\\
+Agda is a dependently typed programming language. Agda is pure i.e., the
+functions have no effect and does not use state and uses lazy evaluation i.e.,
+the expressions are not evaluated until they are needed. Therefore, in Agda, the
+order of evaluation is hard to predict. Since Agda is lazy, both strict and lazy
+evaluation will give the same output \cite{kidney2020finiteness}. Strict
+evaluation is to evaluate all arguments to the function before evaluating the
+function. Therefore, a function in agda gives output in a finite amount of time
+for a valid input. Agda enforces all functions to be total and does not allow it
+to be undefined. \\
 The process of validating and imposing constraints on values is called type
-checking. Agda can be compiled to haskell or javascript but it is only type
-checked, so it can be used as a proof assistant. Agda is based on unified theory
-of dependent types \cite{enwiki:1127496533} hence the program written in Agda is
-in line with the Martin-Löf Type Theory \cite{kidney2020finiteness}. This
-chapter provides a brief overview of programming in Agda in the context of
-algebraic structures. 
+checking. Agda is based on unified theory of dependent types
+\cite{enwiki:1127496533} hence the program written in Agda is in line with the
+Martin-Löf Type Theory that the Curry Howard Correspondence hold
+\cite{kidney2020finiteness}. Agda can be compiled to haskell or javascript but
+it is only type checked, so it can be used as a proof assistant. This chapter
+provides a brief overview of programming in Agda in the context of algebraic
+structures. 
 
 \section{Types and functions}
-Agda provides logical framework in the sense that the core of Agda provides a
-framework that gives the type Set and dependent functions (x : A)
-\(\rightarrow\) B. Agda supports inductive
-types.\cite{10.1007/978-3-642-03359-9_6}. Agda provides simple types and
-parameter types. These data types are declared using the keyword data.
-
+Agda provides a logical framework that gives the type \inline{Set} and dependent
+functions \inline{(x : A) -> B}. Agda supports inductive types, simple types,
+and parameterized types \cite{10.1007/978-3-642-03359-9_6}. These data types are
+declared using the keyword \inline{data}.
+\label{code:Nat}
 \begin{minted}{Agda}
 data Nat : Set where
   zero : Nat
   suc  : Nat -> Nat
 \end{minted}
 
-In the above example, \inline{Nat} is the data type that has two constructors \inline{zero} and
-\inline{suc}. Constructor are used to assign values to the variables in the type. This
-type is called inductive type. In this example, the smallest set is a set
-containing an element \inline{zero} and is closed under the function \inline{suc}. Since the
-properties of this function can be proved inductively, the type is called
-inductive type\cite{enwiki:1127496533}. The datatype can have parameters
-and	can be indexed.  
-Another way of defining a type is using the keyword \inline{record}. A record type can be
-defined by referencing other types and creating a synonym. An example of record
-type is discussed later in the chapter when we define the algebraic structure.\\
+In the code snippet \ref{code:Nat}, \inline{Nat} is an inductive defined with
+base constant \inline{zero} and an inductive data constructor \inline{suc}.
+Inductive data type have list of values, which might have parameters themselves.
+Those values are called "constructors", and again they can have parameters
+themselves. Here, both \inline{zero} and \inline{suc} are constructors, where
+\inline{suc} has a parameter (\inline{Nat}) but not \inline{zero}. In this
+example, the smallest element \inline{zero} is closed under the function
+\inline{suc}. Since the properties of this function can be proved inductively,
+the type is called inductive type. Data types are called inductive types when
+they form inductive sets, and inductive sets are partially ordered sets
+\cite{enwiki:1142884446} where the inductive hypothesis
+holds\cite{enwiki:1127496533}. \\
+Another way of defining a type is using the keyword \inline{record}. A record
+type can be defined by referencing other types and creating a synonym. A record
+type is an inductive data type with single constructor and named components for
+the parameters or arguments. An example of record type is discussed later in the
+chapter when we define algebraic structure.\\
 Since types are values in Agda, there is no real way to distinguish between
-them. If \inline{bool} is a simple type or type\textsubscript{0}, then what is the type
-of type\textsubscript{0}? Note that this is similar to the Rusell's paradox that
-is discussed in previous chapter. Agda uses universe polymorphism to resolve
-this issue. That is the type of \inline{true} is Bool and its type is
-type\textsubscript{0}. The type of  type\textsubscript{0} is
-type\textsubscript{1} and so on. \cite{kidney2020finiteness}.\\
+them. If \inline{bool} is a simple type\footnote{A simple type represents a
+single value} i.e., type\textsubscript{0}, then what is the type of
+type\textsubscript{0}?. Agda uses universe polymorphism to resolve this issue.
+That is the type of \inline{true} is Bool and its type is type\textsubscript{0}.
+The type of type\textsubscript{0} is type\textsubscript{1} and so on.
+\cite{kidney2020finiteness}.\\
 Similarly, in Agda not every type is a set and the set type can be defined using
-keyword Set\textsubscript{1}. "A type whose elements are types are called
-universe" \cite{universeagda}. This primitive type is useful to define and prove
-theorems about functions that operate on large set.\\
+keyword Set\textsubscript{1}. A type whose elements are types are called
+universe \cite{universeagda}. This primitive (or simple) type is useful to
+define and prove theorems about functions that operate on the set.\\
 
-The functions in Agda are very similar to function in Haskell. A function in Agda
-is defined by declaring the type followed by the clauses \cite{agdaFunction}. 
+Those familiar with Haskell will find Agda to be somewhat familiar. For example,
+functions have a very similar syntax to those in Haskell. A function in Agda is
+defined by declaring the type followed by the clauses \cite{agdaFunction}. 
 \begin{minted}{Agda}
-f : (x₁ : A₁) → … → (xₙ : Aₙ) → B
+f : (x₁ : A₁) → ... → (xₙ : Aₙ) → B
 f p₁ … pₙ = d
-…
+...
 f q₁ … qₙ = e
 \end{minted} 
-Where f is the function identified, p\textsubscript{i} and q\textsubscript{i}
-are the patterns of type A\textsubscript{i}. d and e are expressions. The agda
-documentation discuss other techniques to define a function such as using dot
-patterns, absurd patterns, as patterns and case trees \cite{agdaFunction}.\\
+Where \inline{f} is the function identified, \inline{p} and \inline{q} are the
+patterns of type \inline{A}. \inline{d} and \inline{e} are expressions. There
+are other ways to define a function such as using dot patterns, absurd patterns,
+as patterns and case trees \cite{agdaFunction}.\\
 
-An operator in agda is also defined as a function. Underscore is used to
-indicate where an argument is expected. For example, \inline{and} operator can be defined as 
+Functions are operations with a prefix syntax. The infix notations for the
+functions/operations can be defined by using underscores in the function to
+denote the parameters or arguments. For example, we can define \inline{and} as:
 \begin{minted}{Agda}
 _and_ : Bool → Bool → Bool
 true and x = x
 false and _ = false
 \end{minted}
-
-In context of algebra, agda defines unary \inline{Op₁} and binary
-\inline{Op₂} operations.
+Agda standard library defines unary \inline{Op₁} and binary
+\inline{Op₂} operations as:
 \begin{minted}{Agda}
 Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
 Op₁ A = A → A
@@ -86,7 +95,7 @@ Op₂ A = A → A → A
 Algebraic structures are defined as record types in Agda. Records types are used
 to group values together, and they provide named fields to generalize dependent
 product types. The structures are obtained by wrapping the predicates that are
-expressed as \inline{is-a} relation. ~\citep{hu2021formalizing}
+expressed as "is-a relation~\citep{hu2021formalizing}.
 \begin{minted}{Agda}
 record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
   field
@@ -97,21 +106,19 @@ record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 \end{minted}
 In the above example structure \inline{IsMagma} is defined as a record type with
 fields \inline{isEquivalence} and \inline{∙-cong}. \inline{∙} is a binary
-operation on set \inline{A}. \inline{a ⊔ ℓ} is the least upper bound for the
+operation on the set \inline{A}. \inline{a ⊔ ℓ} is the least upper bound for the
 set. \textunderscore  ≈ \textunderscore is the binary operation argument for
 \inline{IsEquivalence}. If a relation P on set A is equivalent to relation Q on
 set B, then we say f preserves p for some map f from set A to B.
 \inline{Congruent₂ ∙} represents that the binary operation ∙ preserves
 equivalence relation. \inline{IsEquivalence} and \inline{Congruent₂} are
 predicates defined in standard library.\\
-We open the module \inline{isEquivalence} to be able to use it in defining other
+We open the module \inline{isEquivalence} to be able to use it when defining other
 structures in the algebra hierarchy. The open statement is made public using the
 keyword \inline{public} to be able to re-export the names from another module.
-Morphisms of the structure are defined as record type in Agda standard library
-and the example are shown in Chapter 5.
 
-Agda standard library defines the bundled version of the structures that
-contains the operations of the structures, sets and axioms. 
+The bundled version of the structures contains the operations of the structures,
+sets and axioms. 
 \begin{minted}{Agda}
 record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
@@ -132,9 +139,12 @@ record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
 \end{minted}
 Above is the bundled version of \inline{IsMagma} structure. \inline{RawMagma} is
 the raw version of the magma with only the operators and set. infix<l,r> denotes
-the fixity and precedence of the operator. \inline{using} keyword is used to
-export only the fields that are mentioned in its arguments. When exporting the
-modules we may need to rename the fields to avoid having duplicate names.
+the fixity and precedence of the operator. The operator with higher fixity binds
+more strongly than an operator with a lower numeric value. \inline{using}
+keyword is used to limit the imported components. When exporting the modules, we
+may need to rename the fields to avoid having ambiguity. Keyword
+\inline{renaming} is used to rename the fields.
+\label{code:rename}
 \begin{minted}{Agda}
   open IsMagma *-isMagma public
     using ()
@@ -143,52 +153,52 @@ modules we may need to rename the fields to avoid having duplicate names.
     ; ∙-congʳ  to *-congʳ
     )
 \end{minted} 
-Keyword \inline{renaming} is used to rename the fields. In the above sample code, we
-rename \inline{∙-congˡ}  to \inline{*-congˡ} and \inline{∙-congʳ}  to \inline{*-congʳ}.
+In the sample code ~\ref{code:rename}, we rename \inline{∙-congˡ}  to \inline{*-congˡ}
+and \inline{∙-congʳ}  to \inline{*-congʳ} thus avoiding conflict with same
+elements exported by other module.
 
-\subsection{Equational Proofs in Agda}
-In the Russell's paradox discussed in the previous sections, if a theorem is to
-be proved, we need to use the axiom that is the theorem itself. To overcome this
-Dutch mathematician L. E. J. Brouwer discovered intuitionism that led to
-constructive mathematics \cite{enwiki:1122615242}. In constructive mathematics,
-knowledge comes with implicit arguments. Constructive proofs use the existence
-of a mathematical object is given by giving a way to create the method.
-\cite{enwiki:1090644431}. In agda, a function to and from each type is
-provided if there is a bijection between two types. Dependently typed language
-agda thus allow to compile and run proofs \cite{kidney2020finiteness}.  
-In Agda, \inline{begin} is used to indicate the start of the proof. \inline{begin} is a
-function that relates two objects. 
-\begin{minted}{Agda}
-begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
-begin relTo x∼y = x∼y
-\end{minted}
-\inline{IsRelatedTo} is a type defined to infer arguments even if the underlying equality
-evaluates. Standard step to relation is defined as \inline{step-∼}
-\begin{minted}{Agda}
-step-∼ : ∀ x {y z} → y IsRelatedTo z → x ∼ y → x IsRelatedTo z
-step-∼ _ (relTo y∼z) x∼y = relTo (trans x∼y y∼z)
-\end{minted}
-step using equality is given as
-\begin{minted}{Agda}
-step-≈ = Base.step-∼
-syntax step-≈ x y≈z x≈y = x ≈⟨ x≈y ⟩ y≈z
-\end{minted}
-The termination of the proof is given using \inline{_∎}
-\begin{minted}{Agda}
-_∎ : ∀ x → x IsRelatedTo x
-x ∎ = relTo refl
-\end{minted}
-Agda supports quantifiers. Universal quantifier is denoted as \(\forall\) and
-existential quantifier is denoted as \(\exists\) 
+\section{Equational Proofs in Agda}
+Dutch mathematician L. E. J. Brouwer discovered intuitionism to over come
+Russell's paradox and that led to constructive mathematics \cite{enwiki:1122615242}.
+In constructive mathematics, knowledge comes with implicit arguments.
+Constructive proofs use the existence of a mathematical object is given by
+giving a way to create the method. \cite{enwiki:1090644431}. In agda, a function
+to and from each type is provided if there is a bijection between two types.
+Agda thus allow us to check proofs through compilation and type-checking.
+\cite{kidney2020finiteness}.  
 
-Below is the example to the proposition x ∙ (y ∙ z) = (x ∙ y) ∙ z  for a
-semigroup i.e., a Magma with associative property (x ∙ (y ∙ z) = (x ∙ y) ∙ z) 
+Consider the example to the proposition of the associative property x ∙ (y ∙ z)
+= (x ∙ y) ∙ z  for a semigroup i.e., a Magma with associative property (x ∙ (y ∙
+z) = (x ∙ y) ∙ z). Tje proof can be written in Agda as:
 \begin{minted}{Agda}
 x∙yz≈xy∙z : ∀ x y z → x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z
 x∙yz≈xy∙z x y z = begin 
   x ∙ (y ∙ z) ≈⟨ sym (assoc x y z) ⟩ 
   (x ∙ y) ∙ z ∎
 \end{minted}
-In the proposition x y z are in set S that is a semigroup. \inline{sym (assoc x y z)}
-is the reasoning for the proof. 
+To make proofs more readable, people have tried to emulate textual proofs, for
+example, by creating "begin" and "end" syntax. \inline{begin} indicates the start
+of the proof. \inline{begin} is a function that relates two objects.
+\begin{minted}{Agda}
+begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
+begin relTo x∼y = x∼y
+\end{minted}
+\inline{IsRelatedTo} is a type defined to infer arguments even if the underlying equality
+evaluates. Standard step to relation is defined as \inline{step-∼}.
+\begin{minted}{Agda}
+step-∼ : ∀ x {y z} → y IsRelatedTo z → x ∼ y → x IsRelatedTo z
+step-∼ _ (relTo y∼z) x∼y = relTo (trans x∼y y∼z)
+\end{minted}
+similarly, step using equality is given as
+\begin{minted}{Agda}
+step-≈ = Base.step-∼
+syntax step-≈ x y≈z x≈y = x ≈⟨ x≈y ⟩ y≈z
+\end{minted}
+The termination (i.e., QED) of the proof is given using \inline{_∎} that relates object to itself.
+\begin{minted}{Agda}
+_∎ : ∀ x → x IsRelatedTo x
+x ∎ = relTo refl
+\end{minted}
+Agda supports quantifiers. Universal quantifier is denoted as \(\forall\) and
+existential quantifier is denoted as \(\exists\). In the example universal quantifier is used.
 
