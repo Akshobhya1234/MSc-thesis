@@ -3,47 +3,51 @@ Applications of non-associative algebras are explored in various fields of
 study. For example, Einstein's formula of addition of velocities gives a loop
 structure \cite{ungar2007einstein}. Quasigroups of various orders are used in
 field of cryptography \cite{phillips2010automated}. Lie algebra is used in
-differential geometry\cite{quasigroupWiki}. Proof assistant systems such as Agda
-are helpful in verifying some properties of these structures. They are
-interactive software that help to derive complex mathematical proofs. In this
-chapter we formalize two important non-associative algebras - quasigroup, loop
-structure. A Quasigroup (Q, ∙, /, \textbackslash ) is a type (2,2,2) algebra for
-which the binary operations \textbackslash  and / are defined such that division
-is always possible.  A loop is a quasigroup with identity. We explore morphisms
-and direct product for these structures and derive proofs for some of the
-properties of these structures.
-\section{Definition}
+differential geometry\cite{quasigroupWiki}. With proof assistants, such as Agda,
+we can verify the relevant mathematical proofs of these algebraic structures.
+They are interactive software that help to derive complex mathematical proofs.
+In this chapter, we formalize two important non-associative algebras -
+quasigroup, and loop structure. A \textit{quasigroup} (Q, ∙, /, \textbackslash )
+is a type (2,2,2) algebra for which the binary operations \textbackslash (left
+division) and / (right division) are defined such that division is always
+possible.  A \textit{loop} is a quasigroup with identity. In this chapter, we
+explore morphisms and direct product for these structures and derive proofs for
+some of the properties of these structures.
+\section{Definitions}
 A set that has a binary operation is called Magma. In this case a Magma is total
-and should not be confused with groupoid that need not be total.  Left and
-division is defined with identities.
+and should not be confused with groupoid that need not be total. A quasigroup
+can be defined as a magma with left and right division identities.
 \begin{equation} \label{eq_L-leftdivides}
-y = x ∙ (x \textbackslash{} y)
+y\ =\ x\ ∙\ (x\ \textbackslash{}\ y)
 \end{equation}
 \begin{equation} \label{eq_L-rightdivides}
-y = x \textbackslash{} (x ∙ y)
+y\ =\ x\ \textbackslash{}\ (x\ ∙\ y)
 \end{equation}
 \begin{equation} \label{eq_R-leftdivides}
-y = (y / x) ∙ x
+y\ =\ (y\ /\ x)\ ∙\ x
 \end{equation}
 \begin{equation} \label{eq_Rirightdivides}
-y = (y ∙ x) / x
+y\ =\ (y\ ∙\ x)\ /\ x
 \end{equation}
-The Agda definition is given below
+Conversely, in Agda, we may write this as:
 \begin{minted}[samepage]{Agda}
 LeftDividesˡ : Op₂ A → Op₂ A → Set _
 LeftDividesˡ _∙_  _\\_ = ∀ x y → (x ∙ (x \\ y)) ≈ y
-
+\end{minted}
+\begin{minted}[samepage]{Agda}
 LeftDividesʳ : Op₂ A → Op₂ A → Set _
 LeftDividesʳ _∙_ _\\_ = ∀ x y → (x \\ (x ∙ y)) ≈ y
-
+\end{minted}
+\begin{minted}[samepage]{Agda}
 RightDividesˡ : Op₂ A → Op₂ A → Set _
 RightDividesˡ _∙_ _//_ = ∀ x y → ((y // x) ∙ x) ≈ y
-
+\end{minted}
+\begin{minted}[samepage]{Agda}
 RightDividesʳ : Op₂ A → Op₂ A → Set _
 RightDividesʳ _∙_ _//_ = ∀ x y → ((y ∙ x) // x) ≈ y
 \end{minted}
 
-We can combine the left and right division as follows
+Afterwards, we can form left and right divisions as:
 
 \begin{minted}[samepage]{Agda}
 LeftDivides : Op₂ A → Op₂ A → Set _
@@ -54,10 +58,10 @@ RightDivides ∙ // = (RightDividesˡ ∙ //) × (RightDividesʳ ∙ //)
 \end{minted}
 
 Note that we use // and \textbackslash\textbackslash instead of / and
-\textbackslash respectively to overcome the conflict with overloaded or escape
+\textbackslash \ respectively to overcome the conflict with overloaded or escape
 characters. 
 
-The Quasigroup structure can be structurally derived from Magma in Agda as 
+The Quasigroup structure can be structurally derived from Magma in Agda as:
 
 \begin{minted}[samepage]{Agda}
 record IsQuasigroup (∙ \\ // : Op₂ A) : Set (a ⊔ ℓ) where
@@ -70,35 +74,10 @@ field
 
 open IsMagma isMagma public
 \end{minted}
-\begin{comment}
-  \textbackslash\textbackslash-cong\textsuperscript{l} : LeftCongruent \textbackslash\textbackslash
-  \textbackslash\textbackslash-cong\textsuperscript{l} y≈z = \textbackslash\textbackslash-cong refl y≈z
-
-  \textbackslash\textbackslash-cong\textsuperscript{r} : RightCongruent \textbackslash\textbackslash
-  \textbackslash\textbackslash-cong\textsuperscript{r} y≈z = \textbackslash\textbackslash-cong y≈z refl
-
-  //-cong\textsuperscript{l} : LeftCongruent //
-  //-cong\textsuperscript{l} y≈z = //-cong refl y≈z
-
-  //-cong\textsuperscript{r} : RightCongruent //
-  //-cong\textsuperscript{r} y≈z = //-cong y≈z refl
-
-  leftDivides\textsuperscript{l} : LeftDivides\textsuperscript{l} ∙ \textbackslash\textbackslash
-  leftDivides\textsuperscript{l} = proj\textsubscript{1} leftDivides
-
-  leftDivides\textsuperscript{r} : LeftDivides\textsuperscript{r} ∙ \textbackslash\textbackslash
-  leftDivides\textsuperscript{r} = proj\textsubscript{2} leftDivides
-
-  rightDivides\textsuperscript{l} : RightDivides\textsuperscript{l} ∙ //
-  rightDivides\textsuperscript{l} = proj\textsubscript{1} rightDivides
-
-  rightDivides\textsuperscript{r} : RightDivides\textsuperscript{r} ∙ //
-  rightDivides\textsuperscript{r} = proj\textsubscript{2} rightDivides
-\end{comment}
 
 A loop is a quasigroup that has identity element.
 \begin{equation}\label{eq_lineslope}
-x ∙ e = e ∙ x = x
+x\ ∙\ e\ =\ e\ ∙\ x\ =\ x
 \end{equation}
 
 \begin{minted}[samepage]{Agda}
@@ -123,42 +102,36 @@ field
 open IsQuasigroup isQuasigroup public
 \end{minted}
 
-\begin{comment}
-  identity\textsuperscript{l} : LeftIdentity ε ∙
-  identity\textsuperscript{l} = proj\textsubscript{1} identity
-
-  identity\textsuperscript{r} : RightIdentity ε ∙
-  identity\textsuperscript{r} = proj\textsubscript{2} identity
-\end{comment}
-
-A loop is called a right bol loop if it satisfies the identity
+A loop is called a \textit{right bol loop} if it satisfies the identity
 (Equation~\ref{eq_rightbol})
 \begin{equation}\label{eq_rightbol}
- ((z ∙ x) ∙ y) ∙ x = z ∙ ((x ∙ y) ∙ x)
+ ((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)
 \end{equation}
-A loop is called a left bol loop if it satisfies the identity
+A loop is called a \textit{left bol loop} if it satisfies the identity
 (Equation~\ref{eq_leftbol})
 \begin{equation}\label{eq_leftbol}
- x ∙ (y ∙ (x ∙ z)) = (x ∙ (y ∙ x)) ∙ z
+ x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z
 \end{equation}
-A loop is called middle bol loop if it satisfies the identity
+A loop is called \textit{middle bol loop} if it satisfies the identity
 (Equation~\ref{eq_middlebol}) 
 \begin{equation}\label{eq_middlebol}
-(z ∙ x) ∙ (y ∙ z) = z ∙ ((x ∙ y) ∙ z)
+(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)
 \end{equation}
-A left-right bol loop is called a moufang loop if it satisfies identity
+A left-right bol loop is called a \textit{moufang loop} if it satisfies identity
 (Equation~\ref{eq_moufang})
 \begin{equation}\label{eq_moufang}
-(z ∙ x) ∙ (y ∙ z) = z ∙ ((x ∙ y) ∙ z)
+(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)
 \end{equation} 
 
-\begin{minted}[samepage]{Agda}
+\begin{minted}[breaklines,samepage]{Agda}
 LeftBol : Op₂ A → Set _
 LeftBol _∙_ = ∀ x y z → (x ∙ (y ∙ (x ∙ z))) ≈ ((x ∙ (y ∙ x)) ∙ z )
-
+\end{minted}
+\begin{minted}[breaklines,samepage]{Agda}
 RightBol : Op₂ A → Set _
 RightBol _∙_ = ∀ x y z → (((z ∙ x) ∙ y) ∙ x) ≈ (z ∙ ((x ∙ y) ∙ x))
-
+\end{minted}
+\begin{minted}[breaklines,samepage]{Agda}
 MiddleBol : Op₂ A → Op₂ A  → Op₂ A  → Set _
 MiddleBol _∙_ _\\_ _//_ = ∀ x y z → (x ∙ ((y ∙ z) \\ x)) ≈ ((x // z) ∙ (y \\ x))
 \end{minted}
@@ -169,30 +142,13 @@ Identical _∙_ = ∀ x y z → ((z ∙ x) ∙ (y ∙ z)) ≈ (z ∙ ((x ∙ y) 
 
 \section{Morphism}
 A structure preserving map f between two structures of same type is called
-morphism or homomorphism. That is f : \(A \ \rightarrow \  B\) and ∙ is an operation
-on the structure then homomorphism is defined as \[f(x\  ∙ \  y) \ = \ f(x) \ ∙ \  f(y)\] A
-homomorphism that is injective is called monomorphism. If the structures are
-identical i.e., they are more than just similar in structure then we can
-compare the structures with isomorphism. A homomorphism that is bijective is
-called isomorphism. The quasigroup homomorphism preserves both left and right
-division operations.
-\begin{comment}
-module QuasigroupMorphisms (Q\textsubscript{1} : RawQuasigroup a ℓ\textsubscript{1}) (Q\textsubscript{2} : RawQuasigroup b ℓ\textsubscript{2}) where
-
-  open RawQuasigroup Q\textsubscript{1} renaming (Carrier to A; ∙-rawMagma to ∙-rawMagma\textsubscript{1};
-                                  \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{1}; //-rawMagma to //-rawMagma\textsubscript{1};
-                                  _≈_ to _≈\textsubscript{1}_; _∙_ to _∙\textsubscript{1}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{1}_; _//_ to _//\textsubscript{1}_)
-  open RawQuasigroup Q\textsubscript{2} renaming (Carrier to B; ∙-rawMagma to ∙-rawMagma\textsubscript{2};
-                                  \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{2}; //-rawMagma to //-rawMagma\textsubscript{2};
-                                  _≈_ to _≈\textsubscript{2}_; _∙_ to _∙\textsubscript{2}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{2}_; _//_ to _//\textsubscript{2}_)
-
-  module ∙  = MagmaMorphisms ∙-rawMagma\textsubscript{1} ∙-rawMagma\textsubscript{2}
-  module \textbackslash\textbackslash = MagmaMorphisms \textbackslash\textbackslash-rawMagma\textsubscript{1} \textbackslash\textbackslash-rawMagma\textsubscript{2}
-  module // = MagmaMorphisms //-rawMagma\textsubscript{1} //-rawMagma\textsubscript{2}
-
-  open MorphismDefinitions A B _≈\textsubscript{2}_
-  open FunctionDefinitions _≈\textsubscript{1}_ _≈\textsubscript{2}_
-\end{comment}
+\textit{morphism} or homomorphism in general. That is \(f\) : \(A \ \rightarrow \
+B\) and ∙ is an operation on the structure then homomorphism is defined as
+\[f(x\  ∙ \  y) \ = \ f(x) \ ∙ \  f(y)\] A homomorphism that is injective is
+called \textit{monomorphism}. If the structures are identical i.e., they are
+more than just similar in structure then we can compare the structures with
+isomorphism. A homomorphism that is bijective is called \textit{isomorphism}.
+The quasigroup homomorphism preserves both left and right division operations.
 \begin{minted}[samepage]{Agda}
 record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -204,26 +160,6 @@ record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
   open IsRelHomomorphism isRelHomomorphism public
     renaming (cong to ⟦⟧-cong)
 \end{minted}
-\begin{comment}
-    ∙-isMagmaHomomorphism : ∙.IsMagmaHomomorphism ⟦_⟧
-    ∙-isMagmaHomomorphism = record
-      \{ isRelHomomorphism = isRelHomomorphism
-      ; homo = ∙-homo
-      \}
-
-    \textbackslash\textbackslash-isMagmaHomomorphism : \textbackslash\textbackslash.IsMagmaHomomorphism ⟦_⟧
-    \textbackslash\textbackslash-isMagmaHomomorphism = record
-      \{ isRelHomomorphism  = isRelHomomorphism
-      ; homo = \textbackslash\textbackslash-homo
-      \}
-
-    //-isMagmaHomomorphism : //.IsMagmaHomomorphism ⟦_⟧
-    //-isMagmaHomomorphism = record
-      \{ isRelHomomorphism  = isRelHomomorphism
-      ; homo = //-homo
-      \}
-\end{comment}
-
 \begin{minted}[samepage]{Agda}
 record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -232,30 +168,6 @@ record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
 
   open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
 \end{minted}
-\begin{comment}
-
-    ∙-isMagmaMonomorphism   : ∙.IsMagmaMonomorphism ⟦_⟧
-    ∙-isMagmaMonomorphism   = record
-      \{ isMagmaHomomorphism = ∙-isMagmaHomomorphism
-      ; injective           = injective
-      \}
-
-    \textbackslash\textbackslash-isMagmaMonomorphism  : \textbackslash\textbackslash.IsMagmaMonomorphism ⟦_⟧
-    \textbackslash\textbackslash-isMagmaMonomorphism  = record
-      \{ isMagmaHomomorphism = \textbackslash\textbackslash-isMagmaHomomorphism
-      ; injective                   = injective
-      \}
-
-    //-isMagmaMonomorphism  : //.IsMagmaMonomorphism ⟦_⟧
-    //-isMagmaMonomorphism  = record
-      \{ isMagmaHomomorphism = //-isMagmaHomomorphism
-      ; injective           = injective
-      \}
-
-    open //.IsMagmaMonomorphism //-isMagmaMonomorphism public
-      using (isRelMonomorphism)
-
-\end{comment}
 \begin{minted}[samepage]{Agda}
 record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -264,46 +176,8 @@ record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔
 
   open IsQuasigroupMonomorphism isQuasigroupMonomorphism public
 \end{minted}
-\begin{comment}
-    ∙-isMagmaIsomorphism    : ∙.IsMagmaIsomorphism ⟦_⟧
-    ∙-isMagmaIsomorphism    = record
-      \{ isMagmaMonomorphism = ∙-isMagmaMonomorphism
-      ; surjective          = surjective
-      \}
-
-    \textbackslash\textbackslash-isMagmaIsomorphism   : \textbackslash\textbackslash.IsMagmaIsomorphism ⟦_⟧
-    \textbackslash\textbackslash-isMagmaIsomorphism   = record
-      \{ isMagmaMonomorphism = \textbackslash\textbackslash-isMagmaMonomorphism
-      ; surjective          = surjective
-      \}
-
-    //-isMagmaIsomorphism   : //.IsMagmaIsomorphism ⟦_⟧
-    //-isMagmaIsomorphism   = record
-      \{ isMagmaMonomorphism = //-isMagmaMonomorphism
-      ; surjective          = surjective
-      \}
-
-    open //.IsMagmaIsomorphism //-isMagmaIsomorphism public
-      using (isRelIsomorphism)
-\end{comment}
-
 The loop morphism preserves left and right divisions along with the identity
-element 
-
-\begin{comment}
-module LoopMorphisms (L\textsubscript{1} : RawLoop a ℓ\textsubscript{1}) (L\textsubscript{2} : RawLoop b ℓ\textsubscript{2}) where
-
-  open RawLoop L\textsubscript{1} renaming (Carrier to A; ∙-rawMagma to ∙-rawMagma\textsubscript{1};
-                            \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{1}; //-rawMagma to //-rawMagma\textsubscript{1};
-                             _≈_ to _≈\textsubscript{1}_; _∙_ to _∙\textsubscript{1}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{1}_; _//_ to _//\textsubscript{1}_; ε to ε\textsubscript{1})
-  open RawLoop L\textsubscript{2} renaming (Carrier to B; ∙-rawMagma to ∙-rawMagma\textsubscript{2};
-                            \textbackslash\textbackslash-rawMagma to \textbackslash\textbackslash-rawMagma\textsubscript{2}; //-rawMagma to //-rawMagma\textsubscript{2};
-                            _≈_ to _≈\textsubscript{2}_; _∙_ to _∙\textsubscript{2}_; _\textbackslash\textbackslash_ to _\textbackslash\textbackslash\textsubscript{2}_; _//_ to _//\textsubscript{2}_ ; ε to ε\textsubscript{2})
-  open MorphismDefinitions A B _≈\textsubscript{2}_
-  open FunctionDefinitions _≈\textsubscript{1}_ _≈\textsubscript{2}_
-
-  open QuasigroupMorphisms (RawLoop.rawQuasigroup L\textsubscript{1}) (RawLoop.rawQuasigroup L\textsubscript{2})
-\end{comment}
+element.
 \begin{minted}[breaklines,samepage]{Agda}
 record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -329,14 +203,9 @@ record IsLoopIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ�
   open IsLoopMonomorphism isLoopMonomorphism public
 \end{minted}
 \section{Morphism composition}
-If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same
-structure such that g : b \(\rightarrow\) c then composition of morphism can be
-defined as g ∘ f : a \(\rightarrow\) c.
-\begin{comment}
-module _ \{Q\textsubscript{1} : RawQuasigroup a ℓ\textsubscript{1}\}  \{Q\textsubscript{2} : RawQuasigroup b ℓ\textsubscript{2}\} \{Q\textsubscript{3} : RawQuasigroup c ℓ\textsubscript{3}\}
-         (open RawQuasigroup) (≈\textsubscript{3}-trans : Transitive (_≈_ Q\textsubscript{3}))
-         \{f : Carrier Q\textsubscript{1} → Carrier Q\textsubscript{2}\} \{g : Carrier Q\textsubscript{2} → Carrier Q\textsubscript{3}\}  where
-\end{comment}
+If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
+structure such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
+defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 \begin{minted}[breaklines,samepage]{Agda}
 isQuasigroupHomomorphism
   : IsQuasigroupHomomorphism Q₁ Q₂ f
@@ -349,35 +218,6 @@ isQuasigroupHomomorphism f-homo g-homo = record
   ; //-homo              = λ x y → ≈₃-trans (G.⟦⟧-cong ( F.//-homo x y )) ( G.//-homo (f x) (f y) )
   } where module F = IsQuasigroupHomomorphism f-homo; module G = IsQuasigroupHomomorphism g-homo
 \end{minted}
-% \begin{comment}
-% \begin{minted}[breaklines,samepage]{Agda}
-% isQuasigroupMonomorphism
-%   : IsQuasigroupMonomorphism Q₁ Q₂ f
-%   → IsQuasigroupMonomorphism Q₂ Q₃ g
-%   → IsQuasigroupMonomorphism Q₁ Q₃ (g ∘ f)
-% isQuasigroupMonomorphism f-mono g-mono = record
-%   { isQuasigroupHomomorphism = isQuasigroupHomomorphism F.isQuasigroupHomomorphism G.isQuasigroupHomomorphism
-%   ; injective = F.injective ∘ G.injective
-%   } where module F = IsQuasigroupMonomorphism f-mono;  module G = IsQuasigroupMonomorphism g-mono
-
-% \end{minted}
-
-% \begin{minted}[breaklines,samepage]{Agda}
-% isQuasigroupIsomorphism
-%   : IsQuasigroupIsomorphism Q₁ Q₂ f
-%   → IsQuasigroupIsomorphism Q₂ Q₃ g
-%   → IsQuasigroupIsomorphism Q₁ Q₃ (g ∘ f)
-% isQuasigroupIsomorphism f-iso g-iso = record
-%   { isQuasigroupMonomorphism = isQuasigroupMonomorphism F.isQuasigroupMonomorphism G.isQuasigroupMonomorphism
-%   ; surjective               = Func.surjective (_≈_ Q₁) (_≈_ Q₂) (_≈_ Q₃) ≈₃-trans G.⟦⟧-cong F.surjective G.surjective
-%   } where module F = IsQuasigroupIsomorphism f-iso; module G = IsQuasigroupIsomorphism g-iso
-% \end{minted}
-% \end{comment}
-% \begin{comment}
-% module _ \{L\textsubscript{1} : RawLoop a ℓ\textsubscript{1}\} \{L\textsubscript{2} : RawLoop b ℓ\textsubscript{2}\} \{L\textsubscript{3} : RawLoop c ℓ\textsubscript{3}\}
-%          (open RawLoop)  (≈\textsubscript{3}-trans : Transitive (_≈_ L\textsubscript{3}))
-%          \{f : Carrier L\textsubscript{1} → Carrier L\textsubscript{2}\}  \{g : Carrier L\textsubscript{2} → Carrier L\textsubscript{3}\} where
-% \end{comment}
 \begin{minted}[breaklines,samepage]{Agda}
 isLoopHomomorphism
   : IsLoopHomomorphism L₁ L₂ f
@@ -388,37 +228,15 @@ isLoopHomomorphism f-homo g-homo = record
   ; ε-homo = ≈₃-trans (G.⟦⟧-cong F.ε-homo) G.ε-homo
   } where module F = IsLoopHomomorphism f-homo; module G = IsLoopHomomorphism g-homo
 \end{minted}
-% \begin{comment}
-% \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-%   isLoopMonomorphism : IsLoopMonomorphism L\textsubscript{1} L\textsubscript{2} f
-%     → IsLoopMonomorphism L\textsubscript{2} L\textsubscript{3} g → IsLoopMonomorphism L\textsubscript{1} L\textsubscript{3} (g ∘ f)
-%   isLoopMonomorphism f-mono g-mono = record
-%     \{ isLoopHomomorphism = isLoopHomomorphism F.isLoopHomomorphism 
-% 				G.isLoopHomomorphism
-%     ; injective = F.injective ∘ G.injective
-%     \} where module F = IsLoopMonomorphism f-mono; 
-%                  module G = IsLoopMonomorphism g-mono
-% \end{Verbatim}
-% \begin{Verbatim}[commandchars=\\\{\},samepage=true]
-%   isLoopIsomorphism : IsLoopIsomorphism L\textsubscript{1} L\textsubscript{2} f
-%     → IsLoopIsomorphism L\textsubscript{2} L\textsubscript{3} g → IsLoopIsomorphism L\textsubscript{1} L\textsubscript{3} (g ∘ f)
-%   isLoopIsomorphism f-iso g-iso = record
-%     \{ isLoopMonomorphism = isLoopMonomorphism F.isLoopMonomorphism G.isLoopMonomorphism
-%     ; surjective               = Func.surjective (_≈_ L\textsubscript{1}) (_≈_ L\textsubscript{2}) (_≈_ L\textsubscript{3})
-% 				 ≈\textsubscript{3}-trans G.⟦⟧-cong F.surjective G.surjective
-%     \} where module F = IsLoopIsomorphism f-iso; 
-%                  module G = IsLoopIsomorphism g-iso
-% \end{Verbatim}
-% \end{comment}
 
 Monomorphism and isomorphism compositions constructs for quasigroup and loop are
-defined similar to homomorphism and can be found in agda standard library.
+defined similar to homomorphism and can be found in Agda standard library.
 
-\section{DirectProduct}
-The direct product M \(\times\) N of two quasigroups M and N is defined as a
-pair (m,n) where m \(\in\) M and n \(\in\) N. The direct product construct of
-left (right/middle) bol loop and moufang loop can be found in agda standard
-library and can be derived from loop structure.
+\section{Direct Product}
+The \textit{direct product} $M \ \times \ N$ of two quasigroups $M$ and $N$ is
+defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$. The direct
+product construct of left (right/middle) bol loop and moufang loop can be found
+in Agda standard library.
 \begin{minted}[breaklines,samepage]{Agda}
 quasigroup : Quasigroup a ℓ₁ → Quasigroup b ℓ₂ → Quasigroup (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 quasigroup M N = record
@@ -446,16 +264,16 @@ loop M N = record
 \end{minted}
 
 \section{Properties}
-In this section we prove some properties of quasigroups and loops in
+In this section we prove some properties of quasigroup, loop, middle bol loop, and moufang loop using
 Agda.
 \subsection{Properties of Quasigroup}
-Let (Q, ∙, /, \textbackslash ) be a quasigroup then \\
+Let (Q, ∙, /, \textbackslash ) be a quasigroup then:
 \begin{enumerate}
 \item Q is cancellative. A quasigroup is left cancellative if x ∙ y = x ∙ z then
 y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A
 quasigroup is cancellative if it is both left and right cancellative.
-\item \(\forall x, y, z \in Q\): x ∙ y = z then y = x \textbackslash z
-\item \(\forall x, y, z \in Q\): x ∙ y = z then x = z / y
+\item \(\forall \ x,\ y,\ z\ \in Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \textbackslash \ z\)
+\item \(\forall \ x,\ y,\ z\ \in \ Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ x\ = z\ /\ y\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -499,13 +317,13 @@ x≈z//y x y z eq = begin
 \end{enumerate}
 
 \subsection{Properties of Loop}
-Properties of division operation holds for a loop. \\
-Let (L, ∙, /, \textbackslash ) be a Loop with identity x ∙ e = x then the following properties holds 
+Properties of division operation holds for a loop.\\
+Let (L, ∙, /, \textbackslash ) be a Loop with identity $x\ ∙\ e\ =\ x$ then the following properties holds 
 \begin{enumerate}
-\item \(\forall x \in L\): x / x = e 
-\item \(\forall x \in L\):  x \textbackslash x = e
-\item \(\forall x \in L\): e \textbackslash x = x 
-\item \(\forall x \in L\):  x / e = x 
+\item \(\forall\ x\ \in\ L, \ x \ /\  x\ =\ e\) 
+\item \(\forall \ x\ \in\ L,\  x\ \textbackslash \ x\ =\ e\)
+\item \(\forall \ x\ \in\ L,\ e\ \textbackslash \ x\ =\ x\) 
+\item \(\forall \ x\ \in\ L, \ x\ /\ e\ =\ x\) 
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -546,12 +364,12 @@ x//ε≈x x = begin
 Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following
 identities holds.
 \begin{enumerate}
-\item \(\forall x y z \in M\): x ∙ ((y ∙ x) \textbackslash x) = y \textbackslash x 
-\item \(\forall x y z \in M\): x ∙ ((x ∙ z) \textbackslash x) = x // z
-\item \(\forall x y z \in M\): x ∙ (z \textbackslash x) ≈ (x / z) ∙ x
-\item \(\forall x y z \in M\): (x / (y ∙ z)) ∙ x ≈ (x / z) ∙ (y \textbackslash x)
-\item \(\forall x y z \in M\): (x / (y ∙ x)) ∙ x ≈ y \textbackslash x
-\item \(\forall x y z \in M\): (x / (x ∙ z)) ∙ x ≈ x / z
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((y\ ∙\ x)\ \textbackslash \ x)\ =\ y\ \textbackslash\ x\) 
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((x\ ∙\ z)\ \textbackslash \ x)\ =\ x\ /\ z\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙ (z\ \textbackslash\ x)\ =\ (x\ /\ z)\ ∙\ x\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ z))\ ∙\ x\ =\ (x\ /\ z)\ ∙\ (y\ \textbackslash\ x)\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ x))\ ∙\ x\ =\ y\ \textbackslash \ x\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (x\ ∙\ z))\ ∙\ x\ = \ x\ /\  z\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -613,11 +431,15 @@ x//xzx≈x//z x z = begin
 Let (M, ∙, /, \textbackslash ) be a moufang loop then the following identities
 holds.
 \begin{enumerate}
-\item Moufang loop is alternative. A moufang loop is left alternative if it satisfies (x ∙ x) ∙ y = x ∙ (x ∙ y), a moufang loop is right alternative if it satisfies x ∙ (y ∙ y) = (x ∙ y) ∙ y and if a moufang loop alternative if it is both left and right alternative. 
-\item Moufang loop is flexible. A Moufant loop is flexible if it satisfies flexible identity (x ∙ y) ∙ x = x ∙ (y ∙ x)
-\item \(\forall x y z \in M\): z ∙ (x ∙ (z ∙ y)) = ((z ∙ x) ∙ z) ∙ y
-\item \(\forall x y z \in M\): x ∙ (z ∙ (y ∙ z)) = ((x ∙ z) ∙ y) ∙ z 
-\item \(\forall x y z \in M\): z ∙ ((x ∙ y) ∙ z) = (z ∙ (x ∙ y)) ∙ z 
+\item Moufang loop is alternative. A moufang loop is left alternative if it
+satisfies\\ $(x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)$, a moufang loop is right
+alternative if it satisfies $x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y$ and if a moufang loop
+alternative if it is both left and right alternative. 
+\item Moufang loop is flexible. A Moufant loop is flexible if it satisfies
+flexible identity $(x\ ∙\ y)\ ∙\ x\ =\ x\ ∙\ (y\ ∙\ x)$
+\item $\forall\ x\ y\ z\ \in\ M,\ z\ ∙\ (x\ ∙\ (z\ ∙\ y))\ =\ ((z\ ∙\ x)\ ∙\ z)\ ∙\ y$
+\item $\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ (z\ ∙\ (y\ ∙\ z))\ =\ ((x\ ∙\ z)\ ∙\ y)\ ∙\ z$ 
+\item $\forall\ x\ y\ z\ \in\ M,\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\ =\ (z\ ∙ \ (x\ ∙\ y))\ ∙\ z$ 
 \end{enumerate}
 Proof:
 \begin{enumerate}
