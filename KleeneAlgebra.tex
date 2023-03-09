@@ -12,27 +12,29 @@ kleene algebra, in this chapter we consider the axioms defined in
 \cite{kozen1994completeness}
 
 \section{Definition}
-A set S with two binary operations + and * generally called addition and
-multiplication such that (S,+) is a commutative monoid, (S,*) is a monoid and +
-distributes over * with annhiliating zero is called a semiring. A semiring
+A set S with two binary operations + and ∙ generally called addition and
+multiplication such that (S,+) is a commutative monoid, (S,∙) is a monoid and +
+distributes over ∙ with annhiliating zero is called a semiring. A semiring
 satisfying idempotent property is called idempotent semiring. A Kleene Algebra
-over set S is idempotent semiring with \( \star \) operator that satisfies the
+over set S is idempotent semiring with \textsuperscript{*} operator that satisfies the
 following axioms.
 \begin{equation}\label{eq_starrightexpansive}
-1 + (x ∙ (x *)) \leq x *
+1\ +\ (x\ ∙\ (x^{*}))\ \leq\ x^{*}
 \end{equation}
 \begin{equation}\label{eq_starleftexpansive}
-1 + (x *) ∙ x \leq x *
+1\ +\ (x^{*})\ ∙\ x\ \leq\ x^{*}
 \end{equation}
 \begin{equation}\label{eq_starleftdestructive}
-\forall a, b, x \in S: \  \text{If} \ b + a  ∙ x \leq x \ \text{then},\  (a *)  ∙ b \leq x
+\forall\ a,\ b,\ x\ \in\ S:\ \text{If} \ b\ +\ a\  ∙\ x\ \leq\ x\ \text{then},\ (a^{*})\ ∙\ b\ \leq\ x
 \end{equation}
 \begin{equation}\label{eq_starrightdestructive}
-\forall a, b, x \in S: \  \text{If} \ b + x  ∙ a \leq x \  \text{then},\  b  ∙ (a *) \leq x
+\forall\ a,\ b,\ x\ \in\ S:\ \text{If} \ b\ +\ x\ ∙\ a\ \leq\ x \  \text{then},\ b\ ∙\ (a^{*})\ \leq\ x
 \end{equation}
-In Agda, strong axioms of \(\star\) are given. That is equivalance is directly
-given and kleene algebra with partial and pre order structures are defined in
-Algebra.Ordered hierarchy. 
+In Agda, strong axioms of operator \ \textsuperscript{*} is given. That is instead of
+partial order, equivalance is given in the above equations. Kleene algebra with
+partial and pre order structures are defined in "Algebra.Ordered.Structures" in
+Agda standard library.\footnote{Agda standard library uses operator + for
+addition, * for multiplication and $\star$ for star operation.} 
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
 StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) ≈ (x *)
@@ -67,7 +69,7 @@ field
 
 open IsIdempotentSemiring isIdempotentSemiring public
 \end{minted}
-The bundle version of kleene algebra is defined as: 
+The bundled version of kleene algebra is defined as: 
 \begin{minted}[breaklines,samepage]{Agda}
 record KleeneAlgebra c ℓ : Set (suc (c ⊔ ℓ)) where
 infix  8 _⋆
@@ -87,8 +89,8 @@ field
 open IsKleeneAlgebra isKleeneAlgebra public
 \end{minted}
 \section{Direct Product}
-The direct product K \(\times\) L of two kleene algebra structures K and NL is
-defined as a pair (k,l) where k\(\in\) K and l \(\in\) L.
+The \textit{direct product} $K \ \times \ L$ of two kleene algebra structures
+$K$ and $L$ is defined as a pair $(k,l)$ where $k \ \in \ K$ and $l \ \in \ L$.
 \begin{minted}[breaklines,samepage]{Agda}
 kleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 kleeneAlgebra K L = record
@@ -105,21 +107,21 @@ kleeneAlgebra K L = record
 \section{Properties}
 In this section we prove some properties of kleene algebra
 
-Let (K, +, *, \(\star\), 0, 1) be a kleene algebra then:
+Let (K, +, *, \textsuperscript{*}, 0, 1) be a kleene algebra then:
 \begin{enumerate}
-\item 0⋆ = 1
-\item 1⋆ = 1
-\item \(\forall x \in K\): 1 + x⋆ = x⋆
-\item \(\forall x \in K\): x + x * x⋆ = x⋆
-\item \(\forall x \in K\): x + x⋆ * x = x⋆
-\item \(\forall x \in K\): x + x⋆ = x⋆
-\item \(\forall x \in K\): 1 + x + x⋆ = x⋆
-\item \(\forall x \in K\): 0 + x + x⋆ = x⋆
-\item \(\forall x \in K\): x⋆ * x⋆ = x⋆
-\item \(\forall x \in K\): x⋆⋆ = x⋆
-\item \(\forall x , y \in K\): If x = y then, x⋆ = y⋆
-\item \(\forall a, b, x \in K\): If a * x = x * b then, a⋆ * x = x * b⋆
-\item \(\forall x, y \in K\): (x * y) ⋆ * x ≈ x * (y * x) ⋆
+\item $0^{*}\ =\ 1$
+\item $1^{*}\ =\ 1$
+\item $\forall \ x\ \in\ K:\ 1\ +\ x^{*}\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ x\ +\ x\ *\ x^{*} = x^{*}$
+\item $\forall \ x\ \in\ K:\ x\ +\ x^{*}\ *\ x\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ x\ +\ x^{*}\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ 1\ + x\ + x^{*}\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ 0\ + x\ +\ x^{*}\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ x^{*}\ *\ x^{*}\ =\ x^{*}$
+\item $\forall \ x\ \in\ K:\ x^{**}\ =\ x^{*}$
+\item $\forall\ x,\ y\ \in\ K:\ \text{If}\ x\ =\ y\ \text{then},\ x^{*}\ =\ y^{*}$
+\item $\forall\ a,\ b,\ x\ \in\ K:\ \text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then},\ a^{*}\ *\ x\ =\ x\ *\ b^{*}$
+\item $\forall\ x,\ y\ \in\ K:\ (x\ *\ y)^{*}\ *\ x\ =\ x\ *\ (y\ *\ x)^{*}$
 \end{enumerate}
 Proof:
 \begin{enumerate}

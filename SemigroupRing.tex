@@ -23,13 +23,13 @@ A set that has a binary operation is called Magma. Magma with associative
 property is called a semigroup. For binary operation \(∙\) on a set S, the
 associative property is defined as 
 \begin{equation}
-\forall x y z \in S : x ∙ (y ∙ z) = (x ∙ y) ∙ z.
+\forall\ x\ y\ z\ \in\ S :\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
 \end{equation}
  A semigroup that satisfies commutative property is called commutative
  semigroup. For binary operation \( ∙ \) on a set S, commutative property is
  defined as 
 \begin{equation}
-\forall x y \in S : x ∙ y = y ∙ x
+\forall\ x\ y\ \in\ S :\ x\ ∙\ y\ =\ y\ ∙\ x\
 \end{equation}
 The definition of associative and commutative property in Agda.
 \begin{minted}[breaklines,samepage]{Agda}
@@ -76,7 +76,8 @@ field
   zero             : Zero 0# *
 \end{minted}
 
-A quasiring is a type (2,2) algebraic structure for which both addition and multiplication is a monoid and multiplication distributes over addition.
+A quasiring is a type (2,2) algebraic structure for which both addition and
+multiplication is a monoid and multiplication distributes over addition.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -151,9 +152,9 @@ record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
   open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
 \end{minted}
 \section{Morphism composition}
-If f is a morphism such that f : a \(\rightarrow\) b and g is a morphism on same
-structure such that g : b \(\rightarrow\) c then composition of morphism can be
-defined as g ∘ f : a \(\rightarrow\) c.
+If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
+structure such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
+defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 \begin{minted}[breaklines,samepage]{Agda}
   isRingWithoutOneHomomorphism
     : IsRingWithoutOneHomomorphism R₁ R₂ f
@@ -169,8 +170,8 @@ defined as g ∘ f : a \(\rightarrow\) c.
 \end{minted}
 
 \section{Direct Product}
-The direct product M \(\times\) N of two ring without one structures M and N is
-defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+The \textit{direct product} $M \ \times \ N$ of two ring without one structures
+$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
 		RingWithoutOne b ℓ₂ → RingWithoutOne (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -191,8 +192,8 @@ ringWithoutOne R S = record
 
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
 \end{minted}
-The direct product M \(\times\) N of two non associative ring a structures M and
-N is defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+The \textit{direct product} $M \ \times \ N$ of two non-associative ring structures
+$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
 \begin{minted}[breaklines,samepage]{Agda}
 nonAssociativeRing : NonAssociativeRing a ℓ₁ →
 		 NonAssociativeRing b ℓ₂ → NonAssociativeRing (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -214,8 +215,8 @@ nonAssociativeRing R S = record
 
   } where module R = NonAssociativeRing R; module S = NonAssociativeRing S
 \end{minted}
-The direct product M \(\times\) N of two quasiring a structures M and N is
-defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+The \textit{direct product} $M \ \times \ N$ of two quasiring structures
+$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
 \begin{minted}[breaklines,samepage]{Agda}
 quasiring : Quasiring a ℓ₁ →
 		 Quasiring b ℓ₂ → Quasiring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -239,8 +240,8 @@ quasiring R S = record
 
   } where module R = Quasiring R; module S = Quasiring S
 \end{minted}
-The direct product M \(\times\) N of two nearring a structures M and N is
-defined as a pair (m,n) where m \(\in\) M and n \(\in\) N.
+The \textit{direct product} $M \ \times \ N$ of two nearring structures
+$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
 \begin{minted}[breaklines,samepage]{Agda}
 nearring : Nearring a ℓ₁ → 
 		Nearring b ℓ₂ → Nearring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -255,14 +256,20 @@ nearring R S =  record
   } where module R = Nearring R; module S = Nearring S
 \end{minted}
 \section{Properties}
-This section only provides proof for properties that was contributed by the
+This section provides proof for properties that was contributed by the
 author and other properties can be found in agda standard library.
 \subsection{Properties of Semigroup}
 Let (S, ∙) be a semigroup then
 \begin{enumerate}
-\item S is alternative. The Semigroup S left alternative if \( \forall x,y \in S : (x ∙ x) ∙ y = x ∙ (x ∙ y) \) and right alternative is \(\forall x,y \in S : x ∙ (y ∙ y) = (x ∙ y) ∙ y\). Semigroup is said to be alternative if it is both left and right alternative. 
-\item S is flexible. The Semigroup S is flexible if \(\forall x y \in S: x ∙ (y ∙ x) = (x ∙ y) ∙ x\)
-\item S has Jordan identity.  Jordan identity for binary operation ∙ can be defined on set S as \( \forall x y z \in S: (x ∙ y) ∙ (x ∙ x) = x ∙ (y ∙ (x ∙ x)) \)
+\item S is alternative. The Semigroup S left alternative if \( \forall\ x,\ y\
+\in\ S :\ (x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\ \) and right alternative is
+\(\forall\ x,\ y\ \in\ S :\ x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙\ y)\ ∙\ y\). Semigroup is
+said to be alternative if it is both left and right alternative. 
+\item S is flexible. The Semigroup S is flexible if \(\forall\ x\ y\ \in\ S:\ x\ ∙\ (y\
+∙\ x)\ =\ (x\ ∙\ y)\ ∙\ x\).
+\item S has Jordan identity.  Jordan identity for binary operation ∙ can be
+defined on set S as \( \forall\ x,\ y,\ z\ \in\ S:\ (x\ ∙\ y)\ ∙\ (x\ ∙\ x)\ =\
+x\ ∙\ (y\ ∙\ (x\ ∙\ x)). \)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -278,7 +285,7 @@ alternative : Alternative _∙_
 alternative = alternativeˡ , alternativeʳ
 \end{minted}
  \item
- \begin{minted}[breaklines,samepage]{Agda}
+\begin{minted}[breaklines,samepage]{Agda}
 flexible : Flexible _∙_
 flexible x y = assoc x y x
 \end{minted}
@@ -292,11 +299,11 @@ xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
 Let (S, ∙) be a commutative semigroup then
 \begin{enumerate}
 \item S is semimedial. The commutative semigroup S is left semimedial if  \(
-\forall x y z \in S: (x ∙ x) ∙ (y ∙ z) = (x ∙ y) ∙ (x ∙ z) \) and right
-semimedial if \( \forall x y z \in S: (y ∙ z) ∙ (x ∙ x) = (y ∙ x) ∙ (z ∙ x) \).
+\forall\ x\ y\ z\ \in\ S:\ (x\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ (x\ ∙\ z) \) and right
+semimedial if \( \forall\ x\ y\ z\ \in\ S:\ (y\ ∙\ z)\ ∙\ (x\ ∙\ x)\ =\ (y\ ∙\ x)\ ∙\ (z\ ∙\ x) \).
 A structure is semimedial if it is both left and right semimedial. 
 \item S is middle semimedia.  The commutative semigroup S is middle semimedial
-if  \(\forall x y z  \in S: (x ∙ y) ∙ (z ∙ x) = (x ∙ z) ∙ (y ∙ x)\)
+if  \(\forall\ x\ y\ z\  \in\ S:\ (x\ ∙\ y)\ ∙\ (z\ ∙\ x)\ =\ (x\ ∙\ z)\ ∙\ (y\ ∙\ x)\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -338,8 +345,8 @@ middleSemimedial x y z = begin
 \subsection{Properties of Ring without one}
 Let (R, +, *, -, 0) be ring without one structure then:
 \begin{enumerate}
-\item \(\forall x, y \in R\): - (x * y) = - x * y\\
-\item \(\forall x, y \in R\): - (x * y) = x * - y\\
+\item \(\forall\ x,\ y\ \in\ R:\ - (x\ *\ y)\ =\ - x\ *\ y\)
+\item \(\forall\ x,\ y\ \in\ R:\ - (x\ *\ y)\ =\ x\ *\ - y\)
 \end{enumerate}
 proof:
 \begin{enumerate}
@@ -389,10 +396,10 @@ proof:
 \subsection{Properties of Ring}
 Let (R, +, *, -, 0, 1) be a ring structure then
 \begin{enumerate}
-\item \(\forall x \in R\): - 1 * x = -x
-\item \(\forall x \in R\): if x + x = 0 then x = 0
-\item \(\forall x,y,z \in R\): x * (y - z) = x * y - x * z
-\item \(\forall x,y,z \in R\): (y - z) * x = (y * x) - (z * x)
+\item \(\forall\ x\ \in\ R:\ - 1\ *\ x\ =\ -x\)
+\item \(\forall\ x\ \in\ R:\ \text{if}\ x\ +\ x\ =\ 0\ \text{then}\ x\ =\ 0\)
+\item \(\forall\ x,\ y,\ z\ \in\ R:\ x\ *\ (y\ -\ z)\ =\ x\ *\ y\ -\ x\ *\ z\)
+\item \(\forall\ x,\ y,\ z\ \in\ R:\ (y\ -\ z)\ *\ x\ =\ (y\ *\ x)\ -\ (z\ *\ x)\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
