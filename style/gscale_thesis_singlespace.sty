@@ -1,7 +1,7 @@
 \makeatletter
-\oddsidemargin 0in \evensidemargin 0in
-%\marginparwidth 0pt \marginparsep 0pt
-\topmargin -0.3in \headsep 0.25in
+\oddsidemargin 0.0in \evensidemargin 0.0in
+%\marginparwidth 40pt \marginparsep 10pt
+\topmargin -0.3pt \headsep 0.25in
 %\textheight 8.1in \textwidth 6in
 \textheight 8.99in \textwidth 6.5in
 \brokenpenalty=10000
@@ -42,12 +42,14 @@
 \def\field#1{\gdef\@field{#1}}
 \def\dept#1{\gdef\@dept{#1}}
 \def\degree#1{\gdef\@degree{#1}}
+\def\degreeabbrv#1{\gdef\@degreeabbrv{#1}}
 \def\degreename#1{\gdef\@degreename{#1}}
 \def\halftitle#1{\gdef\@halftitle{#1}}
 \def\prevdegreeone#1{\gdef\@prevdegreeone{#1}}
 \def\prevdegreetwo#1{\gdef\@prevdegreetwo{#1}}
 \def\principaladviser#1{\gdef\@principaladviser{#1}}
-\def\advis@r{Adviser}
+\def\doctype#1{\gdef\@doctype{#1}}
+\def\advis@r{Advisor}
 \def\principaladvisor#1{\gdef\@principaladviser{#1}\gdef\advis@r{Advisor}}
 \def\firstreader#1{\gdef\@firstreader{#1}}
 \def\secondreader#1{\gdef\@secondreader{#1}}
@@ -57,7 +59,7 @@
 \def\@halftitle{\@title}
 \def\@prevdegreeone{B.Sc.}
 \def\@prevdegreetwo{B.Sc.}	
-\def\@degree{Master of Applied Science}
+\def\@degree{\@degree}
 \def\@degreename{\@dept}
 \def\@principaladviser{}\def\@firstreader{}\def\@secondreader{}
 \def\@submitdate{\ifcase\the\month\or
@@ -96,13 +98,13 @@
          \end{center}\vskip.5in
     \vfill
     \begin{center}
-      \sc   a thesis\\
-      submitted to the department of \@dept\\
-        and  the school of graduate studies\\
-        of mcmaster university\\
+      \sc   a \@doctype\\
+      submitted to the \@dept\\
+        and  the School of Graduate Studies\\
+        of McMaster University\\
         in partial fulfilment of the requirements\\
-       for the degree of\\
-        Doctor of Philosophy
+        for the degree of\\
+        \@degree
     \end{center}
     \vfill
 
@@ -137,8 +139,8 @@ of \@degree.
 
  \def\signaturepage{%
         \noindent
-        Doctor of Philosophy (\@copyrightyear) \hfill  McMaster University \\
-        (\@dept)                                \hfill  Hamilton, Ontario, Canada
+        \@degree~(\@copyrightyear) \hfill  McMaster University \\
+        (\@dept) \hfill  Hamilton, Ontario, Canada
 
 
         \vspace{1in}
@@ -153,8 +155,8 @@ of \@degree.
 
 
 \def\beforepreface{
-%\doublespacing
-	\hypersetup{pageanchor=false}
+    %\doublespacing
+    \hypersetup{pageanchor=false}
     \pagenumbering{roman}
     \pagestyle{plain}
     \halftitlep
@@ -195,7 +197,7 @@ of \@degree.
     \input{#1}
     \label{NumPrefacePages}
 }
-
+    
 \def\afterpreface{
     \hypersetup{pageanchor=true}
     \newpage    
@@ -203,7 +205,8 @@ of \@degree.
     %\doublespacing
     \pagestyle{fancy}
 
-\lhead[{Ph.D. Thesis---\@shortauthor}]   {{Ph.D. Thesis---\@shortauthor}}
+\lhead[{\@degreeabbrv~\@doctype---\@shortauthor}]   
+{{\@degreeabbrv~\@doctype---\@shortauthor}}
 \chead[{}]  {{}} \rhead[{McMaster University---\@field}]
 {{McMaster University---\@field}} \lfoot[{}] {{}}
 \cfoot[{\thepage}]  {{\thepage}} \rfoot[ {}]{{}} }
