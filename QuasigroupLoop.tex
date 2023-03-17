@@ -7,7 +7,7 @@ differential geometry\cite{quasigroupWiki}. With proof assistants, such as Agda,
 we can verify the relevant mathematical proofs of these algebraic structures.
 They are interactive software that help to derive complex mathematical proofs.
 In this chapter, we formalize two important non-associative algebras -
-quasigroup, and loop structure. A \textit{quasigroup} (Q, ∙, /, \textbackslash )
+quasigroup, and loop structure. A \textit{quasigroup} (Q, ∙, /, \textbackslash)
 is a type (2,2,2) algebra for which the binary operations \textbackslash (left
 division) and / (right division) are defined such that division is always
 possible.  A \textit{loop} is a quasigroup with identity. In this chapter, we
@@ -18,10 +18,10 @@ A set that has a binary operation is called Magma. In this case a Magma is total
 and should not be confused with groupoid that need not be total. A quasigroup
 can be defined as a magma with left and right division identities.
 \begin{equation} \label{eq_L-leftdivides}
-y\ =\ x\ ∙\ (x\ \textbackslash{}\ y)
+y\ =\ x\ ∙\ (x\ \backslash\ y)
 \end{equation}
 \begin{equation} \label{eq_L-rightdivides}
-y\ =\ x\ \textbackslash{}\ (x\ ∙\ y)
+y\ =\ x\ \backslash\ (x\ ∙\ y)
 \end{equation}
 \begin{equation} \label{eq_R-leftdivides}
 y\ =\ (y\ /\ x)\ ∙\ x
@@ -267,12 +267,12 @@ loop M N = record
 In this section we prove some properties of quasigroup, loop, middle bol loop, and moufang loop using
 Agda.
 \subsection{Properties of Quasigroup}
-Let (Q, ∙, /, \textbackslash ) be a quasigroup then:
+Let $(Q, ∙, /, \backslash)$ be a quasigroup then:
 \begin{enumerate}
 \item Q is cancellative. A quasigroup is left cancellative if x ∙ y = x ∙ z then
 y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A
 quasigroup is cancellative if it is both left and right cancellative.
-\item \(\forall \ x,\ y,\ z\ \in Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \textbackslash \ z\)
+\item \(\forall \ x,\ y,\ z\ \in Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \backslash \ z\)
 \item \(\forall \ x,\ y,\ z\ \in \ Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ x\ = z\ /\ y\)
 \end{enumerate}
 Proof:
@@ -318,11 +318,11 @@ x≈z//y x y z eq = begin
 
 \subsection{Properties of Loop}
 Properties of division operation holds for a loop.\\
-Let (L, ∙, /, \textbackslash ) be a Loop with identity $x\ ∙\ e\ =\ x$ then the following properties holds 
+Let $(L, ∙, /, \backslash)$ be a Loop with identity $x\ ∙\ e\ =\ x$ then the following properties holds 
 \begin{enumerate}
 \item \(\forall\ x\ \in\ L, \ x \ /\  x\ =\ e\) 
-\item \(\forall \ x\ \in\ L,\  x\ \textbackslash \ x\ =\ e\)
-\item \(\forall \ x\ \in\ L,\ e\ \textbackslash \ x\ =\ x\) 
+\item \(\forall \ x\ \in\ L,\  x\ \backslash \ x\ =\ e\)
+\item \(\forall \ x\ \in\ L,\ e\ \backslash \ x\ =\ x\) 
 \item \(\forall \ x\ \in\ L, \ x\ /\ e\ =\ x\) 
 \end{enumerate}
 Proof:
@@ -361,14 +361,14 @@ x//ε≈x x = begin
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Middle bol loop}
-Let (M, ∙, /, \textbackslash ) be a middle bol loop then the following
+Let $(M, ∙, /, \backslash)$ be a middle bol loop then the following
 identities holds.
 \begin{enumerate}
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((y\ ∙\ x)\ \textbackslash \ x)\ =\ y\ \textbackslash\ x\) 
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((x\ ∙\ z)\ \textbackslash \ x)\ =\ x\ /\ z\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙ (z\ \textbackslash\ x)\ =\ (x\ /\ z)\ ∙\ x\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ z))\ ∙\ x\ =\ (x\ /\ z)\ ∙\ (y\ \textbackslash\ x)\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ x))\ ∙\ x\ =\ y\ \textbackslash \ x\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((y\ ∙\ x)\ \backslash \ x)\ =\ y\ \backslash\ x\) 
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((x\ ∙\ z)\ \backslash \ x)\ =\ x\ /\ z\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙ (z\ \backslash\ x)\ =\ (x\ /\ z)\ ∙\ x\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ z))\ ∙\ x\ =\ (x\ /\ z)\ ∙\ (y\ \backslash\ x)\)
+\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ x))\ ∙\ x\ =\ y\ \backslash \ x\)
 \item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (x\ ∙\ z))\ ∙\ x\ = \ x\ /\  z\)
 \end{enumerate}
 Proof:
@@ -428,14 +428,14 @@ x//xzx≈x//z x z = begin
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Moufang Loop}
-Let (M, ∙, /, \textbackslash ) be a moufang loop then the following identities
+Let $(M, ∙, /, \backslash)$ be a moufang loop then the following identities
 holds.
 \begin{enumerate}
 \item Moufang loop is alternative. A moufang loop is left alternative if it
 satisfies\\ $(x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)$, a moufang loop is right
 alternative if it satisfies $x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y$ and if a moufang loop
 alternative if it is both left and right alternative. 
-\item Moufang loop is flexible. A Moufant loop is flexible if it satisfies
+\item Moufang loop is flexible. A Moufang loop is flexible if it satisfies
 flexible identity $(x\ ∙\ y)\ ∙\ x\ =\ x\ ∙\ (y\ ∙\ x)$
 \item $\forall\ x\ y\ z\ \in\ M,\ z\ ∙\ (x\ ∙\ (z\ ∙\ y))\ =\ ((z\ ∙\ x)\ ∙\ z)\ ∙\ y$
 \item $\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ (z\ ∙\ (y\ ∙\ z))\ =\ ((x\ ∙\ z)\ ∙\ y)\ ∙\ z$ 

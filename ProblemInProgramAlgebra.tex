@@ -91,7 +91,7 @@ Quasigroup structure is an example that can be defined in two ways. A type (2)
 Quasigroup can be defined as a set Q and binary operation ∙ can be defined as
 that is a magma and satisfies latin square property. Quasigroup of type (2,2,2)
 is a structure with three binary operations, a magma for which division is
-always possible. Latin square property states that for each a , b in set Q there
+always possible. Latin square property states that for each a, b in set Q there
 exists unique elements x , y in Q such that the following property is satisfied
 \citep{quasigroupWiki}\\
 \begin{center}
@@ -99,13 +99,12 @@ a ∙ x = b\\
 y ∙ a = b \\
 \end{center}
 Another definition of quasigroup is given as type (2,2,2) algebra in which for a
-set Q and binary operations ∙, \textbackslash{} , / quasigroup should satisfy
+set Q and binary operations ∙, \textbackslash{}, / quasigroup should satisfy
 the below identities that implies left division and right division. 
-\begin{center}
-y = x ∙ (x \textbackslash{} y)\\
-y = x \textbackslash{} (x ∙ y)\\
-y = (y / x) ∙ x\\
-y = (y ∙ x) / x\\
+\[y = x ∙ (x \backslash y)\]
+\[y = x \backslash (x ∙ y)\]
+\[y = (y / x) ∙ x\]
+\[y = (y ∙ x) / x\]
 \end{center}
 In Agda standard library the quasigroup is defined as type (2,2,2) algebra given
 below.\\
