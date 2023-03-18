@@ -1,7 +1,7 @@
 \chapter{Problem in Programming Algebra}
 
 Algebraic structures show variations in syntax and semantics depending on the
-system or language in which they are defined. Each systems discussed in chapter
+system or language in which they are defined. Each system discussed in chapter
 1 have their own style of defining structures in the standard libraries. For
 example, in Coq Ring is defined without multiplicative identity. However, in
 Agda, Ring has multiplicative identity and Rng is defined as RingWithoutOne that
@@ -92,8 +92,8 @@ Quasigroup can be defined as a set Q and binary operation ∙ can be defined as
 that is a magma and satisfies latin square property. Quasigroup of type (2,2,2)
 is a structure with three binary operations, a magma for which division is
 always possible. Latin square property states that for each a, b in set Q there
-exists unique elements x , y in Q such that the following property is satisfied
-\citep{quasigroupWiki}\\
+exists unique elements x, y in Q such that the following property is satisfied
+\cite{quasigroupWiki}
 \begin{center}
 a ∙ x = b\\
 y ∙ a = b \\
@@ -105,9 +105,8 @@ the below identities that implies left division and right division.
 \[y = x \backslash (x ∙ y)\]
 \[y = (y / x) ∙ x\]
 \[y = (y ∙ x) / x\]
-\end{center}
 In Agda standard library the quasigroup is defined as type (2,2,2) algebra given
-below.\\
+below.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsQuasigroup (∙ \\ // : Op₂ A) : Set (a ⊔ ℓ) where

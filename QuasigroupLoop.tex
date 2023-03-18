@@ -16,7 +16,11 @@ some of the properties of these structures.
 \section{Definitions}
 A set that has a binary operation is called Magma. In this case a Magma is total
 and should not be confused with groupoid that need not be total. A quasigroup
-can be defined as a magma with left and right division identities.
+can be defined as a magma with left and right division identities. In other
+words, a quasigroup is a set with a binary operation that satisfies the property
+that for every element in the set, there is a unique element in the set that
+provides a solution to the equation.
+
 \begin{equation} \label{eq_L-leftdivides}
 y\ =\ x\ ∙\ (x\ \backslash\ y)
 \end{equation}
@@ -101,7 +105,6 @@ field
 
 open IsQuasigroup isQuasigroup public
 \end{minted}
-
 A loop is called a \textit{right bol loop} if it satisfies the identity
 (Equation~\ref{eq_rightbol})
 \begin{equation}\label{eq_rightbol}

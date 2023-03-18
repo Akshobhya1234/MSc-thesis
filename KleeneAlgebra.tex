@@ -88,6 +88,59 @@ field
 
 open IsKleeneAlgebra isKleeneAlgebra public
 \end{minted}
+\section{Morphism}
+A morphism of Kleene algebra is a function between two Kleene algebras that
+preserves the algebraic structure of the underlying semiring and the Kleene star
+operation. Morphisms of Kleene algebra are important in the study of regular
+languages and automata, as they allow us to relate the behavior of different
+automata and regular expressions to each other. Morphism of Kleene algebra help
+to generalize the theory of regular languages and finite automata to more
+general algebraic structures.
+\begin{minted}[samepage,breaklines]{Agda}
+  record IsKleeneAlgebraHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isSemiringHomomorphism : IsSemiringHomomorphism ⟦_⟧
+    ⋆-homo :  Homomorphic₁ ⟦_⟧ _⋆₁ _⋆₂
+
+  open IsSemiringHomomorphism isSemiringHomomorphism public
+\end{minted}
+A Kleene algebra homomorphism which is injective gives a monomorphism. 
+\begin{minted}[samepage,breaklines]{Agda}
+record IsKleeneAlgebraMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isKleeneAlgebraHomomorphism   : IsKleeneAlgebraHomomorphism ⟦_⟧
+    injective                     : Injective ⟦_⟧
+
+  open IsKleeneAlgebraHomomorphism isKleeneAlgebraHomomorphism public
+\end{minted}
+
+A surjective monomorphism of a Kleene algebra gives isomorphism.
+\begin{minted}[samepage,breaklines]{Agda}
+record IsKleeneAlgebraIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isKleeneAlgebraMonomorphism   : IsKleeneAlgebraMonomorphism ⟦_⟧
+    surjective                    : Surjective ⟦_⟧
+
+  open IsKleeneAlgebraMonomorphism isKleeneAlgebraMonomorphism public
+\end{minted}
+
+\section{Morphism composition}
+If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
+on same Kleene algebra structure such that $g\ :\ b\ \rightarrow \ c$, then
+composition of morphism can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+\begin{minted}[samepage,breaklines]{Agda}
+  isKleeneAlgebraHomomorphism
+  : IsKleeneAlgebraHomomorphism K₁ K₂ f
+  → IsKleeneAlgebraHomomorphism K₂ K₃ g
+  → IsKleeneAlgebraHomomorphism K₁ K₃ (g ∘ f)
+isKleeneAlgebraHomomorphism f-homo g-homo = record
+  { isSemiringHomomorphism = isSemiringHomomorphism ≈₃-trans F.isSemiringHomomorphism G.isSemiringHomomorphism
+  ; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
+  } where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
+\end{minted}
+The composition of monomorphism and isomorphism can be defined similar to
+homomorphism and can be found in Agda standard library.
+
 \section{Direct Product}
 The \textit{direct product} $K \ \times \ L$ of two kleene algebra structures
 $K$ and $L$ is defined as a pair $(k,l)$ where $k \ \in \ K$ and $l \ \in \ L$.
