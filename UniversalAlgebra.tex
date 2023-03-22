@@ -1,33 +1,33 @@
 \chapter{Universal Algebra: An Overview}
 By the early 18th century, mathematicians had discovered how to solve polynomial
 equation of up-to degree 4. While trying to find a general solution for
-polynomial equation, Lagrange and Abel established permutation groups.
-Mathematician Gauss developed modular arithmetic from number theory. These
-sources including theory of algebraic structures and geometry became the main
-source for \textit{group theory}. It was mathematician Evariste Galois who
-coined the term \emph{group} and established group theory. He used group to
-determine the solvability of polynomial equations. Group theory was later
-discovered to be useful in other fields of mathematics such as modulus theory
-and geometry\cite{enwiki:1107380309}. Knowing the usefulness of this tool,
-mathematicians abstracted out the axioms of the group into a general tool. Thus
-evolved the structure group that we know today. As group theory, the study of
-group structures evolved, other abstract structures were invented to solve
-problems. This gave rise to a new field in mathematics called \emph{abstract
-algebra}. Abstract algebra is the study of algebraic structure and its models or
-examples \cite{enwiki:1107380309}. An algebraic structure is a tuple containing
-a 'carrier' set, A, a set of operations that act on A, and a set of axioms
-involving the operations and A. Some mathematicians were only interested in
-studying the structures themselves that is the arbitrary interpretation of the
-language and not the models that includes a theory that holds in the structure.
-Universal algebra is the study of algebraic structures and its properties. In
-the recent years, \emph{universal algebra} has seen an exponential growth in its
-study of theories and applications \cite{sankappanavar1981course}. 
+polynomial equation, Lagrange and Abel established permutation groups
+\cite{barnett2017roots}. Mathematician Gauss developed modular arithmetic from
+number theory and proved that equation $x^{m}-1=0$ can always be solved. These
+developments including in the field theory of algebraic structures and geometry
+became the main source for \textit{group theory} \cite{enwiki:1145792803}. It
+was mathematician Evariste Galois who coined the term \emph{group} and
+established group theory. He used group to determine the solvability of
+polynomial equations. Group theory was later discovered to be useful in various
+fields of mathematics such as modulus theory and geometry
+\cite{enwiki:1107380309}. As group theory, the study of group structures
+evolved, other abstract structures were invented to solve different problems.
+This gave rise to a new field in mathematics called \emph{abstract algebra}.
+Abstract algebra is the study of algebraic structure and its models or examples
+\cite{enwiki:1107380309}. An algebraic structure is a tuple containing a
+'carrier' set, A, a set of operations that act on A, and a set of axioms
+involving the operations and A. 
 
-Algebraic structures, like monoids, loops, groups and rings have similar
-properties. Universal algebra studies these structures by abstracting out the
-specific definitions and properties of algebraic structures. Universal algebra
-will deal with these algebraic structures as axiomatic theories in equational
-first-order logic \cite{YSharoda}.
+Some mathematicians were only interested in studying the structures themselves
+that is the arbitrary interpretation of the language and not the models that
+includes a theory that holds in the structure. Algebraic structures, like
+monoids, loops, groups and rings have similar properties. Universal algebra
+studies these structures by abstracting out the specific definitions and
+properties of algebraic structures. Universal algebra will deal with these
+algebraic structures as axiomatic theories in equational first-order logic
+\cite{YSharoda}. In the recent years, \emph{universal algebra} has seen an
+exponential growth in its study of theories and applications
+\cite{sankappanavar1981course}.
 
 \section{Relation and function}
 In order to understand algebraic structures, it is essential to know some basics
@@ -40,7 +40,7 @@ shapes, or even other sets. If $x$ is an object in set $S$ then we say x is an
 element of S and is denoted as $x \in S$.
 
 \item The \emph{Cartesian product} between two sets $X$ and $Y$,  $X \ \times\
-Y$ is defined as a pair ${(x,y) :\ x \ \in\ X,\ y\ \in\ Y }$. 
+Y$ is defined as a pair \(\{(x,y) :\ x \ \in\ X,\ y\ \in\ Y \}\). 
 
 \item A \emph{binary relation} is a subset of the Cartesian product of two sets that
 is a mapping between one set called \textit{domain} to the other set called the
@@ -48,7 +48,7 @@ is a mapping between one set called \textit{domain} to the other set called the
 the codomain. A binary relation $R$ on the set $X$ to $Y$ is denoted as an
 ordered pair $(x,y)$ or $xRy$ and element $x$ in $X$ and $y$ in $Y$.
 
-\item When talking about a set, we discuss about how different elements of the set can
+\item When talking about a set, we discuss how different elements of the set can
 be related in some way. For example, in set of integers $Z$, we may say that
 some $s,y \in Z$ are related if $x-y$ is divisible by 2. In other way, $x$ and
 $y$ are related only if they are both odd or both even. This idea of expressing
@@ -93,19 +93,6 @@ of the operation.
 \end{itemize}
 
 \section{Universe, type and signature}
-The naive set theory defines a set as well-defined collection of objects. If a
-set is defined using unrestricted comprehensive
-principle\cite{enwiki:1125383109}, then it leads to contradiction. This was
-first discovered by mathematician Bertrand Russell, and the paradox is called
-Russell's paradox. The paradox defines the set of all sets that are not the
-member of themselves \cite{russelPara}. This develops to two kinds of
-contradiction:
-\begin{enumerate}
-\item If the set contains itself, then it should not be a member of itself by
-definition
-\item If the set does not contain itself then it is not a member of itself.
-\end{enumerate}
-
 The signature of an algebraic structure can be defined as a collection of
 relation and operations with their arity on the set of an algebraic structure. A
 structure with \(\Omega\) signature is called as \(\Omega\) algebra.
@@ -126,7 +113,11 @@ respectively.
 
 For example, a group G is an algebra with one nullary (1), one unary
 (\textsuperscript{-1}) and one binary (∙) operation represented as $(G, ∙,
-\textsuperscript{-1}, 1)$ which satisfy the following axioms. 
+\textsuperscript{-1}, 1)$. Here, $\textsuperscript{-1}$ is an inverse operation.
+For a binary operation ∙, on set S, if x ∙ y = e where e is an identity element,
+and $x,y \in S$ then x is called the left inverse of y, and y is called the
+right inverse of x. An element is said to have an inverse if it has both left
+and right inverse. The group structure should satisfy the following axioms. 
 \begin{enumerate}
 \item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z \)
 \item Identity - \(∀ x \in G, x ∙ 1 ≈ 1 ∙ x ≈ x\)
@@ -211,8 +202,5 @@ structures. In this section, we will describe some of these constructions.
     (monomorphism/isomorphism).
 
     \item The \textit{direct product} between two algebras $A$ and $B$ is
-    defined as $A\ \times\ B\ =\ \{ (a,b)\ :\ a \ \in \ A\ b \ \in \ B \}$ If
-    $x,y\in A$ and $u,v \in B$, there is a natural binary operation on $A \times
-    B$ such that: $(a,u)\cdot(b,v):=(ab,uv)$. 
-
+    defined as $A\ \times\ B\ =\ \{ (a,b)\ :\ a \ \in \ A\ b \ \in \ B \}$.
 \end{itemize}
