@@ -4,7 +4,7 @@
 \usepackage{style/fancyheadings} % Header and footer styling
 \usepackage{setspace} % Allows double spacing but skips headers/footers
 \setcounter{tocdepth}{1} % Limits the TOC to chapter and section names
-
+\usepackage{natbib}
 % Additional packages
 \usepackage{graphicx} % Allows the inclusion of figures
 \usepackage{subcaption} % Allows captions to be added to subfigures
@@ -62,6 +62,12 @@
 \newunicodechar{∼}{\ensuremath{\mathnormal\sim}}
 \newunicodechar{×}{\ensuremath{\mathnormal\times}}
 \newunicodechar{¹}{\ensuremath{\textsuperscript{1}}}
+\newunicodechar{ₙ}{\ensuremath{\textsubscript{n}}}
+\newunicodechar{≡}{\ensuremath{\mathnormal\equiv}}
+\newunicodechar{⟨}{\ensuremath{\mathnormal\langle}}
+\newunicodechar{⟩}{\ensuremath{\mathnormal\rangle}}
+\newunicodechar{◦}{\ensuremath{\mathnormal\circ}}
+\newunicodechar{₀}{\ensuremath{\textsubscript{0}}}
 
 \numberwithin{equation}{section} % Numbers equations based on their section
 
@@ -127,7 +133,7 @@
 \end{appendix}
 \ignorecitefornumbering
 % The bibliography is set up to allow for multiple bib files
-\bibliographystyle{ieeetran}
+\bibliographystyle{plain}
 \nocite{*}
 \bibliography{references}
 

@@ -34,24 +34,21 @@ In order to understand algebraic structures, it is essential to know some basics
 of relations and functions. In this section, we define relations and functions.
 We can start with defining a set.
 \begin{itemize}
-\item 
-A set is a well-defined collection of objects. The elements or members of the
+\item A set is a well-defined collection of objects. The elements or members of the
 set can be mathematical object of any kind such as numbers, symbols, geometrical
 shapes, or even other sets. If $x$ is an object in set $S$ then we say x is an
-element of S and is denoted as $x\inS$.
+element of S and is denoted as $x \in S$.
 
 \item The \emph{Cartesian product} between two sets $X$ and $Y$,  $X \ \times\
 Y$ is defined as a pair ${(x,y) :\ x \ \in\ X,\ y\ \in\ Y }$. 
 
-\item
-A \emph{binary relation} is a subset of the Cartesian product of two sets that
+\item A \emph{binary relation} is a subset of the Cartesian product of two sets that
 is a mapping between one set called \textit{domain} to the other set called the
 \textit{codomain}. A relation assigns elements of domain to some elements in
 the codomain. A binary relation $R$ on the set $X$ to $Y$ is denoted as an
 ordered pair $(x,y)$ or $xRy$ and element $x$ in $X$ and $y$ in $Y$.
 
-\item 
-When talking about a set, we discuss about how different elements of the set can
+\item When talking about a set, we discuss about how different elements of the set can
 be related in some way. For example, in set of integers $Z$, we may say that
 some $s,y \in Z$ are related if $x-y$ is divisible by 2. In other way, $x$ and
 $y$ are related only if they are both odd or both even. This idea of expressing
@@ -71,8 +68,7 @@ a subset of \(X \times X\) such that \(∀ x y z \in X \) if \((x,y) \in R\) and
 \end{enumerate}
 In other words, a relation R is \emph{equivalence} if it is reflexive, symmetric and transitive.
 
-\item
-If in a relation, if every element in domain is mapped to only one element in
+\item If in a relation, if every element in domain is mapped to only one element in
 the codomain, then we call it a \emph{function}. In other words, function is a
 map $f$ from set $X$ (domain) to $Y$ (codomain) is a rule that assigns each
 element of $X$ to a unique element in $Y$. This can be expressed using the notation:
@@ -81,18 +77,17 @@ element of $X$ to a unique element in $Y$. This can be expressed using the notat
 For example, on set of natural numbers $N$ to $N$ we can define a function as:
 \[f:\ N \rightarrow N\]
 \[x \ \rightarrow\ x^{2}\]   
-\item Let $X$ and $Y$ be two sets, and $f:X\rightarrowY$ be the function then:
+\item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be the function then:
 \begin{enumerate}
     \item The function $f$ is \textit{identity} if $X=Y$ and $f(x)\ =\ x,\ \forall x\ \in
     \ Y$. The identity function can be denoted as $f=Id_s$.
     \item A function f is \emph{injective} if f maps distinct elements of domain to
-    distinct elements of codomain. $f$ is injective if $f(x)=f(y) \Rightarrow x = y \forallx,y \in X.$
+    distinct elements of codomain. $f$ is injective if $f(x)=f(y) \Rightarrow x = y \forall x,y \in X.$
     \item A function is called \emph{surjective} if given $y \in Y$, there
     exists $x\in X$ such that $f(x) = y$.
     \item A function is called \emph{bijective} if it is both injective and surjective.
 \end{enumerate}
-\item
-An \emph{operation} is defined as a function that can take zero or more inputs
+\item An \emph{operation} is defined as a function that can take zero or more inputs
 and maps it to a well-defined output value. The number of operands is the arity
 of the operation.
 \end{itemize}
@@ -207,16 +202,17 @@ structures. In this section, we will describe some of these constructions.
         \textit{epimorphism}.
     \end{enumerate}
 
-    \item For algebras $A$, $B$, and $C$ the \textit{composition of morphisms} $f:\ A \
-    \rightarrow \ B$ and $g:\ B \rightarrow\ C$ is denoted by the function $g\
-    \circ\ f\ :\ A\ \rightarrow \C$ and is defined as $(g\ \circ\ f)\ a = \ g(f\
-    a), \ \forall\ a\ \in\ A$. In \cite{sankappanavar1981course}, the author
-    proves that the composite of two homomorphism (monomorphism/isomorphism) is
-    also a homomorphism (monomorphism/isomorphism).
+    \item For algebras $A$, $B$, and $C$ the \textit{composition of morphisms}
+    $f:\ A \ \rightarrow \ B$ and $g:\ B \rightarrow\ C$ is denoted by the
+    function $g\ \circ \ f\ :\ A\ \rightarrow \ C$ and is defined as $(g\ \circ \
+    f)\ a = \ g\ (f\ a), \ \forall \ a\ \in\ A$. In \cite{sankappanavar1981course},
+    the author proves that the composite of two homomorphism
+    (monomorphism/isomorphism) is also a homomorphism
+    (monomorphism/isomorphism).
 
     \item The \textit{direct product} between two algebras $A$ and $B$ is
-    defined as \[A\ \cross\ B\ =\ {(a,b)\ |\ a \ \in \ A\ b \ \in\ B}\] If
-    $x,y\in A$ and $u,v \in B$, there is a natural binary operation on $A \cross
+    defined as $A\ \times\ B\ =\ \{ (a,b)\ :\ a \ \in \ A\ b \ \in \ B \}$ If
+    $x,y\in A$ and $u,v \in B$, there is a natural binary operation on $A \times
     B$ such that: $(a,u)\cdot(b,v):=(ab,uv)$. 
 
 \end{itemize}
