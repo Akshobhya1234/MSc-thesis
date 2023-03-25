@@ -15,11 +15,15 @@ explore morphisms and direct product for these structures and derive proofs for
 some of the properties of these structures.
 \section{Definitions}
 A set that has a binary operation is called Magma. In this case a Magma is total
-and should not be confused with groupoid that need not be total. A quasigroup
-can be defined as a magma with left and right division identities. In other
-words, a quasigroup is a set with a binary operation that satisfies the property
-that for every element in the set, there is a unique element in the set that
-provides a solution to the equation.
+and should not be confused with groupoid that need not be total. Formally, A
+magma is a set $S$ with a binary operation $∙$ such that, $\forall x,y \in S
+\Rightarrow (x ∙ y) \in S$. In Agda, magma structure is defined as
+\inline{IsMagma} with binary operation $∙$. A quasigroup can be defined as a
+magma with left and right division identities. In other words, a quasigroup is a
+set with a binary operation that satisfies the property that for every element
+in the set, there is a unique element in the set that provides a solution to the
+equation. The operation $\backslash$ (left division) and $/$ (right division)
+for elements $x,y$ in a quasigroup is defined as:
 
 \begin{equation} \label{eq_L-leftdivides}
 y\ =\ x\ ∙\ (x\ \backslash\ y)
@@ -78,12 +82,24 @@ field
 
 open IsMagma isMagma public
 \end{minted}
+In the above definition of \inline{IsQuasigroup} is a record type with three
+binary operations $∙,\ \backslash\backslash \ //$ on some set $A$. (a ⊔ ℓ)
+returns the largest of two \inline{Level}. The structure has five fields.
+\inline{isMagma} field is used to say that the structure \inline{IsQuasigroup}
+has a structure \inline{IsMagma} with other following predicates.
+\inline{\\-cong} and \inline{//-cong} field are used to say that the division
+operations are congruent. \inline{Congruent₂ <//,\\>} is used to say that the
+binary division operation is congruent.  The division predicates are given using
+\inline{leftDivides} and \inline{rightDivides} from the definition
+\inline{LeftDivides} and \inline{RightDivides} above. We then oepn
+\inline{IsMagma} as public to bring its definitions into scope.
 
-A loop is a quasigroup that has identity element.
+A loop is a quasigroup that has identity element. The identity axiom is given
+as:
 \begin{equation}\label{eq_lineslope}
 x\ ∙\ e\ =\ e\ ∙\ x\ =\ x
 \end{equation}
-
+Conversely, in Agda, (left-right) identity is defined as:
 \begin{minted}[samepage]{Agda}
 LeftIdentity : A → Op₂ A → Set _
 LeftIdentity e _∙_ = ∀ x → (e ∙ x) ≈ x
@@ -95,7 +111,8 @@ Identity : A → Op₂ A → Set _
 Identity e ∙ = (LeftIdentity e ∙) × (RightIdentity e ∙)
 \end{minted}
 
-Loop structure can be structurally derived from quasigroup.
+Similar to quasigroup, loop structure can be structurally derived from
+quasigroup.
 
 \begin{minted}[samepage]{Agda}
 record IsLoop (∙ \\ // : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
@@ -155,6 +172,16 @@ The quasigroup homomorphism preserves both left and right division
 operations. Morphisms are important in understanding the relationships between
 different quasigroups and loops and can be used to prove important theorems
 about these structures.
+
+For quasigroups $(Q_1,∙,\backslash \backslash ,//)$ and $(Q_2,\circ,\backslash ,/)$,
+homomorphism is defined as a structure preserving map \( f:(Q_1,∙,\backslash
+\backslash,//) \rightarrow (Q_2,\circ,\backslash,/) \) such that:
+\begin{itemize}
+  \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
+  \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
+  \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
+\end{itemize}
+In Agda, quasigroup homomorphism can be defined as:
 \begin{minted}[samepage]{Agda}
 record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -166,6 +193,18 @@ record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
   open IsRelHomomorphism isRelHomomorphism public
     renaming (cong to ⟦⟧-cong)
 \end{minted}
+In the above definition of quasigroup homomorphism, \inline{Homomorphic₂} is the
+structure preserving map on some set A and B with binary operations ∙ and
+$\circ$ respectively.
+\begin{minted}[samepage]{Agda}
+Homomorphic₂ : (A → B) → Op₂ A → Op₂ B → Set _
+Homomorphic₂ ⟦_⟧ _∙_ _∘_ = ∀ x y → ⟦ x ∙ y ⟧ ≈ (⟦ x ⟧ ∘ ⟦ y ⟧)
+\end{minted}
+
+In the code above, \inline{⟦_⟧} is the map $(A \rightarrow B)$ that takes one
+argument. Similar to quasigroup homomorphism, quasigroup monomorphism and
+isomorphism can be defined as: 
+
 \begin{minted}[samepage]{Agda}
 record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -183,7 +222,13 @@ record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔
   open IsQuasigroupMonomorphism isQuasigroupMonomorphism public
 \end{minted}
 The loop morphism preserves left and right divisions along with the identity
-element.
+element. The morphism $f$ preserves all the binary operations as quasigroup
+along with the identity element. That is if \( f:(L_1,∙,\backslash
+\backslash,//,e_1) \rightarrow (L_2,\circ,\backslash,/,e_2) \) is a loop homomorphism if
+it is a quasigroup homomorphism such that: 
+\[f(e_1) = e_2\] where $e_1$ is the identity element of loop $L_1$ and $e_2$ is
+the identity element of loop $L_2$
+In Agda, loop homomorphism can be defined using quasigroup homomorphism as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -192,6 +237,13 @@ record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) wh
 
   open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
 \end{minted}
+In the loop homomorphism defined above, \inline{Homomorphic₀} is a structure
+preserving map for a nullary element and is defined as:
+\begin{minted}[samepage]{Agda}
+Homomorphic₀ : (A → B) → A → B → Set _
+Homomorphic₀ ⟦_⟧ ∙ ∘ = ⟦ ∙ ⟧ ≈ ∘
+\end{minted}
+Similarly, loop monomorphism and loop isomorphism are defined in Agda as:
 \begin{minted}[samepage]{Agda}
 record IsLoopMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -211,7 +263,7 @@ record IsLoopIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ�
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
 structure such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
-defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. 
 \begin{minted}[breaklines,samepage]{Agda}
 isQuasigroupHomomorphism
   : IsQuasigroupHomomorphism Q₁ Q₂ f
@@ -222,8 +274,19 @@ isQuasigroupHomomorphism f-homo g-homo = record
   ; ∙-homo              = λ x y → ≈₃-trans (G.⟦⟧-cong ( F.∙-homo x y )) ( G.∙-homo (f x) (f y) )
   ; \\-homo              = λ x y → ≈₃-trans (G.⟦⟧-cong ( F.\\-homo x y )) ( G.\\-homo (f x) (f y) )
   ; //-homo              = λ x y → ≈₃-trans (G.⟦⟧-cong ( F.//-homo x y )) ( G.//-homo (f x) (f y) )
-  } where module F = IsQuasigroupHomomorphism f-homo; module G = IsQuasigroupHomomorphism g-homo
+  } where module F = IsQuasigroupHomomorphism f-homo; 
+          module G = IsQuasigroupHomomorphism g-homo
 \end{minted}
+In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
+from quasigroup Q₁ to Q₂, \inline{g} is a homomorphism from quasigroup Q₂ to Q₃.
+\inline{isRelHomomorphism} field givese the composition of homomorphism for a
+homogeneous binary relation (≈). We can define the composition for binary
+operations homomorphism (∙) using transitive relation \inline{≈₃-trans} from Q₁
+to Q₃ such that \[g (f ((Q₁ ∙ x) y)) ≈ (g ((Q₂ ∙ f x) (f y)) \text{ and } g ((Q₂ ∙ f x) (f
+y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
+\[g (f ((Q₁ ∙ x) y)) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
+
+Similarly, composition of loop homomorphism is defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 isLoopHomomorphism
   : IsLoopHomomorphism L₁ L₂ f
@@ -232,7 +295,8 @@ isLoopHomomorphism
 isLoopHomomorphism f-homo g-homo = record
   { isQuasigroupHomomorphism = isQuasigroupHomomorphism ≈₃-trans F.isQuasigroupHomomorphism G.isQuasigroupHomomorphism
   ; ε-homo = ≈₃-trans (G.⟦⟧-cong F.ε-homo) G.ε-homo
-  } where module F = IsLoopHomomorphism f-homo; module G = IsLoopHomomorphism g-homo
+  } where module F = IsLoopHomomorphism f-homo; 
+          module G = IsLoopHomomorphism g-homo
 \end{minted}
 
 Monomorphism and isomorphism compositions constructs for quasigroup and loop are
@@ -257,6 +321,11 @@ quasigroup M N = record
     }
   } where module M = Quasigroup M; module N = Quasigroup N
 \end{minted}
+In the above code, \inline{zip} gives a $\Sigma$-type of dependent pairs.
+\inline{<*>} is used to convert the curried functions to a function on pair.
+Currying a function is to break down a function that takes multiple arguments
+into a series of function that takes exactly one argument. The direct product of
+loop structure can be defined similar to quasigroup as:
 \begin{minted}[breaklines,samepage]{Agda}
 loop : Loop a ℓ₁ → Loop b ℓ₂ → Loop (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 loop M N = record
