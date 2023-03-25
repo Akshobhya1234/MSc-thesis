@@ -10,7 +10,7 @@ construct of D\textsubscript{A}-rewriting system. Semigroup structures are also
 used in finite automata systems, probability theory and partial differential
 equations are explored in \cite{liaqat2021some}.\\
 
-Similarly, textit{ring} is an algebraic structure that also have notable
+Similarly, \textit{ring} is an algebraic structure that also have notable
 applications such as in number theory \cite{noauthor_undated-eq}, quantum
 computing \cite{netto2008influence}, in cryptography \cite{ringcrypt} and many
 other fields. Variations of ring structure such as a near-ring, quasi-ring, and
@@ -20,15 +20,16 @@ these structures in Agda, we will explore this question. The aim of this chapter
 is to define these structures and prove some properties in the Agda standard
 library that can help build other systems that uses these structures.
 \section{Definition}
-Following Figure 1.1, we may observe that we can derive semigroups from magma by
-adding associative property. For binary operation \(∙\) on a set S, the
-associative property is defined as 
+A magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
+that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we may
+observe that we can derive semigroups from magma by adding associative property.
+For binary operation \(∙\) on a set S, the associative property is defined as 
 \begin{equation}
 \forall\ x\ y\ z\ \in\ S :\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
 \end{equation}
- A semigroup that satisfies commutative property is called commutative
- semigroup. For binary operation \( ∙ \) on a set S, commutative property is
- defined as 
+A semigroup that satisfies commutative property is called commutative
+semigroup. For binary operation \( ∙ \) on a set S, commutative property is
+defined as 
 \begin{equation}
 \forall\ x\ y\ \in\ S :\ x\ ∙\ y\ =\ y\ ∙\ x\
 \end{equation}
@@ -56,7 +57,11 @@ field
 
 open IsMagma isMagma public
 \end{minted}
-Similarly, commutative semigroup can be derived from semigroup as:
+In the above definition \inline{IsSemigroup} is a record type with two fields
+\inline{isMagma} and \inline{assoc}. $∙$ is a parameter of type Op₂ on set $A$
+denotes the binary operation for the semiring. \inline{a ⊔ ℓ} is the least upper
+bound for the set. Similarly, commutative semigroup can be derived from
+semigroup as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 field
@@ -67,22 +72,59 @@ open IsSemigroup isSemigroup public
 \end{minted}
 
 Continuing on, we may encode various ring structures as follows: Non-associative
-ring is an algebraic structure with two binary operations addition and
-multiplication. Addition is an Abelian group that is a group with commutative
-property and multiplication is unital magma that is a magma with identity. In
-non-associative ring, multiplication distributes over addition. 
+ring is an algebraic structure with two binary operations addition (+) and
+multiplication (*). Addition is an Abelian group that is a group with
+commutative property and multiplication is unital magma that is a magma with
+identity. A group is a monoid with inverse property and a monoid is a semigroup
+with an identity element. A magma is called unital if it has an identity
+element. In non-associative ring, multiplication distributes over addition and
+it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,⁻¹,0,1)$
+should satisfy the following axioms:
+\begin{itemize}
+  \item + is an abelianGroup:
+   \begin{itemize}
+    \item Associativity: $\forall x,y,z \in R: x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in R: (x + 0) = x = (0 + x)$
+    \item Inverse: $\forall x \in R: (x + x⁻¹) = 0 = (x⁻¹ + x)$
+  \end{itemize}
+  \item * is a unital magma
+  \begin{itemize}
+    \item Identity: $\forall x,y \in R: (x * 1) = x = (1 * x)$
+  \end{itemize}
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+\end{itemize}
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
-field
-  +-isAbelianGroup : IsAbelianGroup + 0# -_
-  *-cong           : Congruent₂ *
-  *-identity       : Identity 1# *
-  distrib          : * DistributesOver +
-  zero             : Zero 0# *
+ field
+   +-isAbelianGroup : IsAbelianGroup + 0# -_
+   *-cong           : Congruent₂ *
+   *-identity       : Identity 1# *
+   distrib          : * DistributesOver +
+   zero             : Zero 0# *
+
+ open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
 A quasiring is a type (2,2,0,0) algebraic structure for which both addition and
-multiplication is a monoid and multiplication distributes over addition.
+multiplication is a monoid and multiplication distributes over addition, and has
+an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axioms:
+\begin{itemize}
+  \item + is a monoid:
+  \begin{itemize}
+    \item Associativity: $\forall x,y,z \in Q: x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in Q: (x + 0) = x = (0 + x)$
+  \end{itemize}
+  \item * is a monoid:
+  \begin{itemize}
+    \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
+    \item Identity: $\forall x \in Q: (x * 1) = x = (1 * x)$
+  \end{itemize}
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+\end{itemize}
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -98,8 +140,8 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 \end{minted}
 
 A quasiring with additive inverse is called a nearring. This implies that for
-nearring addition is a group and multiplication is a monoid and multiplication
-distributes over addition.
+the structure nearring, addition is a group, multiplication is a monoid,
+multiplication distributes over addition, and has an annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
@@ -112,9 +154,27 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
 \end{minted}
 
 Ring without one or rig or ring without unit is an algebraic structure with two
-binary operations $(+,*)$ such that addition is an Abelian group and multiplication is a
-semigroup and multiplication distributes over addition Ring is rig with
-identity.
+binary operations with a unary and a nullary operations. The binary operation
+addition (+) is an Abelian group and the binary operation multiplication (*) is
+a semigroup. For RingWithoutOne, multiplication distributes over addition and
+has an annihilating zero. A ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the
+following axiom:
+\begin{itemize}
+  \item + is an abelianGroup:
+   \begin{itemize}
+    \item Associativity: $\forall x,y,z \in R: x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in R: (x + 0) = x = (0 + x)$
+    \item Inverse: $\forall x \in R: (x + x⁻¹) = 0 = (x⁻¹ + x)$
+  \end{itemize}
+  \item * is a semigroup
+  \begin{itemize}
+    \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
+  \end{itemize}
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+\end{itemize}
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ) where
   field
@@ -129,7 +189,21 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
 \section{Morphism} 
 A structure preserving map between two structures is called \textit{morphism}.
 In this section morphism of RingWithoutOne structure is discussed. Morphisms of
-quasiring, nearring can be found in agda standard library.
+quasiring, nearring can be found in agda standard library. The homomorphism for
+ringWithoutOne structure can be defined using group homomorphism. For two group
+structures $(G_1,+_1,)$ and $(G_2,+_2)$, homomorphism $f:G_1 \rightarrow G_2$ is
+a structure preserving map such that:
+\begin{itemize}
+  \item $f$ preserves the binary operation: $f(x +_1 y) = f(x) +_2 f(y)$
+  \item $f$ preserves the inverse operation: $f(x⁻¹) = f(x)⁻¹$
+  \item $f$ preserves the identity: $f(e_1) = e_2$ where $e_1$ is the identity
+  in $G_1$ and $e_2$ is the identity in $G_2$
+\end{itemize}
+Homomorphism for ringWithoutOne is extended from group homomorphism such that
+got two ringWithoutOne structures $(R_1,+_1,*_1)$ and $(R_2,+_2,*_2)$, the
+homomorphism $f: R_1 \rightarrow R_2$ is a group homomorphism and preserves the
+multiplication operation. That is $f$ is a group homomorphism and \(f(x *_1 y) =
+f(x) *_2 f(y)\).
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -140,7 +214,11 @@ record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
     renaming (homo to +-homo; ε-homo to 0#-homo;
     isMagmaHomomorphism to +-isMagmaHomomorphism)
 \end{minted} 
-A Homomorphism that is injective is called monomorphism. 
+In the above definition of ringWithoutOne homomorphism
+\inline{IsRingWithoutOneHomomorphism} is defined as a record type with two
+fields \inline{+-isGroupHomomorphism} and \inline{*-homo}. \inline{Homomorphic₂}
+is used to define the homomorphism for \inline{*₁} and \inline{*₂}. A
+Homomorphism that is injective is called monomorphism and can ve defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -149,7 +227,8 @@ record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
 
   open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
 \end{minted}
-A monomorphism that is bijective is called an isomorphism
+A monomorphism that is bijective is called an isomorphism. Isomorphism of
+ringWithoutOne structure can be defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -175,7 +254,15 @@ defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
     } where module F = IsRingWithoutOneHomomorphism f-homo;
 		 module G = IsRingWithoutOneHomomorphism g-homo
 \end{minted}
-
+In the above ringWithoutOne homomorphism composition, \inline{f} is a
+homomorphism from ringWithoutOne structures R₁ to R₂, \inline{g} is a
+homomorphism from ringWithoutOne structures R₂ to R₃.
+\inline{isGroupHomomorphism} field givese the composition of group homomorphism.
+We can define the composition for binary operations homomorphism (*) using
+transitive relation \inline{≈₃-trans} from Q₁ to Q₃ such that \[g (f ((R₁ * x)
+y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ * g (f x))
+(g (f y)))\]
+\[g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 \section{Direct Product}
 The \textit{direct product} $M \ \times \ N$ of two ringWithoutOne structures
 $M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
@@ -199,8 +286,9 @@ ringWithoutOne R S = record
 
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
 \end{minted}
-The \textit{direct product} $M \ \times \ N$ of two non-associative ring structures
-$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
+The \textit{direct product} $M \ \times \ N$ of two
+non-associative ring structures $M$ and $N$ is defined as a pair $(m,n)$ where
+$m \ \in \ M$ and $n \ \in \ N$.
 \begin{minted}[breaklines,samepage]{Agda}
 nonAssociativeRing : NonAssociativeRing a ℓ₁ →
 		 NonAssociativeRing b ℓ₂ → NonAssociativeRing (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
