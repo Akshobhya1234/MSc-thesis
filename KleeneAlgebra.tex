@@ -1,12 +1,12 @@
 \chapter{Theory of Kleene Algebra in Agda}
 Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for
-his invention of finite automata and regular expressions. Kleene algebras are
-used in various contexts such as relational algebra, automata and formal theory,
-design and analysis of algorithms and program analysis and compiler optimization
-\cite{kozen1997kleene}. Kleene algebra generalizes operations from regular
-expressions. The axiomization of the algebra if regular events was recently
-proposed in 1966 but it was in 1984, a completeness theorem for relational
-algebra with a proper subclass of Kleene algebra was given.
+his contribution in the field of finite automata and regular expressions. Kleene
+algebras are used in various contexts such as relational algebra, automata and
+formal theory, design and analysis of algorithms and program analysis and
+compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes
+operations from regular expressions. The axiomization of the algebra if regular
+events was recently proposed in 1966 but it was in 1984, a completeness theorem
+for relational algebra with a proper subclass of Kleene algebra was given.
 \cite{kozen1994completeness}. Although there are some differences in axioms of
 kleene algebra, in this chapter we consider the axioms defined in
 \cite{kozen1994completeness}
@@ -14,10 +14,29 @@ kleene algebra, in this chapter we consider the axioms defined in
 \section{Definition}
 A set S with two binary operations + and ∙ generally called addition and
 multiplication such that (S,+) is a commutative monoid, (S,∙) is a monoid and +
-distributes over ∙ with annhiliating zero is called a semiring. A semiring
-satisfying idempotent property is called idempotent semiring. A Kleene Algebra
-over set S is idempotent semiring with \textsuperscript{*} operator that satisfies the
-following axioms.
+distributes over ∙ with annihilating zero is called a semiring. A semiring
+satisfying idempotent property is called idempotent semiring. 
+An idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
+\begin{itemize}
+  \item + is a commutative monoid:
+  \begin{itemize}
+    \item Associativity: $\forall x,y,z \in S: x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in S: (x + 0) = x = (0 + x)$
+    \item Commutativity: $\forall x,y \in S: (x + y) = (y + x)$
+  \end{itemize}
+  \item * is a monoid:
+  \begin{itemize}
+    \item Associativity: $ \forall x,y,z \in S: x * (y*z)  = (x*y)*z$
+    \item Identity: $\forall x \in S: (x * 1) = x = (1 * x)$
+  \end{itemize}
+  \item Idempotent: $\forall x \in S: (x + x) = x$
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+  \item annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+\end{itemize}
+
+A Kleene Algebra over set S is idempotent semiring with $^{*}$
+operator that satisfies the following axioms.
 \begin{equation}\label{eq_starrightexpansive}
 1\ +\ (x\ ∙\ (x^{*}))\ \leq\ x^{*}
 \end{equation}
@@ -30,11 +49,10 @@ following axioms.
 \begin{equation}\label{eq_starrightdestructive}
 \forall\ a,\ b,\ x\ \in\ S:\ \text{If} \ b\ +\ x\ ∙\ a\ \leq\ x \  \text{then},\ b\ ∙\ (a^{*})\ \leq\ x
 \end{equation}
-In Agda, strong axioms of operator \ \textsuperscript{*} is given. That is instead of
-partial order, equivalance is given in the above equations. Kleene algebra with
+In Agda, strong axioms of operator $^{*}$ is given. That is instead of
+partial order, equivalance is given in the above equations.\footnote{ Kleene algebra with
 partial and pre order structures are defined in "Algebra.Ordered.Structures" in
-Agda standard library.\footnote{Agda standard library uses operator + for
-addition, * for multiplication and $\star$ for star operation.} 
+Agda standard library.}
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
 StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) ≈ (x *)
@@ -69,25 +87,13 @@ field
 
 open IsIdempotentSemiring isIdempotentSemiring public
 \end{minted}
-The bundled version of kleene algebra is defined as: 
-\begin{minted}[breaklines,samepage]{Agda}
-record KleeneAlgebra c ℓ : Set (suc (c ⊔ ℓ)) where
-infix  8 _⋆
-infixl 7 _*_
-infixl 6 _+_
-infix  4 _≈_
-field
-  Carrier               : Set c
-  _≈_                   : Rel Carrier ℓ
-  _+_                   : Op₂ Carrier
-  _*_                   : Op₂ Carrier
-  _⋆                    : Op₁ Carrier
-  0#                    : Carrier
-  1#                    : Carrier
-  isKleeneAlgebra       : IsKleeneAlgebra _≈_ _+_ _*_ _⋆ 0# 1#
-
-open IsKleeneAlgebra isKleeneAlgebra public
-\end{minted}
+In the above definition, \inline{IsKleeneAlgebra} structure is defined as a
+record type with three fields. Since \inline{*} is used to denote binary
+multiplication operation, we use \inline{⋆} for the unary star operator. The
+field \inline{isIdempotentSemiring} makes an idempotentSemiring with operator
+$+,*,0#, \text{ and } 1#$. Fields \inline{starExpansive} and
+\inline{starDestructive} are used to give the axioms for the star operator. We
+open \inline{isIdempotentSemiring} to bring its definitions into scope.
 \section{Morphism}
 A morphism of Kleene algebra is a function between two Kleene algebras that
 preserves the algebraic structure of the underlying semiring and the Kleene star
@@ -96,6 +102,19 @@ languages and automata, as they allow us to relate the behavior of different
 automata and regular expressions to each other. Morphism of Kleene algebra help
 to generalize the theory of regular languages and finite automata to more
 general algebraic structures.
+
+For Kleene algebra $(K_1,+_1,*_1,^{*_1},0_1,1_1)$ and
+$(K_2,+_2,*_2,^{*_2},0_2,1_2)$, the homomorphism $f: K_1 \rightarrow K_2$ can be
+defined by using the homomorphism of structure idempotent semiring and
+preserving the $^{*}$ operator. Formally, $f: K_1 \rightarrow K_2$ is a
+structure preserving map such that:
+\begin{itemize}
+  \item $f$ preserves binary operation $+$: $f(x +_1 y) = f(x) +_2 f(y)$
+  \item $f$ preserves binary operation $*$: $f(x *_1 y) = f(x) *_2 f(y)$
+  \item $f$ preserves additive identity: $f(0_1) = 0_2$
+  \item $f$ preserves multiplicative identity: $f(1_1) = 1_2$
+  \item $f$ preserves star operation: $f(x^{*_1}) = f(x)^{*_2}$
+\end{itemize}
 \begin{minted}[samepage,breaklines]{Agda}
   record IsKleeneAlgebraHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -104,6 +123,12 @@ general algebraic structures.
 
   open IsSemiringHomomorphism isSemiringHomomorphism public
 \end{minted}
+In Agda, \inline{Homomorphic₁} is used to give the homomorphism for unary
+operation, and is defined as:
+\begin{minted}[samepage]{Agda}
+Homomorphic₁ : (A → B) → Op₁ A → Op₁ B → Set _
+Homomorphic₁ ⟦_⟧ ∙_ ∘_ = ∀ x → ⟦ ∙ x ⟧ ≈ (∘ ⟦ x ⟧)
+\end{minted} 
 A Kleene algebra homomorphism which is injective gives a monomorphism. 
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
@@ -138,8 +163,14 @@ isKleeneAlgebraHomomorphism f-homo g-homo = record
   ; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
   } where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
 \end{minted}
-The composition of monomorphism and isomorphism can be defined similar to
-homomorphism and can be found in Agda standard library.
+The proof for homomorphism composition is homomorphic is given using the proof
+for semiring homomorphism composition. \inline{⋆-homo} gives composition for
+star operator using transitive relation such that: 
+\[g (f (x^{*_1})) = (g (f x) ^{*_2}) \text{ and } (g (f x) ^{*_2}) = (g (f x))^{*_3}\] 
+\[\Rightarrow g (f (x^{*_1})) = (g (f x))^{*_3}\]
+ The composition of
+monomorphism and isomorphism can be defined similar to homomorphism and can be
+found in Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} $K \ \times \ L$ of two kleene algebra structures
@@ -160,7 +191,7 @@ kleeneAlgebra K L = record
 \section{Properties}
 In this section we prove some properties of kleene algebra
 
-Let (K, +, *, \textsuperscript{*}, 0, 1) be a kleene algebra then:
+Let $(K, +, *, ^{*}, 0, 1)$ be a kleene algebra then:
 \begin{enumerate}
 \item $0^{*}\ =\ 1$
 \item $1^{*}\ =\ 1$

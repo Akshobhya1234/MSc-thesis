@@ -84,7 +84,8 @@ open IsMagma isMagma public
 \end{minted}
 In the above definition of \inline{IsQuasigroup} is a record type with three
 binary operations $∙,\ \backslash\backslash \ //$ on some set $A$. (a ⊔ ℓ)
-returns the largest of two \inline{Level}. The structure has five fields.
+returns the largest of two \inline{Level} \footnote{Level are used in universe
+polymorphism discussed in Chapter 3} (a,ℓ). The structure has five fields.
 \inline{isMagma} field is used to say that the structure \inline{IsQuasigroup}
 has a structure \inline{IsMagma} with other following predicates.
 \inline{\\-cong} and \inline{//-cong} field are used to say that the division
@@ -284,7 +285,7 @@ homogeneous binary relation (≈). We can define the composition for binary
 operations homomorphism (∙) using transitive relation \inline{≈₃-trans} from Q₁
 to Q₃ such that \[g (f ((Q₁ ∙ x) y)) ≈ (g ((Q₂ ∙ f x) (f y)) \text{ and } g ((Q₂ ∙ f x) (f
 y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
-\[g (f ((Q₁ ∙ x) y)) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
+\[\Rightarrow g (f ((Q₁ ∙ x) y)) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
 
 Similarly, composition of loop homomorphism is defined as:
 \begin{minted}[breaklines,samepage]{Agda}
