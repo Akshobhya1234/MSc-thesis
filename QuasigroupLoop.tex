@@ -222,8 +222,9 @@ record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔
 
   open IsQuasigroupMonomorphism isQuasigroupMonomorphism public
 \end{minted}
-The loop morphism preserves left and right divisions along with the identity
-element. The morphism $f$ preserves all the binary operations as quasigroup
+
+The loop homomorphism preserves left and right divisions along with the identity
+element. The homomorphism $f$ preserves all the binary operations as quasigroup
 along with the identity element. That is if \( f:(L_1,∙,\backslash
 \backslash,//,e_1) \rightarrow (L_2,\circ,\backslash,/,e_2) \) is a loop homomorphism if
 it is a quasigroup homomorphism such that: 
@@ -281,10 +282,10 @@ isQuasigroupHomomorphism f-homo g-homo = record
 In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
 from quasigroup Q₁ to Q₂, \inline{g} is a homomorphism from quasigroup Q₂ to Q₃.
 \inline{isRelHomomorphism} field givese the composition of homomorphism for a
-homogeneous binary relation (≈). We can define the composition for binary
-operations homomorphism (∙) using transitive relation \inline{≈₃-trans} from Q₁
-to Q₃ such that \[g (f ((Q₁ ∙ x) y)) ≈ (g ((Q₂ ∙ f x) (f y)) \text{ and } g ((Q₂ ∙ f x) (f
-y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
+homogeneous binary relation (≈). We can prove that the composition for binary
+operations homomorphism (∙) for quasigroup is homomorphic using transitive
+relation \inline{≈₃-trans} such that \[g (f ((Q₁ ∙ x) y)) ≈ (g ((Q₂ ∙ f x) (f
+y)) \text{ and } g ((Q₂ ∙ f x) (f y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
 \[\Rightarrow g (f ((Q₁ ∙ x) y)) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
 
 Similarly, composition of loop homomorphism is defined as:
