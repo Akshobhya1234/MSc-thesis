@@ -31,11 +31,12 @@ is multiplication has no identity or is a semigroup. This ambiguity is some time
 attributed to the language of origin of the algebraic structures. In this case
 rng is used in French where as ring in english. These confusions can be seen in
 literature and in online blogs where it is difficult to imply the definition of
-intent when they are not explicitly defined. \\
+intent when they are not explicitly defined. 
+
 In Agda, ring is defined as an algebraic structure with two binary operations +
 and * where + is an abelian group and * is a monoid. The binary operation *
 distributes over + that is multiplication distributes over addition and it has a
-zero.\\
+zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -95,8 +96,8 @@ always possible. Latin square property states that for each a, b in set Q there
 exists unique elements x, y in Q such that the following property is satisfied
 \cite{quasigroupWiki}
 \begin{center}
-a ∙ x = b\\
-y ∙ a = b \\
+\[a ∙ x = b\]
+\[y ∙ a = b\]
 \end{center}
 Another definition of quasigroup is given as type (2,2,2) algebra in which for a
 set Q and binary operations ∙, \textbackslash{}, / quasigroup should satisfy
@@ -120,20 +121,20 @@ field
 open IsMagma isMagma public
 \end{minted}
 
-A quasigroup with signature (2) and a quasigroup with signature (2,2,2) are
-equivalent but are structurally different.  In the algebra hierarchy, a Loop is
-an algebraic structure that is a quasigroup with identity. It can be observed
-the same problem persists through the hierarchy. If a loop is defined with a
-quasigroup that is type (2,2,2) algebra then it is a loop structure of type (2)
-will be forced to be defined with suboptimal name. One plausible solution to
-this problem is to define the structures in different modules and import
-restrict them when using. This problem of not being able to overload names for
-structures also affects when defining types of quasigroup or loops such as bol
-loop and moufang loop.
+A quasigroup with type (2) and a quasigroup with type (2,2,2) are equivalent but
+are structurally different.  In the algebra hierarchy, a Loop is an algebraic
+structure that is a quasigroup with identity. It can be observed the same
+problem persists through the hierarchy. If a loop is defined with a quasigroup
+that is type (2,2,2) algebra then it is a loop structure of type (2) will be
+forced to be defined with suboptimal name. One plausible solution to this
+problem is to define the structures in different modules and import restrict
+them when using. This problem of not being able to overload names for structures
+also affects when defining types of quasigroup or loops such as bol loop and
+moufang loop.
 
 Since quasigroup is defined in terms of division operation, loop is also defined
 as a type (2,2,2) algebra in Agda. The definition of loop structure in Agda is
-given below.\\
+given below.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsLoop (∙ \\ // : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
@@ -158,7 +159,7 @@ equivalence field. This redundancy can also be seen in other structures like
 ring, lattice, module, etc., To remove this redundant field in Agda the
 structure except the first is opened and expressed in terms of independent
 axioms that they satisfy. For example, semiring without identity or rig
-structure in Agda is defined as \\
+structure in Agda is defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -214,7 +215,7 @@ and monoid. Other definition of near-ring can be derived using the structure
 quasiring. Quasiring is an algebraic structure in which addition is a monoid,
 multiplication is a monoid and multiplication distributes over addition. Using
 this definition of quasiring, near-ring can be defined as a quasiring which has
-additive inverse. \\
+additive inverse.
 In Agda nearring is defined in terms of quasiring with additive inverse 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
@@ -264,11 +265,11 @@ to each other. We do not consider this argument in the scope of this thesis.
 A product family algebra is an idempotent commutative semiring (S, +,  ∙, 0, 1)
 where S is the set of product families then:
 \begin{enumerate}
- \item \(\forall\) a, b \(\in\) S: a + b represents the choice between a and b.
- \item \(\forall\) a, b \(\in\) S: a ∙ b represents combinations between a and
- b.
- \item 0 is the additive identity that is the empty product family \\
- \item 1 is the multiplicative identity that is the product family containing
+ \item \(\forall a, b \in S\), $a + b$ represents the choice between $a$ and $b$.
+ \item \(\forall a, b \in S, a ∙ b\) represents combinations between $a$ and
+ $b$.
+ \item $0$ is the additive identity that is the empty product family \\
+ \item $1$ is the multiplicative identity that is the product family containing
  empty product with no features.
 \end{enumerate}
 This section provides a brief insight over feature modelling and product family
@@ -281,7 +282,7 @@ decomposition and double arcs between two arrows represent or decomposition of
 features. The root node is the algebraic structure and the leaf nodes represent
 the axioms or the identities that the algebraic structure satisfy. The nodes
 that are not leaf or root nodes represent an algebraic structure that is below
-the hierarchy of the root node. \\
+the hierarchy of the root node. 
 
 The semigroup structure can be represented using algebraic structure magma with
 associative property. In the figure ~\ref{fig_multienv_1} the arrow has single
