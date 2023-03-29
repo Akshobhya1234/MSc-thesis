@@ -230,12 +230,12 @@ record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
 A monomorphism that is bijective is called an isomorphism. Isomorphism of
 ringWithoutOne structure can be defined as:
 \begin{minted}[breaklines,samepage]{Agda}
-record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+record IsRingWithoutOneIsoMorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
   field
-    isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
-    injective                    : Injective ⟦_⟧
+    isRingWithoutOneMonomorphism : IsRingWithoutOneMonomorphism ⟦_⟧
+    surjective                   : Surjective ⟦_⟧
 
-  open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
+  open IsRingWithoutOneMonomorphism isRingWithoutOneMonomorphism public
 \end{minted}
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
