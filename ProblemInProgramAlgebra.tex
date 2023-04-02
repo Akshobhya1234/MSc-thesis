@@ -2,14 +2,14 @@
 
 Algebraic structures show variations in syntax and semantics depending on the
 system or language in which they are defined. Each system discussed in chapter
-1 have their own style of defining structures in the standard libraries. For
-example, in Coq Ring is defined without multiplicative identity. However, in
-Agda, Ring has multiplicative identity and Rng is defined as RingWithoutOne that
+3 have their own style of defining structures in the standard libraries. For
+example, in Coq, ring is defined without multiplicative identity. However, in
+Agda, ring has multiplicative identity and rng is defined as ringWithoutOne that
 has no multiplicative identity. This ambiguity in naming is also seen in
 literature. Another example is same structure having multiple definitions like
-Quasigroups. Quasigroups can be defined as type(2) algebra with latin square
+Quasigroups. Quasigroups can be defined as type(2) algebra with Latin square
 property or as type(2,2,2) with left and right division operators. Both the
-definitions are equivalent but they are structurally different. This chapter
+definitions are equivalent, but they are structurally different. This chapter
 identifies and classifies five important problems that arises when defining
 algebraic structures in proof assistant systems. 
 
@@ -20,23 +20,23 @@ scenario of making an incorrect interpretation of the algebraic structure when
 it is not clearly stated. In abstract algebra and algebraic structure these
 scenarios can be more common. This can be attributed to lack of naming
 convention that is followed in naming algebraic structures and it's properties.
-For example Ring and Rng. Some mathematicians define Ring as an algebraic
-structure that is an abelian group under addition and a monoid under
-multiplication. This definition is also be named explicitly as ring with unit or
-ring with identity. Rng is defined as an algebraic structure that is an abelian
-group under addition and a semigroup under multiplication. The same structure is
-also defined as ring without identity. However, this definitions are often
-interchanged i.e., some mathematicians define ring as ring without identity that
-is multiplication has no identity or is a semigroup. This ambiguity is some time
-attributed to the language of origin of the algebraic structures. In this case
-rng is used in French where as ring in english. These confusions can be seen in
-literature and in online blogs where it is difficult to imply the definition of
-intent when they are not explicitly defined. 
+For example, consider algebraic structures ring and rng. Some mathematicians
+define ring as an algebraic structure that is an abelian group under addition
+and a monoid under multiplication. This definition is also named explicitly as
+ring with unit or ring with identity. Rng is defined as an algebraic structure
+that is an abelian group under addition and a semigroup under multiplication.
+The same structure is also defined as ring without identity. However, these
+definitions are often interchanged i.e., some mathematicians define ring as ring
+without identity that is multiplication has no identity or is a semigroup. This
+ambiguity is some time attributed to the language of origin of the algebraic
+structures. In this case rng is used in French whereas ring in English. These
+confusions can be seen in literature and in online blogs where it is difficult
+to imply the definition of intent when they are not explicitly defined. 
 
 In Agda, ring is defined as an algebraic structure with two binary operations +
 and * where + is an abelian group and * is a monoid. The binary operation *
-distributes over + that is multiplication distributes over addition and it has a
-zero.
+distributes over + that is multiplication distributes over addition, and it has
+annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -50,7 +50,7 @@ field
 
 open IsAbelianGroup +-isAbelianGroup public
 \end{minted} 
-\inline{Rng} is defined as ring wihthout one where one is assumend to be multiplication identity.\\
+\inline{Rng} is defined as ringWihthoutOne where one is the multiplication identity.
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -63,14 +63,14 @@ field
 open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
-Another example of ambiguity is Nearring. In some papers, Nearring is defined as
-a structure where addition is a group and multiplication is a monoid. But some
-mathematicians use the definition where multiplication is a semigroup. The same
-confusion also arises in defining semiring and rig structures. Wikipedia states
-that the term rig originated as a joke that it is similar to rng that is missing
-alphabet n and i to represent the identity does not exist for these structures.
-In Agda rig is defined as semiring without one where one is represents the
-multiplicative identity.
+Another example of ambiguity arises when defining structure nearring. Nearring
+is defined as a structure where addition is a group and multiplication is a
+monoid. But some mathematicians use the definition where multiplication is a
+semigroup. The same confusion also arises in defining semiring and rig
+structures. \cite{enwiki:1133737666} states that the term rig originated as a
+joke that it is similar to rng that is missing the alphabet n and i to represent the
+identity does not exist for these structures. In Agda rig is defined as semiring
+without one where one is represents the multiplicative identity.
 
 For axioms of structures, the names are usually invented when defining the
 structure. As an example when defining Kleene Algebra in Agda, starExpansive and
@@ -88,12 +88,13 @@ open IsIdempotentSemiring isIdempotentSemiring public
 \end{minted} 
 
 \section{Equivalent but structurally different}
-Quasigroup structure is an example that can be defined in two ways. A type (2)
-Quasigroup can be defined as a set Q and binary operation ∙ can be defined as
-that is a magma and satisfies latin square property. Quasigroup of type (2,2,2)
-is a structure with three binary operations, a magma for which division is
-always possible. Latin square property states that for each a, b in set Q there
-exists unique elements x, y in Q such that the following property is satisfied
+Quasigroup structure is an example that can be defined in two ways that are
+equivalent but structurally different. A type (2) Quasigroup can be defined as a
+set Q and binary operation ∙ that is a magma and satisfies Latin square
+property. Quasigroup of type (2,2,2) is a structure with three binary
+operations, a magma for which division is always possible. Latin square property
+states that for each a, b in set Q there exists unique elements x, y in Q such
+that the following property is satisfied
 \cite{quasigroupWiki}
 \begin{center}
 \[a ∙ x = b\]
@@ -122,15 +123,15 @@ open IsMagma isMagma public
 \end{minted}
 
 A quasigroup with type (2) and a quasigroup with type (2,2,2) are equivalent but
-are structurally different.  In the algebra hierarchy, a Loop is an algebraic
-structure that is a quasigroup with identity. It can be observed the same
-problem persists through the hierarchy. If a loop is defined with a quasigroup
-that is type (2,2,2) algebra then it is a loop structure of type (2) will be
-forced to be defined with suboptimal name. One plausible solution to this
-problem is to define the structures in different modules and import restrict
-them when using. This problem of not being able to overload names for structures
-also affects when defining types of quasigroup or loops such as bol loop and
-moufang loop.
+are structurally different \cite{flinn2021algebraic}. In the algebra hierarchy,
+a Loop is an algebraic structure that is a quasigroup with identity. It can be
+observed the same problem persists through the hierarchy. If a loop is defined
+with a quasigroup that is type (2,2,2) algebra then it is a loop structure of
+type (2) will be forced to be defined with suboptimal name. One plausible
+solution to this problem is to define the structures in different modules and
+import restrict them when using. This problem of not being able to overload
+names for structures also affects when defining types of quasigroup or loops
+such as bol loop and moufang loop.
 
 Since quasigroup is defined in terms of division operation, loop is also defined
 as a type (2,2,2) algebra in Agda. The definition of loop structure in Agda is
@@ -146,20 +147,19 @@ open IsQuasigroup isQuasigroup public
 \end{minted}
 
 \section{Redundant field in structural inheritance}
-Redundancy arises when there is duplication of the same field. In programming
-redundant of code is considered a bad practice and is usually avoided by
-modularizing and creating functions that perform similar tasks. In algebraic
-structures, redundant fields can be introduced in structures that are defined in
-terms of two or more structures. For example semiring can be as commutative
-monoid under addition and a monoid under multiplication and multiplication
-distributes over addition. In Agda, both monoid and commutative monoid have an
-instance of equivalence relation. If semiring is defined in terms of commutative
-monoid and monoid then this definition of the semiring will have a redundant
-equivalence field. This redundancy can also be seen in other structures like
-ring, lattice, module, etc., To remove this redundant field in Agda the
-structure except the first is opened and expressed in terms of independent
-axioms that they satisfy. For example, semiring without identity or rig
-structure in Agda is defined as:
+In programming redundant of code is considered a bad practice and is usually
+avoided by modularizing and creating functions that perform similar tasks. In
+algebraic structures, redundant fields can be introduced in structures that are
+defined in terms of two or more structures. For example semiring can be defined
+as commutative monoid under addition and a monoid under multiplication. In Agda,
+both monoid and commutative monoid have an instance of equivalence relation. If
+semiring is defined in terms of commutative monoid and monoid then this
+definition of the semiring will have a redundant equivalence field. This
+redundancy can also be seen in other structures like ring, lattice, module, and
+other algebraic structures. To remove this redundant field in Agda the structure
+except the first is opened and expressed in terms of independent axioms that
+they satisfy. For example, semiring without identity or rig structure in Agda is
+defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -208,15 +208,15 @@ imported when required.
 In abstract algebra when formalizing algebraic structures from the hierarchy,
 same algebraic structure can be derived from two or more structures. One such
 example is Nearring. Nearring is an algebraic structure with two binary
-operations addition and multiplication. Near ring is a group under addition and
+operations addition and multiplication. Nearring is a group under addition and
 is a monoid under multiplication and multiplication right distributes over
-addition. In this case near-ring is defined using two algebraic structures group
-and monoid. Other definition of near-ring can be derived using the structure
+addition. In this case nearring is defined using two algebraic structures group
+and monoid. Other definition of nearring can be derived using the structure
 quasiring. Quasiring is an algebraic structure in which addition is a monoid,
 multiplication is a monoid and multiplication distributes over addition. Using
-this definition of quasiring, near-ring can be defined as a quasiring which has
-additive inverse.
-In Agda nearring is defined in terms of quasiring with additive inverse 
+this definition of quasiring, nearring can be defined as a quasiring which has
+an additive inverse. In Agda nearring is defined in terms of quasiring with
+additive inverse 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
 field
@@ -226,10 +226,10 @@ field
 
 open IsQuasiring isQuasiring public
 \end{minted}
-Note that in some literature, near-ring is defined in which multiplication is a
+Note that in some literature, nearring is defined in which multiplication is a
 semigroup that is without identity. This can be attributed to the problem with
 ambiguity. It can be analyzed that having two different definitions for same
-structure is not a good practice. If near-ring is defined using quasiring then
+structure is not a good practice. If nearring is defined using quasiring then
 it should also give an instance of additive group without having it to construct
 it when using the above formalization. This solution might solve the problem at
 first but in practice this becomes tedious and can go to a point at which this
@@ -237,10 +237,10 @@ can be impractical especially when formalizing structures at higher level in the
 algebra hierarchy.
 
 \section{Equivalent structures}
-Consider the example of idempotent-commutative-monoid and bounded semilattice.
+Consider the example of idempotent commutative monoid and bounded semilattice.
 It can be observed that both are essentially same structure. In this case it
 could be redundant to define two different structures from different hierarchy.
-Instead, in Agda, aliasing is used. Idempotent-commutative-monoid is defined and
+Instead, in Agda, aliasing is used. Idempotent commutative monoid is defined and
 an aliasing for bounded semilattice is given.
 \begin{minted}[breaklines,samepage]{Agda}
   record IsIdempotentCommutativeMonoid (∙ : Op₂ A)
@@ -258,8 +258,8 @@ module IsBoundedSemilattice {∙ ε} (L : IsBoundedSemilattice ∙ ε) where
 \end{minted}
 
 Note that some mathematicians argue that bounded semilattice and idempotent
-commutative monoid are not structurally the same structures but are isomorphic
-to each other. We do not consider this argument in the scope of this thesis.
+commutative monoid are not the same structures but are isomorphic to each other.
+We do not consider this argument in the scope of this thesis.
 
 \section{Mitigation using product family algebra}
 A product family algebra is an idempotent commutative semiring (S, +,  ∙, 0, 1)
@@ -277,8 +277,8 @@ algebra but developing the model that satisfies the idea is out of scope of this
 thesis.
 
 The feature model is an and/or diagram as in Feature Oriented Domain Analysis
-(FODA) \cite{kang1990feature}. Single arc between two arrows represent and
-decomposition and double arcs between two arrows represent or decomposition of
+(FODA) \cite{kang1990feature}. Single arc between two arrows represent AND
+decomposition and double arcs between two arrows represent OR decomposition of
 features. The root node is the algebraic structure and the leaf nodes represent
 the axioms or the identities that the algebraic structure satisfy. The nodes
 that are not leaf or root nodes represent an algebraic structure that is below
