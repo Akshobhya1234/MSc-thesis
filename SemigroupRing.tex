@@ -46,7 +46,7 @@ With this declaration of associativity and commutativity, we may further
 restrict the operations used to build a magma to one that is also associative to
 make it a semigroup. This we obtain the code below, semigroup that is
 structurally derived from magma.\footnote{Semigroup and commutative semigroup structure definitions with direct product
-and morphism constructs were previously defined in agda standard library and
+and morphism constructs were previously defined in Agda standard library and
 hence will not be discussed in details in this chapter.}
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -189,7 +189,7 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
 \section{Morphism} 
 A structure preserving map between two structures is called \textit{morphism}.
 In this section morphism of RingWithoutOne structure is discussed. Morphisms of
-quasiring, nearring can be found in agda standard library. The homomorphism for
+quasiring, nearring can be found in Agda standard library. The homomorphism for
 ringWithoutOne structure can be defined using group homomorphism. For two group
 structures $(G_1,+_1,)$ and $(G_2,+_2)$, homomorphism $f:G_1 \rightarrow G_2$ is
 a structure preserving map such that:
@@ -353,7 +353,7 @@ nearring R S =  record
 \section{Properties}
 With these definitions, we can prove some frequently used properties and theories
 about the structures.\footnote{This section provides proof for properties that
-was contributed by the author and other properties can be found in agda standard
+was contributed by the author and other properties can be found in Agda standard
 library.}
 \subsection{Properties of Semigroup}
 Let $(S, ∙)$ be a semigroup then
