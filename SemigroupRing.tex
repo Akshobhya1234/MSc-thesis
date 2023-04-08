@@ -121,9 +121,9 @@ an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axi
     \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
     \item Identity: $\forall x \in Q: (x * 1) = x = (1 * x)$
   \end{itemize}
-  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  \item Multiplication distributes over addition: \(\forall x , y , z \in Q: (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+  \item Annihilating zero: \(\forall x \in Q: (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -168,7 +168,7 @@ following axiom:
   \end{itemize}
   \item * is a semigroup
   \begin{itemize}
-    \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
+    \item Associativity: $ \forall x,y,z \in R: x * (y*z)  = (x*y)*z$
   \end{itemize}
   \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
@@ -238,8 +238,8 @@ record IsRingWithoutOneIsoMorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁
   open IsRingWithoutOneMonomorphism isRingWithoutOneMonomorphism public
 \end{minted}
 \section{Morphism composition}
-If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
-algebraic structure such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
+If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
+such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 \begin{minted}[breaklines,samepage]{Agda}
   isRingWithoutOneHomomorphism
@@ -255,11 +255,11 @@ defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 		 module G = IsRingWithoutOneHomomorphism g-homo
 \end{minted}
 In the above ringWithoutOne homomorphism composition, \inline{f} is a
-homomorphism from ringWithoutOne structures R₁ to R₂, \inline{g} is a
-homomorphism from ringWithoutOne structures R₂ to R₃.
+homomorphism from ringWithoutOne structures $R₁$ to $R₂$, \inline{g} is a
+homomorphism from ringWithoutOne structures $R₂$ to $R₃$.
 \inline{isGroupHomomorphism} field givese the composition of group homomorphism.
 We can define the composition for binary operations homomorphism (*) using
-transitive relation \inline{≈₃-trans} from Q₁ to Q₃ such that \[g (f ((R₁ * x)
+transitive relation \inline{≈₃-trans} from $R₁$ to $R₃$ such that \[g (f ((R₁ * x)
 y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ * g (f x))
 (g (f y)))\]
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]

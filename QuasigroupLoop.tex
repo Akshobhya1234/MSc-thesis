@@ -7,7 +7,7 @@ differential geometry\cite{quasigroupWiki}. With proof assistants, such as Agda,
 we can verify the relevant mathematical proofs of these algebraic structures.
 They are interactive software that help to derive complex mathematical proofs.
 In this chapter, we formalize two important non-associative algebras -
-quasigroup, and loop structure. A \textit{quasigroup} (Q, ∙, /, \textbackslash)
+quasigroup, and loop structure. A \textit{quasigroup} $(Q, ∙, /, \backslash)$
 is a type (2,2,2) algebra for which the binary operations \textbackslash (left
 division) and / (right division) are defined such that division is always
 possible.  A \textit{loop} is a quasigroup with identity. In this chapter, we
@@ -263,8 +263,8 @@ record IsLoopIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ�
   open IsLoopMonomorphism isLoopMonomorphism public
 \end{minted}
 \section{Morphism composition}
-If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism on same
-structure such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
+If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
+such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. 
 \begin{minted}[breaklines,samepage]{Agda}
 isQuasigroupHomomorphism
@@ -280,7 +280,7 @@ isQuasigroupHomomorphism f-homo g-homo = record
           module G = IsQuasigroupHomomorphism g-homo
 \end{minted}
 In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
-from quasigroup Q₁ to Q₂, \inline{g} is a homomorphism from quasigroup Q₂ to Q₃.
+from quasigroup $Q₁$ to $Q₂$, \inline{g} is a homomorphism from quasigroup $Q₂$ to $Q₃$.
 \inline{isRelHomomorphism} field givese the composition of homomorphism for a
 homogeneous binary relation (≈). We can prove that the composition for binary
 operations homomorphism (∙) for quasigroup is homomorphic using transitive
@@ -346,8 +346,8 @@ Agda.
 \subsection{Properties of Quasigroup}
 Let $(Q, ∙, /, \backslash)$ be a quasigroup then:
 \begin{enumerate}
-\item Q is cancellative. A quasigroup is left cancellative if x ∙ y = x ∙ z then
-y = z and a quasigroup is right cancellative if y ∙ x = z ∙ x then y = z. A
+\item $Q$ is cancellative. A quasigroup is left cancellative if $x\ ∙\ y\ =\ x\ ∙\ z$ then
+$y\ =\ z$ and a quasigroup is right cancellative if $y\ ∙\ x\ =\ z\ ∙\ x$ then $y\ =\ z$. A
 quasigroup is cancellative if it is both left and right cancellative.
 \item \(\forall \ x,\ y,\ z\ \in Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \backslash \ z\)
 \item \(\forall \ x,\ y,\ z\ \in \ Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ x\ = z\ /\ y\)
@@ -509,8 +509,8 @@ Let $(M, ∙, /, \backslash)$ be a moufang loop then the following identities
 holds.
 \begin{enumerate}
 \item Moufang loop is alternative. A moufang loop is left alternative if it
-satisfies\\ $(x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)$, a moufang loop is right
-alternative if it satisfies $x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y$ and if a moufang loop
+satisfies \((x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\), a moufang loop is right
+alternative if it satisfies \(x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y\) and if a moufang loop
 alternative if it is both left and right alternative. 
 \item Moufang loop is flexible. A Moufang loop is flexible if it satisfies
 flexible identity $(x\ ∙\ y)\ ∙\ x\ =\ x\ ∙\ (y\ ∙\ x)$

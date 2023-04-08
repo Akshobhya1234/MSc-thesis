@@ -12,11 +12,11 @@ Kleene algebra, in this chapter we consider the axioms defined in
 \cite{kozen1994completeness}
 
 \section{Definition}
-A set S with two binary operations + and ∙ generally called addition and
-multiplication such that (S,+) is a commutative monoid, (S,∙) is a monoid and +
-distributes over ∙ with annihilating zero is called a semiring. A semiring
-satisfying idempotent property is called idempotent semiring. 
-An idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
+A set S with two binary operations $+$ and $∙$ generally called addition and
+multiplication such that $(S,+)$ is a commutative monoid, $(S,∙)$ is a monoid
+and $+$ distributes over $∙$ with annihilating zero is called a semiring. A
+semiring satisfying idempotent property is called idempotent semiring. An
+idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
 \begin{itemize}
   \item + is a commutative monoid:
   \begin{itemize}
@@ -30,18 +30,18 @@ An idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
     \item Identity: $\forall x \in S: (x * 1) = x = (1 * x)$
   \end{itemize}
   \item Idempotent: $\forall x \in S: (x + x) = x$
-  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  \item Multiplication distributes over addition: \(\forall x , y , z \in S: (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+  \item Annihilating zero: \(\forall x \in S: (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
-A Kleene Algebra over set S is idempotent semiring with $^{*}$
+A Kleene Algebra over set S that is an idempotent semiring with $^{*}$
 operator that satisfies the following axioms.
 \begin{equation}\label{eq_starrightexpansive}
-1\ +\ (x\ ∙\ (x^{*}))\ \leq\ x^{*}
+\forall\ x\ \in\ S:\ 1\ +\ (x\ ∙\ (x^{*}))\ \leq\ x^{*}
 \end{equation}
 \begin{equation}\label{eq_starleftexpansive}
-1\ +\ (x^{*})\ ∙\ x\ \leq\ x^{*}
+\forall\ x\ \in\ S:\ 1\ +\ (x^{*})\ ∙\ x\ \leq\ x^{*}
 \end{equation}
 \begin{equation}\label{eq_starleftdestructive}
 \forall\ a,\ b,\ x\ \in\ S:\ \text{If} \ b\ +\ a\  ∙\ x\ \leq\ x\ \text{then},\ (a^{*})\ ∙\ b\ \leq\ x
@@ -151,8 +151,8 @@ record IsKleeneAlgebraIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ 
 
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
-on same Kleene algebra structure such that $g\ :\ b\ \rightarrow \ c$, then
-composition of morphism can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
+defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 \begin{minted}[samepage,breaklines]{Agda}
   isKleeneAlgebraHomomorphism
   : IsKleeneAlgebraHomomorphism K₁ K₂ f
@@ -163,14 +163,15 @@ isKleeneAlgebraHomomorphism f-homo g-homo = record
   ; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
   } where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
 \end{minted}
-The proof for homomorphism composition is homomorphic is given using the proof
-for semiring homomorphism composition. \inline{⋆-homo} gives composition for
-star operator using transitive relation such that: 
+In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
+from Kleene algebra $K₁$ to $K₂$, \inline{g} is a homomorphism from Kleene
+algebra $K₂$ to $K₃$. The proof for homomorphism composition is homomorphic is
+given using the proof for semiring homomorphism composition. \inline{⋆-homo}
+gives composition for star operator using transitive relation such that: 
 \[g (f (x^{*_1})) = (g (f x) ^{*_2}) \text{ and } (g (f x) ^{*_2}) = (g (f x))^{*_3}\] 
-\[\Rightarrow g (f (x^{*_1})) = (g (f x))^{*_3}\]
- The composition of
-monomorphism and isomorphism can be defined similar to homomorphism and can be
-found in Agda standard library.
+\[\Rightarrow g (f (x^{*_1})) = (g (f x))^{*_3}\] The composition of
+ monomorphism and isomorphism can be defined similar to homomorphism and can be
+ found in Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} $K \ \times \ L$ of two Kleene algebra structures

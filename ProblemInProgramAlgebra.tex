@@ -299,7 +299,6 @@ semigroup.
 	\caption{Feature diagram of semigroup}
 	\label{fig_multienv_1}
 \end{figure}
-
 Using product family algebra, a semigroup is represented as 
 \begin{enumerate}
 \item $Equivalence\ =\ Reflexive\ ∙\ Symmetric\ ∙\ Transitive$
@@ -323,12 +322,13 @@ Using product family algebra, nearring can be represented using above semigroup 
 \item  $Nearring\ =\ (+-Group\ ∙\ *-Monoid)\ +\ (Quasiring\ ∙\ ⁻¹-Inverse)$
 \end{enumerate}
 
-In the above representation of the issue with identical structures, operation +
-represents a union. That means Nearring can have both (+-Group ∙ *-Monoid) and
-(Quasiring ∙ ⁻¹-Inverse) but it will have many redundant fields. To over come
-this problem it is best to use XOR decomposition (filled diamond) that prevents
-having two full definition of the same structure. Figure ~\ref{fig_quasigroup}
-shows an example of XOR decomposition when defining quasigroup.
+In the above representation of the issue with identical structures, operation
+$+$ represents a union. That means Nearring can have both $(+-Group ∙ *-Monoid)$
+and $(Quasiring ∙ ⁻¹-Inverse)$ but it will have many redundant fields. To over
+come this problem it is best to use XOR decomposition (denoted as filled
+diamond) that prevents having two full definition of the same structure. Figure
+~\ref{fig_quasigroup} shows an example of XOR decomposition when defining
+quasigroup.
  \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/Sample/quasigroupPFA.jpg}
@@ -342,11 +342,11 @@ The product family algebra of quasigroup can be defined as:
 \item $Magma\ =\ Equivalence\ ∙\ Congruent$
 \item $Quasigroup\ =\ Magma\ ∙\ (Latin Square Property\ \(\oplus\)\ Division)$
 \end{enumerate}
-In figure ~\ref{fig_nearring}, there are multiple definitions of the same structures
-for different operations. In the feature diagram this can be eliminated by
-mentioning the operation as weight to the arrow. Figure ~\ref{fig_nearringArrow}
-shows the feature diagram where the binary operation is represented at the
-highest possible arrow. 
+In figure ~\ref{fig_nearring}, there are multiple definitions of the same
+structures for different operations. In the feature diagram this can be
+eliminated by mentioning the binary operation as weight to the arrow. Figure
+~\ref{fig_nearringArrow} shows the feature diagram where the binary operation is
+represented at the highest possible arrow. 
  \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/Sample/nearringArrow.jpg}
