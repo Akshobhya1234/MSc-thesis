@@ -4,7 +4,7 @@
 \usepackage{style/fancyheadings} % Header and footer styling
 \usepackage{setspace} % Allows double spacing but skips headers/footers
 \setcounter{tocdepth}{1} % Limits the TOC to chapter and section names
-
+\usepackage{breakcites}
 % Additional packages
 \usepackage{graphicx} % Allows the inclusion of figures
 \usepackage{subcaption} % Allows captions to be added to subfigures
@@ -158,9 +158,9 @@
 
 \end{appendix}
 
-\ignorecitefornumbering
+
 % The bibliography is set up to allow for multiple bib files
-\bibliographystyle{ieeetran}
+\bibliographystyle{ACM-Reference-Format}
 \nocite{*}
 \bibliography{references}
 
