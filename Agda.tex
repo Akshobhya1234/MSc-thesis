@@ -1,26 +1,24 @@
 \chapter{Agda}
 Agda is a dependently typed programming language based on unified theory of
-dependent types \cite{enwiki:1127496533} and is an extension of Martin-Löf type
-theory. Dependent programming allows programmers to define types that depend on
-values, to write functions that utilize these types, and to prove the
-correctness of the program in the same language. In other words, dependent type
-theory allow types to depend on values and expressions. Agda has been used in
-various applications such as formal verification, program synthesis, theorem
-proving, and automated reasoning. It is also used by researchers and academician
-to teach and explore the concepts of functional programming, type theory, and
-formal methods.
+dependent types and is an extension of Martin-Löf type theory. Dependent
+programming allows programmers to define types that depend on values, to write
+functions that utilize these types, and to prove the correctness of the program
+in the same language. In other words, dependent type theory allow types to
+depend on values and expressions. Agda has been used in various applications
+such as formal verification, program synthesis, theorem proving, and automated
+reasoning. It is also used by researchers and academician to teach and explore
+the concepts of functional programming, type theory, and formal methods.
 
-Agda is also a poroof assistant system. Agda is designed to help programmers to
+Agda is also a proof assistant system. Agda is designed to help programmers to
 write and verify correct and efficient programs by allowing them to express
 their intentions in a precise and formal way. One of the key features of Agda is
-its support for interactive, and constructive programming. Interactive programming allows
+its support for interactive, and constructive. Interactive programming allows
 the programmer to incrementally develop and refine their code, by testing and
-verifying each intermediate step. Constructive programming ensures that every
-expression and function in the language has a well-defined meaning and
-computation rules, which makes it easier to reason about their behavior and
-correctness. This chapter provides a brief overview of programming in Agda in
-the context of algebraic structures
-. 
+verifying each intermediate step. Agda is a constructive formal system, it
+ensures that every expression and function in the language has a well-defined
+meaning and computation rules, which makes it easier to reason about their
+behavior and correctness. This chapter provides a brief overview of programming
+in Agda in the context of algebraic structures. 
 
 \section{Types and functions}
 Agda is based on a core language that provides a minimal set of primitives and
@@ -42,19 +40,18 @@ An inductive datatype is a datatype that is defined in terms of itself. In the
 code snippet \ref{code:Nat}, \inline{Nat} is an inductive type defined with base
 constant \inline{zero} and an inductive data constructor \inline{suc}.
 \inline{zero} and \inline{suc} are constructors, where \inline{suc} has a
-parameter (\inline{Nat}) and \inline{zero} has no parameters. In this example,
-the smallest element is \inline{zero}. It is important to note that Agda is a
-total language, i.e., each program in Agda will terminate, and all possible
-patterns will be matched\cite{kidney2020finiteness}. Another way of defining a
-type is using the keyword \inline{record}. Record type helps to put values
-together, and the values are tuples of values of specified type. A record type
-can be defined by referencing other types and creating a synonym. An example of
-record type is discussed later in the chapter when we define algebraic
-structure.
+parameter of type (\inline{Nat}) and \inline{zero} has no parameters. In this
+example, the smallest element is \inline{zero}. It is important to note that
+Agda is a total language, i.e., each program in Agda will
+terminate\cite{kidney2020finiteness}. Another way of defining a type is using
+the keyword \inline{record}. Record type helps to put values together, and the
+values are tuples of values of specified types. A record type can be defined by
+referencing other types and creating a synonym. An example of record type is
+discussed later in the chapter when we define algebraic structure.
 
 Those familiar with Haskell will find Agda to be somewhat familiar. For example,
 functions have a very similar syntax to those in Haskell. A function in Agda is
-defined by declaring the type followed by the clauses \cite{agdaFunction}. 
+defined by declaring the type followed by the clauses. 
 \begin{minted}[breaklines,samepage]{Agda}
 f : (x₁ : A₁) → ... → (xₙ : Aₙ) → B
 f p₁ ... pₙ = d
@@ -64,8 +61,8 @@ f q₁ ... qₙ = e
 Where \inline{f} is the function identified, \inline{p} and \inline{q} are the
 patterns of type \inline{A}. \inline{d} and \inline{e} are expressions. There
 are other ways to define a function such as using dot patterns, absurd patterns,
-as patterns and case trees \cite{agdaFunction}. In Agda, a function to and from
-each type is provided if there is a bijection between two types.
+as patterns and case trees. In Agda, a function to and from each type is
+provided if there is a bijection between two types.
 
 For example, we can define addition on natural numbers as a recursive function:
 \label{code:Add}
@@ -84,9 +81,9 @@ call \inline{suc n}. This ensures that the function \inline{_+_} always
 terminates.
 
 \section{Structure definition}
-Let us first understand how unary and binary operations are defined in Agda standard
-library. Below code shows how unary operation \inline{Op₁} and binary operation
-\inline{Op₂} are defined:
+Let us first understand how unary and binary operations are defined in the Agda
+standard library. Below code shows how unary operations \inline{Op₁} and binary
+operation \inline{Op₂} are defined:
 \begin{minted}[breaklines,samepage]{Agda}
 Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
 Op₁ A = A → A
@@ -108,9 +105,20 @@ generalized to an arbitrary level.
 An algebraic structure can be defined in Agda using the record keyword, which is
 used to define a new data type along with its properties. The structures are
 obtained by wrapping the predicates that are expressed as "is-a" relation
-\cite{hu2021formalizing}. The following example shows how to define a magma
-structure in Agda:
+\cite{hu2021formalizing}.
 
+The types of algebraic structures are defined in module
+\inline{Algebra.Structures} that has an underlying set \inline{A} and the
+equality relation \inline{_≈_}.
+\begin{minted}[breaklines,samepage]{Agda}
+module Algebra.Structures
+  {a ℓ} {A : Set a} 
+  (_≈_ : Rel A ℓ)    
+  where
+\end{minted}
+
+The following example shows how to characterise magma
+structures in Agda:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
   field
@@ -125,14 +133,12 @@ declared as the fields of the record, which include equivalence
 \inline{isEquivalence} and congruence \inline{∙-cong}. \inline{∙} is a binary
 operation on the set \inline{A}. \inline{a ⊔ ℓ} is the least upper bound for the
 set. \inline{_≈_} is the binary operation argument for \inline{IsEquivalence}.
-
-If a relation P on set A is equivalent to relation Q on set B, then we say f
-preserves p for some map f from set A to B. \inline{Congruent₂ ∙} represents
-that the binary operation ∙ preserves equivalence relation.
-\inline{IsEquivalence} and \inline{Congruent₂} are predicates defined in
-standard library. We open the module \inline{isEquivalence} to bring its
-definition into scope. The open statement is made public using the keyword
-\inline{public} to be able to re-export the names from another module.
+\inline{Congruent₂ ∙} represents that the binary operation ∙ preserves
+equivalence relation. \inline{IsEquivalence} and \inline{Congruent₂} are
+predicates defined in standard library. We open the module
+\inline{isEquivalence} to bring its definition into scope. The open statement is
+made public using the keyword \inline{public} to be able to re-export the names
+from another module.
 
 The bundled version of the structures contains the operations of the structures,
 sets and axioms. 
@@ -170,18 +176,14 @@ may need to rename the fields to avoid having ambiguity. Keyword
     ; ∙-congʳ  to *-congʳ
     )
 \end{minted} 
-In the sample code ~\ref{code:rename}, we rename \inline{∙-congˡ}  to \inline{*-congˡ}
-and \inline{∙-congʳ}  to \inline{*-congʳ} thus avoiding conflict with same
-elements exported by other module.
+We rename \inline{∙-congˡ}  to \inline{*-congˡ} and \inline{∙-congʳ}  to
+\inline{*-congʳ} thus avoiding conflict with same elements exported by other
+module.
 
-\section{Equational Proofs in Agda}
-In constructive mathematics, knowledge comes with implicit arguments.
-Constructive proofs use the existence of a mathematical object is given by
-giving a way to create the method. \cite{enwiki:1090644431}. An equational proof
-is a sequence of steps that transform one expression into another using a set of
-rules. Writing proofs in Agda follows a syntax called dependent types, which
-allows us to declare properties of functions and data types that need to be
-verified by the compiler. \cite{kidney2020finiteness}.  
+\section{Calculational Proofs in Agda}
+An proof is a sequence of steps that transform one expression into another using
+a set of rules. Agda allows us to declare properties of functions and data types
+that need to be verified by the compiler. \cite{kidney2020finiteness}.  
 
 In the previous section, we have seen how to define natural number and addition
 function on it. Now, we will write an inductive proof using pattern matching

@@ -81,13 +81,13 @@ element. In non-associative ring, multiplication distributes over addition and
 it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,⁻¹,0,1)$
 should satisfy the following axioms:
 \begin{itemize}
-  \item + is an abelianGroup:
+  \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
     \item Associativity: $\forall x,y,z \in R: x + (y + z) = (x + y) + z$
     \item Identity: $\forall x \in R: (x + 0) = x = (0 + x)$
     \item Inverse: $\forall x \in R: (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
-  \item * is a unital magma
+  \item $(R,*,1)$ is a unital magma
   \begin{itemize}
     \item Identity: $\forall x,y \in R: (x * 1) = x = (1 * x)$
   \end{itemize}
@@ -111,19 +111,19 @@ A quasiring is a type (2,2,0,0) algebraic structure for which both addition and
 multiplication is a monoid and multiplication distributes over addition, and has
 an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axioms:
 \begin{itemize}
-  \item + is a monoid:
+  \item $(Q,+,0)$ is a monoid:
   \begin{itemize}
-    \item Associativity: $\forall x,y,z \in Q: x + (y + z) = (x + y) + z$
-    \item Identity: $\forall x \in Q: (x + 0) = x = (0 + x)$
+    \item Associativity: $\forall x,y,z \in Q, x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in Q, (x + 0) = x = (0 + x)$
   \end{itemize}
-  \item * is a monoid:
+  \item $Q,*,1$ is a monoid:
   \begin{itemize}
     \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
-    \item Identity: $\forall x \in Q: (x * 1) = x = (1 * x)$
+    \item Identity: $\forall x \in Q, (x * 1) = x = (1 * x)$
   \end{itemize}
-  \item Multiplication distributes over addition: \(\forall x , y , z \in Q: (x * (y + z)) = (x * y) + (x
+  \item Multiplication distributes over addition: \(\forall x , y , z \in Q, (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item Annihilating zero: \(\forall x \in Q: (x * 0) = 0 = (0 * x)\)
+  \item Annihilating zero: \(\forall x \in Q, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -138,6 +138,8 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 
   open IsMonoid +-isMonoid public
 \end{minted}
+Note: We don't define quasiring with \inline{*-isMonoid} to remove the redundant
+equivalence relation. This is discussed in Chapter 8.
 
 A quasiring with additive inverse is called a nearring. This implies that for
 the structure nearring, addition is a group, multiplication is a monoid,
@@ -160,19 +162,19 @@ a semigroup. For RingWithoutOne, multiplication distributes over addition and
 has an annihilating zero. A ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the
 following axiom:
 \begin{itemize}
-  \item + is an abelianGroup:
+  \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
-    \item Associativity: $\forall x,y,z \in R: x + (y + z) = (x + y) + z$
-    \item Identity: $\forall x \in R: (x + 0) = x = (0 + x)$
-    \item Inverse: $\forall x \in R: (x + x⁻¹) = 0 = (x⁻¹ + x)$
+    \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
+    \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
-  \item * is a semigroup
+  \item $(R,*)$ is a semigroup
   \begin{itemize}
-    \item Associativity: $ \forall x,y,z \in R: x * (y*z)  = (x*y)*z$
+    \item Associativity: $ \forall x,y,z \in R, x * (y*z)  = (x*y)*z$
   \end{itemize}
-  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R, (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+  \item Annihilating zero: \(\forall x \in R, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -358,14 +360,13 @@ library.}
 \subsection{Properties of Semigroup}
 Let $(S, ∙)$ be a semigroup then
 \begin{enumerate}
-\item S is alternative. The Semigroup S left alternative if \( \forall\ x,\ y\
-\in\ S :\ (x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\ \) and right alternative is
-\(\forall\ x,\ y\ \in\ S :\ x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙\ y)\ ∙\ y\). Semigroup is
+\item S is alternative. The Semigroup S left alternative if \((x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\ \) and right alternative is
+\(x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙\ y)\ ∙\ y\). Semigroup is
 said to be alternative if it is both left and right alternative. 
-\item S is flexible. The Semigroup S is flexible if \(\forall\ x\ y\ \in\ S:\ x\ ∙\ (y\
+\item S is flexible. The Semigroup S is flexible if \(x\ ∙\ (y\
 ∙\ x)\ =\ (x\ ∙\ y)\ ∙\ x\).
 \item S has Jordan identity.  Jordan identity for binary operation ∙ can be
-defined on set S as \( \forall\ x,\ y,\ z\ \in\ S:\ (x\ ∙\ y)\ ∙\ (x\ ∙\ x)\ =\
+defined on set S as \((x\ ∙\ y)\ ∙\ (x\ ∙\ x)\ =\
 x\ ∙\ (y\ ∙\ (x\ ∙\ x)). \)
 \end{enumerate}
 Proof:
@@ -395,12 +396,13 @@ xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
 \subsection{Properties of Commutative Semigroup}
 Let $(S, ∙)$ be a commutative semigroup then
 \begin{enumerate}
-\item S is semimedial. The commutative semigroup S is left semimedial if  \(
-\forall\ x\ y\ z\ \in\ S:\ (x\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ (x\ ∙\ z) \) and right
-semimedial if \( \forall\ x\ y\ z\ \in\ S:\ (y\ ∙\ z)\ ∙\ (x\ ∙\ x)\ =\ (y\ ∙\ x)\ ∙\ (z\ ∙\ x) \).
+\item S is semimedial. The semigroup S is left semimedial if  \(
+(x\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ (x\ ∙\ z) \) and right
+semimedial if \( (y\ ∙\ z)\ ∙\ (x\ ∙\ x)\ =\ (y\ ∙\ x)\ ∙\ (z\ ∙\ x) \).
 A structure is semimedial if it is both left and right semimedial. 
-\item S is middle semimedia.  The commutative semigroup S is middle semimedial
-if  \(\forall\ x\ y\ z\  \in\ S:\ (x\ ∙\ y)\ ∙\ (z\ ∙\ x)\ =\ (x\ ∙\ z)\ ∙\ (y\ ∙\ x)\)
+\item S is middle semimedial. The semigroup S is middle semimedial if
+\((x\ ∙\ y)\ ∙\ (z\ ∙\ x)\ =\ (x\ ∙\ z)\ ∙\ (y\ ∙\
+x)\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -442,8 +444,8 @@ middleSemimedial x y z = begin
 \subsection{Properties of Ring without one}
 Let $(R, +, *, -, 0)$ be ring without one structure then:
 \begin{enumerate}
-\item \(\forall\ x,\ y\ \in\ R:\ - (x\ *\ y)\ =\ - x\ *\ y\)
-\item \(\forall\ x,\ y\ \in\ R:\ - (x\ *\ y)\ =\ x\ *\ - y\)
+\item \(- (x\ *\ y)\ =\ - x\ *\ y\)
+\item \(- (x\ *\ y)\ =\ x\ *\ - y\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -493,10 +495,10 @@ Proof:
 \subsection{Properties of Ring}
 Let $(R, +, *, -, 0, 1)$ be a ring structure then
 \begin{enumerate}
-\item \(\forall\ x\ \in\ R:\ - 1\ *\ x\ =\ -x\)
-\item \(\forall\ x\ \in\ R:\ \text{if}\ x\ +\ x\ =\ 0\ \text{then}\ x\ =\ 0\)
-\item \(\forall\ x,\ y,\ z\ \in\ R:\ x\ *\ (y\ -\ z)\ =\ x\ *\ y\ -\ x\ *\ z\)
-\item \(\forall\ x,\ y,\ z\ \in\ R:\ (y\ -\ z)\ *\ x\ =\ (y\ *\ x)\ -\ (z\ *\ x)\)
+\item \(- 1\ *\ x\ =\ -x\)
+\item \(\text{if}\ x\ +\ x\ =\ 0\ \text{then}\ x\ =\ 0\)
+\item \(x\ *\ (y\ -\ z)\ =\ x\ *\ y\ -\ x\ *\ z\)
+\item \((y\ -\ z)\ *\ x\ =\ (y\ *\ x)\ -\ (z\ *\ x)\)
 \end{enumerate}
 Proof:
 \begin{enumerate}

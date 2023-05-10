@@ -2,14 +2,12 @@
 By the early 18th century, mathematicians had discovered how to solve polynomial
 equation of up-to degree 4. While trying to find a general solution for
 polynomial equation, Lagrange and Abel established permutation groups
-\cite{barnett2017roots}. Mathematician Gauss developed modular arithmetic from
-number theory and proved that equation $x^{m}-1=0$ can always be solved. These
-developments including in the field theory of algebraic structures and geometry
-became the main source for \textit{group theory} \cite{enwiki:1145792803}. It
-was mathematician Evariste Galois who coined the term \emph{group} and
-established group theory. He used group to determine the solvability of
-polynomial equations. Group theory was later discovered to be useful in various
-fields of mathematics such as modulus theory and geometry
+\cite{barnett2017roots}. These developments including in the field of algebraic
+structures and geometry became the main source for \textit{group theory}
+\cite{enwiki:1145792803}. It was mathematician Evariste Galois who coined the
+term \emph{group} and established group theory. He used group to determine the
+solvability of polynomial equations. Group theory was later discovered to be
+useful in various fields of mathematics such as modulus theory and geometry
 \cite{enwiki:1107380309}. As group theory, the study of group structures
 evolved, other abstract structures were invented to solve different problems.
 This gave rise to a new field in mathematics called \emph{abstract algebra}.
@@ -18,16 +16,11 @@ Abstract algebra is the study of algebraic structure and its models or examples
 'carrier' set, A, a set of operations that act on A, and a set of axioms
 involving the operations and A. 
 
-Some mathematicians were only interested in studying the structures themselves
-that is the arbitrary interpretation of the language and not the models that
-includes a theory that holds in the structure. Algebraic structures, like
-monoids, loops, groups and rings have similar properties. Universal algebra
-studies these structures by abstracting out the specific definitions and
-properties of algebraic structures. Universal algebra will deal with these
-algebraic structures as axiomatic theories in equational first-order logic
-\cite{YSharoda}. In the recent years, \emph{universal algebra} has seen an
-exponential growth in its study of theories and applications
-\cite{sankappanavar1981course}. The definitions in this chapter are adapted from
+Algebraic structures, like monoids, loops, groups and rings have similar
+properties. Universal algebra studies these structures by abstracting out the
+specific definitions and properties of algebraic structures. Universal algebra
+will deal with these algebraic structures as axiomatic theories in equational
+first-order logic \cite{YSharoda}. The definitions in this chapter are adapted from
 \cite{sankappanavar1981course} and \cite{abstractAlgebra}.
 
 \section{Relation and function}
@@ -41,76 +34,60 @@ shapes, or even other sets. If $x$ is an object in set $S$ then we say x is an
 element of S and is denoted as $x \in S$.
 
 \item The \emph{Cartesian product} between two sets $X$ and $Y$,  $X \ \times\
-Y$ is defined as a pair \(\{(x,y) :\ x \ \in\ X,\ y\ \in\ Y \}\). 
+Y$ is defined as the set of pairs \(\{(x,y) :\ x \ \in\ X,\ y\ \in\ Y \}\). 
 
-\item A \emph{binary relation} is a subset of the Cartesian product of two sets that
-is a mapping between one set called \textit{domain} to the other set called the
-\textit{codomain}. A relation assigns elements of domain to some elements in
-the codomain. A binary relation $R$ on the set $X$ to $Y$ is denoted as an
-ordered pair $(x,y)$ or $xRy$ and element $x$ in $X$ and $y$ in $Y$.
+\item A \emph{binary relation}  $R$ over sets $X$ and $Y$ is a subset of the
+cartesian product $X \times Y$. Set $X$ is called the domain and set $Y$ is
+called the codomain of $R$.
 
-\item When talking about a set, we discuss how different elements of the set can
-be related in some way. For example, in set of integers $Z$, we may say that
-some $s,y \in Z$ are related if $x-y$ is divisible by 2. In other way, $x$ and
-$y$ are related only if they are both odd or both even. This idea of expressing
-same relation in different way can be formalized as \textit{equivalence
-relation}. A relation $R$ is equivalence if it satisfies:
+\item A relation $R$ is equivalence if it satisfies:
 \begin{enumerate}
-    \item Reflexive: A \emph{reflexive relation} $R$ on set $X$ is a
-subset on \(X \times X\)  is defined as \( R : \{(x,x) : x \in X\}\) and can be
-denoted as $xRx$
+    \item Reflexive: A \emph{reflexive relation} $R$ on set $X$ is a subset on
+\(X \times X\) and $\forall x \in S, (x,x) \in R$
 
     \item Symmetric: A \emph{symmetric relation} R on set X is a subset of \(X
-\times X\) is defined as \(R: \forall x y \in X: xRy ⟺ yRx\)
+\times X\) and \((x,y) \in R ⟺ (y,x) \in R \)
 
-    \item Transitive: A relation R is said to be \emph{transitive} on set X, is
-a subset of \(X \times X\) such that \(∀ x y z \in X \) if \((x,y) \in R\) and
-\((y,z) \in R \) then \((x,z) \in R\)
+    \item Transitive: A relation R is said to be \emph{transitive} on set X, if
+it is a subset of \(X \times X\) such that \(∀ x y z \in X \), if \((x,y) \in
+R\) and \((y,z) \in R \) then \((x,z) \in R\)
 \end{enumerate}
-In other words, a relation R is \emph{equivalence} if it is reflexive, symmetric and transitive.
+In other words, a relation R is an \emph{equivalence} if it is reflexive, symmetric and transitive.
 
-\item If in a relation, if every element in domain is mapped to only one element in
-the codomain, then we call it a \emph{function}. In other words, function is a
-map $f$ from set $X$ (domain) to $Y$ (codomain) is a rule that assigns each
-element of $X$ to a unique element in $Y$. This can be expressed using the notation:
+\item In a relation, if every element in domain $(X)$ is mapped to only one element in
+the codomain $(Y)$, then we call it a \emph{function}. This can be expressed using the notation:
 \[f:\ X \rightarrow\ Y\]
-\[x \ \rightarrow\ f(x)\]
+\[x \ \mapsto\ f(x)\]
 For example, on set of natural numbers $N$ to $N$ we can define a function as:
 \[f:\ N \rightarrow N\]
-\[x \ \rightarrow\ x^{2}\]   
-\item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be the function then:
+\[x \ \mapsto\ x^{2}\]   
+\item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be a function then:
 \begin{enumerate}
-    \item The function $f$ is \textit{identity} if $X=Y$ and $f(x)\ =\ x,\ \forall x\ \in
-    \ Y$. The identity function can be denoted as $f=Id_s$.
-    \item A function f is \emph{injective} if f maps distinct elements of domain to
-    distinct elements of codomain. $f$ is injective if $f(x)=f(y) \Rightarrow x = y \forall x,y \in X.$
+    \item The function $f$ is \textit{identity} if $X=Y$ and $f(x)\ =\ x,\
+    \forall x\ \in \ Y$.
+    \item A function $f$ is \emph{injective} if $f$ maps distinct elements of
+    the domain to distinct elements of the codomain. $f$ is injective if
+    $f(x)=f(y) \Rightarrow x = y, \forall x,y \in X.$
     \item A function is called \emph{surjective} if given $y \in Y$, there
     exists $x\in X$ such that $f(x) = y$.
-    \item A function is called \emph{bijective} if it is both injective and surjective.
+    \item A function is called \emph{bijective} if it is both injective and
+    surjective.
 \end{enumerate}
 \item An \emph{operation} is defined as a function that can take zero or more inputs
-and maps it to a well-defined output value. The number of operands is the arity
+and maps them to a well-defined output value. The number of operands is the arity
 of the operation.
 \end{itemize}
 
 \section{Universe, type and signature}
-The signature of an algebraic structure can be defined as a collection of
-relation and operations with their arity on the set of an algebraic structure. A
-structure with \(\Omega\) signature is called as \(\Omega\) algebra.
+A signature is a pair ($S,F$) such that $S$ is set of sorts and $F$ is set of
+operations. An operation can be defined as a triple $(f,[s_1,...,s_n],s)$
+consisting of name, its arity, and the target sort. 
 
-A Formal definition of algebra is given in \cite{sankappanavar1981course} as:
-For $A$ a nonempty set and $n$ a non-negative integer we define $A_0$ =
-\{\(\emptyset\)\}, and, for $n > 0$, $A_n$ is the set of n-tuples of elements
-from $A$. An n-ary operation (or function) on $A$ is any function $f$ from $A_n$
-to $A$; $n$ is the arity (or rank) of $f$. A finitary operation is an n-ary
-operation, for some n. The image of $<a_1,a_2,...,a_n>$ under an n-ary operation
-$f$ is denoted by $f(a_1,a_2,...,a_n)$. An operation $f$ on $A$ is called a
-nullary operation (or constant) if its arity is zero; it is completely
-determined by the image $f(\emptyset)$ in $A$ of the only element \(\emptyset\)
-in $A_0$, and as such it is convenient to identify it with the element
-$f(\emptyset)$. Thus, a nullary operation is thought of as an element of $A$. An
-operation $f$ on $A$ is unary, binary, or ternary if its arity is 1,2, or 3,
-respectively.
+A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
+a set of one sort $s$, $F$ is a finite set of function symbols and $E$ is a
+finite set of generating equations. In \cite{YSharoda}, an algebra $A$ is
+defined as $A = (S_A,F_A)$ a mathematical structure consisting of a domain and
+functions on the domain.
 
 For example, a group G is an algebra with one nullary (1), one unary
 (\textsuperscript{-1}) and one binary (∙) operation represented as $(G, ∙,
@@ -120,12 +97,11 @@ and $x,y \in S$ then x is called the left inverse of y, and y is called the
 right inverse of x. An element is said to have an inverse if it has both left
 and right inverse. The group structure should satisfy the following axioms. 
 \begin{enumerate}
-\item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z \)
-\item Identity - \(∀ x \in G, x ∙ 1 ≈ 1 ∙ x ≈ x\)
-\item Inverse - \( ∀ x \in G, x ∙ x \textsuperscript{-1} ≈  x
-\textsuperscript{-1} ∙ x ≈ 1\)
+\item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) = (x ∙ y) ∙ z \)
+\item Identity - \(∀ x \in G, x ∙ 1 = 1 ∙ x = x\)
+\item Inverse - \( ∀ x \in G, x ∙ x \textsuperscript{-1} =  x
+\textsuperscript{-1} ∙ x = 1\)
 \end{enumerate}
-Where ≈ is the equivalence relation.
 
 The type (or language) of the algebra is a set of function symbols. Each member
 of this set is assigned a positive number that is the arity of the member. For
@@ -140,18 +116,12 @@ structures. In this section, we will describe some of these constructions.
 \begin{itemize}
     \item The \textit{congruence} relation for an algebraic structure can be
     defined as an equivalence relation that is compatible with the structure
-    such that the operations are well-defined on the equivalence class. A more
-    formal definition is for an algebra $A$ of type $F$ is given as, congruence
-    relation \(\theta\) on $A$ is defined using compatibility property that
-    states that for each n-ary function symbol $f \ \in\ F$ and $x_i,\ y_i\ \in\
-    A$, If $x_i\ \theta\ y_i$ holds for \(1\leq i \leq n\) then
-    $f^{A}(x_1,...,x_n)\ \theta\ f^{A}(y_1,....,y_n)$ holds
-    \cite{sankappanavar1981course}.
-
-    For example, consider group structure $(G, ∙, \textsuperscript{-1}, 1)$. A
-    congruence relation on $G$ with binary operation $∙$ is an equivalence
-    relation $\equiv$ on $G$ such that, \[g_1\equiv g_2\ \text{and}\ h_1 \equiv h_2
-    \Rightarrow g_1 ∙ h_1 \equiv g_2 ∙ h_2\]
+    such that the operations are well-defined on the equivalence class. For an
+    algebra $A$ of type $F$, $\theta$ is a congruence on $A$ if $\theta$
+    satisfies the compatibility property. The compatibility property states that
+    for each n-ary function symbol $f \ \in\ F$ and $x_i,\ y_i\ \in\ A$, If
+    $x_i\ \theta\ y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\
+    \theta\ f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
 
     \item A \textit{morphism} is a structure preserving map between two
     algebraic structures. It is an abstraction that generalizes the map between
@@ -160,12 +130,7 @@ structures. In this section, we will describe some of these constructions.
     \(\alpha\) from algebra $A$ to $B$ such that: \[ \alpha
     f^{A}(a_1,a_2,....,a_n)\ =\ f^{B}(\alpha a_1,\alpha a_2,....,\alpha a_n)\]
     For each n-ary $f$ in $F$ and each sequence $a_1,a_2,....,a_n$ from $A$.
-    
-    As an example, consider $G_1 = \{1,-1,i,-i\}$, which is a group under
-    multiplication, and $G_2$ = group of all integers under addition. A mapping
-    $f$ from $G_1$ to $G_2$ such that $f(x) = i^{n} \ \forall n \in G_2$ is a
-    homomorphism.
-    
+   
     In \cite{sankappanavar1981course}, the author proves that if \(\alpha: A
     \rightarrow B\) and \(\beta: A \rightarrow B\) are homomorphism on algebra
     $A$ to $B$ such that \(\alpha (a) = \beta (a) \) then \(\alpha\) = \(\beta\)
@@ -177,9 +142,9 @@ structures. In this section, we will describe some of these constructions.
         satisfies one-to-one mapping (i.e., \(\alpha\) is injective) then the
         morphism \(\alpha\) is called a \textit{monomorphism}.
 
-        \item Isomorphism: For two algebras $A$ and $B$, if \(\alpha : A \rightarrow B \)  is
-        a monomorphism from $A$ to $B$, and if \(\alpha\) is a bijection from
-        $A$ to $B$, then \(\alpha\) is called an \textit{isomorphism}.  
+        \item Isomorphism: For algebra $A$ and $B$, a homomorphism $f:A → B$
+        is an isomorphism if it has an inverse, i.e. there is a homomorphism
+        $f\textsuperscript{-1}:B → A$ such that $ff\textsuperscript{-1} = id_{|A|}$ and $f\textsuperscript{-1}f = id_{|B|}$ 
 
         \item Endomorphism: A homomorphism from an algebra $A$ to itself is
         called \textit{endomorphism}. In other words, if $f$ is a homomorphism on $A$

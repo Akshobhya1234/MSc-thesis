@@ -7,23 +7,18 @@ differential geometry\cite{quasigroupWiki}. With proof assistants, such as Agda,
 we can verify the relevant mathematical proofs of these algebraic structures.
 They are interactive software that help to derive complex mathematical proofs.
 In this chapter, we formalize two important non-associative algebras -
-quasigroup, and loop structure. A \textit{quasigroup} $(Q, ∙, /, \backslash)$
-is a type (2,2,2) algebra for which the binary operations \textbackslash (left
-division) and / (right division) are defined such that division is always
-possible.  A \textit{loop} is a quasigroup with identity. In this chapter, we
-explore morphisms and direct product for these structures and derive proofs for
-some of the properties of these structures.
+quasigroup, and loop structure. A \textit{quasigroup} $(Q, ∙, /, \backslash)$ is
+a type (2,2,2) algebra satisfying division operations. A \textit{loop} is a
+quasigroup with identity. In this chapter, we explore morphisms and direct
+product for these structures and derive proofs for some of the properties of
+these structures.
 \section{Definitions}
-A set that has a binary operation is called Magma. In this case a Magma is total
-and should not be confused with groupoid that need not be total. Formally, A
-magma is a set $S$ with a binary operation $∙$ such that, $\forall x,y \in S
+A magma is a set $S$ with a binary operation $∙$ such that, $\forall x,y \in S
 \Rightarrow (x ∙ y) \in S$. In Agda, magma structure is defined as
 \inline{IsMagma} with binary operation $∙$. A quasigroup can be defined as a
-magma with left and right division identities. In other words, a quasigroup is a
-set with a binary operation that satisfies the property that for every element
-in the set, there is a unique element in the set that provides a solution to the
-equation. The operation $\backslash$ (left division) and $/$ (right division)
-for elements $x,y$ in a quasigroup is defined as:
+magma with left and right division identities. The operation $\backslash$ (left
+division) and $/$ (right division) for elements $x,y$ in a quasigroup is defined
+as:
 
 \begin{equation} \label{eq_L-leftdivides}
 y\ =\ x\ ∙\ (x\ \backslash\ y)
@@ -37,7 +32,7 @@ y\ =\ (y\ /\ x)\ ∙\ x
 \begin{equation} \label{eq_Rirightdivides}
 y\ =\ (y\ ∙\ x)\ /\ x
 \end{equation}
-Conversely, in Agda, we may write this as:
+In Agda, we may write these definitions as:
 \begin{minted}[samepage]{Agda}
 LeftDividesˡ : Op₂ A → Op₂ A → Set _
 LeftDividesˡ _∙_  _\\_ = ∀ x y → (x ∙ (x \\ y)) ≈ y
@@ -326,7 +321,7 @@ quasigroup M N = record
 In the above code, \inline{zip} gives a $\Sigma$-type of dependent pairs.
 \inline{<*>} is used to convert the curried functions to a function on pair.
 Currying a function is to break down a function that takes multiple arguments
-into a series of function that takes exactly one argument. The direct product of
+into a series of functions that take exactly one argument. The direct product of
 loop structure can be defined similar to quasigroup as:
 \begin{minted}[breaklines,samepage]{Agda}
 loop : Loop a ℓ₁ → Loop b ℓ₂ → Loop (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -349,8 +344,8 @@ Let $(Q, ∙, /, \backslash)$ be a quasigroup then:
 \item $Q$ is cancellative. A quasigroup is left cancellative if $x\ ∙\ y\ =\ x\ ∙\ z$ then
 $y\ =\ z$ and a quasigroup is right cancellative if $y\ ∙\ x\ =\ z\ ∙\ x$ then $y\ =\ z$. A
 quasigroup is cancellative if it is both left and right cancellative.
-\item \(\forall \ x,\ y,\ z\ \in Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \backslash \ z\)
-\item \(\forall \ x,\ y,\ z\ \in \ Q \ ,\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ x\ = z\ /\ y\)
+\item \(\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ y\ =\ x\ \backslash \ z\)
+\item \(\text{If} \ x\ ∙\ y\ =\ z\ \text{then}\ x\ = z\ /\ y\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -397,10 +392,10 @@ x≈z//y x y z eq = begin
 Properties of division operation holds for a loop.\\
 Let $(L, ∙, /, \backslash)$ be a Loop with identity $x\ ∙\ e\ =\ x$ then the following properties holds 
 \begin{enumerate}
-\item \(\forall\ x\ \in\ L, \ x \ /\  x\ =\ e\) 
-\item \(\forall \ x\ \in\ L,\  x\ \backslash \ x\ =\ e\)
-\item \(\forall \ x\ \in\ L,\ e\ \backslash \ x\ =\ x\) 
-\item \(\forall \ x\ \in\ L, \ x\ /\ e\ =\ x\) 
+\item \(x \ /\  x\ =\ e\) 
+\item \( x\ \backslash \ x\ =\ e\)
+\item \(e\ \backslash \ x\ =\ x\) 
+\item \(x\ /\ e\ =\ x\) 
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -441,12 +436,12 @@ x//ε≈x x = begin
 Let $(M, ∙, /, \backslash)$ be a middle bol loop then the following
 identities holds.
 \begin{enumerate}
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((y\ ∙\ x)\ \backslash \ x)\ =\ y\ \backslash\ x\) 
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ ((x\ ∙\ z)\ \backslash \ x)\ =\ x\ /\ z\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ x\ ∙ (z\ \backslash\ x)\ =\ (x\ /\ z)\ ∙\ x\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ z))\ ∙\ x\ =\ (x\ /\ z)\ ∙\ (y\ \backslash\ x)\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (y\ ∙\ x))\ ∙\ x\ =\ y\ \backslash \ x\)
-\item \(\forall\ x\ y\ z\ \in\ M,\ (x\ /\ (x\ ∙\ z))\ ∙\ x\ = \ x\ /\  z\)
+\item \(x\ ∙\ ((y\ ∙\ x)\ \backslash \ x)\ =\ y\ \backslash\ x\) 
+\item \(x\ ∙\ ((x\ ∙\ z)\ \backslash \ x)\ =\ x\ /\ z\)
+\item \(x\ ∙ (z\ \backslash\ x)\ =\ (x\ /\ z)\ ∙\ x\)
+\item \((x\ /\ (y\ ∙\ z))\ ∙\ x\ =\ (x\ /\ z)\ ∙\ (y\ \backslash\ x)\)
+\item \((x\ /\ (y\ ∙\ x))\ ∙\ x\ =\ y\ \backslash \ x\)
+\item \((x\ /\ (x\ ∙\ z))\ ∙\ x\ = \ x\ /\  z\)
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -514,9 +509,9 @@ alternative if it satisfies \(x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y\) and i
 alternative if it is both left and right alternative. 
 \item Moufang loop is flexible. A Moufang loop is flexible if it satisfies
 flexible identity $(x\ ∙\ y)\ ∙\ x\ =\ x\ ∙\ (y\ ∙\ x)$
-\item $\forall\ x\ y\ z\ \in\ M,\ z\ ∙\ (x\ ∙\ (z\ ∙\ y))\ =\ ((z\ ∙\ x)\ ∙\ z)\ ∙\ y$
-\item $\forall\ x\ y\ z\ \in\ M,\ x\ ∙\ (z\ ∙\ (y\ ∙\ z))\ =\ ((x\ ∙\ z)\ ∙\ y)\ ∙\ z$ 
-\item $\forall\ x\ y\ z\ \in\ M,\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\ =\ (z\ ∙ \ (x\ ∙\ y))\ ∙\ z$ 
+\item $z\ ∙\ (x\ ∙\ (z\ ∙\ y))\ =\ ((z\ ∙\ x)\ ∙\ z)\ ∙\ y$
+\item $x\ ∙\ (z\ ∙\ (y\ ∙\ z))\ =\ ((x\ ∙\ z)\ ∙\ y)\ ∙\ z$ 
+\item $z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\ =\ (z\ ∙ \ (x\ ∙\ y))\ ∙\ z$ 
 \end{enumerate}
 Proof:
 \begin{enumerate}

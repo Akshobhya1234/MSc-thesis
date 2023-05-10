@@ -6,17 +6,14 @@ formalize theories, and extend them by logical reasoning and defining
 properties\cite{2019arXiv191203028S}. Automated theorem proving is different
 from proof assistants in that they have less expressivity and make it almost
 impossible to define a generic mathematical theory. In \cite{BuildingDiamond},
-the author discusses the difficulties in building the libraries that support
-these systems by providing tools to write proolfs easily. One such problem is to
+the authors discuss the difficulties in building the libraries that support
+these systems by providing tools to write proofs easily. One such problem is to
 structurally derive algebraic structures from one another in the hierarchy
 without explicitly defining axioms that become redundant. The author also
 proposes a solution to make use of the interrelationship in mathematics and thus
-reduce the efforts in building the library.
-
-We consider the four more proof assistant systems that are all dependently
+reduce the efforts in building the library. We consider the four more proof assistant systems that are all dependently
 typed, higher order programming languages and supports, (at least partially) proof
-by reflection. Proof by reflection is a technique where the system allows to
-deriving proofs by systematic reasoning methods.
+by reflection.
 
 Agda 2 is a proof assistant system where proofs are expressed in a functional
 programming style. The Agda standard library aims to provide tools to ease the
@@ -314,20 +311,22 @@ construct and tensor unit using two R-modules. The library also includes the
 relation between function properties with  sets for propositional equalities.
 The library includes ring, and monoid solvers for equations of the same.
 However, these solvers are under construction and not optimized for performance.
-The coq library has rings and field tactics to achieve algebraic manipulations
+
+The Coq library has rings and field tactics to achieve algebraic manipulations
 in some of the algebraic structures. The library also includes specialized
 tactics such as interval and gappa to work with real numbers and floating point
-numbers\cite{Paulin-Mohring2012}. The Idris library defines properties or laws
-of algebraic structures. The unique-Inverse defines that the inverses of monoids
-are unique. Other laws on groups include self-squaring i.e., the identity
-element of a group is self-squaring, inverse elements of a group satisfy the
-commutative property, and laws of double negation. It also defines
-'squareIdCommutative' i.e., a group is abelian if every square in a group is
-neutral, inverseNeutralIsNeutral, and other properties of an algebraic group.
-Other algebraic properties for groups such as y = z if x + y = x + z, y = z if y
-+ x = z + x, ab = 0 -> a = b-1, and ab = 0 -> a-1 = b are given in the library.
+numbers \cite{Paulin-Mohring2012}. 
+
+The Idris library defines properties or laws of algebraic structures. The
+unique-Inverse defines that the inverses of monoids are unique. Other laws on
+groups include self-squaring i.e., the identity element of a group is
+self-squaring, inverse elements of a group satisfy the commutative property, and
+laws of double negation. It also defines 'squareIdCommutative' i.e., a group is
+abelian if every square in a group is neutral, inverseNeutralIsNeutral, and
+other properties of an algebraic group. Other algebraic properties for groups
+such as y = z if x + y = x + z, y = z if y + x = z + x are given in the library.
 An example of a definition is shown below.
-\begin{minted}[breaklines,samepage]{Coq}
+\begin{minted}[breaklines,samepage]{Idris}
 public export
 neutralProductInverseL : Group ty => (a, b : ty) ->
   a <+> b = neutral {ty} -> inverse a = b
@@ -335,6 +334,7 @@ neutralProductInverseL a b prf =
   cancelLeft a (inverse a) b $
     trans (groupInverseIsInverseL a) $ sym prf
 \end{minted}
+
 The library also includes laws on homomorphism that homomorphism over group
 preserves identity and inverses. Some laws on ring structures are also included
 in the library such as $x0 = 0$, $(-x)y = -(xy)$, $x(-y) = -(xy)$, $(-x)(-y) =
@@ -342,10 +342,12 @@ xy$, $(-1)x = -x$, and $x(-1) = -x$. The algebraic coverage of Idris 2 is
 limited and is under development. There are no official definitions for solvers
 or higher structures such as modules, fields, or vector space. The Idris 2 is
 under continuous development to strengthen the language and also as a mechanical
-reasoning system. The mathlib library of Lean 3 includes algebra over rings such
-as associative algebra over a commutative ring, Lie algebra, Clifford algebra,
-etc. Lie algebra is defined as a module satisfying Jacobi identity. Without
-scalar multiplication, a lie algebra is a lie ring. The library extends ring
-structure to define field and division ring covering many aspects of fields such
-as the existence of closure for a field, Galois correspondence, rupture field,
-and others.
+reasoning system. 
+
+The mathlib library of Lean 3 includes algebra over rings such as associative
+algebra over a commutative ring, Lie algebra, Clifford algebra, etc. Lie algebra
+is defined as a module satisfying Jacobi identity. Without scalar
+multiplication, a lie algebra is a lie ring. The library extends ring structure
+to define field and division ring covering many aspects of fields such as the
+existence of closure for a field, Galois correspondence, rupture field, and
+others.

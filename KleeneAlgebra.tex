@@ -18,21 +18,21 @@ and $+$ distributes over $∙$ with annihilating zero is called a semiring. A
 semiring satisfying idempotent property is called idempotent semiring. An
 idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
 \begin{itemize}
-  \item + is a commutative monoid:
-  \begin{itemize}
-    \item Associativity: $\forall x,y,z \in S: x + (y + z) = (x + y) + z$
-    \item Identity: $\forall x \in S: (x + 0) = x = (0 + x)$
-    \item Commutativity: $\forall x,y \in S: (x + y) = (y + x)$
-  \end{itemize}
-  \item * is a monoid:
-  \begin{itemize}
-    \item Associativity: $ \forall x,y,z \in S: x * (y*z)  = (x*y)*z$
-    \item Identity: $\forall x \in S: (x * 1) = x = (1 * x)$
-  \end{itemize}
-  \item Idempotent: $\forall x \in S: (x + x) = x$
-  \item Multiplication distributes over addition: \(\forall x , y , z \in S: (x * (y + z)) = (x * y) + (x
-  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item Annihilating zero: \(\forall x \in S: (x * 0) = 0 = (0 * x)\)
+\item $(S,+,0)$ is a commutative monoid:
+\begin{itemize}
+  \item Associativity: $\forall x,y,z \in S, x + (y + z) = (x + y) + z$
+  \item Identity: $\forall x \in S, (x + 0) = x = (0 + x)$
+  \item Commutativity: $\forall x,y \in S, (x + y) = (y + x)$
+\end{itemize}
+\item $(S,*,1)$ is a monoid:
+\begin{itemize}
+  \item Associativity: $ \forall x,y,z \in S, x * (y*z)  = (x*y)*z$
+  \item Identity: $\forall x \in S, (x * 1) = x = (1 * x)$
+\end{itemize}
+\item Idempotent: $\forall x \in S, (x + x) = x$
+\item Multiplication distributes over addition: \(\forall x , y , z \in S, (x * (y + z)) = (x * y) + (x
+* z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+\item Annihilating zero: \(\forall x \in S, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
 A Kleene Algebra over set S that is an idempotent semiring with $^{*}$
@@ -49,17 +49,18 @@ operator that satisfies the following axioms.
 \begin{equation}\label{eq_starrightdestructive}
 \forall\ a,\ b,\ x\ \in\ S:\ \text{If} \ b\ +\ x\ ∙\ a\ \leq\ x \  \text{then},\ b\ ∙\ (a^{*})\ \leq\ x
 \end{equation}
-In Agda, strong axioms of operator $^{*}$ is given. That is instead of
-partial order, equivalance is given in the above equations.\footnote{ Kleene algebra with
-partial and pre order structures are defined in "Algebra.Ordered.Structures" in
-Agda standard library.}
+where $\leq$ refers to the natural partial order: 
+\[a \leq b \leftrightarrow a + b = b\] In Agda we define the partial order
+axioms in terms of equality. \footnote{Kleene algebra with partial and pre order
+structures are defined in "Algebra.Ordered.Structures" in Agda standard
+library.}
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
-StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) ≈ (x *)
+StarRightExpansive e _+_ _∙_ _* = ∀ x → ((e + (x ∙ (x *))) + (x *)) ≈ (x *)
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarLeftExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
-StarLeftExpansive e _+_ _∙_ _* = ∀ x →  (e + ((x *) ∙ x)) ≈ (x *)
+StarLeftExpansive e _+_ _∙_ _* = ∀ x →  ((e + ((x *) ∙ x)) + (x *)) ≈ (x *)
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
@@ -67,23 +68,26 @@ StarExpansive e _+_ _∙_ _* = (StarLeftExpansive e _+_ _∙_ _*) × (StarRightE
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarLeftDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
-StarLeftDestructive _+_ _∙_ _* = ∀ a b x → (b + (a ∙ x)) ≈ x → ((a *) ∙ b) ≈ x
+StarLeftDestructive _+_ _∙_ _* = ∀ a b x → ((b + (a ∙ x)) + x) ≈ x → (((a *) ∙ b) + x) ≈ x
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
-StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) ≈ x → (b ∙ (a *)) ≈ x
+StarRightDestructive _+_ _∙_ _* = ∀ a b x → ((b + (x ∙ a)) + x) ≈ x → ((b ∙ (a *)) + x) ≈ x
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
 StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
 \end{minted}
-The Kleene algebra can be structurally derived from idempotent semiring. 
+The Kleene algebra can be structurally derived from idempotent semiring. In Agda
+standard library, + and * operations are used to denote addition and
+multiplication. To keep the same template, ⋆ symbol is selected to denote the
+unary star operation. 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 field
-  isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
-  starExpansive         : StarExpansive 1# + * ⋆
-  starDestructive       : StarDestructive + * ⋆
+isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
+starExpansive         : StarExpansive 1# + * ⋆
+starDestructive       : StarDestructive + * ⋆
 
 open IsIdempotentSemiring isIdempotentSemiring public
 \end{minted}
@@ -109,19 +113,19 @@ defined by using the homomorphism of structure idempotent semiring and
 preserving the $^{*}$ operator. Formally, $f: K_1 \rightarrow K_2$ is a
 structure preserving map such that:
 \begin{itemize}
-  \item $f$ preserves binary operation $+$: $f(x +_1 y) = f(x) +_2 f(y)$
-  \item $f$ preserves binary operation $*$: $f(x *_1 y) = f(x) *_2 f(y)$
-  \item $f$ preserves additive identity: $f(0_1) = 0_2$
-  \item $f$ preserves multiplicative identity: $f(1_1) = 1_2$
-  \item $f$ preserves star operation: $f(x^{*_1}) = f(x)^{*_2}$
+\item $f$ preserves binary operation $+$: $f(x +_1 y) = f(x) +_2 f(y)$
+\item $f$ preserves binary operation $*$: $f(x *_1 y) = f(x) *_2 f(y)$
+\item $f$ preserves additive identity: $f(0_1) = 0_2$
+\item $f$ preserves multiplicative identity: $f(1_1) = 1_2$
+\item $f$ preserves star operation: $f(x^{*_1}) = f(x)^{*_2}$
 \end{itemize}
 \begin{minted}[samepage,breaklines]{Agda}
-  record IsKleeneAlgebraHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-  field
-    isSemiringHomomorphism : IsSemiringHomomorphism ⟦_⟧
-    ⋆-homo :  Homomorphic₁ ⟦_⟧ _⋆₁ _⋆₂
+record IsKleeneAlgebraHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+field
+  isSemiringHomomorphism : IsSemiringHomomorphism ⟦_⟧
+  ⋆-homo :  Homomorphic₁ ⟦_⟧ _⋆₁ _⋆₂
 
-  open IsSemiringHomomorphism isSemiringHomomorphism public
+open IsSemiringHomomorphism isSemiringHomomorphism public
 \end{minted}
 In Agda, \inline{Homomorphic₁} is used to give the homomorphism for unary
 operation, and is defined as:
@@ -132,21 +136,21 @@ Homomorphic₁ ⟦_⟧ ∙_ ∘_ = ∀ x → ⟦ ∙ x ⟧ ≈ (∘ ⟦ x ⟧)
 A Kleene algebra homomorphism which is injective gives a monomorphism. 
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-  field
-    isKleeneAlgebraHomomorphism   : IsKleeneAlgebraHomomorphism ⟦_⟧
-    injective                     : Injective ⟦_⟧
+field
+  isKleeneAlgebraHomomorphism   : IsKleeneAlgebraHomomorphism ⟦_⟧
+  injective                     : Injective ⟦_⟧
 
-  open IsKleeneAlgebraHomomorphism isKleeneAlgebraHomomorphism public
+open IsKleeneAlgebraHomomorphism isKleeneAlgebraHomomorphism public
 \end{minted}
 
 A surjective monomorphism of a Kleene algebra gives isomorphism.
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
-  field
-    isKleeneAlgebraMonomorphism   : IsKleeneAlgebraMonomorphism ⟦_⟧
-    surjective                    : Surjective ⟦_⟧
+field
+  isKleeneAlgebraMonomorphism   : IsKleeneAlgebraMonomorphism ⟦_⟧
+  surjective                    : Surjective ⟦_⟧
 
-  open IsKleeneAlgebraMonomorphism isKleeneAlgebraMonomorphism public
+open IsKleeneAlgebraMonomorphism isKleeneAlgebraMonomorphism public
 \end{minted}
 
 \section{Morphism composition}
@@ -154,14 +158,14 @@ If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 \begin{minted}[samepage,breaklines]{Agda}
-  isKleeneAlgebraHomomorphism
-  : IsKleeneAlgebraHomomorphism K₁ K₂ f
-  → IsKleeneAlgebraHomomorphism K₂ K₃ g
-  → IsKleeneAlgebraHomomorphism K₁ K₃ (g ∘ f)
+isKleeneAlgebraHomomorphism
+: IsKleeneAlgebraHomomorphism K₁ K₂ f
+→ IsKleeneAlgebraHomomorphism K₂ K₃ g
+→ IsKleeneAlgebraHomomorphism K₁ K₃ (g ∘ f)
 isKleeneAlgebraHomomorphism f-homo g-homo = record
-  { isSemiringHomomorphism = isSemiringHomomorphism ≈₃-trans F.isSemiringHomomorphism G.isSemiringHomomorphism
-  ; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
-  } where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
+{ isSemiringHomomorphism = isSemiringHomomorphism ≈₃-trans F.isSemiringHomomorphism G.isSemiringHomomorphism
+; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
+} where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
 \end{minted}
 In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
 from Kleene algebra $K₁$ to $K₂$, \inline{g} is a homomorphism from Kleene
@@ -170,8 +174,8 @@ given using the proof for semiring homomorphism composition. \inline{⋆-homo}
 gives composition for star operator using transitive relation such that: 
 \[g (f (x^{*_1})) = (g (f x) ^{*_2}) \text{ and } (g (f x) ^{*_2}) = (g (f x))^{*_3}\] 
 \[\Rightarrow g (f (x^{*_1})) = (g (f x))^{*_3}\] The composition of
- monomorphism and isomorphism can be defined similar to homomorphism and can be
- found in Agda standard library.
+monomorphism and isomorphism can be defined similar to homomorphism and can be
+found in Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} $K \ \times \ L$ of two Kleene algebra structures
@@ -179,14 +183,14 @@ $K$ and $L$ is defined as a pair $(k,l)$ where $k \ \in \ K$ and $l \ \in \ L$.
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 KleeneAlgebra K L = record
-  { isKleeneAlgebra = record
-      { isIdempotentSemiring = IdempotentSemiring.isIdempotentSemiring (idempotentSemiring K.idempotentSemiring L.idempotentSemiring)
-      ; starExpansive = (λ x → (K.starExpansiveˡ  , L.starExpansiveˡ) <*> x)
-                      , (λ x → (K.starExpansiveʳ  , L.starExpansiveʳ) <*> x)
-      ; starDestructive = (λ a b x x₁ → (K.starDestructiveˡ  , L.starDestructiveˡ) <*> a <*> b <*> x <*> x₁)
-                        , (λ a b x x₁ → (K.starDestructiveʳ  , L.starDestructiveʳ) <*> a <*> b <*> x <*> x₁)
-      }
-  } where module K = KleeneAlgebra K;  module L = KleeneAlgebra L
+{ isKleeneAlgebra = record
+    { isIdempotentSemiring = IdempotentSemiring.isIdempotentSemiring (idempotentSemiring K.idempotentSemiring L.idempotentSemiring)
+    ; starExpansive = (λ x → (K.starExpansiveˡ  , L.starExpansiveˡ) <*> x)
+                    , (λ x → (K.starExpansiveʳ  , L.starExpansiveʳ) <*> x)
+    ; starDestructive = (λ a b x x₁ → (K.starDestructiveˡ  , L.starDestructiveˡ) <*> a <*> b <*> x <*> x₁)
+                      , (λ a b x x₁ → (K.starDestructiveʳ  , L.starDestructiveʳ) <*> a <*> b <*> x <*> x₁)
+    }
+} where module K = KleeneAlgebra K;  module L = KleeneAlgebra L
 \end{minted}
 
 \section{Properties}
@@ -194,99 +198,73 @@ In this section we prove some properties of Kleene algebra
 
 Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
 \begin{enumerate}
-\item $0^{*}\ =\ 1$
-\item $1^{*}\ =\ 1$
-\item $\forall \ x\ \in\ K:\ 1\ +\ x^{*}\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ x\ +\ x\ *\ x^{*} = x^{*}$
-\item $\forall \ x\ \in\ K:\ x\ +\ x^{*}\ *\ x\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ x\ +\ x^{*}\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ 1\ + x\ + x^{*}\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ 0\ + x\ +\ x^{*}\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ x^{*}\ *\ x^{*}\ =\ x^{*}$
-\item $\forall \ x\ \in\ K:\ x^{**}\ =\ x^{*}$
-\item $\forall\ x,\ y\ \in\ K:\ \text{If}\ x\ =\ y\ \text{then},\ x^{*}\ =\ y^{*}$
-\item $\forall\ a,\ b,\ x\ \in\ K:\ \text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then},\ a^{*}\ *\ x\ =\ x\ *\ b^{*}$
-\item $\forall\ x,\ y\ \in\ K:\ (x\ *\ y)^{*}\ *\ x\ =\ x\ *\ (y\ *\ x)^{*}$
+\item $1\ +\ x^{*}\ =\ x^{*}$
+\item $x^{*} + x * x^{*} = x^{*}$
+\item $x^{*}\  + x^{*}\ *\ x\ =\ x^{*}$
+\item $x\ +\ x^{*}\ =\ x^{*}$
+\item $0\ + x\ +\ x^{*}\ =\ x^{*}$
+\item $x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}$
+\item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
+\item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
+\item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
+\item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
+\item $(x\ +\ y)^{*}\ =\ (x\ +\ y)^{*}\ *\ x\ +\ (x\ +\ y)^{*}$
 \end{enumerate}
 Proof:
 \begin{enumerate}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-0⋆≈1 : 0# ⋆ ≈ 1#
-0⋆≈1 = begin
-  0# ⋆           ≈⟨ sym (starExpansiveˡ 0#) ⟩
-  1# + 0# ⋆ * 0# ≈⟨ +-congˡ ( zeroʳ (0# ⋆)) ⟩
-  1# + 0#        ≈⟨ +-identityʳ 1# ⟩
-  1#             ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-1+11≈1 : 1# + 1# * 1# ≈ 1#
-1+11≈1 = begin
-  1# + 1# * 1#  ≈⟨ +-congˡ ( *-identityʳ 1#) ⟩
-  1# + 1#       ≈⟨ +-idem 1# ⟩
-  1#            ∎
-
-1⋆≈1 : 1# ⋆ ≈ 1#
-1⋆≈1 = begin
-  1# ⋆       ≈⟨ sym (*-identityʳ (1# ⋆)) ⟩
-  1# ⋆ * 1#  ≈⟨ starDestructiveˡ 1# 1# 1# 1+11≈1 ⟩
-  1#         ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
 1+x⋆≈x⋆ : ∀ x → 1# + x ⋆ ≈ x ⋆
-1+x⋆≈x⋆ x = sym (begin
-  x ⋆                   ≈⟨ sym (starExpansiveʳ x) ⟩
-  1# + x * x ⋆          ≈⟨ +-congʳ (sym (+-idem 1#)) ⟩
-  1# + 1# + x * x ⋆     ≈⟨ +-assoc 1# 1# ((x * x ⋆ )) ⟩
-  1# + (1# + x * x ⋆)   ≈⟨ +-congˡ (starExpansiveʳ x) ⟩
-  1# + x ⋆              ∎)
+1+x⋆≈x⋆ x = begin
+  1# + x ⋆                    ≈⟨ +-congˡ (sym(starExpansiveʳ x)) ⟩ 
+  1# + (1# + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ (+-assoc 1# (x * x ⋆) (x ⋆)) ⟩ 
+  1# + (1# + (x * x ⋆ + x ⋆)) ≈⟨ sym(+-assoc 1# 1# (x * x ⋆ + x ⋆)) ⟩ 
+  1# + 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-congʳ (+-idem 1#) ⟩ 
+  1# + (x * x ⋆ + x ⋆)        ≈⟨ sym(+-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
+  1# + x * x ⋆ + x ⋆          ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                         ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
 x⋆+xx⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ ≈ x ⋆
 x⋆+xx⋆≈x⋆ x = begin
-  x ⋆ + x * x ⋆         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
-  1# + x ⋆ + x * x ⋆    ≈⟨ +-congʳ (+-comm 1# ((x ⋆))) ⟩
-  x ⋆ + 1# + x * x ⋆    ≈⟨ +-assoc ((x ⋆)) 1# ((x * x ⋆ )) ⟩
-  x ⋆ + (1# + x * x ⋆)  ≈⟨ +-congˡ (starExpansiveʳ x) ⟩
-  x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
-  x ⋆                   ∎
+  x ⋆ + x * x ⋆                     ≈⟨ +-congʳ (sym(starExpansiveʳ x)) ⟩
+  1# +  x * x ⋆ + x ⋆ + x * x ⋆     ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + x * x ⋆ + (x ⋆ + x * x ⋆)    ≈⟨ +-congˡ(+-comm (x ⋆) ( x * x ⋆)) ⟩
+  1# + x * x ⋆ + (x * x ⋆ + x ⋆)    ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x * x ⋆ + (x * x ⋆ + x ⋆))  ≈⟨ +-congˡ (sym (+-assoc (x * x ⋆) (x * x ⋆) (x ⋆))) ⟩ 
+  1# + (x * x ⋆ + x * x ⋆ + x ⋆)    ≈⟨ +-congˡ (+-congʳ (+-idem _)) ⟩ 
+  1# + (x * x ⋆ + x ⋆)              ≈⟨ sym( +-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
+  1# + x * x ⋆ + x ⋆                ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                               ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
 x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
 x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
-  1# + x ⋆ + x ⋆ * x    ≈⟨ +-congʳ (+-comm 1# (x ⋆)) ⟩
-  x ⋆ + 1# + x ⋆ * x    ≈⟨ +-assoc (x ⋆) 1# (x ⋆ * x) ⟩
-  x ⋆ + (1# + x ⋆ * x)  ≈⟨ +-congˡ (starExpansiveˡ x) ⟩
-  x ⋆ + x ⋆             ≈⟨ +-idem (x ⋆) ⟩
+  1# + x ⋆ + x ⋆ * x    ≈⟨ +-assoc _ _ _ ⟩
+  1# + (x ⋆ + x ⋆ * x)  ≈⟨ +-congˡ (+-comm (x ⋆) (x ⋆ * x)) ⟩  
+  1# + (x ⋆ * x + x ⋆)  ≈⟨ sym (+-assoc _ _ _) ⟩
+  1# + x ⋆ * x + x ⋆    ≈⟨ starExpansiveˡ x ⟩ 
   x ⋆                   ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
 x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
 x+x⋆≈x⋆ x = begin
-  x + x ⋆                  ≈⟨ +-congˡ (sym (starExpansiveʳ x)) ⟩
-  x + (1# + x * x ⋆)       ≈⟨ +-congʳ (sym (*-identityʳ x)) ⟩
-  x * 1# + (1# + x * x ⋆)  ≈⟨ sym (+-assoc (x * 1#) 1# (x * x ⋆)) ⟩
-  x * 1# + 1# + x * x ⋆    ≈⟨ +-congʳ (+-comm (x * 1#) 1#) ⟩
-  1# + x * 1# + x * x ⋆    ≈⟨ +-assoc 1# (x * 1#) (x * x ⋆) ⟩
-  1# + (x * 1# + x * x ⋆)  ≈⟨ +-congˡ (sym (distribˡ x 1# ((x ⋆)))) ⟩
-  1# + x * (1# + x ⋆)      ≈⟨ +-congˡ (*-congˡ (1+x⋆≈x⋆ x)) ⟩
-  1# + x * x ⋆             ≈⟨ (starExpansiveʳ x) ⟩
-  x ⋆                      ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
-1+x+x⋆≈x⋆ x = begin
-  1# + x + x ⋆    ≈⟨ +-assoc 1# x (x ⋆) ⟩
-  1# + (x + x ⋆)  ≈⟨ +-congˡ (x+x⋆≈x⋆ x) ⟩
-  1# + x ⋆        ≈⟨ 1+x⋆≈x⋆ x ⟩
-  x ⋆             ∎
+  x + x ⋆                         ≈⟨ +-congˡ (sym (starExpansiveʳ x)) ⟩
+  x + (1# + x * x ⋆ + x ⋆)        ≈⟨ +-congʳ (sym (*-identityʳ x)) ⟩ 
+  x * 1# + (1# + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ ((+-assoc _ _ _)) ⟩ 
+  x * 1# + (1# + (x * x ⋆ + x ⋆)) ≈⟨ sym(+-assoc _ _ _ ) ⟩ 
+  x * 1# + 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-congʳ (+-comm (x * 1#) 1#) ⟩ 
+  1# + x * 1# + (x * x ⋆ + x ⋆)   ≈⟨ (+-assoc 1# (x * 1#) ((x * x ⋆ + x ⋆) )) ⟩ 
+  1# + (x * 1# + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ (sym (+-assoc _ _ _)) ⟩ 
+  1# + ((x * 1# + x * x ⋆) + x ⋆) ≈⟨ +-congˡ (+-congʳ (sym(distribˡ _ _ _))) ⟩ 
+  1# + (x * (1# + x ⋆) + x ⋆)     ≈⟨ +-congˡ(+-congʳ (*-congˡ (1+x⋆≈x⋆ x))) ⟩ 
+  1# + (x * x ⋆ + x ⋆)            ≈⟨ sym(+-assoc _ _ _) ⟩ 
+  1# + x * x ⋆ + x ⋆              ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                             ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
@@ -296,60 +274,100 @@ x+x⋆≈x⋆ x = begin
   0# + (x + x ⋆)  ≈⟨ +-identityˡ ((x + x ⋆)) ⟩
   (x + x ⋆)       ≈⟨ x+x⋆≈x⋆ x ⟩
   x ⋆             ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-x⋆x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ ≈ x ⋆
-x⋆x⋆≈x⋆ x = starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆≈x⋆ x)
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-1+x⋆x⋆≈x⋆ : ∀ x → 1# + x ⋆ * x ⋆ ≈ x ⋆
-1+x⋆x⋆≈x⋆ x = begin
-  1# + x ⋆ * x ⋆  ≈⟨ +-congˡ (x⋆x⋆≈x⋆ x) ⟩
-  1# + x ⋆        ≈⟨ 1+x⋆≈x⋆ x ⟩
-  x ⋆             ∎
 
-x⋆⋆≈x⋆ : ∀ x → (x ⋆) ⋆ ≈ x ⋆
-x⋆⋆≈x⋆ x = begin
-  (x ⋆) ⋆        ≈⟨ sym (*-identityʳ ((x ⋆) ⋆)) ⟩
-  (x ⋆) ⋆ * 1#   ≈⟨ starDestructiveˡ (x ⋆) 1# (x ⋆) (1+x⋆x⋆≈x⋆ x) ⟩
-  x ⋆            ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈  y → 1# + x * y ⋆ ≈ y ⋆
+x⋆+xx⋆+x⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ + x ⋆ ≈ x ⋆
+x⋆+xx⋆+x⋆≈x⋆ x = begin
+  x ⋆ + x * x ⋆ + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
+  x ⋆ + (x * x ⋆ + x ⋆) ≈⟨ +-congˡ (+-comm _ _) ⟩
+  x ⋆ + (x ⋆ + x * x ⋆) ≈⟨ sym (+-assoc _ _ _) ⟩ 
+  x ⋆ + x ⋆ + x * x ⋆   ≈⟨ +-congʳ (+-idem _) ⟩ 
+  x ⋆ + x * x ⋆         ≈⟨ x⋆+xx⋆≈x⋆ x ⟩
+  x ⋆                   ∎
+
+x⋆x⋆+x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ + x ⋆ ≈ x ⋆
+x⋆x⋆+x⋆≈x⋆ x =  starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆+x⋆≈x⋆ x) 
+\end{minted}
+\item
+\begin{minted}[breaklines,samepage]{Agda}
+1+x⋆x⋆+x⋆≈x⋆ : ∀ x → 1# + x ⋆ * x ⋆ + x ⋆ ≈ x ⋆
+1+x⋆x⋆+x⋆≈x⋆ x = begin
+  1# + x ⋆ * x ⋆ + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x ⋆ * x ⋆ + x ⋆) ≈⟨ +-congˡ (x⋆x⋆+x⋆≈x⋆ x) ⟩
+  1# + x ⋆               ≈⟨ 1+x⋆≈x⋆ x ⟩
+  x ⋆                    ∎
+\end{minted}
+\item
+\begin{minted}[breaklines,samepage]{Agda}
+x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈ y → 1# + x * y ⋆ + y ⋆ ≈ y ⋆
 x≈y⇒1+xy⋆≈y⋆ x y eq = begin
-  1# + x * y ⋆  ≈⟨ +-congˡ (*-congʳ (eq)) ⟩
-  1# + y * y ⋆  ≈⟨ starExpansiveʳ y ⟩
-  y ⋆           ∎
-
-x≈y⇒x⋆≈y⋆ : ∀ x y → x ≈ y → x ⋆ ≈ y ⋆
-x≈y⇒x⋆≈y⋆ x y eq = begin
-  x ⋆       ≈⟨ sym (*-identityʳ (x ⋆)) ⟩
-  x ⋆ * 1#  ≈⟨ (starDestructiveˡ x 1# (y ⋆) (x≈y⇒1+xy⋆≈y⋆ x y eq)) ⟩
-  y ⋆       ∎
+  1# + x * y ⋆ + y ⋆   ≈⟨ +-assoc _ _ _ ⟩
+  1# + (x * y ⋆ + y ⋆) ≈⟨ +-congˡ (+-congʳ (*-congʳ (eq))) ⟩
+  1# + (y * y ⋆ + y ⋆) ≈⟨ sym(+-assoc _ _ _) ⟩ 
+  1# + y * y ⋆ + y ⋆   ≈⟨ starExpansiveʳ y ⟩ 
+  y ⋆                  ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-ax≈xb⇒x+axb⋆≈xb⋆ : ∀ x a b → 
-	a * x ≈ x * b → x + a * (x * b ⋆) ≈ x * b ⋆
-ax≈xb⇒x+axb⋆≈xb⋆ x a b eq = begin
-  x + a * (x * b ⋆)       ≈⟨ +-congˡ (sym(*-assoc a x (b ⋆))) ⟩
-  x + a * x * b ⋆         ≈⟨ +-congʳ (sym (*-identityʳ x)) ⟩
-  x * 1# + a * x * b ⋆    ≈⟨ +-congˡ (*-congʳ (eq)) ⟩
-  x * 1# + x * b * b ⋆    ≈⟨ +-congˡ (*-assoc x b (b ⋆) ) ⟩
-  x * 1# + x * (b * b ⋆)  ≈⟨ sym (distribˡ x 1# (b * b ⋆)) ⟩
-  x * (1# + b * b ⋆)      ≈⟨ *-congˡ (starExpansiveʳ b) ⟩
-  x * b ⋆                 ∎
+ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ : ∀ x a b → a * x ≈ x * b → (x + a * (x * b ⋆)) + x * b ⋆ ≈ x * b ⋆
+ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ x a b eq = begin
+  (x + a * (x * b ⋆)) + x * b ⋆       ≈⟨ +-congʳ( +-congˡ (sym(*-assoc a x (b ⋆)))) ⟩
+  (x + a * x * b ⋆)  + x * b ⋆        ≈⟨ +-congʳ(+-congʳ (sym (*-identityʳ x))) ⟩
+  (x * 1# + a * x * b ⋆) + x * b ⋆    ≈⟨ +-congʳ (+-congˡ (*-congʳ (eq))) ⟩
+  (x * 1# + x * b * b ⋆) + x * b ⋆    ≈⟨ +-congʳ (+-congˡ ( *-assoc _ _ _)) ⟩
+  (x * 1# + x * (b * b ⋆)) + x * b ⋆  ≈⟨ +-congʳ(sym (distribˡ x 1# (b * b ⋆))) ⟩ 
+  x * ( 1# + b * b ⋆) + x * b ⋆       ≈⟨ sym(distribˡ _ _ _) ⟩ 
+  x * (1# + b * b ⋆ + b ⋆)            ≈⟨ *-congˡ (starExpansiveʳ b) ⟩ 
+  x * b ⋆                             ∎ 
 
-ax≈xb⇒a⋆x≈xb⋆ : ∀ x a b → a * x ≈ x * b → a ⋆ * x ≈ x * b ⋆
-ax≈xb⇒a⋆x≈xb⋆ x a b eq = 
-	starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆≈xb⋆ x a b eq)
+ax≈xb⇒a⋆x≈xb⋆ : ∀ x a b → a * x ≈ x * b → a ⋆ * x + x * b ⋆ ≈ x * b ⋆
+ax≈xb⇒a⋆x≈xb⋆ x a b eq = starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ x a b eq)
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-[xy]⋆x≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x ≈ x * (y * x) ⋆
-[xy]⋆x≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
+[xy]⋆x+x[yx]⋆≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x + x * (y * x) ⋆ ≈ x * (y * x) ⋆
+[xy]⋆x+x[yx]⋆≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
+\end{minted}
+\item
+\begin{minted}[breaklines,samepage]{Agda}
+x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ : ∀ x y → x + (x + y) * (x + y) ⋆ + (x + y) ⋆ ≈ (x + y) ⋆
+x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ x y = begin
+    x + (x + y) * (x + y) ⋆ + (x + y) ⋆             
+      ≈⟨ +-assoc _ _ _ ⟩ 
+    x + ((x + y) * (x + y) ⋆ + (x + y) ⋆)           
+      ≈⟨ +-congˡ (+-comm _ _) ⟩ 
+    x +  ( (x + y) ⋆ + (x + y) * (x + y) ⋆)         
+      ≈⟨ +-congˡ (x⋆+xx⋆≈x⋆ _) ⟩
+    x + (x + y) ⋆                                   
+      ≈⟨ +-congˡ( sym(starExpansiveˡ _)) ⟩
+    x +  ((1# + (x + y) ⋆ * (x + y)) + (x + y) ⋆)   
+      ≈⟨ (sym(+-assoc x ((1# + (x + y) ⋆ * (x + y)) ) ((x + y) ⋆))) ⟩
+    x + (1# + (x + y) ⋆ * (x + y)) + (x + y) ⋆      
+      ≈⟨ +-congʳ(sym(+-assoc _ _ _)) ⟩ 
+    x + 1# + (x + y) ⋆ * (x + y) + (x + y) ⋆              
+      ≈⟨ +-congʳ(+-congʳ (+-comm x 1#)) ⟩ 
+    1# + x + (x + y) ⋆ * (x + y) + (x + y) ⋆              
+      ≈⟨ +-congʳ ( +-congˡ (distribˡ _ _ _)) ⟩ 
+    1# + x + ((x + y) ⋆ * x + (x + y) ⋆ * y ) + (x + y) ⋆ 
+      ≈⟨ +-congʳ (+-assoc _ _ _) ⟩ 
+    1# + (x + ((x + y) ⋆ * x + (x + y) ⋆ * y ))+ (x + y) ⋆ 
+      ≈⟨ +-congʳ (+-congˡ (+-congʳ (sym(*-identityˡ x)))) ⟩ 
+    1# + ( 1# * x  + ((x + y) ⋆ * x + (x + y) ⋆ * y )) + (x + y) ⋆ 
+      ≈⟨ +-congʳ (+-congˡ (sym(+-assoc _ _ _))) ⟩ 
+    1# + ((1# * x + ((x + y) ⋆ * x)) + (x + y) ⋆ * y ) + (x + y) ⋆ 
+      ≈⟨ +-congʳ (+-congˡ (+-congʳ (sym(distribʳ _ _ _)))) ⟩ 
+    1# + ( (1# + (x + y) ⋆) * x + (x + y) ⋆ * y )+ (x + y) ⋆  
+      ≈⟨ +-congʳ (+-congˡ (+-congʳ (*-congʳ (1+x⋆≈x⋆ _ )))) ⟩ 
+    1# + ( (x + y) ⋆ * x + (x + y) ⋆ * y )+ (x + y) ⋆ 
+      ≈⟨ +-congʳ (+-congˡ (sym(distribˡ _ _ _))) ⟩ 
+    1# + ( (x + y) ⋆ * (x + y )) + (x + y) ⋆ 
+      ≈⟨ starExpansiveˡ _ ⟩ 
+    (x + y) ⋆ 
+      ∎
+
+[x+y]⋆≈[x+y]⋆x+[x+y]⋆ : ∀ x y → (x + y) ⋆ ≈ (x + y) ⋆ * x + (x + y) ⋆
+[x+y]⋆≈[x+y]⋆x+[x+y]⋆ x y = sym(starDestructiveˡ (x + y) x ((x + y) ⋆) (x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ x y))
 \end{minted}
 \end{enumerate}
