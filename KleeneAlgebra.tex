@@ -178,8 +178,7 @@ monomorphism and isomorphism can be defined similar to homomorphism and can be
 found in Agda standard library.
 
 \section{Direct Product}
-The \textit{direct product} $K \ \times \ L$ of two Kleene algebra structures
-$K$ and $L$ is defined as a pair $(k,l)$ where $k \ \in \ K$ and $l \ \in \ L$.
+The \textit{direct product} of two Kleene algebra structures.
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 KleeneAlgebra K L = record

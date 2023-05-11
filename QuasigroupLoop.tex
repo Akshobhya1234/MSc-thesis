@@ -301,9 +301,7 @@ defined similar to homomorphism and can be found in Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} $M \ \times \ N$ of two quasigroups $M$ and $N$ is
-defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$. The direct
-product construct of left (right/middle) bol loop and moufang loop can be found
-in Agda standard library.
+defined in Agda as:
 \begin{minted}[breaklines,samepage]{Agda}
 quasigroup : Quasigroup a ℓ₁ → Quasigroup b ℓ₂ → Quasigroup (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 quasigroup M N = record

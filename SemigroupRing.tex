@@ -45,9 +45,10 @@ Commutative _∙_ = ∀ x y → (x ∙ y) ≈ (y ∙ x)
 With this declaration of associativity and commutativity, we may further
 restrict the operations used to build a magma to one that is also associative to
 make it a semigroup. This we obtain the code below, semigroup that is
-structurally derived from magma.\footnote{Semigroup and commutative semigroup structure definitions with direct product
-and morphism constructs were previously defined in Agda standard library and
-hence will not be discussed in details in this chapter.}
+structurally derived from magma.\footnote{Semigroup and commutative semigroup
+structure definitions with direct product and morphism constructs were
+previously defined in Agda standard library and hence will not be discussed in
+details in this chapter.}
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
@@ -266,8 +267,7 @@ y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ 
 (g (f y)))\]
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 \section{Direct Product}
-The \textit{direct product} $M \ \times \ N$ of two ringWithoutOne structures
-$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
+The \textit{direct product} of ring like structures in Agda.
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
 		RingWithoutOne b ℓ₂ → RingWithoutOne (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -288,9 +288,7 @@ ringWithoutOne R S = record
 
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
 \end{minted}
-The \textit{direct product} $M \ \times \ N$ of two
-non-associative ring structures $M$ and $N$ is defined as a pair $(m,n)$ where
-$m \ \in \ M$ and $n \ \in \ N$.
+
 \begin{minted}[breaklines,samepage]{Agda}
 nonAssociativeRing : NonAssociativeRing a ℓ₁ →
 		 NonAssociativeRing b ℓ₂ → NonAssociativeRing (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -312,8 +310,7 @@ nonAssociativeRing R S = record
 
   } where module R = NonAssociativeRing R; module S = NonAssociativeRing S
 \end{minted}
-The \textit{direct product} $M \ \times \ N$ of two quasiring structures
-$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
+
 \begin{minted}[breaklines,samepage]{Agda}
 quasiring : Quasiring a ℓ₁ →
 		 Quasiring b ℓ₂ → Quasiring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -337,8 +334,7 @@ quasiring R S = record
 
   } where module R = Quasiring R; module S = Quasiring S
 \end{minted}
-The \textit{direct product} $M \ \times \ N$ of two nearring structures
-$M$ and $N$ is defined as a pair $(m,n)$ where $m \ \in \ M$ and $n \ \in \ N$.
+
 \begin{minted}[breaklines,samepage]{Agda}
 nearring : Nearring a ℓ₁ → 
 		Nearring b ℓ₂ → Nearring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)

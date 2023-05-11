@@ -141,7 +141,9 @@ made public using the keyword \inline{public} to be able to re-export the names
 from another module.
 
 The bundled version of the structures contains the operations of the structures,
-sets and axioms. 
+sets and axioms. We import the structures from 'Algebra.Structures' so we can
+parameterise the definitions with equality. 
+
 \begin{minted}[breaklines,samepage]{Agda}
 record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
