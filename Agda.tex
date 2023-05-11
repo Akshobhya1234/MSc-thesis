@@ -108,8 +108,10 @@ obtained by wrapping the predicates that are expressed as "is-a" relation
 \cite{hu2021formalizing}.
 
 The types of algebraic structures are defined in module
-\inline{Algebra.Structures} that has an underlying set \inline{A} and the
-equality relation \inline{_≈_}.
+\inline{Algebra.Structures} that have an underlying set \inline{A} and the
+homogeneous binary relation \inline{_≈_}. The types of algebraic structures are
+defined over the setoid, i.e., set equipped with equivalence relation. 
+
 \begin{minted}[breaklines,samepage]{Agda}
 module Algebra.Structures
   {a ℓ} {A : Set a} 
@@ -117,7 +119,7 @@ module Algebra.Structures
   where
 \end{minted}
 
-The following example shows how to characterise magma
+The following example shows how to characterize magma
 structures in Agda:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
@@ -127,6 +129,7 @@ record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 
   open IsEquivalence isEquivalence public
 \end{minted}
+
 In the above example structure \inline{IsMagma} is defined as a record type with
 a parameter \inline{Op₂ A}. The properties of the structure \inline{IsMagma} are
 declared as the fields of the record, which include equivalence
@@ -141,8 +144,9 @@ made public using the keyword \inline{public} to be able to re-export the names
 from another module.
 
 The bundled version of the structures contains the operations of the structures,
-sets and axioms. We import the structures from 'Algebra.Structures' so we can
-parameterise the definitions with equality. 
+sets and axioms. The structures are imported from "Algebra.Structures" so we can
+parameterize the definitions with equality that is used to compare the terms of
+the bundled structure.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
@@ -162,13 +166,15 @@ record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
   open RawMagma rawMagma public
     using (_≉_)
 \end{minted}
+
 Above is the bundled version of \inline{IsMagma} structure. \inline{RawMagma} is
 the raw version of the magma with only the operators and set. infix<l,r> denotes
-the fixity and precedence of the operator. The operator with higher fixity binds
-more strongly than an operator with a lower numeric value. \inline{using}
-keyword is used to limit the imported components. When exporting the modules, we
-may need to rename the fields to avoid having ambiguity. Keyword
-\inline{renaming} is used to rename the fields.
+the fixity and precedence of the operator. \inline{_≈_} defines equality used to
+compare terms of \inline{Magma}. The operator with higher fixity binds more
+strongly than an operator with a lower numeric value. \inline{using} keyword is
+used to limit the imported components. When exporting the modules, we may need
+to rename the fields to avoid having ambiguity. Keyword \inline{renaming} is
+used to rename the fields.
 \label{code:rename}
 \begin{minted}[breaklines,samepage]{Agda}
   open IsMagma *-isMagma public
@@ -183,7 +189,7 @@ We rename \inline{∙-congˡ}  to \inline{*-congˡ} and \inline{∙-congʳ}  to
 module.
 
 \section{Calculational Proofs in Agda}
-An proof is a sequence of steps that transform one expression into another using
+A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types
 that need to be verified by the compiler. \cite{kidney2020finiteness}.  
 
