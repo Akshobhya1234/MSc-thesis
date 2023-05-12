@@ -1,6 +1,6 @@
 \documentclass[12pt]{report} % Times New Roman, 12pt
 %\usepackage{gscale_thesis_singlespace} % Single spaced thesis
-\usepackage{style/gscale_thesis_singlespace} % Double spaced thesis
+\usepackage{style/gscale_thesis_doublespace} % Double spaced thesis
 \usepackage{style/fancyheadings} % Header and footer styling
 \usepackage{setspace} % Allows double spacing but skips headers/footers
 \setcounter{tocdepth}{1} % Limits the TOC to chapter and section names
@@ -32,6 +32,8 @@
 % Credits to Arash Esbati (https://tex.stackexchange.com/a/254177) for the
 % listings-related component of minted usage.
 \usepackage[most]{tcolorbox}
+
+%\AtBeginEnvironment{minted}{\singlespacing}
 
 %textmarker style from colorbox doc
 \tcbset{textmarker/.style={%

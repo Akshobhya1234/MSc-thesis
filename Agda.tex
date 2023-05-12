@@ -29,6 +29,7 @@ of a particular application or domain. Agda supports inductive types, simple
 types, and parameterized types \cite{10.1007/978-3-642-03359-9_6}. A data type
 in Agda can be declared using the keyword \inline{data}. Let us consider an
 example of inductive datatype to define natural numbers \inline{Nat}.
+
 \label{code:Nat}
 \begin{minted}[breaklines,samepage]{Agda}
 data Nat : Set where
@@ -51,7 +52,8 @@ discussed later in the chapter when we define algebraic structure.
 
 Those familiar with Haskell will find Agda to be somewhat familiar. For example,
 functions have a very similar syntax to those in Haskell. A function in Agda is
-defined by declaring the type followed by the clauses. 
+defined by declaring the type followed by the clauses.
+
 \begin{minted}[breaklines,samepage]{Agda}
 f : (x₁ : A₁) → ... → (xₙ : Aₙ) → B
 f p₁ ... pₙ = d
@@ -65,6 +67,7 @@ as patterns and case trees. In Agda, a function to and from each type is
 provided if there is a bijection between two types.
 
 For example, we can define addition on natural numbers as a recursive function:
+
 \label{code:Add}
 \begin{minted}[breaklines,samepage]{Agda}
 _+_ : Nat -> Nat -> Nat
@@ -84,6 +87,7 @@ terminates.
 Let us first understand how unary and binary operations are defined in the Agda
 standard library. Below code shows how unary operations \inline{Op₁} and binary
 operation \inline{Op₂} are defined:
+
 \begin{minted}[breaklines,samepage]{Agda}
 Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
 Op₁ A = A → A
@@ -175,6 +179,7 @@ strongly than an operator with a lower numeric value. \inline{using} keyword is
 used to limit the imported components. When exporting the modules, we may need
 to rename the fields to avoid having ambiguity. Keyword \inline{renaming} is
 used to rename the fields.
+
 \label{code:rename}
 \begin{minted}[breaklines,samepage]{Agda}
   open IsMagma *-isMagma public
@@ -184,6 +189,7 @@ used to rename the fields.
     ; ∙-congʳ  to *-congʳ
     )
 \end{minted} 
+
 We rename \inline{∙-congˡ}  to \inline{*-congˡ} and \inline{∙-congʳ}  to
 \inline{*-congʳ} thus avoiding conflict with same elements exported by other
 module.

@@ -8,7 +8,7 @@ predicted. In \cite{deng2016characterizations} the authors proposes a type
 (2,2,0) algebra that is a \textit{semigroup} that can be used to give a general
 construct of D\textsubscript{A}-rewriting system. Semigroup structures are also
 used in finite automata systems, probability theory and partial differential
-equations are explored in \cite{liaqat2021some}.\\
+equations are explored in \cite{liaqat2021some}.
 
 Similarly, \textit{ring} is an algebraic structure that also have notable
 applications such as in number theory \cite{noauthor_undated-eq}, quantum
@@ -25,15 +25,15 @@ that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we 
 observe that we can derive semigroups from magma by adding associative property.
 For binary operation \(∙\) on a set S, the associative property is defined as 
 \begin{equation}
-\forall\ x\ y\ z\ \in\ S :\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
+\forall\ x\ y\ z\ \in\ S ,\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
 \end{equation}
 A semigroup that satisfies commutative property is called commutative
 semigroup. For binary operation \( ∙ \) on a set S, commutative property is
 defined as 
 \begin{equation}
-\forall\ x\ y\ \in\ S :\ x\ ∙\ y\ =\ y\ ∙\ x\
+\forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\
 \end{equation}
-Conversely, in Agda, we can describe associativity and commutativity as follows:
+In Agda, we can describe associativity and commutativity as follows:
 \begin{minted}[breaklines,samepage]{Agda}
 Associative : Op₂ A → Set _
 Associative _∙_ = ∀ x y z → ((x ∙ y) ∙ z) ≈ (x ∙ (y ∙ z))
@@ -62,7 +62,7 @@ In the above definition \inline{IsSemigroup} is a record type with two fields
 \inline{isMagma} and \inline{assoc}. $∙$ is a parameter of type Op₂ on set $A$
 denotes the binary operation for the semiring. \inline{a ⊔ ℓ} is the least upper
 bound for the set. Similarly, commutative semigroup can be derived from
-semigroup as:
+semigroup as: 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 field
@@ -73,28 +73,28 @@ open IsSemigroup isSemigroup public
 \end{minted}
 
 Continuing on, we may encode various ring structures as follows: Non-associative
-ring is an algebraic structure with two binary operations addition (+) and
+ring is an algebraic structure with two binary operations: addition (+) and
 multiplication (*). Addition is an Abelian group that is a group with
 commutative property and multiplication is unital magma that is a magma with
 identity. A group is a monoid with inverse property and a monoid is a semigroup
 with an identity element. A magma is called unital if it has an identity
-element. In non-associative ring, multiplication distributes over addition and
+element. In non-associative ring, multiplication distributes over addition, and
 it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,⁻¹,0,1)$
 should satisfy the following axioms:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
-    \item Associativity: $\forall x,y,z \in R: x + (y + z) = (x + y) + z$
-    \item Identity: $\forall x \in R: (x + 0) = x = (0 + x)$
-    \item Inverse: $\forall x \in R: (x + x⁻¹) = 0 = (x⁻¹ + x)$
+    \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
+    \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
-  \item $(R,*,1)$ is a unital magma
+  \item $(R,*,1)$ is an unital magma
   \begin{itemize}
-    \item Identity: $\forall x,y \in R: (x * 1) = x = (1 * x)$
+    \item Identity: $\forall x,y \in R, (x * 1) = x = (1 * x)$
   \end{itemize}
-  \item Multiplication distributes over addition: \(\forall x , y , z \in R: (x * (y + z)) = (x * y) + (x
+  \item Multiplication distributes over addition: \(\forall x , y , z \in R, (x * (y + z)) = (x * y) + (x
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-  \item Annihilating zero: \(\forall x \in R: (x * 0) = 0 = (0 * x)\)
+  \item Annihilating zero: \(\forall x \in R, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -108,7 +108,7 @@ record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a 
  open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
-A quasiring is a type (2,2,0,0) algebraic structure for which both addition and
+A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
 multiplication is a monoid and multiplication distributes over addition, and has
 an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axioms:
 \begin{itemize}
@@ -117,7 +117,7 @@ an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axi
     \item Associativity: $\forall x,y,z \in Q, x + (y + z) = (x + y) + z$
     \item Identity: $\forall x \in Q, (x + 0) = x = (0 + x)$
   \end{itemize}
-  \item $Q,*,1$ is a monoid:
+  \item $(Q,*,1)$ is a monoid:
   \begin{itemize}
     \item Associativity: $ \forall x,y,z \in Q: x * (y*z)  = (x*y)*z$
     \item Identity: $\forall x \in Q, (x * 1) = x = (1 * x)$

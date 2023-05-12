@@ -95,7 +95,7 @@ as:
 \begin{equation}\label{eq_lineslope}
 x\ ∙\ e\ =\ e\ ∙\ x\ =\ x
 \end{equation}
-Conversely, in Agda, (left-right) identity is defined as:
+In Agda, (left-right) identity is defined as:
 \begin{minted}[samepage]{Agda}
 LeftIdentity : A → Op₂ A → Set _
 LeftIdentity e _∙_ = ∀ x → (e ∙ x) ≈ x

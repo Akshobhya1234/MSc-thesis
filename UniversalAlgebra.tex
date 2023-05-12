@@ -83,14 +83,27 @@ of the operation.
 Logic allows to describe properties of entities as formulas and provide
 reasoning about them. Equational logic limits these formulas (such as axioms or
 theorems) to  be universally quantified equations of the form $t_1 = t_2$. Here
-$t_1$ and $t_2$ are terms expressible in the language of theory.
+$t_1$ and $t_2$ are terms expressible in the language of theory. The three
+inference rules in equational logic described in \cite{gries2013logical} are:
+\begin{itemize}
+    \item Leibniz equality: Two expressions are equal if one expression can be
+    substituted with other without changing the truth statement. \[\frac{t_1
+    = t_2}{t[x \mapsto t_1] = t[x \mapsto t_2]}\]
+    \item Transitivity: If $t_1 = t_2$ and $t_2 = t_3$ then $t_1 = t_3$.
+    \[{\frac{t_1 = t_2\ t_2 = t_3}{t_1 = t_3}}\]
+    \item Substitution: For predicate $p$, if $p\ t$ is true, it remains true on all
+    condition. \[\frac{p t}{p(t[xs \mapsto ts])}\]
+\end{itemize}
+where $t,t_1,t_2, \text{and} t_3$ are expressions, $x$ is some symbol in the
+language, $xs$ and $ts$ denotes list of symbols and list of expressions
+respectively. 
 
 A theory in universal algebra is defined as a tuple $(S,F,E)$ such that,
 $S$ is a set of single sort $s$, $F$ is a finite set of function symbols with
 their arities, and $E$ is a finite set of generating equations.
 
 A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set
-of sorts and $F$ is set of operations. An operation can be defined as a triple
+of sorts and $F$ is set of operation names. An operation can be defined as a triple
 $(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
 
 An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
@@ -115,7 +128,7 @@ The type (or language) of the algebra is a set of function symbols. Each member
 of this set is assigned a positive number that is the arity of the member. For
 example an algebra of type (2,0) denotes an algebra with one binary operation
 and one nullary operation. The group structure defined in previous section is of
-type (2,1,0). That is ∙ is a binary operation, \textsuperscript{-1} is a unary
+type (2,1,0). That is ∙ is a binary operation, $\textsuperscript{-1}$ is a unary
 operation and 1 is the nullary operation.
 
 \section{Constructions}
@@ -130,6 +143,13 @@ structures. In this section, we will describe some of these constructions.
     for each n-ary function symbol $f \ \in\ F$ and $x_i,\ y_i\ \in\ A$, If
     $x_i\ \theta\ y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\
     \theta\ f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
+
+    For example, consider group structure $(G, ∙, \textsuperscript{-1}, 1)$. A
+    congruence relation on $G$ with binary operation $∙$ is an equivalence
+    relation $\equiv$ on $G$ such that \[g_1\equiv g_2\ \text{and}\ h_1 \equiv h_2
+    \Rightarrow g_1 ∙ h_1 \equiv g_2 ∙ h_2\ \forall g_1,g_2,h_1,h_2 \in G\] 
+    \[g_1 \equiv g_2 \Rightarrow g_1\textsubscript{-1} = g_2\textsubscript{-1}
+    \forall g_1,g_2 \in G\]
 
     \item A \textit{morphism} is a structure preserving map between two
     algebraic structures. It is an abstraction that generalizes the map between
@@ -181,9 +201,10 @@ structures. In this section, we will describe some of these constructions.
     same type indexed by I, the cartesian product of the underlying sets is
     defined as $A = \displaystyle \prod_{i\in I} A_i$. Let $\omega_{A_i}$ be the
     corresponding n-ary operator on $A_i$. We can define $\omega_A : A^{n}
-    \rightarrow A$ by \[ \omega_A(a_1,...a_n)(i) = \omega{_A_i}
-    (a_1(i),...,a_n(i)) \forall i \in I\] $A$ equipped with all $\omega_A$ on
-    $A$ is the direct product of $A_i$. Each $A_i$ is called the direct factor
-    of $A$.
+    \rightarrow A$ by \[ \omega_A(a_1,...a_n)(i) = \omega_{A_i}
+    (a_1(i),...,a_n(i)) \forall i \in I\] where element $a \in A$ is a function
+    from indexing set $I$ to $\bigcup A_1$ such that $i \in I, a(i) \in A$. The
+    algebra $A$ equipped with all $\omega_A$ on $A$ is the direct product of
+    $A_i$. Each $A_i$ is called the direct factor of $A$.
 
 \end{itemize}

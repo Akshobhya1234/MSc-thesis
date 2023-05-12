@@ -198,16 +198,16 @@ In this section we prove some properties of Kleene algebra
 Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
 \begin{enumerate}
 \item $1\ +\ x^{*}\ =\ x^{*}$
-\item $x^{*} + x * x^{*} = x^{*}$
+\item $x * x^{*} + x^{*} = x^{*}$
 \item $x^{*}\  + x^{*}\ *\ x\ =\ x^{*}$
-\item $x\ +\ x^{*}\ =\ x^{*}$
 \item $0\ + x\ +\ x^{*}\ =\ x^{*}$
+\item $1\ + x\ +\ x^{*}\ =\ x^{*}$
+\item $x\ +\ x^{*}\ =\ x^{*}$
 \item $x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}$
 \item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
-\item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
 \item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
+\item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
 \item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
-\item $(x\ +\ y)^{*}\ =\ (x\ +\ y)^{*}\ *\ x\ +\ (x\ +\ y)^{*}$
 \end{enumerate}
 Proof:
 \begin{enumerate}
@@ -225,17 +225,18 @@ Proof:
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-x⋆+xx⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ ≈ x ⋆
-x⋆+xx⋆≈x⋆ x = begin
-  x ⋆ + x * x ⋆                     ≈⟨ +-congʳ (sym(starExpansiveʳ x)) ⟩
-  1# +  x * x ⋆ + x ⋆ + x * x ⋆     ≈⟨ +-assoc _ _ _ ⟩ 
-  1# + x * x ⋆ + (x ⋆ + x * x ⋆)    ≈⟨ +-congˡ(+-comm (x ⋆) ( x * x ⋆)) ⟩
-  1# + x * x ⋆ + (x * x ⋆ + x ⋆)    ≈⟨ +-assoc _ _ _ ⟩ 
-  1# + (x * x ⋆ + (x * x ⋆ + x ⋆))  ≈⟨ +-congˡ (sym (+-assoc (x * x ⋆) (x * x ⋆) (x ⋆))) ⟩ 
-  1# + (x * x ⋆ + x * x ⋆ + x ⋆)    ≈⟨ +-congˡ (+-congʳ (+-idem _)) ⟩ 
-  1# + (x * x ⋆ + x ⋆)              ≈⟨ sym( +-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
-  1# + x * x ⋆ + x ⋆                ≈⟨ starExpansiveʳ x ⟩ 
-  x ⋆                               ∎
+xx⋆+x⋆≈x⋆ : ∀ x → x * x ⋆ + x ⋆ ≈ x ⋆
+xx⋆+x⋆≈x⋆ x = begin
+  x * x ⋆ + x ⋆                    ≈⟨ +-comm _ _ ⟩ 
+  x ⋆ + x * x ⋆                    ≈⟨ +-congʳ (sym(starExpansiveʳ x)) ⟩
+  1# +  x * x ⋆ + x ⋆ + x * x ⋆    ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + x * x ⋆ + (x ⋆ + x * x ⋆)   ≈⟨ +-congˡ(+-comm (x ⋆) ( x * x ⋆)) ⟩
+  1# + x * x ⋆ + (x * x ⋆ + x ⋆)   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x * x ⋆ + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ (sym (+-assoc _ _ _)) ⟩ 
+  1# + (x * x ⋆ + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ (+-congʳ (+-idem _)) ⟩ 
+  1# + (x * x ⋆ + x ⋆)             ≈⟨ sym( +-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
+  1# + x * x ⋆ + x ⋆               ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                              ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
@@ -250,23 +251,6 @@ x⋆+x⋆x≈x⋆ x = begin
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
-x+x⋆≈x⋆ x = begin
-  x + x ⋆                         ≈⟨ +-congˡ (sym (starExpansiveʳ x)) ⟩
-  x + (1# + x * x ⋆ + x ⋆)        ≈⟨ +-congʳ (sym (*-identityʳ x)) ⟩ 
-  x * 1# + (1# + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ ((+-assoc _ _ _)) ⟩ 
-  x * 1# + (1# + (x * x ⋆ + x ⋆)) ≈⟨ sym(+-assoc _ _ _ ) ⟩ 
-  x * 1# + 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-congʳ (+-comm (x * 1#) 1#) ⟩ 
-  1# + x * 1# + (x * x ⋆ + x ⋆)   ≈⟨ (+-assoc 1# (x * 1#) ((x * x ⋆ + x ⋆) )) ⟩ 
-  1# + (x * 1# + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ (sym (+-assoc _ _ _)) ⟩ 
-  1# + ((x * 1# + x * x ⋆) + x ⋆) ≈⟨ +-congˡ (+-congʳ (sym(distribˡ _ _ _))) ⟩ 
-  1# + (x * (1# + x ⋆) + x ⋆)     ≈⟨ +-congˡ(+-congʳ (*-congˡ (1+x⋆≈x⋆ x))) ⟩ 
-  1# + (x * x ⋆ + x ⋆)            ≈⟨ sym(+-assoc _ _ _) ⟩ 
-  1# + x * x ⋆ + x ⋆              ≈⟨ starExpansiveʳ x ⟩ 
-  x ⋆                             ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
 0+x+x⋆≈x⋆ : ∀ x → 0# + x + x ⋆ ≈ x ⋆
 0+x+x⋆≈x⋆ x = begin
   0# + x + x ⋆    ≈⟨ +-assoc 0# x (x ⋆) ⟩
@@ -277,15 +261,41 @@ x+x⋆≈x⋆ x = begin
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
+1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
+1+x+x⋆≈x⋆ x = begin
+  1# + x + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x + x ⋆) ≈⟨ +-congˡ (x+x⋆≈x⋆ x) ⟩ 
+  1# + x ⋆       ≈⟨ 1+x⋆≈x⋆ x ⟩ 
+  x ⋆            ∎
+\end{minted}
+\item
+\begin{minted}[breaklines,samepage]{Agda}
+x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
+x+x⋆≈x⋆ x = begin
+  x + x ⋆                         ≈⟨ +-congˡ(sym(starExpansiveʳ x)) ⟩
+  x + (1# + x * x ⋆ + x ⋆)        ≈⟨ +-congʳ(sym(*-identityʳ x)) ⟩ 
+  x * 1# + (1# + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ((+-assoc _ _ _)) ⟩ 
+  x * 1# + (1# + (x * x ⋆ + x ⋆)) ≈⟨ sym(+-assoc _ _ _ ) ⟩ 
+  x * 1# + 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-congʳ(+-comm (x * 1#) 1#) ⟩ 
+  1# + x * 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x * 1# + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ(sym (+-assoc _ _ _)) ⟩ 
+  1# + ((x * 1# + x * x ⋆) + x ⋆) ≈⟨ +-congˡ(+-congʳ(sym(distribˡ _ _ _))) ⟩ 
+  1# + (x * (1# + x ⋆) + x ⋆)     ≈⟨ +-congˡ(+-congʳ(*-congˡ(1+x⋆≈x⋆ x))) ⟩ 
+  1# + (x * x ⋆ + x ⋆)            ≈⟨ sym(+-assoc _ _ _) ⟩ 
+  1# + x * x ⋆ + x ⋆              ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                             ∎
+\end{minted}
+\item
+\begin{minted}[breaklines,samepage]{Agda}
 x⋆+xx⋆+x⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ + x ⋆ ≈ x ⋆
 x⋆+xx⋆+x⋆≈x⋆ x = begin
   x ⋆ + x * x ⋆ + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
   x ⋆ + (x * x ⋆ + x ⋆) ≈⟨ +-congˡ (+-comm _ _) ⟩
   x ⋆ + (x ⋆ + x * x ⋆) ≈⟨ sym (+-assoc _ _ _) ⟩ 
   x ⋆ + x ⋆ + x * x ⋆   ≈⟨ +-congʳ (+-idem _) ⟩ 
-  x ⋆ + x * x ⋆         ≈⟨ x⋆+xx⋆≈x⋆ x ⟩
+  x ⋆ + x * x ⋆         ≈⟨ +-comm _ _ ⟩
+  x * x ⋆ + x ⋆         ≈⟨  xx⋆+x⋆≈x⋆ x  ⟩ 
   x ⋆                   ∎
-
 x⋆x⋆+x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ + x ⋆ ≈ x ⋆
 x⋆x⋆+x⋆≈x⋆ x =  starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆+x⋆≈x⋆ x) 
 \end{minted}
@@ -297,16 +307,6 @@ x⋆x⋆+x⋆≈x⋆ x =  starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆+x⋆�
   1# + (x ⋆ * x ⋆ + x ⋆) ≈⟨ +-congˡ (x⋆x⋆+x⋆≈x⋆ x) ⟩
   1# + x ⋆               ≈⟨ 1+x⋆≈x⋆ x ⟩
   x ⋆                    ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈ y → 1# + x * y ⋆ + y ⋆ ≈ y ⋆
-x≈y⇒1+xy⋆≈y⋆ x y eq = begin
-  1# + x * y ⋆ + y ⋆   ≈⟨ +-assoc _ _ _ ⟩
-  1# + (x * y ⋆ + y ⋆) ≈⟨ +-congˡ (+-congʳ (*-congʳ (eq))) ⟩
-  1# + (y * y ⋆ + y ⋆) ≈⟨ sym(+-assoc _ _ _) ⟩ 
-  1# + y * y ⋆ + y ⋆   ≈⟨ starExpansiveʳ y ⟩ 
-  y ⋆                  ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
@@ -326,47 +326,17 @@ ax≈xb⇒a⋆x≈xb⋆ x a b eq = starDestructiveˡ a x ((x * b ⋆)) (ax≈xb�
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-[xy]⋆x+x[yx]⋆≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x + x * (y * x) ⋆ ≈ x * (y * x) ⋆
-[xy]⋆x+x[yx]⋆≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
+x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈ y → 1# + x * y ⋆ + y ⋆ ≈ y ⋆
+x≈y⇒1+xy⋆≈y⋆ x y eq = begin
+  1# + x * y ⋆ + y ⋆   ≈⟨ +-assoc _ _ _ ⟩
+  1# + (x * y ⋆ + y ⋆) ≈⟨ +-congˡ (+-congʳ (*-congʳ (eq))) ⟩
+  1# + (y * y ⋆ + y ⋆) ≈⟨ sym(+-assoc _ _ _) ⟩ 
+  1# + y * y ⋆ + y ⋆   ≈⟨ starExpansiveʳ y ⟩ 
+  y ⋆                  ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
-x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ : ∀ x y → x + (x + y) * (x + y) ⋆ + (x + y) ⋆ ≈ (x + y) ⋆
-x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ x y = begin
-    x + (x + y) * (x + y) ⋆ + (x + y) ⋆             
-      ≈⟨ +-assoc _ _ _ ⟩ 
-    x + ((x + y) * (x + y) ⋆ + (x + y) ⋆)           
-      ≈⟨ +-congˡ (+-comm _ _) ⟩ 
-    x +  ( (x + y) ⋆ + (x + y) * (x + y) ⋆)         
-      ≈⟨ +-congˡ (x⋆+xx⋆≈x⋆ _) ⟩
-    x + (x + y) ⋆                                   
-      ≈⟨ +-congˡ( sym(starExpansiveˡ _)) ⟩
-    x +  ((1# + (x + y) ⋆ * (x + y)) + (x + y) ⋆)   
-      ≈⟨ (sym(+-assoc x ((1# + (x + y) ⋆ * (x + y)) ) ((x + y) ⋆))) ⟩
-    x + (1# + (x + y) ⋆ * (x + y)) + (x + y) ⋆      
-      ≈⟨ +-congʳ(sym(+-assoc _ _ _)) ⟩ 
-    x + 1# + (x + y) ⋆ * (x + y) + (x + y) ⋆              
-      ≈⟨ +-congʳ(+-congʳ (+-comm x 1#)) ⟩ 
-    1# + x + (x + y) ⋆ * (x + y) + (x + y) ⋆              
-      ≈⟨ +-congʳ ( +-congˡ (distribˡ _ _ _)) ⟩ 
-    1# + x + ((x + y) ⋆ * x + (x + y) ⋆ * y ) + (x + y) ⋆ 
-      ≈⟨ +-congʳ (+-assoc _ _ _) ⟩ 
-    1# + (x + ((x + y) ⋆ * x + (x + y) ⋆ * y ))+ (x + y) ⋆ 
-      ≈⟨ +-congʳ (+-congˡ (+-congʳ (sym(*-identityˡ x)))) ⟩ 
-    1# + ( 1# * x  + ((x + y) ⋆ * x + (x + y) ⋆ * y )) + (x + y) ⋆ 
-      ≈⟨ +-congʳ (+-congˡ (sym(+-assoc _ _ _))) ⟩ 
-    1# + ((1# * x + ((x + y) ⋆ * x)) + (x + y) ⋆ * y ) + (x + y) ⋆ 
-      ≈⟨ +-congʳ (+-congˡ (+-congʳ (sym(distribʳ _ _ _)))) ⟩ 
-    1# + ( (1# + (x + y) ⋆) * x + (x + y) ⋆ * y )+ (x + y) ⋆  
-      ≈⟨ +-congʳ (+-congˡ (+-congʳ (*-congʳ (1+x⋆≈x⋆ _ )))) ⟩ 
-    1# + ( (x + y) ⋆ * x + (x + y) ⋆ * y )+ (x + y) ⋆ 
-      ≈⟨ +-congʳ (+-congˡ (sym(distribˡ _ _ _))) ⟩ 
-    1# + ( (x + y) ⋆ * (x + y )) + (x + y) ⋆ 
-      ≈⟨ starExpansiveˡ _ ⟩ 
-    (x + y) ⋆ 
-      ∎
-
-[x+y]⋆≈[x+y]⋆x+[x+y]⋆ : ∀ x y → (x + y) ⋆ ≈ (x + y) ⋆ * x + (x + y) ⋆
-[x+y]⋆≈[x+y]⋆x+[x+y]⋆ x y = sym(starDestructiveˡ (x + y) x ((x + y) ⋆) (x+[x+y]*[x+y]⋆+[x+y]⋆≈[x+y]⋆ x y))
+[xy]⋆x+x[yx]⋆≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x + x * (y * x) ⋆ ≈ x * (y * x) ⋆
+[xy]⋆x+x[yx]⋆≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
 \end{minted}
 \end{enumerate}
