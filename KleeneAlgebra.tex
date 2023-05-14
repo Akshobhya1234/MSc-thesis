@@ -56,11 +56,11 @@ structures are defined in "Algebra.Ordered.Structures" in Agda standard
 library.}
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
-StarRightExpansive e _+_ _∙_ _* = ∀ x → ((e + (x ∙ (x *))) + (x *)) ≈ (x *)
+StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) + (x *) ≈ (x *)
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarLeftExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
-StarLeftExpansive e _+_ _∙_ _* = ∀ x →  ((e + ((x *) ∙ x)) + (x *)) ≈ (x *)
+StarLeftExpansive e _+_ _∙_ _* = ∀ x →  (e + ((x *) ∙ x)) + (x *) ≈ (x *)
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
@@ -68,11 +68,11 @@ StarExpansive e _+_ _∙_ _* = (StarLeftExpansive e _+_ _∙_ _*) × (StarRightE
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarLeftDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
-StarLeftDestructive _+_ _∙_ _* = ∀ a b x → ((b + (a ∙ x)) + x) ≈ x → (((a *) ∙ b) + x) ≈ x
+StarLeftDestructive _+_ _∙_ _* = ∀ a b x → (b + (a ∙ x)) + x ≈ x → ((a *) ∙ b) + x ≈ x
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
-StarRightDestructive _+_ _∙_ _* = ∀ a b x → ((b + (x ∙ a)) + x) ≈ x → ((b ∙ (a *)) + x) ≈ x
+StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) + x ≈ x → (b ∙ (a *)) + x ≈ x
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
@@ -178,7 +178,8 @@ monomorphism and isomorphism can be defined similar to homomorphism and can be
 found in Agda standard library.
 
 \section{Direct Product}
-The \textit{direct product} of two Kleene algebra structures.
+The \textit{direct product} of two Kleene algebra structures in Agda is defined
+as:
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 KleeneAlgebra K L = record

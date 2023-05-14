@@ -194,6 +194,95 @@ We rename \inline{∙-congˡ}  to \inline{*-congˡ} and \inline{∙-congʳ}  to
 \inline{*-congʳ} thus avoiding conflict with same elements exported by other
 module.
 
+\section{Morphism in Agda}
+A homomorphism is a structure preserving map between two structures. A
+homomorphism for two magma structures is defined as a record type:
+\begin{minted}[breaklines,samepage]{Agda}
+module MagmaMorphisms (M₁ : RawMagma a ℓ₁) (M₂ : RawMagma b ℓ₂) where
+
+  open RawMagma M₁ renaming (Carrier to A; _≈_ to _≈₁_; _∙_ to _∙_)
+  open RawMagma M₂ renaming (Carrier to B; _≈_ to _≈₂_; _∙_ to _◦_)
+
+  record IsMagmaHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isRelHomomorphism : IsRelHomomorphism _≈₁_ _≈₂_ ⟦_⟧
+    homo              : Homomorphic₂ ⟦_⟧ _∙_ _◦_
+
+  open IsRelHomomorphism isRelHomomorphism public
+    renaming (cong to ⟦⟧-cong)
+\end{minted}
+
+The \inline{raw structures}, in the above example, \inline{RawMagma} is the
+definition of signature the structure. \inline{IsMagmaHomomorphism} is a record
+type with fields \inline{isRelHomomorphism} and \inline{homo}. Since the
+formalization of the types of algebraic structures in Agda is based on setoid,
+\inline{IsRelHomomorphism} is defined for homomorphism between the homogeneous
+equivalence relations \inline{_≈₁_} and \inline{_≈₂_}. \inline{Homomorphic₂} is
+defined for two binary operations as:
+\begin{minted}[samepage,breaklines]{Agda}
+Homomorphic₂ : (A → B) → Op₂ A → Op₂ B → Set _
+Homomorphic₂ ⟦_⟧ _∙_ _∘_ = ∀ x y → ⟦ x ∙ y ⟧ ≈ (⟦ x ⟧ ∘ ⟦ y ⟧)
+\end{minted}
+From this definition of homomorphism, monomorphism of the structure is given as:
+
+\begin{minted}[breaklines,samepage]{Agda}
+  record IsMagmaMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isMagmaHomomorphism : IsMagmaHomomorphism ⟦_⟧
+    injective           : Injective ⟦_⟧
+
+  open IsMagmaHomomorphism isMagmaHomomorphism public
+\end{minted}
+\inline{IsMagmaMonomorphism} is defined as a record type with field
+\inline{isMagmaHomomorphism} and \inline{injective}. The \inline{Injective}
+function is a one to one map defined as:
+\begin{minted}[samepage,breaklines]{Agda}
+Injective : (A → B) → Set (a ⊔ ℓ₁ ⊔ ℓ₂)
+Injective f = ∀ {x y} → f x ≈₂ f y → x ≈₁ y
+\end{minted}
+where \inline{_≈₁_} is the equality over the domain \inline{A} and \inline{_≈₂_}
+is the equality over codomain \inline{B}.
+
+Isomorphism of a structure can be derived from monomorphism with surjectivity.
+\begin{minted}[samepage,breaklines]{Agda}
+record IsMagmaIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isMagmaMonomorphism : IsMagmaMonomorphism ⟦_⟧
+    surjective          : Surjective ⟦_⟧
+
+  open IsMagmaMonomorphism isMagmaMonomorphism public
+\end{minted} 
+\inline{IsMagmaIsomorphism} is defined as a record type with field
+\inline{isMagmaMonomorphism} and \inline{surjective}. A surjective relation
+requires equality (\inline{_≈₂_}) on the codomain \inline{B} and is defined as:
+\begin{minted}[samepage,breaklines]{Agda}
+Surjective : (A → B) → Set (a ⊔ b ⊔ ℓ₂)
+Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
+\end{minted}
+
+\section{Direct Product in Agda}
+The direct products of structures are defined in
+\inline{Algebra.Construct.DirectProducts} in Agda standard library. The  direct
+product of magma structure is defined as:
+\begin{minted}[breaklines,samepage]{Agda}
+magma : Magma a ℓ₁ → Magma b ℓ₂ → Magma (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
+magma M N = record
+  { Carrier = M.Carrier × N.Carrier
+  ; _≈_     = Pointwise M._≈_ N._≈_
+  ; _∙_     = zip M._∙_ N._∙_
+  ; isMagma = record
+    { isEquivalence = ×-isEquivalence M.isEquivalence N.isEquivalence
+    ; ∙-cong = zip M.∙-cong N.∙-cong
+    }
+  } where module M = Magma M; module N = Magma N
+\end{minted}
+where \inline{Magma} is the bundled version of the magma structure \inline{M}
+and \inline{N} is $M \times N$. \inline{Pointwise} gives the product of
+equivalence relations in \inline{M} and \inline{N}. \inline{zip} gives a
+$\Sigma$-type of dependent pairs. \inline{isMagma} field is the product of two
+magma structures. \inline{×-isEquivalence} says that pointwise preserves the
+equivalence relation.
+
 \section{Calculational Proofs in Agda}
 A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types

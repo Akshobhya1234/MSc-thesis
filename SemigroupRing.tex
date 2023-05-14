@@ -289,65 +289,11 @@ ringWithoutOne R S = record
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
 \end{minted}
 
-\begin{minted}[breaklines,samepage]{Agda}
-nonAssociativeRing : NonAssociativeRing a ℓ₁ →
-		 NonAssociativeRing b ℓ₂ → NonAssociativeRing (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
-nonAssociativeRing R S = record
-  { isNonAssociativeRing = record
-      { +-isAbelianGroup = AbelianGroup.isAbelianGroup 
-		((abelianGroup R.+-abelianGroup S.+-abelianGroup))
-      ; *-cong           = UnitalMagma.∙-cong 
-		(unitalMagma R.*-unitalMagma S.*-unitalMagma)
-      ; *-identity       = UnitalMagma.identity 
-		(unitalMagma R.*-unitalMagma S.*-unitalMagma)
-      ; distrib          = (λ x y z → 
-		(R.distribˡ , S.distribˡ) <*> x <*> y <*> z)
-                            , (λ x y z → 
-		(R.distribʳ , S.distribʳ) <*> x <*> y <*> z)
-      ; zero             = uncurry (λ x y → R.zeroˡ x , S.zeroˡ y)
-                            , uncurry (λ x y → R.zeroʳ x , S.zeroʳ y)
-      }
+The definition of direct product is similar to quasigroups discussed in Chapter
+5. The direct products of \inline{nonAssociativeRing}, \inline{quasiring}, and
+\inline{nearring} can be defined similar to \inline{ringWithoutOne}. These
+definitions can be found in the Agda standard library.
 
-  } where module R = NonAssociativeRing R; module S = NonAssociativeRing S
-\end{minted}
-
-\begin{minted}[breaklines,samepage]{Agda}
-quasiring : Quasiring a ℓ₁ →
-		 Quasiring b ℓ₂ → Quasiring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
-quasiring R S = record
-  { isQuasiring = record
-      { +-isMonoid = Monoid.isMonoid
-		 ((monoid R.+-monoid S.+-monoid))
-      ; *-cong           = Monoid.∙-cong
-		 (monoid R.*-monoid S.*-monoid)
-      ; *-assoc          = Monoid.assoc
-		 (monoid R.*-monoid S.*-monoid)
-      ; *-identity       = Monoid.identity
-		 ((monoid R.*-monoid S.*-monoid))
-      ; distrib          = (λ x y z →
-		 (R.distribˡ , S.distribˡ) <*> x <*> y <*> z)
-                            , (λ x y z →
-		 (R.distribʳ , S.distribʳ) <*> x <*> y <*> z)
-      ; zero             = uncurry (λ x y → R.zeroˡ x , S.zeroˡ y)
-                            , uncurry (λ x y → R.zeroʳ x , S.zeroʳ y)
-      }
-
-  } where module R = Quasiring R; module S = Quasiring S
-\end{minted}
-
-\begin{minted}[breaklines,samepage]{Agda}
-nearring : Nearring a ℓ₁ → 
-		Nearring b ℓ₂ → Nearring (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
-nearring R S =  record
-  { isNearring = record
-      { isQuasiring = Quasiring.isQuasiring
-		 (quasiring R.quasiring S.quasiring)
-      ; +-inverse   = (λ x → (R.+-inverseˡ , S.+-inverseˡ) <*> x)
-                      , (λ x → (R.+-inverseʳ , S.+-inverseʳ) <*> x)
-      ; ⁻¹-cong     = map R.⁻¹-cong S.⁻¹-cong
-      }
-  } where module R = Nearring R; module S = Nearring S
-\end{minted}
 \section{Properties}
 With these definitions, we can prove some frequently used properties and theories
 about the structures.\footnote{This section provides proof for properties that

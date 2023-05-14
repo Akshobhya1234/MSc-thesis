@@ -31,7 +31,7 @@ mathematical theories. \cite{assia_mahboubi_2021_4457887} The latest available
 release of mathcomp library is 1.12.0. The mathcomp library was started with the
 Four Colour Theorem to support formal proof of the odd order theorem. 
 
-Idris is as a functional programming language but is also used as a proof
+Idris is a functional programming language but is also used as a proof
 assistant system. The proofs are alike with Coq and the type system in Idris is
 uniform with Agda. Idris 2 is a self-hosted programming language that combines
 linear-type-system. In this chapter, Idris 2 and Idris in used interchangeably
@@ -40,13 +40,13 @@ Idris 2. However, several versions are under development.
 
 Lean \cite{10.1145/3372885.3373824} is an open-source project by Microsoft
 Research. Lean is a proof assistant system written in C++. The last official
-version of Lean was 3.4.2 and is now supported by the lean community. Lean 4 is
+version of Lean was 3.4.2 and is now supported by the Lean community. Lean 4 is
 the latest version of Lean and is a complete rewrite of previous versions of
-Lean. The mathlib \cite{10.1145/3372885.3373824} library for lean 3 has the most
+Lean. The mathlib \cite{10.1145/3372885.3373824} library for Lean 3 has the most
 coverage of algebra compared to the other 3 proof assistant systems discussed in
-the paper. The mathlib library of Lean is also maintained by the lean community
-for community versions of lean. It was developed on a small library that was in
-lean. It contained definitions of natural numbers, integers, and lists and had
+the paper. The mathlib library of Lean is also maintained by the Lean community
+for community versions of Lean. It was developed on a small library that was in
+Lean. It contained definitions of natural numbers, integers, and lists and had
 some coverage over algebra hierarchy. The latest version of mathlib has over
 2794 definitions of algebra \cite{2019arXiv191203028S}.
 
@@ -58,7 +58,7 @@ library.
 
 \section{Experimental setup}
 It is not time efficient to manually look for the definitions in a large
-library. The source code of the standard libraries of Agda, Idris, Coq and lean
+library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
 are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
 to extract definitions. Thus, a part of the process of building the ~\ref{tab:long} was
@@ -103,7 +103,7 @@ arise a problem of extending the hierarchy as described in
 definition of a lattice. A lattice is defined independently in the standard
 library to overcome the redundant idempotent fields. A lattice structure that is
 defined in terms of join and meet semilattice is added as a biased structure. In
-Idris, some algebraic structures is provided as an extension of two other
+Idris, some algebraic structures are provided as an extension of two other
 algebraic structures. However, from semigroups, in the algebra hierarchy, the
 structures are defined in terms of relevant categories. The structures also
 include respective bundle definitions. A module is an abelian group with the
@@ -114,11 +114,11 @@ modules. As an example, a module is defined using bimodules and bimodules using
 bi-semimodules. An alternative definition of modules is given in
 "Algebra.Module.Structure.Biased". 
 
-In Idris 2, there is a considerable overlap between abstract algebra and category
+In Idris 2, there is considerable overlap between abstract algebra and category
 theory. The library defines various algebraic structures that include semigroup,
 monoid, group, abelian-group, semiring, and ring. It follows a hierarchical
 approach in defining structures similar to that in Agda. For example, a
-semigroup is defined as a set with a binary operation that is associative and a
+semigroup is defined as a set with a binary operation that is associative, and a
 monoid is defined in terms of semigroup with an identity element. Idris
 addresses identity as a neutral element.
 
@@ -264,7 +264,7 @@ structure semigroup (G : Type u) :
 
 \section{Morphism}
 One of the benefits of the Agda standard library is that it provides morphisms
-for the structures defined in the library.The library defines homomorphism,
+for the structures defined in the library. The library defines homomorphism,
 monomorphism, and isomorphism for those structures. The library also provides
 the composition of morphisms between algebraic structures. The morphism
 definitions for magma, monoid, group, nearSemiring, semiring, ring, and lattice are

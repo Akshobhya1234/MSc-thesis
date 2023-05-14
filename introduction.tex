@@ -1,20 +1,21 @@
 \chapter{Introduction}
 Abstract algebra is the study of algebraic structure that came into existence in
-early nineteenth century as complex problems and solutions evolved in other
-branches of mathematics such as geometry, number theory and polynomial
-equations. Being relatively new subject in mathematics, algebraic structures are
-used in various fields. For example, \cite{liaqat2021some} use semigroups
+the early nineteenth century as complex problems and solutions evolved in other
+branches of mathematics such as geometry, number theory, and polynomial
+equations. Being a relatively new subject in mathematics, algebraic structures
+are used in various fields. For example, \cite{liaqat2021some} use semigroups
 \footnotetext{A kind of algebraic structure} to study time dependent partial
-differential equations in technique similar to differential equations on a
-function space. Kleene algebra, and semigroup structures are used in finite
+differential equations in a technique similar to differential equations on a
+function space. Kleene algebra and semigroup structures are used in finite
 automata to better model and understand the finite state machines.
 \textit{Groups} are one of the oldest structures that are used in number theory,
-in atomic and molecular theory, cryptography \cite{enwiki:1133598242}.
+atomic and molecular theory, and cryptography \cite{enwiki:1133598242}.
 \cite{bruck1944some} uses \textit{Quasigroups} and \textit{loops} structures for
-encryption of image data. A magma is a set $S$ with a binary operation $∙$ such
-that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. A magma with associativity
-is called a semigroup. A Magma with division operation is called a quasigroup.
-Figure \ref{fig_magma} shows the algebra hierarchy from magma to group. 
+the encryption of image data. A magma is a set $S$ with a binary operation $∙$
+such that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. A magma with
+associativity is called a semigroup. A Magma with division operation is called a
+quasigroup. Figure \ref{fig_magma} shows the algebra hierarchy from magma to
+group. 
  \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/Sample/Magma_to_group.jpg}
@@ -22,17 +23,17 @@ Figure \ref{fig_magma} shows the algebra hierarchy from magma to group.
 	\label{fig_magma}
  \end{figure}
 
-With growing help of technology, mathematicians are more indulged in automated
-reasoning. Increasing powers of computers, software tools that help towards
-automated reasoning become useful in their research. Although the proof systems
-that support first-order logic are successful, developing a tool that supports
-higher order logic is complex \cite{phillips2010automated} and requires
-carefully defining mathematical objects and concept. Proof assistant systems act
+With the growing help of technology, mathematicians are more indulged in
+automated reasoning. Increasing powers of computers and software tools that help
+towards automated reasoning become useful in their research. Although the proof
+systems that support first-order logic are successful, developing a tool that
+supports higher order logic is complex \cite{phillips2010automated} and requires
+carefully defining mathematical objects and concepts. Proof assistant systems act
 as a bridge between computer intelligence and human effort in developing
-mathematical proofs. Agda, Coq, Isabelle, Lean and Idris are some commonly used
+mathematical proofs. Agda, Coq, Isabelle, Lean, and Idris are some commonly used
 proof assistant systems. Mathematicians use these proof assistants to check
 their proof for validity, build proofs and sometimes even generate them via
-proof search tools. For the scope of the thesis we only discuss types of
+proof search tools. For the scope of the thesis, we only discuss types of
 algebraic structures in proof systems.
 
 \section{Research Outline}
@@ -49,45 +50,46 @@ considered as "standard library" for any proof system. For now, building
 standard libraries for proof systems relies on human efforts. This led to the
 question of what is the current scope of algebraic structures in proof assistant
 systems. A survey was conducted to better understand the coverage of algebra in
-four proof systems Agda, Idris, Lean and Coq. Agda was one such system where
+four proof systems Agda, Idris, Lean, and Coq. Agda was one such system where
 there was better scope to contribute to the standard library. \footnote{I was
 exposed to Agda during course work for my Master's degree, further adding bias
 to choosing Agda over other systems} 
 
-As part of this thesis, more than twenty three types of structures have been
+As part of this thesis, more than twenty-three types of structures have been
 defined in the standard library for Agda. Inspired by the ways algebraic
 structures are used in research, in this work we explore capturing a select
 subset of them in Agda standard library. Following the algebra hierarchy in
-Figure ~\ref{fig_magma}, we study magma with division operations that is
+Figure ~\ref{fig_magma}, we study magma with division operation that is
 quasigroup and loop structures. We also explore various types of loop such as
 bol-loop and moufang-loop and their properties. Semigroups are used in various
 fields such as probability theory and formal systems. One of the most commonly
 studied algebraic structure is Ring. In this thesis we study types of rings such
-as near-ring, quasi-ring and non-associative ring. Along with ring structure,
+as near-ring, quasi-ring, and non-associative ring. Along with ring structure,
 the most used structure is Kleene algebra. The applications of Kleene algebra
 are seen in finite state machines, regular expressions and other branches of
 computer science. As part of this thesis, we study Kleene algebra by providing
-proofs for its properties that may be used in developing other systems or in
+proofs for its properties that may be used in developing other systems or
 applications. By contributing to Agda standard library, we hope that this work
 will be used by others. 
 
-Notably, as we explore capturing these structures in Agda, we analyze five problems that arise:
+Notably, as we explore capturing these structures in Agda, we analyze five
+problems that arise:
 \begin{enumerate}
 \item Ambiguity in naming structures.
 \item Equivalent structures that are structurally different.
 \item Redundant field during structural inheritance.
 \item Identical structures that can be derived in many ways in algebra hierarchy
-\item Equivalent structures that are structurally same.
+\item Equivalent structures that are structurally the same.
 \end{enumerate}
 
 \section{Thesis Outline}
-Chapters 2 and 3 focus on background information necessary for reading this
+Chapters 2 and 3 focus on the background information necessary for reading this
 work, focusing on reviewing universal algebra and algebraic structures in Agda,
-respectively. Chapter 4 justifies the scope of the thesis contribution by a
+respectively. Chapter 4 justifies the scope of the thesis contribution through a
 survey on algebraic coverage in proof systems. The next three chapters 5,6 and 7
-are dedicated to discuss the structures in details. Chapter 5 explores
-quasigroup and loop structures that uses division operation. Chapter 6 discusses
-the properties of semigroup and rings with variations of ring structure. Chapter
+are dedicated to discussing the structures in detail. Chapter 5 explores
+quasigroup and loop structures that use division operation. Chapter 6 discusses
+the properties of semigroup and ring with variations of the ring structure. Chapter
 7 explores Kleene algebra, definition, construct and properties in Agda. Chapter
 8 describes the various problems we faced during this work, as well as advice on
 handling common issues in programming algebras in proof systems. Finally,

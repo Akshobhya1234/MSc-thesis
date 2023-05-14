@@ -16,12 +16,12 @@ Abstract algebra is the study of algebraic structure and its models or examples
 'carrier' set, A, a set of operations that act on A, and a set of axioms
 involving the operations and A. 
 
-Algebraic structures, like monoids, loops, groups and rings have similar
+Algebraic structures, like monoids, loops, groups, and rings have similar
 properties. Universal algebra studies these structures by abstracting out the
 specific definitions and properties of algebraic structures. Universal algebra
 will deal with these algebraic structures as axiomatic theories in equational
 first-order logic \cite{YSharoda}. The definitions in this chapter are adapted
-from \cite{sankappanavar1981course}, \cite{YSharoda} and
+from \cite{sankappanavar1981course}, \cite{YSharoda}, and
 \cite{sannella2012foundations}.
 
 \section{Relation and function}
@@ -30,7 +30,7 @@ of relations and functions. In this section, we define relations and functions.
 We can start with defining a set.
 \begin{itemize}
 \item A set is a well-defined collection of objects. The elements or members of the
-set can be mathematical object of any kind such as numbers, symbols, geometrical
+set can be mathematical objects of any kind such as numbers, symbols, geometrical
 shapes, or even other sets. If $x$ is an object in set $S$ then we say x is an
 element of S and is denoted as $x \in S$.
 
@@ -49,17 +49,18 @@ called the codomain of $R$.
     \item Symmetric: A \emph{symmetric relation} R on set X is a subset of \(X
 \times X\) such that \(\forall x y \in X,\ (x,y) \in R ⟺ (y,x) \in R \)
 
-    \item Transitive: A relation R is said to be \emph{transitive} on set X, if
-it is a subset of \(X \times X\) such that \(∀ x y z \in X \), if \((x,y) \in
-R\) and \((y,z) \in R \) then \((x,z) \in R\)
+    \item Transitive: A \emph{transitive relation} on set X is a subset of \(X
+\times X\) such that \(∀ x y z \in X \), if \((x,y) \in R\) and \((y,z) \in R \)
+then \((x,z) \in R\)
 \end{enumerate}
 In other words, a relation R is an \emph{equivalence} if it is reflexive, symmetric and transitive.
 
-\item In a relation, if every element in domain $(X)$ is mapped to only one element in
-the codomain $(Y)$, then we call it a \emph{function}. This can be expressed using the notation:
+\item In a relation, if every element in the domain $(X)$ is mapped to only one
+element in the codomain $(Y)$, then we call it a \emph{function}. This can be
+expressed using the notation:
 \[f:\ X \rightarrow\ Y\]
 \[x \ \mapsto\ f(x)\]
-For example, on set of natural numbers $N$ to $N$ we can define a function as:
+For example, on the set of natural numbers $N$ to $N$ we can define a function as:
 \[f:\ N \rightarrow N\]
 \[x \ \mapsto\ x^{2}\]   
 \item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be a function then:
@@ -79,7 +80,7 @@ and maps them to a well-defined output value. The number of operands is the arit
 of the operation.
 \end{itemize}
 
-\section{Universe, type and signature}
+\section{Universe, type, and signature}
 Logic allows to describe properties of entities as formulas and provide
 reasoning about them. Equational logic limits these formulas (such as axioms or
 theorems) to  be universally quantified equations of the form $t_1 = t_2$. Here
@@ -92,18 +93,18 @@ inference rules in equational logic described in \cite{gries2013logical} are:
     \item Transitivity: If $t_1 = t_2$ and $t_2 = t_3$ then $t_1 = t_3$.
     \[{\frac{t_1 = t_2\ t_2 = t_3}{t_1 = t_3}}\]
     \item Substitution: For predicate $p$, if $p\ t$ is true, it remains true on all
-    condition. \[\frac{p t}{p(t[xs \mapsto ts])}\]
+    conditions. \[\frac{p t}{p(t[xs \mapsto ts])}\]
 \end{itemize}
 where $t,t_1,t_2, \text{and} t_3$ are expressions, $x$ is some symbol in the
 language, $xs$ and $ts$ denotes list of symbols and list of expressions
 respectively. 
 
-A theory in universal algebra is defined as a tuple $(S,F,E)$ such that,
-$S$ is a set of single sort $s$, $F$ is a finite set of function symbols with
-their arities, and $E$ is a finite set of generating equations.
+A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
+a set of single sort $s$, $F$ is a finite set of function symbols with their
+arities, and $E$ is a set of equations that are satisfied in $S$.
 
-A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set
-of sorts and $F$ is set of operation names. An operation can be defined as a triple
+A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
+sorts and $F$ is set of operation names. An operation can be defined as a triple
 $(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
 
 An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
@@ -111,8 +112,8 @@ of a domain and functions on the domain. Algebra provides an interpretation for
 the carrier set $S$ and function symbols $F$ of a theory.
 
 For example, a group G is an algebra with one nullary (1), one unary
-(\textsuperscript{-1}) and one binary (∙) operation represented as $(G, ∙,
-\textsuperscript{-1}, 1)$. Here, $\textsuperscript{-1}$ is an inverse operation.
+($^{-1}$), and one binary (∙) operation represented as $(G, ∙,
+^{-1}, 1)$. Here, $^{-1}$ is an inverse operation.
 For a binary operation ∙, on set S, if x ∙ y = e where e is an identity element,
 and $x,y \in S$ then x is called the left inverse of y, and y is called the
 right inverse of x. An element is said to have an inverse if it has both left
@@ -120,16 +121,16 @@ and right inverse. The group structure should satisfy the following axioms.
 \begin{enumerate}
 \item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) = (x ∙ y) ∙ z \)
 \item Identity - \(∀ x \in G, x ∙ 1 = 1 ∙ x = x\)
-\item Inverse - \( ∀ x \in G, x ∙ x \textsuperscript{-1} =  x
-\textsuperscript{-1} ∙ x = 1\)
+\item Inverse - \( ∀ x \in G, x ∙ x ^{-1} =  x
+^{-1} ∙ x = 1\)
 \end{enumerate}
 
 The type (or language) of the algebra is a set of function symbols. Each member
-of this set is assigned a positive number that is the arity of the member. For
-example an algebra of type (2,0) denotes an algebra with one binary operation
-and one nullary operation. The group structure defined in previous section is of
-type (2,1,0). That is ∙ is a binary operation, $\textsuperscript{-1}$ is a unary
-operation and 1 is the nullary operation.
+of this set is assigned a positive number which is the arity of the member. For
+example, an algebra of type (2,0) denotes an algebra with one binary operation
+and one nullary operation. The group structure defined in the previous section
+is of type (2,1,0). That is ∙ is a binary operation, $^{-1}$ is a
+unary operation and 1 is the nullary operation.
 
 \section{Constructions}
 Universal algebra provides definitions of constructions related to algebraic
@@ -144,11 +145,11 @@ structures. In this section, we will describe some of these constructions.
     $x_i\ \theta\ y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\
     \theta\ f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
 
-    For example, consider group structure $(G, ∙, \textsuperscript{-1}, 1)$. A
+    For example, consider group structure $(G, ∙, ^{-1}, 1)$. A
     congruence relation on $G$ with binary operation $∙$ is an equivalence
     relation $\equiv$ on $G$ such that \[g_1\equiv g_2\ \text{and}\ h_1 \equiv h_2
     \Rightarrow g_1 ∙ h_1 \equiv g_2 ∙ h_2\ \forall g_1,g_2,h_1,h_2 \in G\] 
-    \[g_1 \equiv g_2 \Rightarrow g_1\textsubscript{-1} = g_2\textsubscript{-1}
+    \[g_1 \equiv g_2 \Rightarrow {g_1}^{-1} = {g_2}^{-1}
     \forall g_1,g_2 \in G\]
 
     \item A \textit{morphism} is a structure preserving map between two
@@ -173,12 +174,12 @@ structures. In this section, we will describe some of these constructions.
 
         \item Isomorphism: For algebra $A$ and $B$, a homomorphism $f:A → B$ is
         an isomorphism if it has an inverse, i.e. there is a homomorphism
-        $f\textsuperscript{-1}:B → A$ such that $ff\textsuperscript{-1} =
-        id_{|A|}$ and $f\textsuperscript{-1}f = id_{|B|}$ 
+        $f^{-1}:B → A$ such that $ff^{-1} =
+        id_{|A|}$ and $f^{-1}f = id_{|B|}$ 
 
         \item Endomorphism: A homomorphism from an algebra $A$ to itself is
         called \textit{endomorphism}. In other words, if $f$ is a homomorphism on $A$
-        such that $f:A\rightarrow A$ then, f is endomorphism.
+        such that $f:A\rightarrow A$ then, f is an endomorphism.
 
         \item Automorphism: An isomorphism from an algebra $A$ to itself is
         called \textit{automorphism}.
@@ -191,10 +192,10 @@ structures. In this section, we will describe some of these constructions.
 
     \item For algebras $A$, $B$, and $C$ the \textit{composition of morphisms}
     $f:\ A \ \rightarrow \ B$ and $g:\ B \rightarrow\ C$ is denoted by the
-    function $g\ \circ \ f\ :\ A\ \rightarrow \ C$ and is defined as $(g\ \circ \
-    f)\ a = \ g\ (f\ a), \ \forall \ a\ \in\ A$. In \cite{sankappanavar1981course},
-    the author proves that the composite of two homomorphism
-    (monomorphism/isomorphism) is also a homomorphism
+    function $g\ \circ \ f\ :\ A\ \rightarrow \ C$ and is defined as $(g\ \circ
+    \ f)\ a = \ g\ (f\ a), \ \forall \ a\ \in\ A$. In
+    \cite{sankappanavar1981course}, the author proves that the composite of two
+    homomorphisms (monomorphisms/isomorphisms) is also a homomorphism
     (monomorphism/isomorphism).
 
     \item \textit{Direct product}: For set of algebra $\{ A_i | i \in I \}$ of
