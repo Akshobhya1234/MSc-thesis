@@ -74,11 +74,11 @@ open IsSemigroup isSemigroup public
 
 Continuing on, we may encode various ring structures as follows: Non-associative
 ring is an algebraic structure with two binary operations: addition (+) and
-multiplication (*). Addition is an Abelian group that is a group with
-commutative property and multiplication is unital magma that is a magma with
-identity. A group is a monoid with inverse property and a monoid is a semigroup
-with an identity element. A magma is called unital if it has an identity
-element. In non-associative ring, multiplication distributes over addition, and
+multiplication (*). Addition ($(R,+,⁻¹,0)$) is an Abelian group that is a group
+with commutative property. Multiplication ($(R,*,1)$) is a unital magma that is
+a magma with identity. A group is a monoid with inverse property and a monoid is
+a semigroup with an identity element. A magma is called unital if it has
+identity. In non-associative ring, multiplication distributes over addition, and
 it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,⁻¹,0,1)$
 should satisfy the following axioms:
 \begin{itemize}
@@ -107,6 +107,11 @@ record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a 
 
  open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
+
+Note: We don't define \inline{IsNonAssociativeRing} with
+\inline{*-isUnitalMagma} to remove the redundant equivalence relation. This is
+discussed in Chapter 8. The same technique is followed when defining other
+structures with more than one operation.
 
 A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
 multiplication is a monoid and multiplication distributes over addition, and has
@@ -139,8 +144,6 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 
   open IsMonoid +-isMonoid public
 \end{minted}
-Note: We don't define quasiring with \inline{*-isMonoid} to remove the redundant
-equivalence relation. This is discussed in Chapter 8.
 
 A quasiring with additive inverse is called a nearring. This implies that for
 the structure nearring, addition is a group, multiplication is a monoid,

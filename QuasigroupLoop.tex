@@ -14,11 +14,11 @@ products for these structures and derive proofs for some of the properties of
 these structures.
 \section{Definitions}
 A magma is a set $S$ with a binary operation $∙$ such that, $\forall x,y \in S
-\Rightarrow (x ∙ y) \in S$. In Agda, magma structure is defined as
-\inline{IsMagma} with binary operation $∙$. A quasigroup can be defined as a
-magma with left and right division identities. The operation $\backslash$ (left
-division) and $/$ (right division) for elements $x,y$ in a quasigroup is defined
-as:
+\Rightarrow (x ∙ y) \in S$. In Agda, magma structure is defined on setoid $A$ as
+\inline{IsMagma} with binary operation $∙$ and equivalence relation $_≈_s$. A
+quasigroup can be defined as a magma with left and right division identities.
+The operation $\backslash$ (left division) and $/$ (right division) for elements
+$x,y$ in a quasigroup is defined as:
 
 \begin{equation} \label{eq_L-leftdivides}
 y\ =\ x\ ∙\ (x\ \backslash\ y)

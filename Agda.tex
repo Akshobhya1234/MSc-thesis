@@ -12,13 +12,13 @@ the concepts of functional programming, type theory, and formal methods.
 Agda is also a proof assistant system. Agda is designed to help programmers to
 write and verify correct and efficient programs by allowing them to express
 their intentions in a precise and formal way. One of the key features of Agda is
-its support for interactive, and constructive. Interactive programming allows
-the programmer to incrementally develop and refine their code, by testing and
-verifying each intermediate step. Agda is a constructive formal system, it
-ensures that every expression and function in the language has a well-defined
-meaning and computation rules, which makes it easier to reason about their
-behavior and correctness. This chapter provides a brief overview of programming
-in Agda in the context of algebraic structures. 
+its support for interactive, and constructive programming. Interactive
+programming allows the programmer to incrementally develop and refine their
+code, by testing and verifying each intermediate step. Agda is a constructive
+formal system, it ensures that every expression and function in the language has
+a well-defined meaning and computation rules, which makes it easier to reason
+about their behavior and correctness. This chapter provides a brief overview of
+programming in Agda in the context of algebraic structures. 
 
 \section{Types and functions}
 Agda is based on a core language that provides a minimal set of primitives and
@@ -276,12 +276,13 @@ magma M N = record
     }
   } where module M = Magma M; module N = Magma N
 \end{minted}
-where \inline{Magma} is the bundled version of the magma structure \inline{M}
-and \inline{N} is $M \times N$. \inline{Pointwise} gives the product of
-equivalence relations in \inline{M} and \inline{N}. \inline{zip} gives a
-$\Sigma$-type of dependent pairs. \inline{isMagma} field is the product of two
-magma structures. \inline{×-isEquivalence} says that pointwise preserves the
-equivalence relation.
+where \inline{Magma} is the bundled version of the magma structure. The carrier
+set for direct product of \inline{M} and \inline{N} is the product $M \times N$.
+\inline{Pointwise} gives the product of equivalence relations in \inline{M} and
+\inline{N}. \inline{zip} gives a $\Sigma$-type of dependent pairs.
+\inline{isMagma} field is the product of two magma structures.
+\inline{×-isEquivalence} is the product of equivalence relations in \inline{M}
+and \inline{N}.
 
 \section{Calculational Proofs in Agda}
 A proof is a sequence of steps that transform one expression into another using
