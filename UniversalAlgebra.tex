@@ -105,6 +105,12 @@ A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
 a set of single sort $s$, $F$ is a finite set of function symbols with their
 arities, and $E$ is a set of equations that are satisfied in $S$.
 
+A sub theory of a theory $(S,F,E)$ is defined as $(S_\Delta,F_\Delta,E_\Delta)$
+such that $S_\Delta \subseteq S$. The operations in sub theory $(op_\Delta \in
+|F_\Delta|)$ is defined as
+\[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
+|F|,x_1...x_n, and \in S_\Delta \]  
+
 A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
 sorts and $F$ is set of operation names. An operation can be defined as a triple
 $(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
@@ -200,13 +206,20 @@ structures. In this section, we will describe some of these constructions.
     homomorphisms (monomorphisms/isomorphisms) is also a homomorphism
     (monomorphism/isomorphism).
 
+    \item A quotient algebra for some theory $(S,F,E)$ with respect to
+    congruence relation $(\cong)$ is defined as $(S_Q,F_Q,E_Q)$ where $S_Q$ is
+    the factor set of $S$ such that: \[S_Q = \{[x] | x \in S\}\] The operations
+    $op_Q$ in the quotient algebra is defined as: \[op_Q\ [x_1]...[x_n] = [op\
+    x_1 ... x_n]\] where $op_Q \in F$ and $op \in F$. $[x]$ denotes the
+    equivalence class such that \([x] = \{y \in S | x \cong y\}\).
+
     \item \textit{Direct product}: For set of algebra $\{ A_i | i \in I \}$ of
     same type indexed by I, the cartesian product of the underlying sets is
     defined as $A = \displaystyle \prod_{i\in I} A_i$. Let $\omega_{A_i}$ be the
     corresponding n-ary operator on $A_i$. We can define $\omega_A : A^{n}
     \rightarrow A$ by \[ \omega_A(a_1,...a_n)(i) = \omega_{A_i}
     (a_1(i),...,a_n(i)) \forall i \in I\] where element $a \in A$ is a function
-    from indexing set $I$ to $\bigcup A_1$ such that $i \in I, a(i) \in A$. The
+    from indexing set $I$ to $\bigcup A_i$ such that $i \in I, a(i) \in A$. The
     algebra $A$ equipped with all $\omega_A$ on $A$ is the direct product of
     $A_i$. Each $A_i$ is called the direct factor of $A$.
 
