@@ -21,6 +21,7 @@ about their behavior and correctness. This chapter provides a brief overview of
 programming in Agda in the context of algebraic structures. 
 
 \section{Types and functions}
+\label{types}
 Agda is based on a core language that provides a minimal set of primitives and
 types, and is extended with libraries and modules that define more complex data
 structures, algorithms, and abstractions. Agda's type system allows for the
@@ -78,10 +79,9 @@ suc n + m = suc (n + m)
 In the above example, function \inline{_+_} takes two arguments of type
 \inline{Nat} and returns a value that is sum of the two arguments of type
 \inline{Nat}. To guarantee that the program always terminate, a recursive call
-in must be made on a structurally smaller argument. For the function
-\inline{_+_} above, the first argument \inline{n} is smaller in the recursive
-call \inline{suc n}. This ensures that the function \inline{_+_} always
-terminates.
+must be made on a structurally smaller argument. For the function \inline{_+_}
+above, the first argument \inline{n} is smaller in the recursive call
+\inline{suc n}. This ensures that the function \inline{_+_} always terminates.
 
 \section{Structure definition}
 Let us first understand how unary and binary operations are defined in the Agda
@@ -106,15 +106,37 @@ belong to \inline{Set ℓ} for some arbitrary \inline{ℓ}. To solve this proble
 Agda provides type \inline{Level}. This type helps us to define equality
 generalized to an arbitrary level.
 
-An algebraic structure can be defined in Agda using the record keyword, which is
-used to define a new data type along with its properties. The structures are
-obtained by wrapping the predicates that are expressed as "is-a" relation
-\cite{hu2021formalizing}.
+Equality says that two things are "equal". But asking "when two things are
+equal" is non trivial. \cite{musa} proposes a hierarchy of "sameness".
+\begin{enumerate}
+  \item For some symbol $t_1 \text{and} t_2$, $t_1 = t_2$ if $t_1 and t_2$ are
+literally the same symbols. This is called synctatic equality.
+  \item Definitional equality says that $t_1 = t_2$ when solving one symbol by
+  applying some definitions to synctatic equality.
+  \item In Propositional equality, if we need to say two symbols $t_1$ and $t_2$
+  are equal $(t_1 \equiv t_2)$, then one must perform induction to arrive at
+  definitional equality.
+  \item For symbols $t_1$ and $t_2$, $t_1 \approx t_2$ is true if \inline{_≈_} is
+  an equivalence relation.
+\end{enumerate}  
 
-The types of algebraic structures are defined in module
-\inline{Algebra.Structures} that have an underlying set \inline{A} and the
-homogeneous binary relation \inline{_≈_}. The types of algebraic structures are
-defined over the setoid, i.e., set equipped with equivalence relation. 
+In Agda, propositional equality $(\_ \equiv\_ )$ is defined for a type $A$ and an
+element $x \in A$ with a constructor \inline{refl} that provides evidence that
+$x \equiv x$. From this definition of equality, we can prove that it is an
+equivalence relation. However, in practice, this definition of propositional
+equality is too strong and one prefers to use a finer equivalence relation
+\cite{musa}. This will force to one to use setoid over sets in context of
+algebra.
+
+An algebraic structure can be defined in Agda as a record type using the
+\inline{record} keyword. The record type allows to have parameters immediately
+after the record's name declaration or may be declared with \inline{field}
+keyword. The structures are obtained by wrapping the predicates that are
+expressed as "is-a" relation \cite{hu2021formalizing}. The types of algebraic
+structures are defined in module \inline{Algebra.Structures} that have an
+underlying set \inline{A} and the homogeneous binary relation \inline{_≈_}. The
+types of algebraic structures are defined over the setoid, i.e., set equipped
+with equivalence relation. 
 
 \begin{minted}[breaklines,samepage]{Agda}
 module Algebra.Structures
@@ -223,6 +245,7 @@ defined for two binary operations as:
 Homomorphic₂ : (A → B) → Op₂ A → Op₂ B → Set _
 Homomorphic₂ ⟦_⟧ _∙_ _∘_ = ∀ x y → ⟦ x ∙ y ⟧ ≈ (⟦ x ⟧ ∘ ⟦ y ⟧)
 \end{minted}
+
 From this definition of homomorphism, monomorphism of the structure is given as:
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -289,7 +312,7 @@ A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types
 that need to be verified by the compiler. \cite{kidney2020finiteness}.  
 
-In the previous section, we have seen how to define natural number and addition
+In the section \ref{types}, we have seen how to define natural number and addition
 function on it. Now, we will write an inductive proof using pattern matching
 that states that the addition of two natural numbers is commutative.
 

@@ -32,10 +32,11 @@ structures. In this case rng is used in French whereas ring in English. These
 confusions can be seen in literature and in online blogs where it is difficult
 to imply the definition of intent when they are not explicitly defined. 
 
-In Agda, ring is defined as an algebraic structure with two binary operations $+$
-and $*$ where $+$ is an abelian group and $*$ is a monoid. The binary operation $*$
-distributes over $+$, that is multiplication distributes over addition, and it has
-annihilating zero.
+In Agda, a ring structure is defined as an algebraic structure with two binary
+operations $+$ and $*$, one unary operator $^{-1}$, and two elements $0$ and $1$
+on setoid $A$. $(A,+,^{-1},0)$ is an abelian group and $(A,*,1)$ is a monoid.
+The binary operation $*$ distributes over $+$, that is multiplication
+distributes over addition, and it has annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -49,7 +50,8 @@ field
 
 open IsAbelianGroup +-isAbelianGroup public
 \end{minted} 
-\inline{Rng} is defined as ringWihthoutOne where one is the multiplication identity.
+\inline{Rng} is defined as ringWihthoutOne that is a ring structure without
+multiplicative identity.
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -63,7 +65,7 @@ open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
 Another example of ambiguity arises when defining structure nearring. Nearring
-is defined as a structure where addition is a group and multiplication is a
+is defined as a structure for which addition is a group and multiplication is a
 monoid. But some mathematicians use the definition where multiplication is a
 semigroup. The same confusion also arises in defining semiring and rig
 structures. \cite{enwiki:1133737666} states that the term rig originated as a
@@ -86,16 +88,16 @@ field
   starDestructive       : StarDestructive + * ⋆
 
 open IsIdempotentSemiring isIdempotentSemiring public
-\end{minted} 
+\end{minted}
 
 \section{Equivalent but structurally different}
 Quasigroup structure is an example that can be defined in two ways that are
 equivalent but structurally different. A type (2) Quasigroup can be defined as a
 set Q and binary operation ∙ that is a magma and satisfies Latin square
 property. Quasigroup of type (2,2,2) is a structure with three binary
-operations, a magma for which division is always possible. Latin square property
-states that for each a, b in set Q there exists unique elements x, y in Q such
-that the following property is satisfied:
+operations, a magma with division operation. Latin square property states that
+for each a, b in set Q there exists unique elements x, y in Q such that the
+following property is satisfied:
 \cite{quasigroupWiki}
 \begin{center}
 \[a ∙ x = b\]
