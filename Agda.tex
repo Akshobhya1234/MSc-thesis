@@ -42,7 +42,7 @@ An inductive datatype is a datatype that is defined in terms of itself. In the
 code snippet \ref{code:Nat}, \inline{Nat} is an inductive type defined with base
 constant \inline{zero} and an inductive data constructor \inline{suc}.
 \inline{zero} and \inline{suc} are constructors, where \inline{suc} has a
-parameter of type (\inline{Nat}) and \inline{zero} has no parameters. In this
+parameter of type \inline{Nat} and \inline{zero} has no parameters. In this
 example, the smallest element is \inline{zero}. It is important to note that
 Agda is a total language, i.e., each program in Agda will
 terminate\cite{kidney2020finiteness}. Another way of defining a type is using
@@ -78,10 +78,9 @@ suc n + m = suc (n + m)
 
 In the above example, function \inline{_+_} takes two arguments of type
 \inline{Nat} and returns a value that is sum of the two arguments of type
-\inline{Nat}. To guarantee that the program always terminate, a recursive call
-must be made on a structurally smaller argument. For the function \inline{_+_}
-above, the first argument \inline{n} is smaller in the recursive call
-\inline{suc n}. This ensures that the function \inline{_+_} always terminates.
+\inline{Nat}. A recursive call must be made on a structurally smaller argument.
+For the function \inline{_+_} above, the first argument \inline{n} is smaller in
+the recursive call \inline{suc n}. 
 
 \section{Structure definition}
 Let us first understand how unary and binary operations are defined in the Agda
@@ -106,13 +105,14 @@ belong to \inline{Set ℓ} for some arbitrary \inline{ℓ}. To solve this proble
 Agda provides type \inline{Level}. This type helps us to define equality
 generalized to an arbitrary level.
 
+To understand how two terms are compared, let us first understand equality.
 Equality says that two things are "equal". But asking "when two things are
-equal" is non trivial. \cite{musa} proposes a hierarchy of "sameness".
+equal" is non trivial. In \cite{musa}, a hierarchy of "sameness" is given.
 \begin{enumerate}
   \item For some symbol $t_1 \text{and} t_2$, $t_1 = t_2$ if $t_1 and t_2$ are
 literally the same symbols. This is called synctatic equality.
   \item Definitional equality says that $t_1 = t_2$ when solving one symbol by
-  applying some definitions to synctatic equality.
+  applying some definitions leads to synctatic equality.
   \item In Propositional equality, if we need to say two symbols $t_1$ and $t_2$
   are equal $(t_1 \equiv t_2)$, then one must perform induction to arrive at
   definitional equality.
@@ -125,7 +125,7 @@ element $x \in A$ with a constructor \inline{refl} that provides evidence that
 $x \equiv x$. From this definition of equality, we can prove that it is an
 equivalence relation. However, in practice, this definition of propositional
 equality is too strong and one prefers to use a finer equivalence relation
-\cite{musa}. This will force to one to use setoid over sets in context of
+\cite{musa}. This will force one to use setoid over sets in context of
 algebra.
 
 An algebraic structure can be defined in Agda as a record type using the
@@ -145,6 +145,10 @@ module Algebra.Structures
   where
 \end{minted}
 
+The module declaration is treated as a top-level function that take the
+parameters of module as arguments. The parameters can be values and types but
+not other modules.
+
 The following example shows how to characterize magma
 structures in Agda:
 \begin{minted}[breaklines,samepage]{Agda}
@@ -156,14 +160,13 @@ record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
   open IsEquivalence isEquivalence public
 \end{minted}
 
-In the above example structure \inline{IsMagma} is defined as a record type with
-a parameter \inline{Op₂ A}. The properties of the structure \inline{IsMagma} are
-declared as the fields of the record, which include equivalence
-\inline{isEquivalence} and congruence \inline{∙-cong}. \inline{∙} is a binary
-operation on the set \inline{A}. \inline{a ⊔ ℓ} is the least upper bound for the
-set. \inline{_≈_} is the binary operation argument for \inline{IsEquivalence}.
-\inline{Congruent₂ ∙} represents that the binary operation ∙ preserves
-equivalence relation. \inline{IsEquivalence} and \inline{Congruent₂} are
+In the above example, structure \inline{IsMagma} is defined as a record type
+with a parameter \inline{Op₂ A}. The properties of the structure
+\inline{IsMagma} are declared as the fields of the record, which include
+equivalence \inline{isEquivalence} and congruence \inline{∙-cong}. \inline{∙} is
+a binary operation on the set \inline{A}. \inline{a ⊔ ℓ} is the least upper
+bound for the set. \inline{_≈_} is the binary operation argument for
+\inline{IsEquivalence}. \inline{IsEquivalence} and \inline{Congruent₂} are
 predicates defined in standard library. We open the module
 \inline{isEquivalence} to bring its definition into scope. The open statement is
 made public using the keyword \inline{public} to be able to re-export the names
@@ -301,9 +304,8 @@ magma M N = record
 \end{minted}
 where \inline{Magma} is the bundled version of the magma structure. The carrier
 set for direct product of \inline{M} and \inline{N} is the product $M \times N$.
-\inline{Pointwise} gives the product of equivalence relations in \inline{M} and
-\inline{N}. \inline{zip} gives a $\Sigma$-type of dependent pairs.
-\inline{isMagma} field is the product of two magma structures.
+\inline{Pointwise} gives the product of relations (\inline{_≈_}) in \inline{M}
+and \inline{N}. \inline{zip} gives a $\Sigma$-type of dependent pairs.
 \inline{×-isEquivalence} is the product of equivalence relations in \inline{M}
 and \inline{N}.
 
@@ -333,9 +335,10 @@ constructors. This is just a simple example of proof, but Agda allows us to
 express and verify more complex properties, such as type soundness, termination,
 and correctness of algorithms.
 
-In algebraic structure, consider the example to the proposition of the associative property x ∙ (y ∙ z)
-= (x ∙ y) ∙ z  for a semigroup i.e., a Magma with associative property (x ∙ (y ∙
-z) = (x ∙ y) ∙ z). The proof can be written in Agda as:
+In algebraic structure, consider the example to the proposition of the
+associative property x ∙ (y ∙ z) = (x ∙ y) ∙ z  for a semigroup i.e., a Magma
+with associative property (x ∙ (y ∙ z) = (x ∙ y) ∙ z). The proof can be written
+in Agda as:
 \begin{minted}[breaklines,samepage]{Agda}
 x∙yz≈xy∙z : ∀ x y z → x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z
 x∙yz≈xy∙z x y z = begin 

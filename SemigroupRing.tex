@@ -4,15 +4,15 @@ problem: does there exist a general approach to verify whether a general
 Diophantine equation is solvable\cite{larchey2020hilbert}. Although this problem
 was solved by 1970, In 1987 Siekmann and Szabo concluded that the unification
 problem of D\textsubscript{A}-rewriting system\cite{DARewriting} cannot be
-predicted. In \cite{deng2016characterizations} the authors proposes a type
-(2,2,0) algebra that is a \textit{semigroup} that can be used to give a general
-construct of D\textsubscript{A}-rewriting system. Semigroup structures are also
-used in finite automata systems, probability theory and partial differential
-equations are explored in \cite{liaqat2021some}.
+predicted. In \cite{deng2016characterizations} the authors uses a type (2,2,0)
+algebra that is a \textit{semigroup} to give a general construct of
+D\textsubscript{A}-rewriting system. Semigroup structures are also used in
+finite automata systems, probability theory and partial differential equations
+are explored in \cite{liaqat2021some}.
 
 Similarly, \textit{ring} is an algebraic structure that also have notable
 applications such as in number theory \cite{noauthor_undated-eq}, quantum
-computing \cite{netto2008influence}, in cryptography \cite{ringcrypt} and many
+computing \cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many
 other fields. Variations of ring structure such as a near-ring, quasi-ring, and
 Non-associative ring are being explored to make ring theory (study of ring structures),
 more dynamic, concrete and useable. Now, the question arises: how can we encode
@@ -73,18 +73,19 @@ open IsSemigroup isSemigroup public
 \end{minted}
 
 Continuing on, we may encode various ring structures as follows: Non-associative
-ring is an algebraic structure with two binary operations: addition (+) and
-multiplication (*). Addition ($(R,+,⁻¹,0)$) is an Abelian group that is a group
-with commutative property. Multiplication ($(R,*,1)$) is a unital magma that is
-a magma with identity. A group is a monoid with inverse property and a monoid is
-a semigroup with an identity element. A magma is called unital if it has
-identity. In non-associative ring, multiplication distributes over addition, and
-it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,⁻¹,0,1)$
+ring on set $R$ is an algebraic structure with two binary operations: addition
+$(+)$ and multiplication $(*)$. Addition $(R,+,⁻¹,0)$ is an Abelian group that
+is a group with commutative property. Multiplication $(R,*,1)$ is a unital magma
+that is a magma with identity. A group is a monoid with inverse property and a
+monoid is a semigroup with an identity element. A magma is called unital if it
+has identity. In non-associative ring, multiplication distributes over addition,
+and it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,^{-1},0,1)$
 should satisfy the following axioms:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
     \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
+    \item commutativity : $\forall x,y \in R, (x + y) = (y + x)$
     \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
     \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
@@ -110,8 +111,8 @@ record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a 
 
 Note: We don't define \inline{IsNonAssociativeRing} with
 \inline{*-isUnitalMagma} to remove the redundant equivalence relation. This is
-discussed in Chapter 8. The same technique is followed when defining other
-structures with more than one operation.
+discussed in Chapter 8. The same technique is followed when defining other ring
+like structures.
 
 A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
 multiplication is a monoid and multiplication distributes over addition, and has
@@ -160,11 +161,9 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
 \end{minted}
 
 Ring without one or rig or ring without unit is an algebraic structure with two
-binary operations with a unary and a nullary operations. The binary operation
-addition (+) is an Abelian group and the binary operation multiplication (*) is
-a semigroup. For RingWithoutOne, multiplication distributes over addition and
-has an annihilating zero. A ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the
-following axiom:
+binary operations with a unary and a nullary operations. For RingWithoutOne,
+multiplication distributes over addition and has an annihilating zero. A
+ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the following axiom:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
@@ -194,11 +193,11 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
 \end{minted}
 \section{Morphism} 
 A structure preserving map between two structures is called \textit{morphism}.
-In this section morphism of RingWithoutOne structure is discussed. Morphisms of
-quasiring, nearring can be found in Agda standard library. The homomorphism for
-ringWithoutOne structure can be defined using group homomorphism. For two group
-structures $(G_1,+_1,)$ and $(G_2,+_2)$, homomorphism $f:G_1 \rightarrow G_2$ is
-a structure preserving map such that:
+In this section morphism of RingWithoutOne structure is discussed. The
+homomorphism for ringWithoutOne structure can be defined using group
+homomorphism. For two group structures $(G_1,+_1,^{-1},e_1)$ and
+$(G_2,+_2,^{-1},e_2)$, homomorphism $f:(G_1,+_1,^{-1},e_1) \rightarrow
+(G_2,+_2,^{-1},e_2)$ is a structure preserving map such that:
 \begin{itemize}
   \item $f$ preserves the binary operation: $f(x +_1 y) = f(x) +_2 f(y)$
   \item $f$ preserves the inverse operation: $f(x⁻¹) = f(x)⁻¹$
@@ -206,10 +205,10 @@ a structure preserving map such that:
   in $G_1$ and $e_2$ is the identity in $G_2$
 \end{itemize}
 Homomorphism for ringWithoutOne is extended from group homomorphism such that
-got two ringWithoutOne structures $(R_1,+_1,*_1)$ and $(R_2,+_2,*_2)$, the
-homomorphism $f: R_1 \rightarrow R_2$ is a group homomorphism and preserves the
-multiplication operation. That is $f$ is a group homomorphism and \(f(x *_1 y) =
-f(x) *_2 f(y)\).
+got two ringWithoutOne structures $R_1$ and $R_2$, the homomorphism $f: R_1
+\rightarrow R_2$ is a group homomorphism and preserves the multiplication
+operation. That is $f$ is a group homomorphism and \(f(x *_1 y) = f(x) *_2
+f(y)\).
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field

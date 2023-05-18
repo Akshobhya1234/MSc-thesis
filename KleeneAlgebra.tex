@@ -1,7 +1,7 @@
 \chapter{Theory of Kleene Algebra in Agda}
 Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for
 his contribution in the field of finite automata and regular expressions. Kleene
-algebras are used in various contexts such as relational algebra, automata and
+algebras are used in various fields such as relational algebra, automata and
 formal theory, design and analysis of algorithms and program analysis and
 compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes
 operations from regular expressions. The axiomization of the algebra if regular
@@ -13,7 +13,7 @@ Kleene algebra, in this chapter we consider the axioms defined in
 
 \section{Definition}
 A set S with two binary operations $+$ and $∙$ generally called addition and
-multiplication such that $(S,+,0)$ is a commutative monoid, $(S,∙),1$ is a monoid
+multiplication such that $(S,+,0)$ is a commutative monoid, $(S,∙,1)$ is a monoid
 and $∙$ distributes over $+$ with annihilating zero is called a semiring. A
 semiring satisfying idempotent property is called idempotent semiring. An
 idempotentSemiring $(S,+,*,0,1)$ should satisfy the following axioms:
@@ -79,7 +79,7 @@ StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
 StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
 \end{minted}
 The Kleene algebra can be structurally derived from idempotent semiring. In Agda
-standard library, + and * operations are used to denote addition and
+standard library, $+$ and $*$ operations are used to denote addition and
 multiplication. To keep the same template, ⋆ symbol is selected to denote the
 unary star operation. 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -179,7 +179,7 @@ found in Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} of two Kleene algebra structures in Agda is defined
-as:
+using the product definition of idempotent semiring structure as:
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 KleeneAlgebra K L = record
