@@ -66,7 +66,7 @@ For example, on the set of natural numbers $N$ to $N$ we can define a function a
 \item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be a function then:
 \begin{enumerate}
     \item The function $f$ is \textit{identity} if $X=Y$ and $f(x)\ =\ x,\
-    \forall x\ \in \ Y$.
+    \forall x\ \in \ X$.
     \item A function $f$ is \emph{injective} if $f$ maps distinct elements of
     the domain to distinct elements of the codomain. $f$ is injective if
     $f(x)=f(y) \Rightarrow x = y, \forall x,y \in X.$
@@ -109,7 +109,7 @@ A sub theory of a theory $(S,F,E)$ is defined as $(S_\Delta,F_\Delta,E_\Delta)$
 such that $S_\Delta \subseteq S$. The operations in sub theory $(op_\Delta \in
 |F_\Delta|)$ is defined as
 \[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
-|F|,x_1...x_n, and \in S_\Delta \]  
+|F|,\text{and}\ x_1...x_n \in S_\Delta \]  
 
 A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
 sorts and $F$ is set of operation names. An operation can be defined as a triple
@@ -119,13 +119,13 @@ An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
 of a domain and functions on the domain. Algebra provides an interpretation for
 the carrier set $S$ and function symbols $F$ of a theory.
 
-For example, a group G is an algebra with one nullary (1), one unary
-($^{-1}$), and one binary (∙) operation represented as $(G, ∙,
-^{-1}, 1)$. Here, $^{-1}$ is an inverse operation.
-For a binary operation ∙, on set S, if x ∙ y = e where e is an identity element,
-and $x,y \in S$ then x is called the left inverse of y, and y is called the
-right inverse of x. An element is said to have an inverse if it has both left
-and right inverse. The group structure should satisfy the following axioms. 
+For example, a group G is an algebra with one nullary (1), one unary ($^{-1}$),
+and one binary (∙) operation represented as $(G, ∙, ^{-1}, 1)$. Here, $^{-1}$ is
+an inverse operation. For a binary operation ∙, on set $S$, if $x ∙ y = e$ where
+$e$ is an identity element, and $x,y \in S$ then $x$ is called the left inverse
+of $y$, and $y$ is called the right inverse of $x$. An element is said to have
+an inverse if it has both left and right inverse. The group structure should
+satisfy the following axioms. 
 \begin{enumerate}
 \item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) = (x ∙ y) ∙ z \)
 \item Identity - \(∀ x \in G, x ∙ 1 = 1 ∙ x = x\)
@@ -136,9 +136,9 @@ and right inverse. The group structure should satisfy the following axioms.
 The type (or language) of the algebra is a set of function symbols. Each member
 of this set is assigned a positive number which is the arity of the member. For
 example, an algebra of type (2,0) denotes an algebra with one binary operation
-and one nullary operation. The group structure defined in the previous section
-is of type (2,1,0). That is ∙ is a binary operation, $^{-1}$ is a
-unary operation and 1 is the nullary operation.
+and one nullary operation. The group structure defined above is of type (2,1,0).
+That is $∙$ is a binary operation, $^{-1}$ is a unary operation and $1$ is the
+nullary operation.
 
 \section{Constructions}
 Universal algebra provides definitions of constructions related to algebraic
@@ -147,7 +147,7 @@ structures. In this section, we will describe some of these constructions.
     \item The \textit{congruence} relation for an algebraic structure can be
     defined as an equivalence relation that is compatible with the structure
     such that the operations are well-defined on the equivalence class. For an
-    algebra $A,F$, $\theta$ is a congruence on $A$ if $\theta$ satisfies the
+    algebra $(A,F)$, $\theta$ is a congruence on $A$ if $\theta$ satisfies the
     compatibility property. The compatibility property states that for each
     n-ary function symbol $f \ \in\ F$ and $x_i,\ y_i\ \in\ A$, If $x_i\ \theta\
     y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\ \theta\

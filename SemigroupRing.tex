@@ -11,14 +11,15 @@ finite automata systems, probability theory and partial differential equations
 are explored in \cite{liaqat2021some}.
 
 Similarly, \textit{ring} is an algebraic structure that also have notable
-applications such as in number theory \cite{noauthor_undated-eq}, quantum
+applications such as in number theory \cite{noauthor_undated-eq}, in quantum
 computing \cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many
 other fields. Variations of ring structure such as a near-ring, quasi-ring, and
-Non-associative ring are being explored to make ring theory (study of ring structures),
-more dynamic, concrete and useable. Now, the question arises: how can we encode
-these structures in Agda, we will explore this question. The aim of this chapter
-is to define these structures and prove some properties in the Agda standard
-library that can help build other systems that uses these structures.
+Non-associative ring are being explored to make ring theory (study of ring
+structures), more dynamic, concrete and useable. Now, the question arises: how
+can we encode these structures in Agda, we will explore this question. The aim
+of this chapter is to define these structures and prove some properties in the
+Agda standard library that can help build other systems that uses these
+structures.
 \section{Definition}
 A magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
 that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we may
@@ -73,14 +74,14 @@ open IsSemigroup isSemigroup public
 \end{minted}
 
 Continuing on, we may encode various ring structures as follows: Non-associative
-ring on set $R$ is an algebraic structure with two binary operations: addition
-$(+)$ and multiplication $(*)$. Addition $(R,+,⁻¹,0)$ is an Abelian group that
-is a group with commutative property. Multiplication $(R,*,1)$ is a unital magma
-that is a magma with identity. A group is a monoid with inverse property and a
-monoid is a semigroup with an identity element. A magma is called unital if it
-has identity. In non-associative ring, multiplication distributes over addition,
-and it has an annihilating zero. Formally, nonAssociativeRing $(R,+,*,^{-1},0,1)$
-should satisfy the following axioms:
+ring on set $R$ is an algebraic structure with two binary operations $(+)$
+addition and $(*)$ multiplication. Addition $(R,+,⁻¹,0)$ is an Abelian group
+that is a group with commutative property. Multiplication $(R,*,1)$ is a unital
+magma that is a magma with identity. A group is a monoid with inverse property
+and a monoid is a semigroup with an identity element. A magma is called unital
+if it has identity. In non-associative ring, multiplication distributes over
+addition, and it has an annihilating zero. Formally, nonAssociativeRing
+$(R,+,*,^{-1},0,1)$ should satisfy the following axioms:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
@@ -89,7 +90,7 @@ should satisfy the following axioms:
     \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
     \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
-  \item $(R,*,1)$ is an unital magma
+  \item $(R,*,1)$ is a unital magma
   \begin{itemize}
     \item Identity: $\forall x,y \in R, (x * 1) = x = (1 * x)$
   \end{itemize}
@@ -168,6 +169,7 @@ ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the following axiom:
   \item $(R,+,⁻¹,0)$ is an abelianGroup:
    \begin{itemize}
     \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
+    \item commutativity: $\forall x,y \in R, (x + y) = (y + x)$
     \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
     \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
   \end{itemize}
@@ -221,9 +223,8 @@ record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
 \end{minted} 
 In the above definition of ringWithoutOne homomorphism
 \inline{IsRingWithoutOneHomomorphism} is defined as a record type with two
-fields \inline{+-isGroupHomomorphism} and \inline{*-homo}. \inline{Homomorphic₂}
-is used to define the homomorphism for \inline{*₁} and \inline{*₂}. A
-Homomorphism that is injective is called monomorphism and can ve defined as:
+fields \inline{+-isGroupHomomorphism} and \inline{*-homo}. A
+Homomorphism that is injective is called monomorphism and can be defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
