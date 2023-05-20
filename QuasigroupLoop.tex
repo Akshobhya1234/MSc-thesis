@@ -33,26 +33,26 @@ y\ =\ (y\ /\ x)\ ∙\ x
 y\ =\ (y\ ∙\ x)\ /\ x
 \end{equation}
 In Agda, we may write these definitions as:
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 LeftDividesˡ : Op₂ A → Op₂ A → Set _
 LeftDividesˡ _∙_  _\\_ = ∀ x y → (x ∙ (x \\ y)) ≈ y
 \end{minted}
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 LeftDividesʳ : Op₂ A → Op₂ A → Set _
 LeftDividesʳ _∙_ _\\_ = ∀ x y → (x \\ (x ∙ y)) ≈ y
 \end{minted}
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 RightDividesˡ : Op₂ A → Op₂ A → Set _
 RightDividesˡ _∙_ _//_ = ∀ x y → ((y // x) ∙ x) ≈ y
 \end{minted}
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 RightDividesʳ : Op₂ A → Op₂ A → Set _
 RightDividesʳ _∙_ _//_ = ∀ x y → ((y ∙ x) // x) ≈ y
 \end{minted}
 
 Afterwards, we can form left and right divisions as:
 
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 LeftDivides : Op₂ A → Op₂ A → Set _
 LeftDivides ∙ \\ = (LeftDividesˡ ∙ \\) × (LeftDividesʳ ∙ \\)
 
@@ -66,7 +66,7 @@ characters.
 
 The Quasigroup structure can be structurally derived from Magma in Agda as:
 
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsQuasigroup (∙ \\ // : Op₂ A) : Set (a ⊔ ℓ) where
 field
   isMagma       : IsMagma ∙
@@ -95,7 +95,7 @@ as:
 x\ ∙\ e\ =\ e\ ∙\ x\ =\ x
 \end{equation}
 In Agda, (left-right) identity is defined as:
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 LeftIdentity : A → Op₂ A → Set _
 LeftIdentity e _∙_ = ∀ x → (e ∙ x) ≈ x
 
@@ -109,7 +109,7 @@ Identity e ∙ = (LeftIdentity e ∙) × (RightIdentity e ∙)
 Similar to quasigroup, loop structure can be structurally derived from
 quasigroup.
 
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsLoop (∙ \\ // : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
 field
   isQuasigroup : IsQuasigroup ∙ \\ //
@@ -150,7 +150,7 @@ RightBol _∙_ = ∀ x y z → (((z ∙ x) ∙ y) ∙ x) ≈ (z ∙ ((x ∙ y) �
 MiddleBol : Op₂ A → Op₂ A  → Op₂ A  → Set _
 MiddleBol _∙_ _\\_ _//_ = ∀ x y z → (x ∙ ((y ∙ z) \\ x)) ≈ ((x // z) ∙ (y \\ x))
 \end{minted}
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 Identical : Op₂ A → Set _
 Identical _∙_ = ∀ x y z → ((z ∙ x) ∙ (y ∙ z)) ≈ (z ∙ ((x ∙ y) ∙ z))
 \end{minted}
@@ -176,7 +176,7 @@ homomorphism is defined as a structure preserving map \( f:(Q_1,∙,\backslash
   \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
 \end{itemize}
 In Agda, quasigroup homomorphism can be defined as:
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
     isRelHomomorphism : IsRelHomomorphism _≈₁_ _≈₂_ ⟦_⟧
@@ -190,7 +190,7 @@ record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
 In the above definition of quasigroup homomorphism, \inline{Homomorphic₂} is the
 structure preserving map on some set A and B with binary operations ∙ and
 $\circ$ respectively.
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 Homomorphic₂ : (A → B) → Op₂ A → Op₂ B → Set _
 Homomorphic₂ ⟦_⟧ _∙_ _∘_ = ∀ x y → ⟦ x ∙ y ⟧ ≈ (⟦ x ⟧ ∘ ⟦ y ⟧)
 \end{minted}
@@ -199,7 +199,7 @@ In the code above, \inline{⟦_⟧} is the map $(A \rightarrow B)$ that takes on
 argument. Similar to quasigroup homomorphism, quasigroup monomorphism and
 isomorphism can be defined as: 
 
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
     isQuasigroupHomomorphism : IsQuasigroupHomomorphism ⟦_⟧
@@ -207,7 +207,7 @@ record IsQuasigroupMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
 
   open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
 \end{minted}
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsQuasigroupIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
   field
     isQuasigroupMonomorphism : IsQuasigroupMonomorphism ⟦_⟧
@@ -234,12 +234,12 @@ record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) wh
 \end{minted}
 In the loop homomorphism defined above, \inline{Homomorphic₀} is a structure
 preserving map for a nullary element and is defined as:
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 Homomorphic₀ : (A → B) → A → B → Set _
 Homomorphic₀ ⟦_⟧ ∙ ∘ = ⟦ ∙ ⟧ ≈ ∘
 \end{minted}
 Similarly, loop monomorphism and loop isomorphism are defined in Agda as:
-\begin{minted}[samepage]{Agda}
+\begin{minted}[samepage,breaklines]{Agda}
 record IsLoopMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
     isLoopHomomorphism   : IsLoopHomomorphism ⟦_⟧
@@ -247,7 +247,7 @@ record IsLoopMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) wh
 
   open IsLoopHomomorphism isLoopHomomorphism public
 \end{minted}
-\begin{minted}[samepage]{Agda}  
+\begin{minted}[samepage,breaklines]{Agda}  
 record IsLoopIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
   field
     isLoopMonomorphism   : IsLoopMonomorphism ⟦_⟧

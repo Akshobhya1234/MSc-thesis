@@ -287,9 +287,14 @@ Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 \end{minted}
 
 \section{Direct Product in Agda}
-The direct products of structures are defined in
-\inline{Algebra.Construct.DirectProducts} in Agda standard library. The direct
-product of magma structure is defined as:
+For two algebra $A$ and $B$ of the same theory with set $S_A$ and $S_B$
+respectively, the product of algebra is defined with carrier set $(S_A \times
+S_B)$ and for each operation $f$ in the theory is defined as:
+\[f\ (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
+x_{1_B},x_{n_B} )\] where $x_{1_A},...,x_{n_B}$ are elements in $S_A$ and
+$x_{1_B},...,x_{n_B}$ are elements in $S_B$. The direct products of structures
+are defined in \inline{Algebra.Construct.DirectProducts} in Agda standard
+library. The direct product of magma structure is defined as:
 \begin{minted}[breaklines,samepage]{Agda}
 magma : Magma a ℓ₁ → Magma b ℓ₂ → Magma (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 magma M N = record
