@@ -1,0 +1,520 @@
+\documentclass[xcolor={dvipsnames}]{beamer}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{url}
+
+\usepackage{listings}
+
+\usepackage{mathtools}
+\usepackage{calc}
+\usepackage{lmodern}
+\usepackage{changepage}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\usepackage{newunicodechar}
+
+
+\newunicodechar{λ}{\ensuremath{\mathnormal\lambda}}
+\newunicodechar{∙}{\ensuremath{\mathnormal\cdot}}
+\newunicodechar{⊔}{\ensuremath{\mathnormal\sqcup}}
+\newunicodechar{ℓ}{\ensuremath{\mathnormal\ell}}
+\newunicodechar{≈}{\ensuremath{\mathnormal\approx}}
+\newunicodechar{←}{\ensuremath{\mathnormal\from}}
+\newunicodechar{→}{\ensuremath{\mathnormal\to}}
+\newunicodechar{ε}{\ensuremath{\mathnormal\epsilon}}
+\newunicodechar{∀}{\ensuremath{\mathnormal\forall}}
+\newunicodechar{⟦}{\ensuremath{\mathnormal\llbracket}}
+\newunicodechar{⟧}{\ensuremath{\mathnormal\rrbracket}}
+\newunicodechar{∘}{\ensuremath{\mathnormal\circ}}
+\newunicodechar{∎}{\ensuremath{\mathnormal\blacksquare}}
+\newunicodechar{⋆}{\ensuremath{\mathnormal\star}}
+\newunicodechar{₂}{\ensuremath{\textsubscript{2}}}
+\newunicodechar{₁}{\ensuremath{\textsubscript{1}}}
+\newunicodechar{ʳ}{\ensuremath{\textsuperscript{r}}}
+\newunicodechar{ˡ}{\ensuremath{\textsuperscript{l}}}
+\newunicodechar{⇒}{\ensuremath{\mathnormal\Rightarrow}}
+\newunicodechar{⟺}{\ensuremath{\mathnormal\Longleftrightarrow}}
+\newunicodechar{≉}{\ensuremath{\mathnormal\not\approx}}	
+\newunicodechar{⁻}{\ensuremath{\textsuperscript{-}}}	
+\newunicodechar{₃}{\ensuremath{\textsubscript{3}}}
+\newunicodechar{‿}{\ensuremath{\mathnormal\smile}}
+\newunicodechar{∼}{\ensuremath{\mathnormal\sim}}
+\newunicodechar{×}{\ensuremath{\mathnormal\times}}
+\newunicodechar{¹}{\ensuremath{\textsuperscript{1}}}
+\newunicodechar{ₙ}{\ensuremath{\textsubscript{n}}}
+\newunicodechar{≡}{\ensuremath{\mathnormal\equiv}}
+\newunicodechar{⟨}{\ensuremath{\mathnormal\langle}}
+\newunicodechar{⟩}{\ensuremath{\mathnormal\rangle}}
+\newunicodechar{◦}{\ensuremath{\mathnormal\circ}}
+\newunicodechar{₀}{\ensuremath{\textsubscript{0}}}
+\newunicodechar{∃}{\ensuremath{\mathnormal\exists}}
+
+\usetheme{Madrid}
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+\title[Algebra in Proof Systems]{Types of Algebraic Structures in Proof Assistant Systems}
+\author[Akshobhya K M]{Akshobhya Katte Madhusudana\\\small{}Under the supervision of Dr. Jacques Carette}
+
+\institute[McMaster University]{McMaster University}
+\date{June $8^{\text{th}}$, 2023}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% For code highlighting
+\usepackage[newfloat,outputdir=build]{minted}
+\usemintedstyle{colorful}
+
+% For loading images
+\usepackage{graphicx}
+\graphicspath{ {./assets/img/} }
+
+
+% For fancy pictures
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,cd}
+\usetikzlibrary{babel} % Make sure quiver/tikz uses babel
+\usetikzlibrary {arrows.meta,graphs,graphdrawing}
+\usegdlibrary {layered}
+
+\usepackage{todonotes}
+
+\usepackage{svg}
+
+\newcommand{\inlineHs}[1]{\mintinline{haskell}|#1|}
+% Command based on: https://tex.stackexchange.com/questions/266811/define-a-new-command-with-parameters-inside-newcommand
+\newcommand{\codeName}[1]{\expandafter\newcommand\csname #1\endcsname{\inlineHs{#1}}}
+
+\codeName{CodeExpr}
+\codeName{Expr}
+\codeName{ModelExpr}
+
+\begin{document}
+
+%------------------------------------------------------------------------------
+% TITLE
+%------------------------------------------------------------------------------
+\frame{\titlepage}
+
+%------------------------------------------------------------------------------
+% TABLE OF CONTENTS
+%------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+
+%------------------------------------------------------------------------------
+% Universal Algebra
+%------------------------------------------------------------------------------
+\section{Universal Algebra}
+
+\begin{frame}
+  \frametitle{Universal Algebra}
+
+  \begin{enumerate}
+    \item A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
+    a set of single sort $s$, $F$ is a finite set of function symbols with their
+    arities, and $E$ is a set of equations that are satisfied in $S$.
+    \item A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
+    sorts and $F$ is set of operation names. An operation can be defined as a triple
+    $(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
+    \item An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
+    of a domain and functions on the domain. Algebra provides an interpretation for
+    the carrier set $S$ and function symbols $F$ of a theory.    
+  \end{enumerate}
+\end{frame}
+
+%------------------------------------------------------------------------------
+% BACKGROUND
+%------------------------------------------------------------------------------
+\section{Algebraic structures in proof systems}
+
+\begin{frame}
+  \frametitle{Algebraic structures in proof systems}
+  \begin{enumerate}
+    \item Survey on standard libraries of four proof assistant systems Agda, Lean, Idris, and Coq.
+    \item Create a web crawler to capture definitions of algebraic structures.
+    \item Create a clickable table that takes to definition in source library.
+  \end{enumerate}
+
+\end{frame}
+
+%------------------------------------------------------------------------------
+% Quasigroup
+%------------------------------------------------------------------------------
+\section{Theory of Quasigroup}
+
+\begin{frame}[fragile]
+  \frametitle{Theory of Quasigroup}  
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+        Quasigroup division operation
+            \[y=x∙(x\backslash y)\]
+            \[y=x\backslash(x∙y)\]
+            \[y=(y/x)∙x\]
+            \[y=(y∙x)/x\]
+      Loop is a quasigroup with identity:
+      \[x∙e=e∙x=x\]
+    \end{column}
+    \hfill
+    \begin{column}{0.575\textwidth}
+\begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+    record IsQuasigroup (∙ \\ // : Op₂ A) : Set (a ⊔ ℓ) where
+      field
+        isMagma       : IsMagma ∙
+        \\-cong       : Congruent₂ \\
+        //-cong       : Congruent₂ //
+        leftDivides   : LeftDivides ∙ \\
+        rightDivides  : RightDivides ∙ //
+      open IsMagma isMagma public
+\end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Types of Quasigroup}
+
+  A loop is called a \textit{right bol loop} if it satisfies the identity
+
+   \[((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)\]
+
+  A loop is called a \textit{left bol loop} if it satisfies the identity
+
+   \[x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z\]
+
+  A loop is called \textit{middle bol loop} if it satisfies the identity
+
+  \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
+
+  A left-right bol loop is called a \textit{moufang loop} if it satisfies identity
+
+  \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Quasigroup homomorphism}
+    A Quasigroup homomorphism \( f:(Q_1,∙,\backslash \backslash,//) \rightarrow
+    (Q_2,\circ,\backslash,/) \)
+    \begin{itemize}
+        \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
+        \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
+        \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
+    \end{itemize}
+\begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+    record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+     field
+       isRelHomomorphism : IsRelHomomorphism _≈₁_ _≈₂_ ⟦_⟧
+       ∙-homo            : Homomorphic₂ ⟦_⟧ _∙₁_ _∙₂_
+       \\-homo           : Homomorphic₂ ⟦_⟧ _\\₁_ _\\₂_
+       //-homo           : Homomorphic₂ ⟦_⟧ _//₁_ _//₂_
+  
+     open IsRelHomomorphism isRelHomomorphism public
+      renaming (cong to ⟦⟧-cong)
+\end{minted}
+\end{frame}
+  
+  \begin{frame}[fragile]
+    \frametitle{Properties of Quasigroup}  
+    \begin{columns}
+      \begin{column}{0.4\textwidth}
+            Properties of Quasigroup
+            \begin{enumerate}
+            \item $Q$ is cancellative.
+            \item \(\text{If}  x ∙ y = z \text{then}\ y = x \backslash z\)
+            \item \(\text{If}  x ∙ y = z \text{then}\ x = z / y\)
+            \end{enumerate}
+        Properties of Loop
+        \begin{enumerate}
+        \item \(x/x=e\) 
+        \item \(x\backslash x=e\)
+        \item \(e\backslash x=x\) 
+        \item \(x/e=x\) 
+        \end{enumerate}
+      \end{column}
+      \hfill
+      \begin{column}{0.575\textwidth}
+  \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+    cancelˡ : LeftCancellative _∙_
+    cancelˡ x y z eq = begin
+      y            ≈⟨ sym( leftDividesʳ x y) ⟩
+      x \\ (x ∙ y) ≈⟨ \\-congˡ eq ⟩
+      x \\ (x ∙ z) ≈⟨ leftDividesʳ x z ⟩
+      z            ∎
+  \end{minted}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}[fragile]
+    \frametitle{Properties of types of loop}  
+    \begin{columns}
+      \begin{column}{0.4\textwidth}
+        Properties of middle bol loop
+        \begin{enumerate}
+        \item \(x∙((y∙x)\backslash x)=y\backslash x\) 
+        \item \(x∙((x∙z)\backslash x)=x/z\)
+        \item \(x∙ (z\backslash x)=(x/z)∙x\)
+        \item \((x/(y∙z))∙x=(x/z)∙(y\backslash x)\)
+        \item \((x/(y∙x))∙x=y\backslash x\)
+        \item \((x/(x∙z))∙x= x/ z\)
+        \end{enumerate}
+      \end{column}
+      \hfill
+      \begin{column}{0.575\textwidth}
+        Properties of Moufang loop:
+        \begin{enumerate}
+        \item Moufang loop is alternative.
+        \item Moufang loop is flexible.
+        \item $z∙(x∙(z∙y))=((z∙x)∙z)∙y$
+        \item $x∙(z∙(y∙z))=((x∙z)∙y)∙z$ 
+        \item $z∙((x∙y)∙z)=(z∙ (x∙y))∙z$ 
+        \end{enumerate}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+%------------------------------------------------------------------------------
+% Semigroup and Ring
+%------------------------------------------------------------------------------
+\section{Theory of Semigroup and Ring}
+
+\begin{frame}[fragile]
+    \frametitle{Semigroup} 
+     A Semigroup is a magma with associativity: 
+     \[x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z\]  
+        \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+            record IsSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
+             field
+               isMagma : IsMagma ∙
+               assoc   : Associative ∙
+            
+             open IsMagma isMagma public
+          \end{minted}
+        A commutative semigroup is a semigroup with commutativity:
+        \[x\ ∙\ y\ =\ y\ ∙\ x\]
+  \end{frame}
+
+  \begin{frame}[fragile]
+    \frametitle{Ring}  
+    Ring $(R,+,*,⁻¹,0,1)$
+        \begin{itemize}
+            \item $(R,+,⁻¹,0)$ is an Abelian Group:
+             \begin{itemize}
+              \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
+              \item commutativity : $\forall x,y \in R, (x + y) = (y + x)$
+              \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
+              \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
+            \end{itemize}
+            \item $(R,*,1)$ is a monoid
+            \begin{itemize}
+              \item Associativity: $\forall x,y,z \in R, x * (y * z) = (x * y) * z$
+              \item Identity: $\forall x,y \in R, (x * 1) = x = (1 * x)$
+            \end{itemize}
+            \item Multiplication distributes over addition: \(\forall x , y , z \in R, (x * (y + z)) = (x * y) + (x
+            * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+            \item Annihilating zero: \(\forall x \in R, (x * 0) = 0 = (0 * x)\)
+          \end{itemize}
+  \end{frame}
+
+  \begin{frame}[fragile]
+    \frametitle{Properties of types of loop}  
+    \begin{columns}
+      \begin{column}{0.4\textwidth}
+        Properties of Semigroup:
+        \begin{enumerate}
+            \item Semigroup is alternative.
+            \item Semigroup is flexible. 
+            \item  \((x ∙ y) ∙ (x ∙ x) = x ∙ (y ∙ (x ∙ x)). \)
+            \end{enumerate}
+        Properties of commutative Semigroup:
+        \begin{enumerate}
+            \item Semimedial
+            \item Middle Semimedial
+        \end{enumerate}
+      \end{column}
+      \hfill
+      \begin{column}{0.575\textwidth}
+        Properties of ring without one structure:
+        \begin{enumerate}
+        \item \(- (x * y) = - x * y\)
+        \item \(- (x * y) = x * - y\)
+        \end{enumerate}
+        Properties of Ring:
+        \begin{enumerate}
+            \item \(- 1\ * x = -x\)
+            \item \(\text{if}\ x + x =0 \text{then}\ x=0\)
+            \item \(x*(y-z)=x*y-x*z\)
+            \item \((y-z)*x=(y*x)-(z*x)\)
+        \end{enumerate}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+%------------------------------------------------------------------------------
+% Kleene Algebra
+%------------------------------------------------------------------------------
+\section{Theory of Kleene Algebra}
+
+\begin{frame}
+  \frametitle{Idempotent semiring}
+  An idempotent semiring $(S,+,*,0,1)$:
+  \begin{itemize}
+    \item $(S,+,0)$ is a commutative monoid:
+    \begin{itemize}
+      \item Associativity: $\forall x,y,z \in S, x + (y + z) = (x + y) + z$
+      \item Identity: $\forall x \in S, (x + 0) = x = (0 + x)$
+      \item Commutativity: $\forall x,y \in S, (x + y) = (y + x)$
+    \end{itemize}
+    \item $(S,*,1)$ is a monoid:
+    \begin{itemize}
+      \item Associativity: $ \forall x,y,z \in S, x * (y*z)  = (x*y)*z$
+      \item Identity: $\forall x \in S, (x * 1) = x = (1 * x)$
+    \end{itemize}
+    \item Idempotent: $\forall x \in S, (x + x) = x$
+    \item Multiplication distributes over addition: \(\forall x , y , z \in S, (x * (y + z)) = (x * y) + (x
+    * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+    \item Annihilating zero: \(\forall x \in S, (x * 0) = 0 = (0 * x)\)
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Kleene Algebra}
+
+    A Kleene algebra is an idempotent semiring with unary $^{*}$ operator that satisfies:
+        \[ 1\ +\ (x\ ∙\ (x^{*}))\ \leq\ x^{*}\]
+        \[ 1\ +\ (x^{*})\ ∙\ x\ \leq\ x^{*}\]
+        \[\text{If} \ b\ +\ a\  ∙\ x\ \leq\ x\ \text{then},\ (a^{*})\ ∙\ b\ \leq\ x\]
+        \[\text{If} \ b\ +\ x\ ∙\ a\ \leq\ x \  \text{then},\ b\ ∙\ (a^{*})\ \leq\ x\]
+
+    \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+        record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
+          field
+            isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
+            starExpansive         : StarExpansive 1# + * ⋆
+            starDestructive       : StarDestructive + * ⋆
+    
+          open IsIdempotentSemiring isIdempotentSemiring public
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Properties of Kleene Algebra}  
+        \begin{enumerate}
+            \item $1\ +\ x^{*}\ =\ x^{*}$
+            \item $x * x^{*} + x^{*} = x^{*}$
+            \item $x^{*}\  + x^{*}\ *\ x\ =\ x^{*}$
+            \item $0\ + x\ +\ x^{*}\ =\ x^{*}$
+            \item $1\ + x\ +\ x^{*}\ =\ x^{*}$
+            \item $x\ +\ x^{*}\ =\ x^{*}$
+            \item $x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}$
+            \item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
+            \item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
+            \item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
+            \item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
+            \end{enumerate}
+  \end{frame}
+%------------------------------------------------------------------------------
+% Problem in Program algebra
+%------------------------------------------------------------------------------
+\section{Problem in programming algebra}
+
+\begin{frame}
+  \frametitle{Ambiguity and Equivalent}
+  \begin{enumerate}
+    \item Ambiguity in naming e.g. Ring and Rng, Nearring (*-semigroup/*-monoid). 
+    \item Equivalent but structurally different e.g. Quasigroups
+  \end{enumerate}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      A quasigroup with Latin square property is a type (2) algebra.
+      \[a ∙ x = b\]
+      \[y ∙ a = b\]
+    \end{column}
+    \begin{column}{0.575\textwidth}
+      A quasigroup with division operation is a type (2,2,2) algebra
+      \[y=x∙(x\backslash y)\]
+      \[y=x\backslash(x∙y)\]
+      \[y=(y/x)∙x\]
+      \[y=(y∙x)/x\]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Redundant field}
+
+  Duplicate field in structural inheritance: e.g. semiring (+-commutativeMonoid and *-monoid)
+
+    \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+      record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
+      field
+        +-isCommutativeMonoid : IsCommutativeMonoid + 0#
+        *-cong                : Congruent₂ *
+        *-assoc               : Associative *
+        distrib               : * DistributesOver +
+        zero                  : Zero 0# *
+      
+      open IsCommutativeMonoid +-isCommutativeMonoid public
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Equivalent and Identical}
+  \begin{enumerate} 
+    \item Equivalent structures e.g. Bounded semilattice and Idempotent commutative monoid
+    \item Identical structures e.g. Nearring (+-group, *-monoid)
+  \end{enumerate}
+
+    \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+      record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
+      field
+        isQuasiring : IsQuasiring + * 0# 1#
+        +-inverse   : Inverse 0# _⁻¹ +
+        ⁻¹-cong     : Congruent₁ _⁻¹
+      
+      open IsQuasiring isQuasiring public
+
+      +-isGroup : IsGroup + 0# _⁻¹
+      +-isGroup = record 
+        { isMonoid = +-isMonoid 
+        ; inverse = +-inverse 
+        ; ⁻¹-cong = ⁻¹-cong 
+        }
+    \end{minted}
+\end{frame}
+
+%------------------------------------------------------------------------------
+% CONCLUSION
+%------------------------------------------------------------------------------
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Conclusion}
+
+  To sum up, we\ldots{}
+  \begin{enumerate}
+    \item Set the scope by doing a survey 
+    \item Study select subset of types of algebraic structures in Agda
+    \item Analyze five problems that we encountered.
+  \end{enumerate}
+\end{frame}
+
+\end{document}

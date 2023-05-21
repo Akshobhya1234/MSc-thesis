@@ -84,12 +84,12 @@ multiplication. To keep the same template, ⋆ symbol is selected to denote the
 unary star operation. 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
-field
-isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
-starExpansive         : StarExpansive 1# + * ⋆
-starDestructive       : StarDestructive + * ⋆
+  field
+    isIdempotentSemiring  : IsIdempotentSemiring + * 0# 1#
+    starExpansive         : StarExpansive 1# + * ⋆
+    starDestructive       : StarDestructive + * ⋆
 
-open IsIdempotentSemiring isIdempotentSemiring public
+  open IsIdempotentSemiring isIdempotentSemiring public
 \end{minted}
 In the above definition, \inline{IsKleeneAlgebra} structure is defined as a
 record type with three fields. Since \inline{*} is used to denote binary
