@@ -1,13 +1,12 @@
 \chapter{Agda}
 Agda is a dependently typed programming language based on unified theory of
-dependent types and is an extension of Martin-Löf type theory. Dependent
-programming allows programmers to define types that depend on values, to write
-functions that utilize these types, and to prove the correctness of the program
-in the same language. In other words, dependent type theory allow types to
-depend on values and expressions. Agda has been used in various applications
-such as formal verification, program synthesis, theorem proving, and automated
-reasoning. It is also used by researchers and academician to teach and explore
-the concepts of functional programming, type theory, and formal methods.
+dependent types and is an extension of Martin-Löf type theory. Agda allows
+programmers to define types that depend on values, to write functions that
+utilize these types, and to prove the correctness of the program in the same
+language. Agda has been used in various applications such as formal
+verification, program synthesis, theorem proving, and automated reasoning. It is
+also used by researchers and academician to teach and explore the concepts of
+functional programming, type theory, and formal methods.
 
 Agda is also a proof assistant system. Agda is designed to help programmers to
 write and verify correct and efficient programs by allowing them to express
@@ -125,8 +124,7 @@ element $x \in A$ with a constructor \inline{refl} that provides evidence that
 $x \equiv x$. From this definition of equality, we can prove that it is an
 equivalence relation. However, in practice, this definition of propositional
 equality is too strong and one prefers to use a finer equivalence relation
-\cite{musa}. This will force one to use setoid over sets in context of
-algebra.
+\cite{musa}. 
 
 An algebraic structure can be defined in Agda as a record type using the
 \inline{record} keyword. The record type allows to have parameters immediately
@@ -175,7 +173,7 @@ from another module.
 The bundled version of the structures contains the operations of the structures,
 sets and axioms. The structures are imported from "Algebra.Structures" so we can
 parameterize the definitions with equality that is used to compare the terms of
-the bundled structure.
+the structure.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record Magma c ℓ : Set (suc (c ⊔ ℓ)) where

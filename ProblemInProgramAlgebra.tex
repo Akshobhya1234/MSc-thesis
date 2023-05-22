@@ -71,7 +71,7 @@ semigroup. The same confusion also arises in defining semiring and rig
 structures. \cite{enwiki:1133737666} states that the term rig originated as a
 joke that it is similar to rng that is missing the alphabet n and i to represent
 the identity does not exist for these structures. In Agda, the algebraic
-structure rig is defined as semiring without one where one is represents the
+structure rig is defined as \inline{SemiringWithoutOne} where one is represents the
 multiplicative identity.
 
 For axioms of structures, the names are usually invented when defining the
@@ -98,7 +98,6 @@ property. Quasigroup of type (2,2,2) is a structure with three binary
 operations, a magma with division operation. Latin square property states that
 for each a, b in set Q there exists unique elements x, y in Q such that the
 following property is satisfied:
-\cite{quasigroupWiki}
 \begin{center}
 \[a ∙ x = b\]
 \[y ∙ a = b\]
@@ -230,6 +229,13 @@ field
   ⁻¹-cong     : Congruent₁ _⁻¹
 
 open IsQuasiring isQuasiring public
+
++-isGroup : IsGroup + 0# _⁻¹
++-isGroup = record 
+  { isMonoid = +-isMonoid 
+  ; inverse = +-inverse 
+  ; ⁻¹-cong = ⁻¹-cong 
+  }
 \end{minted}
 
 Note that in some literature, nearring is defined in which multiplication is a
