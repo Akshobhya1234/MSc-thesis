@@ -32,7 +32,13 @@ y\ =\ (y\ /\ x)\ ∙\ x
 \begin{equation} \label{eq_Rirightdivides}
 y\ =\ (y\ ∙\ x)\ /\ x
 \end{equation}
-In Agda, we may write these definitions as:
+Agda supports most unicode characters (UTF-8) that can be used in identifiers.
+However, we cannot use reserved characters and keywords. Backslash
+(\textbackslash) is a reserved character and cannot be used independently but
+can be used with other character. To overcome this issue, for division operation
+we use // and \textbackslash\textbackslash instead of / and \textbackslash \
+respectively.
+
 \begin{minted}[samepage,breaklines]{Agda}
 LeftDividesˡ : Op₂ A → Op₂ A → Set _
 LeftDividesˡ _∙_  _\\_ = ∀ x y → (x ∙ (x \\ y)) ≈ y
@@ -58,11 +64,7 @@ LeftDivides ∙ \\ = (LeftDividesˡ ∙ \\) × (LeftDividesʳ ∙ \\)
 
 RightDivides : Op₂ A → Op₂ A → Set _
 RightDivides ∙ // = (RightDividesˡ ∙ //) × (RightDividesʳ ∙ //)
-\end{minted}
-
-Note that we use // and \textbackslash\textbackslash instead of / and
-\textbackslash \ respectively to overcome the conflict with overloaded or escape
-characters. 
+\end{minted} 
 
 The Quasigroup structure can be structurally derived from Magma in Agda as:
 
@@ -78,7 +80,7 @@ field
 open IsMagma isMagma public
 \end{minted}
 In the above definition of \inline{IsQuasigroup} is a record type with three
-binary operations $∙,\ \backslash\backslash \ //$ on some set $A$. (a ⊔ ℓ)
+binary operations $∙,\ \backslash\backslash \ //$ on setoid $A$. (a ⊔ ℓ)
 returns the largest of two \inline{Level} \footnote{Level are used in universe
 polymorphism discussed in Chapter 3} (a,ℓ). The structure has five fields.
 \inline{isMagma} field is used to say that the structure \inline{IsQuasigroup}
@@ -222,8 +224,8 @@ along with the identity element. That is if \( f:(L_1,∙,\backslash
 \backslash,//,e_1) \rightarrow (L_2,\circ,\backslash,/,e_2) \) is a loop homomorphism if
 it is a quasigroup homomorphism such that: 
 \[f(e_1) = e_2\] where $e_1$ is the identity element of loop $L_1$ and $e_2$ is
-the identity element of loop $L_2$
-In Agda, loop homomorphism can be defined using quasigroup homomorphism as:
+the identity element of loop $L_2$. In Agda, loop homomorphism can be defined
+using quasigroup homomorphism as:
 \begin{minted}[breaklines,samepage]{Agda}
 record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -386,7 +388,8 @@ x≈z//y x y z eq = begin
 
 \subsection{Properties of Loop}
 Properties of division operation holds for a loop.\\
-Let $(L, ∙, /, \backslash)$ be a Loop with identity $x\ ∙\ e\ =\ x$ then the following properties holds 
+Let $(L, ∙, /, \backslash)$ be a Loop with identity $x\ ∙\ e\ =\ x\ =\ e\ ∙\ x$
+then the following properties holds 
 \begin{enumerate}
 \item \(x \ /\  x\ =\ e\) 
 \item \( x\ \backslash \ x\ =\ e\)

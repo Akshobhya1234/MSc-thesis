@@ -11,7 +11,7 @@ these systems by providing tools to write proofs easily. One such problem is to
 structurally derive algebraic structures from one another in the hierarchy
 without explicitly defining axioms that become redundant. The author also
 proposes a solution to make use of the interrelationship in mathematics and thus
-reduce the efforts in building the library. We consider the four more proof assistant systems that are all dependently
+reduce the efforts in building the library. We consider four proof assistant systems that are all dependently
 typed, higher order programming languages and supports, (at least partially) proof
 by reflection.
 
@@ -61,13 +61,13 @@ It is not time efficient to manually look for the definitions in a large
 library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
 are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
-to extract definitions. Thus, a part of the process of building the ~\ref{tab:long} was
-automated. Since the standard libraries are open source projects, it is
-difficult to maintain uniformity in the code. For example, the definition might
-start with a comment in the same line or structure parameters might be written in
-a new line. All this makes it difficult to correctly build the regular
-expression and will necessitate the task of verifying the results manually to
-some extent.   
+to extract definitions. Thus, a part of the process of building the table
+~\ref{tab:long} was automated. Since the standard libraries are open source
+projects, it is difficult to maintain uniformity in the code. For example, the
+definition might start with a comment in the same line or structure parameters
+might be written in a new line. All this makes it difficult to correctly build
+the regular expression and will necessitate the task of verifying the results
+manually to some extent.   
 
 The rest of the chapter is structured as follows. Section 2 discusses the
 algebraic structure definitions and their coverage in the proof assistant
@@ -265,7 +265,7 @@ structure semigroup (G : Type u) :
 \section{Morphism}
 One of the benefits of the Agda standard library is that it provides morphisms
 for the structures defined in the library. The library defines homomorphism,
-monomorphism, and isomorphism for those structures. The library also provides
+monomorphism, and isomorphism for the structures defined. The library also provides
 the composition of morphisms between algebraic structures. The morphism
 definitions for magma, monoid, group, nearSemiring, semiring, ring, and lattice are
 available in the standard library. An example of magma morphisms as defined in

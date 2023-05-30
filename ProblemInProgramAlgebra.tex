@@ -150,7 +150,7 @@ open IsQuasigroup isQuasigroup public
 
 \section{Redundant field in structural inheritance}
 Redundancy arises when there is duplication of the same field. In programming
-redundant of code is considered a bad practice and is usually avoided by
+redundant code is considered a bad practice and is usually avoided by
 modularizing and creating functions that perform similar tasks. In algebraic
 structures, redundant fields can be introduced in structures that are defined in
 terms of two or more structures. For example semiring can be defined as
@@ -238,13 +238,13 @@ open IsQuasiring isQuasiring public
   }
 \end{minted}
 
-Note that in some literature, nearring is defined in which multiplication is a
+In some literature, nearring is defined in which multiplication is a
 semigroup that is without identity. This can be attributed to the problem with
 ambiguity. It can be analyzed that having two different definitions for same
 structure is not a good practice. If nearring is defined using quasiring then
 it should also give an instance of additive group without having it to construct
 it when using the above formalization. This solution might solve the problem at
-first but in practice this becomes tedious and can go to a point at which this
+first but in practice, this becomes tedious and can go to a point at which this
 can be impractical especially when formalizing structures at higher level in the
 algebra hierarchy.
 
@@ -270,6 +270,6 @@ module IsBoundedSemilattice {∙ ε} (L : IsBoundedSemilattice ∙ ε) where
   open IsIdempotentCommutativeMonoid L public
 \end{minted}
 
-Note that some mathematicians argue that bounded semilattice and idempotent
+Some mathematicians argue that bounded semilattice and idempotent
 commutative monoid are not the same structures but are isomorphic to each other.
 We do not consider this argument in the scope of this thesis.

@@ -16,10 +16,10 @@ computing \cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many
 other fields. Variations of ring structure such as a near-ring, quasi-ring, and
 Non-associative ring are being explored to make ring theory (study of ring
 structures), more dynamic, concrete and useable. Now, the question arises: how
-can we encode these structures in Agda, we will explore this question. The aim
-of this chapter is to define these structures and prove some properties in the
-Agda standard library that can help build other systems that uses these
-structures.
+can we encode these structures in Agda? We will explore this question in this
+chapter. The aim of this chapter is to define these structures and prove some
+properties in the Agda standard library that can help build other systems that
+uses these structures. 
 \section{Definition}
 A magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
 that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we may
@@ -60,7 +60,7 @@ field
 open IsMagma isMagma public
 \end{minted}
 In the above definition \inline{IsSemigroup} is a record type with two fields
-\inline{isMagma} and \inline{assoc}. $∙$ is a parameter of type Op₂ on set $A$
+\inline{isMagma} and \inline{assoc}. $∙$ is a parameter of type \inline{Op₂ A}
 denotes the binary operation for the semiring. \inline{a ⊔ ℓ} is the least upper
 bound for the set. Similarly, commutative semigroup can be derived from
 semigroup as: 
@@ -110,10 +110,9 @@ record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a 
  open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
-Note: We don't define \inline{IsNonAssociativeRing} with
-\inline{*-isUnitalMagma} to remove the redundant equivalence relation. This is
-discussed in Chapter 8. The same technique is followed when defining other ring
-like structures.
+We don't define \inline{IsNonAssociativeRing} with \inline{*-isUnitalMagma} to
+remove the redundant equivalence relation. This is discussed in Chapter 8. The
+same technique is followed when defining other ring like structures.
 
 A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
 multiplication is a monoid and multiplication distributes over addition, and has
