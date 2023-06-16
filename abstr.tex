@@ -1,19 +1,22 @@
 \prefacesection{Abstract}
-Algebra is the abstract encapsulation of mathematical intuition. Proof systems
-can be described as an inference system that has provable statements or theorems
-being their final products. It is important to study the intersection of these
-powerful concepts in mathematics and computer science by carefully defining
-mathematical concepts in computer language.
+Building a standard library of mathematical knowledge for a proof system is a
+complex task that relies on human effort. By doing a survey on standard library
+of four proof systems (Agda, Idris, Lean, and Coq), we define the scope for our
+research to study types of algebraic structures in proof systems. From the
+result of the survey, we establish our focus to contribute to the Agda standard
+library. 
 
-In this work, we study the types of algebraic structures in proof systems
-especially Agda, Coq, Idris, and Lean 3 to determine the coverage of algebra in
-these systems and to set the scope of our research. We contribute to the Agda
-standard library, a proof assistant system, so it can be extended to other
-relevant fields of algebra. We focus on commonly studied structures such as
-quasigroups, loops, semigroups, rings, and Kleene algebra. These structures are
-well-studied in universal algebra and have applications in various fields
-including computer science, quantum physics, and mathematics. In the effort of
-studying several structures with their constructs like morphisms, and direct
-products and proving their properties, we analyze five problems that arise and
-may not be as relevant in classical mathematics. We define more than 20
-algebraic structures and add more than 40 proofs to Agda standard library.
+Universal algebra studies structures by abstracting out the specific definitions
+and properties of algebraic structures. By providing an extensive and
+well-defined library of algebraic structures and theorems in Agda, it will
+enable researchers to explore new domains and build upon existing definitions
+(and theorems). We focus on commonly studied structures such as quasigroups,
+loops, semigroups, rings, and Kleene algebra with some of their constructs.
+Constructs like morphisms and direct product provide a way to relate different
+mathematical structures in a systematic and rigorous way. 
+
+During our exploration of capturing these structures in Agda, we encountered
+several issues. We categorized these issues into five classes and analyzed each
+problem to provide plausible solutions (with the exception of naming). As part
+of this research, we define more than 20 algebraic structures and add more than
+40 proofs to the Agda standard library
