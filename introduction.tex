@@ -2,53 +2,68 @@
 Abstract algebra is the study of algebraic structure that came into existence in
 the early nineteenth century as complex problems and solutions evolved in other
 branches of mathematics such as geometry, number theory, and polynomial
-equations. Being a relatively new subject in mathematics, algebraic structures
-are used in various fields. For example, \cite{liaqat2021some} use semigroups
-\footnotetext{A kind of algebraic structure} to study time dependent partial
-differential equations in a technique similar to differential equations on a
-function space. Kleene algebra and semigroup structures are used in finite
-automata to better model and understand the finite state machines.
-\textit{Groups} are one of the oldest structures that are used in number theory,
-atomic and molecular theory, and cryptography \cite{enwiki:1133598242}.
-\cite{bruck1944some} uses \textit{Quasigroups} and \textit{loops} structures for
-the encryption of image data. A magma is a set $S$ with a binary operation $∙$
-such that, $\forall x,y \in S, (x ∙ y) \in S$. A magma with
-associativity is called a semigroup. A Magma with division operation is called a
-quasigroup. Figure \ref{fig_magma} shows the algebra hierarchy from magma to
-group. 
- \begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.7\textwidth]{figures/Sample/Magma_to_group.jpg}
-	\caption{Algebraic structure hierarchy \cite{enwiki:1107380309}}
-	\label{fig_magma}
- \end{figure}
-
-With the growing help of technology, mathematicians are more indulged in
-automated reasoning. Increasing powers of computers and software tools that help
-towards automated reasoning become useful in their research. Although the proof
-systems that support first-order logic are successful, developing a tool that
-supports higher order logic is complex \cite{phillips2010automated} and requires
-carefully defining mathematical objects and concepts. Proof assistant systems act
-as a bridge between computer intelligence and human effort in developing
-mathematical proofs. Agda, Coq, Isabelle, Lean, and Idris are some commonly used
-proof assistant systems. Mathematicians use these proof assistants to check
-their proof for validity, build proofs and sometimes even generate them via
-proof search tools. For the scope of the thesis, we only discuss types of
+equations. With the growing help of technology, mathematicians are more indulged
+in automated reasoning. Increasing powers of computers and software tools that
+help towards automated reasoning become useful in their research. Although the
+proof systems that support first-order logic are successful, developing a tool
+that supports higher order logic is complex and requires carefully defining
+mathematical objects and concepts \cite{phillips2010automated}. Proof assistant
+systems act as a bridge between computer intelligence and human effort in
+developing mathematical proofs. Agda, Coq, Isabelle, Lean, and Idris are some
+commonly used proof assistant systems. Mathematicians use these proof assistants
+to check their proof for validity, build proofs and sometimes even generate them
+via proof search tools. For the scope of the thesis, we only discuss types of
 algebraic structures in proof systems.
 
-\section{Research Outline}
 For any software system to be robust, all its dependencies must similarly be
 robust. The standard libraries of these systems should support the user with all
 necessary functionalities to be able to use the system easily without having to
-define all functionalities. To generate robust libraries of knowledge, the
-authors Jacques Carette, Russell O'Connor, and Yasmine Sharoda, in their paper
-\cite{BuildingDiamond} explore techniques to generate libraries with minimum
-human effort. However, while their methods do work in theory, they are difficult
-(and expensive) in practice. Although generated libraries can define the
-algebraic concepts, they are not fully reliable and hence not considered as
-"standard library" for any proof system. For now, building standard libraries
-for proof systems relies on human efforts. This led to the question of what is
-the current scope of algebraic structures in proof assistant systems. A survey
+define all functionalities. The paper \cite{BuildingDiamond} explore techniques
+to generate libraries with minimum human effort. However, while their methods do
+work in theory, they are difficult (and expensive) in practice. Although
+generated libraries can define the algebraic concepts, they are not fully
+reliable and hence not considered as "standard library" for any proof system.
+For now, building standard libraries for proof systems relies on human efforts.
+This led to the question of what is the current scope of algebraic structures in
+the standard libraries of proof assistant systems. A survey of the coverage of
+algebraic structure in the standard libraries of proof assistant systems can
+help us understand which algebraic structures are already supported by various
+proof assistants, and which structures are still missing. This information can
+help researchers identify gaps in existing proof assistants and guide future
+development. A survey was conducted to better understand the coverage of algebra
+in four proof systems Agda, Idris, Lean, and Coq. Agda was one such system where
+there was better scope to contribute to the standard library. \footnote{I was
+exposed to Agda during course work for my Master's degree, further adding bias
+to choosing Agda over other systems}
+
+Agda is widely used by mathematicians and computer scientists for research
+purposes. Contributing certain algebraic structures and theorems to Agda would
+help researchers to explore new domains by building upon the existing
+definitions and theorems easily. The Agda standard library follows algebra
+hierarchy that stats with Magma as the initial structure from which other
+structures are defined. Figure \ref{fig_magma} shows the algebra hierarchy from
+magma to group. A magma is a set $S$ with a binary operation $∙$ such that,
+$\forall x,y \in S, (x ∙ y) \in S$. A magma with associativity is called a
+semigroup. A Magma with division operation is called a quasigroup.
+
+The definitions of constructs like homomorphism and direct product is given to
+us by universal algebra. Universal algebra provides a common framework by
+abstracting out the specific definitions and properties of algebraic structures.
+It helps us to study the commonalities of algebraic structures and define their
+constructs. An algebra in universal algebra is defined as an ordered pair
+$(S,F)$ where $S$ is a set and $F = (F_i:i\in I)$ is a finitary operations on A
+for some indexing set $I$ \cite{sannella2012foundations}. Certain constructs
+like morphisms and direct product help us to relate different mathematical
+objects and structures in a systematic and rigorous way. Morphisms, for example,
+allow us to understand how different mathematical objects are related to one
+another. Direct product, on the other hand, is a useful tool for combining
+mathematical structures, such as groups, rings, or vector spaces, to create new
+and more complex structures that retain many of the desirable properties of the
+original structures. This allows us to study and understand larger, more complex
+systems and their properties.
+
+\section{Research Outline}
+ A survey
 was conducted to better understand the coverage of algebra in four proof systems
 Agda, Idris, Lean, and Coq. Agda was one such system where there was better
 scope to contribute to the standard library. \footnote{I was exposed to Agda
