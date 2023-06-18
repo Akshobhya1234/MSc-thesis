@@ -32,9 +32,7 @@ proof assistants, and which structures are still missing. This information can
 help researchers identify gaps in existing proof assistants and guide future
 development. A survey was conducted to better understand the coverage of algebra
 in four proof systems Agda, Idris, Lean, and Coq. Agda was one such system where
-there was better scope to contribute to the standard library. \footnote{I was
-exposed to Agda during course work for my Master's degree, further adding bias
-to choosing Agda over other systems}
+there was better scope to contribute to the standard library.
 
 Agda is widely used by mathematicians and computer scientists for research
 purposes. Contributing certain algebraic structures and theorems to Agda would
@@ -45,7 +43,12 @@ structures are defined. Figure \ref{fig_magma} shows the algebra hierarchy from
 magma to group. A magma is a set $S$ with a binary operation $∙$ such that,
 $\forall x,y \in S, (x ∙ y) \in S$. A magma with associativity is called a
 semigroup. A Magma with division operation is called a quasigroup.
-
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/Sample/Magma_to_group.jpg}
+	\caption{Algebraic structure hierarchy \cite{enwiki:1107380309}}
+	\label{fig_magma}
+ \end{figure}
 The definitions of constructs like homomorphism and direct product is given to
 us by universal algebra. Universal algebra provides a common framework by
 abstracting out the specific definitions and properties of algebraic structures.
@@ -55,40 +58,46 @@ $(S,F)$ where $S$ is a set and $F = (F_i:i\in I)$ is a finitary operations on A
 for some indexing set $I$ \cite{sannella2012foundations}. Certain constructs
 like morphisms and direct product help us to relate different mathematical
 objects and structures in a systematic and rigorous way. Morphisms, for example,
-allow us to understand how different mathematical objects are related to one
+allow us to understand how different algebraic structures are related to one
 another. Direct product, on the other hand, is a useful tool for combining
-mathematical structures, such as groups, rings, or vector spaces, to create new
-and more complex structures that retain many of the desirable properties of the
-original structures. This allows us to study and understand larger, more complex
-systems and their properties.
+structures, such as groups, rings, or vector spaces, to create new and more
+complex structures that retain many of the desirable properties of the original
+structures. This allows us to study and understand larger, more complex systems
+and their properties.
 
 \section{Research Outline}
- A survey
-was conducted to better understand the coverage of algebra in four proof systems
-Agda, Idris, Lean, and Coq. Agda was one such system where there was better
-scope to contribute to the standard library. \footnote{I was exposed to Agda
-during course work for my Master's degree, further adding bias to choosing Agda
-over other systems} 
+To define the scope of out research to study algebraic structures in proof
+assistant systems, we capture the current coverage of algebraic structures in
+the standard libraries of these systems. As part of the survey, we consider four
+libraries: The Agda standard library (v1.7.1), the mathematical components
+library (1.12.0) for Coq, Idris 2, and mathematical library for Lean 3. In
+effort of finding the coverage of algebraic structures in these libraries, we
+develop a clickable table that directs to the definition of the structure in the
+source code of these systems. Through the survey, we establish our focus for
+contributing to the Agda standard library\footnote{I was exposed to Agda during
+course work for my Master's degree, further adding bias to choosing Agda over
+other systems}.
 
-As part of this thesis, more than twenty-three types of algebraic structures
-have been defined in the standard library for Agda. Inspired by the ways
-algebraic structures are used in research, in this work we explore capturing a
-select subset of them in Agda standard library. Following the algebra hierarchy
-in Figure ~\ref{fig_magma}, we study magma with division operation that is
-quasigroup and loop structures. We also explore various types of loop such as
-bol-loop and moufang-loop and their properties. Semigroups are used in various
-fields such as probability theory and formal systems. One of the most commonly
-studied algebraic structure is Ring. In this thesis we study types of rings such
-as near-ring, quasi-ring, and non-associative ring. Along with ring structure,
-the most used structure is Kleene algebra. The applications of Kleene algebra
-are seen in finite state machines, regular expressions and other branches of
-computer science. As part of this thesis, we study Kleene algebra by providing
-proofs for its properties that may be used in developing other systems or
-applications. By contributing to Agda standard library, we hope that this work
-will be used by others. 
+Inspired by the ways algebraic structures are used in research, in this work we
+explore capturing a select subset of them in Agda standard library. Following
+the algebra hierarchy in Figure ~\ref{fig_magma}, we study magma with division
+operation that is quasigroup and loop structures. By defining them with their
+morphisms and direct product constructs, we can study their properties and
+relationships in a more systematic way. We also explore various types of loop
+such as bol-loop and moufang-loop and their properties. Semigroups are used in
+various fields such as probability theory and formal systems. One of the most
+commonly studied algebraic structure is Ring. In this thesis we study types of
+rings such as near-ring, quasi-ring, and non-associative ring. Another most
+commonly used structure that has its applications in various fields is Kleene
+algebra. The applications of Kleene algebra are seen in finite state machines,
+regular expressions and other branches of computer science. As part of this
+thesis, we study Kleene algebra by providing proofs for its properties that may
+be used in developing other systems or applications. By contributing to Agda
+standard library, we hope that this work will be used by others. 
 
-Notably, as we explore capturing these structures in Agda, we analyze five
-problems that arise:
+As we explore capturing these structures in Agda, we encountered several
+problems. In this work, we abstracter these problems into five classes. We
+analyze each problem. 
 \begin{enumerate}
 \item Ambiguity in naming structures.
 \item Equivalent structures that are structurally different.
