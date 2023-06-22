@@ -38,7 +38,7 @@ Agda is widely used by mathematicians and computer scientists for research
 purposes. Contributing certain algebraic structures and theorems to Agda would
 help researchers to explore new domains by building upon the existing
 definitions and theorems easily. The Agda standard library follows algebra
-hierarchy that stats with Magma as the initial structure from which other
+hierarchy that starts with Magma as the initial structure from which other
 structures are defined. Figure \ref{fig_magma} shows the algebra hierarchy from
 magma to group. A magma is a set $S$ with a binary operation $∙$ such that,
 $\forall x,y \in S, (x ∙ y) \in S$. A magma with associativity is called a
@@ -57,10 +57,10 @@ constructs. An algebra in universal algebra is defined as an ordered pair
 $(S,F)$ where $S$ is a set and $F = (F_i:i\in I)$ is a finitary operations on A
 for some indexing set $I$ \cite{sannella2012foundations}. Certain constructs
 like morphisms and direct product help us to relate different mathematical
-objects and structures in a systematic and rigorous way. Morphisms, for example,
+objects and structures in a systematic and rigorous way. Morphisms
 allow us to understand how different algebraic structures are related to one
 another. Direct product, on the other hand, is a useful tool for combining
-structures, such as groups, rings, or vector spaces, to create new and more
+structures, such as monoids, groups, or rings, to create new and more
 complex structures that retain many of the desirable properties of the original
 structures. This allows us to study and understand larger, more complex systems
 and their properties.
@@ -69,7 +69,7 @@ and their properties.
 To define the scope of out research to study algebraic structures in proof
 assistant systems, we capture the current coverage of algebraic structures in
 the standard libraries of these systems. As part of the survey, we consider four
-libraries: The Agda standard library (v1.7.1), the mathematical components
+libraries: The Agda standard library (v1.7.1), the mathematical component
 library (1.12.0) for Coq, Idris 2, and mathematical library for Lean 3. In
 effort of finding the coverage of algebraic structures in these libraries, we
 develop a clickable table that directs to the definition of the structure in the
@@ -79,7 +79,7 @@ course work for my Master's degree, further adding bias to choosing Agda over
 other systems}.
 
 Inspired by the ways algebraic structures are used in research, in this work we
-explore capturing a select subset of them in Agda standard library. Following
+explore capturing a select subset of them in the Agda standard library. Following
 the algebra hierarchy in Figure ~\ref{fig_magma}, we study magma with division
 operation that is quasigroup and loop structures. By defining them with their
 morphisms and direct product constructs, we can study their properties and
@@ -96,7 +96,7 @@ be used in developing other systems or applications. By contributing to Agda
 standard library, we hope that this work will be used by others. 
 
 As we explore capturing these structures in Agda, we encountered several
-problems. In this work, we abstracter these problems into five classes. We
+problems. In this work, we abstract out these problems into five classes and
 analyze each problem. 
 \begin{enumerate}
 \item Ambiguity in naming structures.
