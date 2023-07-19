@@ -1,4 +1,5 @@
 \chapter{Universal Algebra: An Overview}
+\label{start}
 Universal algebra is a branch of mathematics that studies algebraic structures
 in a general and abstract way. It provides a framework that allows
 mathematicians to study algebraic structures such as groups, rings, fields,
@@ -14,11 +15,12 @@ structures as axiomatic theories in equational first-order logic
 
 In this chapter we study the concepts from universal algebra that help
 understand the characterization of algebraic structures with its constructs in
-Agda in the later chapters. Section \ref{universe} defines terms like signature,
-theory, and algebra. We introduce constructs such as morphisms and direct
-product in Section \ref{construct}. The definitions in this chapter are adapted
-from \cite{sankappanavar1981course}, \cite{YSharoda}, and
-\cite{sannella2012foundations}. 
+Agda in the later chapters. We assume the reader to have basic knowledge on set
+theory (set, functions, and relations), knowledge of notation and concepts of
+first order logic. Section \ref{universe} defines terms like signature, theory,
+and algebra. We introduce constructs such as morphisms and direct product in
+Section \ref{construct}. The definitions in this chapter are adapted from
+\cite{sankappanavar1981course} and \cite{sannella2012foundations}. 
 
 \begin{comment}
 \section{Relation and function}
@@ -79,13 +81,37 @@ of the operation.
 \end{comment}
 
 \section{Universe, type, and signature}
+\subsection*{Background}
+We define some terminologies in this subsection that are later used in this
+chapter. If the reader is already familiar with the requirements discussed in
+above, they may consider skipping this subsection. 
+\begin{itemize}
+    \item A one sort set is a distinct collection of objects such
+    that all the elements of the set are of single type (or sort). 
+    \item  A term in logic represents an object in the domain of
+    discourse.
+    \item  A function $f: X \rightarrow Y$ is a mapping that associates each
+    element of domain $(x \in X)$ with a unique element in co-domain $(y \in Y)$.
+    \item  A function symbol represents an operation that maps elements of
+    domain to unique element in the co-domain.
+    \item The number of operands in a function (or operation) is the arity of
+    the operation.
+    \item A formula is finite sequence of symbols from the set of alphabets of a
+    language.
+    \item Term expressions is a composition of
+    terms with function symbols.
+    \item For some formulas in propositional logic $(a,b)$, we say $a$ is a
+    substitution instance of $b$ if and only if $a$ may be obtained from $b$ by
+    substituting formulas for symbols in $b$.
+\end{itemize}
+
 \label{universe}
-Logic allows to describe properties of entities as formulas and provide
-reasoning about them. Equational logic limits these formulas (such as axioms or
-theorems) to  be universally quantified equations of the form $t_1 = t_2$. Here
-$t_1$ and $t_2$ are terms expressible in the language of theory. A proposition
-is true if it is derivable from other true propositions using inference rules.
-The three inference rules in equational logic described in
+Logic allows us to describe properties of entities as formulas and provide
+reasoning about them. Equational logic limits these formulas (such as axioms
+or theorems) to  be universally quantified equations of the form $t_1 = t_2$.
+Here $t_1$ and $t_2$ are terms expressible in the language of theory. A
+proposition is true if it is derivable from other true propositions using
+inference rules. The three inference rules in equational logic described in
 \cite{gries2013logical} are:
 \begin{itemize}
     \item Leibniz equality: Two expressions are equal if one expression can be
@@ -98,46 +124,34 @@ The three inference rules in equational logic described in
 \end{itemize}
 where $t,t_1,t_2, \text{and} t_3$ are term expressions, $x$ is some symbol in the
 language, $xs$ and $ts$ denotes list of symbols and list of expressions
-respectively. 
+respectively.
 
-A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
-a set of single sort $s$, $F$ is a finite set of function symbols with their
-arities, and $E$ is a set of equations that are satisfied in $S$.
+\begin{itemize}
+    \item A \textit{theory} in universal algebra is defined as a tuple $(S,F,E)$
+    such that $S$ is a set of one sort $s$, $F$ is a finite set of function symbols
+    with their arities, and $E$ is a set of equations that are satisfied in $S$.
 
-A sub theory of a theory $(S,F,E)$ is defined as $(S_\Delta,F_\Delta,E_\Delta)$
-such that $S_\Delta \subseteq S$. The operations in sub theory $(op_\Delta \in
-|F_\Delta|)$ is defined as
-\[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
-|F|,\text{and}\ x_1...x_n \in S_\Delta \]  
+    \item A sub theory of a theory $(S,F,E)$ is defined as
+    $(S_\Delta,F_\Delta,E_\Delta)$ such that $S_\Delta \subseteq S$. The operations
+    in sub theory $(op_\Delta \in |F_\Delta|)$ is defined as
+    \[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
+    |F|,\text{and}\ x_1...x_n \in S_\Delta \]  
 
-A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
-sorts and $F$ is set of operation names. An operation can be defined as a triple
-$(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
+    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is set of
+    sorts and $F$ is set of operation names.
 
-An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
-of a domain and functions on the domain. Algebra provides an interpretation for
-the carrier set $S$ and function symbols $F$ of a theory.
+    \item A $\Sigma$-algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical
+    structure consisting of a carrier set and functions on the domain. Algebra
+    provides an interpretation for the carrier set $S$ and function symbols $F$ of a
+    theory.
 
-For example, a group G is an algebra with one nullary (1), one unary ($^{-1}$),
-and one binary (∙) operation represented as $(G, ∙, ^{-1}, 1)$. Here, $^{-1}$ is
-an inverse operation. For a binary operation ∙, on set $S$, if $x ∙ y = e$ where
-$e$ is an identity element, and $x,y \in S$ then $x$ is called the left inverse
-of $y$, and $y$ is called the right inverse of $x$. An element is said to have
-an inverse if it has both left and right inverse. The group structure should
-satisfy the following axioms. 
-\begin{enumerate}
-\item Associativity - \( ∀ x y z \in G, x ∙ (y ∙ z) = (x ∙ y) ∙ z \)
-\item Identity - \(∀ x \in G, x ∙ 1 = 1 ∙ x = x\)
-\item Inverse - \( ∀ x \in G, x ∙ x ^{-1} =  x
-^{-1} ∙ x = 1\)
-\end{enumerate}
-
-The type (or language) of the algebra is a set of function symbols. Each member
-of this set is assigned a positive number which is the arity of the member. For
-example, an algebra of type (2,0) denotes an algebra with one binary operation
-and one nullary operation. The group structure defined above is of type (2,1,0).
-That is $∙$ is a binary operation, $^{-1}$ is a unary operation and $1$ is the
-nullary operation.
+    \item The type (or language) of the algebra is a set of function symbols. Each
+    member of this set is assigned a positive number which is the arity of the
+    member. For example, an algebra of type (2,0) denotes an algebra with one binary
+    operation and one nullary operation. The group structure defined above is of
+    type (2,1,0). That is $∙$ is a binary operation, $^{-1}$ is a unary operation
+    and $1$ is the nullary operation.
+\end{itemize}
 
 \section{Constructions}
 \label{construct}
