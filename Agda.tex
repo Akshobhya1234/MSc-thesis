@@ -93,7 +93,7 @@ not true = false
 equal sign is seen, the right hand side is what's computed.  
 
 Similar to Haskell, Agda doesn't have the concept of multi-argument functions.
-For example, to define addition (\inline{Add}) function on natural numbers
+For example, to define addition (\inline{add}) function on natural numbers
 (\inline{Nat}), we take an argument \inline{Nat} and return a function that
 takes \inline{Nat} and returns \inline{Nat}.
 
@@ -104,7 +104,7 @@ add (suc n) m = suc (add n m)
 \end{minted}
 
 Operators in Agda are typically defined using symbolic notation or special
-operator symbols. Addition as an operation can be defined in Agda as:
+operator symbols. Addition as an infix operation can be defined in Agda as:
 
 \label{code:Add}
 \begin{minted}[breaklines,samepage]{Agda}
@@ -131,29 +131,28 @@ nonterminating \cite{AgdaTB}. But Agda is total that means all programs must
 terminate. This kind of paradox was introduced by Bertrand Russell and is called
 Russel's paradox.
 
-According to Russel's paradox \cite{russell2020principles} the collection of all
-set is not a set. The naive set theory defines a set as well-defined collection
-of objects. The paradox defines the set of all sets that are not the member of
-themselves. This develops to two kinds of contradiction \cite{russelPara}.
+The naive set theory defines a set as well-defined collection of objects. The
+paradox \cite{russell2020principles} defines the set of all sets that are not
+the member of themselves. This develops to two kinds of contradiction.
 \begin{itemize}
   \item If the set contains itself, then it should not be a member of itself by
   definition
-  \item If the set does not contain itself the it is not a member of itself.
+  \item If the set does not contain itself then it is not a member of itself.
 \end{itemize}
 
-Agda introduces a series of universes to create the type hierarchy, and each
-universe represents a level of types. A universe is a type whose elements are
-type \cite{universeagda}. This primitive type is useful to define and prove
-theorems about functions that operate on large set. In Agda, not every type
-belongs to \inline{Set}. Since we cannot have a type \inline{Set : Set}, Agda
-provides a hierarchy of universes \inline{Set}, \inline{Set₁}, \inline{Set₂} and
-so on. \inline{Set} is the basic universe level that contains non dependent
-types like \inline{Nat}, \inline{Bool}. \inline{Set₁} contains all types from
-\inline{Set} and allows dependent types likes \inline{List A} where \inline{A :
-Set}. Agda doesn't allow types at a given level to depend on types from higher
-universes.  
+To overcome this paradox, Agda introduces a series of universes to create the
+type hierarchy, and each universe represents a level of types. A universe is a
+type whose elements are type \cite{universeagda}. This primitive type is useful
+to define and prove theorems about functions that operate on large set. In Agda,
+not every type belongs to \inline{Set}. Since we cannot have a type \inline{Set
+: Set}, Agda provides a hierarchy of universes \inline{Set}, \inline{Set₁},
+\inline{Set₂} and so on. \inline{Set} is the basic universe level that contains
+non dependent types like \inline{Nat}, \inline{Bool}. \inline{Set₁} contains all
+types from \inline{Set} and allows dependent types likes \inline{List A} where
+\inline{A : Set}. Agda doesn't allow types at a given level to depend on types
+from higher universes.  
 
-Now we have seen that in Agda, not every type belongs to \inline{Set}. Every
+We have seen that in Agda, not every type belongs to \inline{Set}. Every
 type belongs somewhere in the hierarchy \inline{Set₀}, \inline{Set₁},
 \inline{Set₂}, and so on. This definition works if we are comparing two values
 of some type in \inline{Set}. But, we cannot compare two values that belong to
@@ -167,7 +166,7 @@ equality generalized to an arbitrary level.
 \label{equality}
 In Chapter 2, when defining theory, we say that equation is of the form $t_1 =
 t_2$ where $t_1$ and $t_2$ are term expressions and $=$ represents equality
-relation. In dependent type theory, equality is a complex concepts. Equality
+relation. In dependent type theory, equality is a complex concept. Equality
 says that two things are "equal". But asking "when two things are equal" is non
 trivial. In \cite{musa}, a hierarchy of "sameness" is given.
 \subsection{Syntactic equality}
@@ -191,10 +190,10 @@ true ^ true = true
 x ^ y = false
 \end{minted}
 
-In Agda, not every equations we write holds literally. In the above or function,
+In Agda, not every equations we write holds literally. In the above example,
 only the equation \inline{true ^ true = true} holds. The equation \inline{x ^ y
 = false} overlaps with the first equation when both $x$ and $y$ are
-\inline{true}. This equation does not definitionally hold. Agda will split this
+\inline{true}. This equation does not hold definitionally. Agda will split this
 clause to three equations which holds definitionally:
 \begin{description}
   \item[] \inline{false ^ true = false}
@@ -203,12 +202,13 @@ clause to three equations which holds definitionally:
 \end{description}
 
 \subsection{Propositional equality}
-When we write a proof to say that two programs are equal, this proof cannot be a
-definitional equality. Instead this proof itself is a program that expresses
-that two things are equal. In a universe polymorphic type system like Agda,
-types are classified into various levels denoted as $Set₀$, $Set₁$, $Set₂$, and
-so on. The definition of propositional equalityin Agda standard library is
-universe polymorphic.
+When we write a proof to say that two programs are equal, this proof may not be
+a definitional equality. Instead this proof itself can be a program that
+expresses that two things are equal. In a universe polymorphic type system like
+Agda, types are classified into various levels denoted as $Set₀$, $Set₁$,
+$Set₂$, and so on. The definition of propositional equality in Agda standard
+library is universe polymorphic. That is a generic definition of propositional
+equality is given using universes that can be used in different levels.
 
 \begin{minted}[samepage,breaklines]{Agda}
 data _≡_ {A : Set} (x : A) : A → Set where
@@ -232,8 +232,7 @@ trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
 trans refl refl  =  refl
 \end{minted}
 
-We can also show that equality also holds substitution introduced in Chapter 2
-with inference rules.
+We can also show that equality also holds substitution introduced in Chapter 2.
 
 \begin{minted}[samepage,breaklines]{Agda}
 subst : ∀ {A : Set} {x y : A} (P : A → Set) → x ≡ y → P x → P y
@@ -241,12 +240,12 @@ subst P refl px = px
 \end{minted}
 
 \section{Structure definition}
-Let us now try to define Monoid, an algebraic structure in Agda. Monoid is an
-algebraic structure with a binary operation that satisfies associativity and has
-an identity element. In Agda we can define a structure as a record type using
-the keyword \inline{record}. The record type allows to have parameters
-immediately after the record's name declaration or may be declared with
-\inline{field} keyword.
+Let us now try to define \inline{IsMonoid}, an algebraic structure in Agda.
+Monoid is an algebraic structure with a binary operation that satisfies
+associativity and has an identity element. In Agda we can define a structure as
+a record type using the keyword \inline{record}. The record type allows to have
+parameters immediately after the record's name declaration or may be declared
+with \inline{field} keyword.
 
 \begin{minted}[samepage,breaklines]{Agda}
 record IsMonoid (A : Set) : Set₁ where
@@ -288,16 +287,16 @@ components, expressing that sharing component becomes difficult \cite{musa}. To
 overcome these difficulties, we may parameterize the sharing components like the
 operations and the carrier set.
 
-We may observe that all the algebraic structures has a carrier set. When
+We may observe that all the algebraic structures have a carrier set. When
 defining algebraic structures in a module, we can make the carrier set as the
 argument of the module so it is accessible by all the structures defined under
 that module. The module declaration is treated as a top-level function that take
 the parameters of module as arguments. The parameters can be values and types
-but not other modules. 
+but not other modules.
 
 In section \ref{equality}, we introduce different ways to say when two things
-are equal. When defining \inline{IsMonoid}, we use Agda's propositional
-equality (\inline{_≡_}) to compare the terms. In practice, this definition of
+are equal. When defining \inline{IsMonoid}, we use Agda's propositional equality
+(\inline{_≡_}) to compare the terms. However in practice, this definition of
 propositional equality is too strong and one prefers to use a finer equivalence
 relation \cite{musa}. Equivalence is useful when we want to capture "sameness"
 in a more flexible way, such as when dealing with quotient types. Agda standard
@@ -338,9 +337,9 @@ record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 In the above example, structure \inline{IsMagma} is defined as a record type
 with a parameter \inline{Op₂ A}. The properties of the structure
 \inline{IsMagma} are declared as the fields of the record, which include
-equivalence \inline{isEquivalence} and congruence \inline{∙-cong}. \inline{∙} is
-a binary operation on the set \inline{A}. \inline{a ⊔ ℓ} gives the largest of
-two levels. \inline{_≈_} is the binary operation argument for
+equivalence (\inline{isEquivalence}) and congruence (\inline{∙-cong}).
+\inline{∙} is a binary operation on the set \inline{A}. \inline{a ⊔ ℓ} gives the
+largest of two levels. \inline{_≈_} is the binary operation argument for
 \inline{IsEquivalence}. \inline{IsEquivalence} and \inline{Congruent₂} are
 predicates defined in standard library. We open the module
 \inline{isEquivalence} to bring its definition into scope. The open statement is
