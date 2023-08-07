@@ -34,7 +34,8 @@ defined as
 \begin{equation}
 \forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\
 \end{equation}
-In Agda, we can describe associativity and commutativity as follows:
+In Agda, we can define associativity and commutativity as follows:
+
 \begin{minted}[breaklines,samepage]{Agda}
 Associative : Op₂ A → Set _
 Associative _∙_ = ∀ x y z → ((x ∙ y) ∙ z) ≈ (x ∙ (y ∙ z))
@@ -64,6 +65,7 @@ In the above definition \inline{IsSemigroup} is a record type with two fields
 denotes the binary operation for the semiring. \inline{a ⊔ ℓ} is the least upper
 bound for the set. Similarly, commutative semigroup can be derived from
 semigroup as: 
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
 field
@@ -98,6 +100,7 @@ $(R,+,*,^{-1},0,1)$ should satisfy the following axioms:
   * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
   \item Annihilating zero: \(\forall x \in R, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
  field
@@ -210,6 +213,7 @@ got two ringWithoutOne structures $R_1$ and $R_2$, the homomorphism $f: R_1
 \rightarrow R_2$ is a group homomorphism and preserves the multiplication
 operation. That is $f$ is a group homomorphism and \(f(x *_1 y) = f(x) *_2
 f(y)\).
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -220,10 +224,12 @@ record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
     renaming (homo to +-homo; ε-homo to 0#-homo;
     isMagmaHomomorphism to +-isMagmaHomomorphism)
 \end{minted} 
+
 In the above definition of ringWithoutOne homomorphism
 \inline{IsRingWithoutOneHomomorphism} is defined as a record type with two
 fields \inline{+-isGroupHomomorphism} and \inline{*-homo}. A
 Homomorphism that is injective is called monomorphism and can be defined as:
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -232,8 +238,10 @@ record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
 
   open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
 \end{minted}
+
 A monomorphism that is bijective is called an isomorphism. Isomorphism of
 ringWithoutOne structure can be defined as:
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneIsoMorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
   field
@@ -246,6 +254,7 @@ record IsRingWithoutOneIsoMorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+
 \begin{minted}[breaklines,samepage]{Agda}
   isRingWithoutOneHomomorphism
     : IsRingWithoutOneHomomorphism R₁ R₂ f
@@ -270,6 +279,7 @@ y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ 
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 \section{Direct Product}
 The \textit{direct product} of ring like structures in Agda.
+
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
 		RingWithoutOne b ℓ₂ → RingWithoutOne (a ⊔ b) (ℓ₁ ⊔ ℓ₂)

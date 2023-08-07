@@ -52,6 +52,7 @@ open IsAbelianGroup +-isAbelianGroup public
 \end{minted} 
 \inline{Rng} is defined as ringWihthoutOne that is a ring structure without
 multiplicative identity.
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -163,6 +164,7 @@ other algebraic structures. To remove this redundant field in Agda the structure
 except the first is opened and expressed in terms of independent axioms that
 they satisfy. For example, semiring without identity or rig structure in Agda is
 defined as:
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
 field
@@ -174,10 +176,12 @@ field
 
 open IsCommutativeMonoid +-isCommutativeMonoid public
 \end{minted}
+
 From the above definition, we can observe that the operation $*$ is a semigroup
 is expressed with axioms congruent and associative. But, there is no field to
 say that $*$ is a semigroup. To overcome this problem an instance is created in
 the definition as follows along with near semiring structure.
+
 \begin{minted}[breaklines,samepage]{Agda}
 *-isMagma : IsMagma *
 *-isMagma = record
@@ -255,6 +259,7 @@ to define two different structures from different hierarchy. Instead, in Agda,
 aliasing may be used to say that the bounded semilattice is same as idempotent
 commutative monoid. Idempotent commutative monoid is defined and an aliasing for
 bounded semilattice is given.
+
 \begin{minted}[breaklines,samepage]{Agda}
   record IsIdempotentCommutativeMonoid (∙ : Op₂ A)
   (ε : A) : Set (a ⊔ ℓ) where

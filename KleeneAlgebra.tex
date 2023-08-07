@@ -55,6 +55,7 @@ where $\leq$ refers to the natural partial order:
 axioms in terms of equality. \footnote{Kleene algebra with partial and pre order
 structures are defined in "Algebra.Ordered.Structures" in Agda standard
 library.}
+
 \begin{minted}[breaklines,samepage]{Agda}
 StarRightExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
 StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) + (x *) ≈ (x *)
@@ -79,10 +80,12 @@ StarRightDestructive _+_ _∙_ _* = ∀ a b x → (b + (x ∙ a)) + x ≈ x → 
 StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
 StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
 \end{minted}
+
 The Kleene algebra can be structurally derived from idempotent semiring. In Agda
 standard library, $+$ and $*$ operations are used to denote addition and
 multiplication. To keep the same template, ⋆ symbol is selected to denote the
 unary star operation. 
+
 \begin{minted}[breaklines,samepage]{Agda}
 record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
   field
@@ -96,7 +99,7 @@ In the above definition, \inline{IsKleeneAlgebra} structure is defined as a
 record type with three fields. Since \inline{*} is used to denote binary
 multiplication operation, we use \inline{⋆} for the unary star operator. The
 field \inline{isIdempotentSemiring} makes an idempotentSemiring with operator
-$+,*,0#, \text{ and } 1#$. Fields \inline{starExpansive} and
+$+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
 \inline{starDestructive} are used to give the axioms for the star operator. We
 open \inline{isIdempotentSemiring} to bring its definitions into scope.
 \section{Morphism}
@@ -120,6 +123,7 @@ structure preserving map such that:
 \item $f$ preserves multiplicative identity: $f(1_1) = 1_2$
 \item $f$ preserves star operation: $f(x^{*_1}) = f(x)^{*_2}$
 \end{itemize}
+
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
 field
@@ -128,13 +132,17 @@ field
 
 open IsSemiringHomomorphism isSemiringHomomorphism public
 \end{minted}
+
 In Agda, \inline{Homomorphic₁} is used to give the homomorphism for unary
 operation, and is defined as:
+
 \begin{minted}[samepage]{Agda}
 Homomorphic₁ : (A → B) → Op₁ A → Op₁ B → Set _
 Homomorphic₁ ⟦_⟧ ∙_ ∘_ = ∀ x → ⟦ ∙ x ⟧ ≈ (∘ ⟦ x ⟧)
 \end{minted} 
+
 A Kleene algebra homomorphism which is injective gives a monomorphism. 
+
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
 field
@@ -145,6 +153,7 @@ open IsKleeneAlgebraHomomorphism isKleeneAlgebraHomomorphism public
 \end{minted}
 
 A surjective monomorphism of a Kleene algebra gives isomorphism.
+
 \begin{minted}[samepage,breaklines]{Agda}
 record IsKleeneAlgebraIsomorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
 field
@@ -158,6 +167,7 @@ open IsKleeneAlgebraMonomorphism isKleeneAlgebraMonomorphism public
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+
 \begin{minted}[samepage,breaklines]{Agda}
 isKleeneAlgebraHomomorphism
 : IsKleeneAlgebraHomomorphism K₁ K₂ f
@@ -168,6 +178,7 @@ isKleeneAlgebraHomomorphism f-homo g-homo = record
 ; ⋆-homo              = λ x → ≈₃-trans (G.⟦⟧-cong (F.⋆-homo x)) (G.⋆-homo (f x))
 } where module F = IsKleeneAlgebraHomomorphism f-homo; module G = IsKleeneAlgebraHomomorphism g-homo
 \end{minted}
+
 In the above quasigroup homomorphism composition, \inline{f} is a homomorphism
 from Kleene algebra $K₁$ to $K₂$, \inline{g} is a homomorphism from Kleene
 algebra $K₂$ to $K₃$. The proof for homomorphism composition is homomorphic is
@@ -181,6 +192,7 @@ found in Agda standard library.
 \section{Direct Product}
 The \textit{direct product} of two Kleene algebra structures in Agda is defined
 using the product definition of idempotent semiring structure as:
+
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
 KleeneAlgebra K L = record
@@ -193,10 +205,10 @@ KleeneAlgebra K L = record
     }
 } where module K = KleeneAlgebra K;  module L = KleeneAlgebra L
 \end{minted}
+
 where \inline{idempotentSemiring} is the product of two idempotent semiring structures.
 \section{Properties}
 In this section we prove some properties of Kleene algebra
-
 Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
 \begin{enumerate}
 \item $1\ +\ x^{*}\ =\ x^{*}$
