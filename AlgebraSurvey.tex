@@ -11,9 +11,14 @@ these systems by providing tools to write proofs easily. One such problem is to
 structurally derive algebraic structures from one another in the hierarchy
 without explicitly defining axioms that become redundant. The author also
 proposes a solution to make use of the interrelationship in mathematics and thus
-reduce the efforts in building the library. We consider four proof assistant systems that are all dependently
-typed, higher order programming languages and supports, (at least partially) proof
-by reflection.
+reduce the efforts in building the library. A survey of coverage of algebraic
+structures in proof systems will help to identify the gaps in the system. A
+survey can provide insights into how well each proof assistant supports the
+formalization of algebraic structures, making it easier for researchers and
+developers to choose the right platform for their mathematical formalizations.
+We consider four proof assistant systems that are all dependently typed, higher
+order programming languages and supports, (at least partially) proof by
+reflection.
 
 Agda 2 is a proof assistant system where proofs are expressed in a functional
 programming style. The Agda standard library aims to provide tools to ease the
@@ -96,18 +101,17 @@ field
 
 open IsMagma isMagma public
 \end{minted}
-The same follows for the bundled definitions of respective structures. Since the
-current version of the library has a limited number of structures, there might
-arise a problem of extending the hierarchy as described in
-\cite{CaretteBigMath}. One exemption for this hierarchical definition is the
-definition of a lattice. A lattice is defined independently in the standard
-library to overcome the redundant idempotent fields. A lattice structure that is
-defined in terms of join and meet semi-lattice is added as a biased structure.
-The Agda standard library defines left, right, and bi semi-modules and modules. A
-similar hierarchical approach as other algebraic structures is followed in
-defining modules. For example, a module is defined using bimodules and
-bi-modules using bi-semimodules. An alternative definition of modules is given in
-"Algebra.Module.Structure.Biased". 
+The same follows for the bundled definitions of respective structures. A
+hierarchical approach is adapted to define algebraic structures to make the
+system scalable with minimal redundancy. One exemption for this hierarchical
+definition is the definition of a lattice. A lattice is defined independently in
+the standard library to overcome the redundant idempotent fields. A lattice
+structure that is defined in terms of join and meet semi-lattice is added as a
+biased structure. The Agda standard library defines left, right, and bi
+semi-modules and modules. A similar hierarchical approach as other algebraic
+structures is followed in defining modules. For example, a module is defined
+using bimodules and bi-modules using bi-semimodules. An alternative definition
+of modules is given in "Algebra.Module.Structure.Biased". 
 
 In Idris 2, there is considerable overlap between abstract algebra and category
 theory. Some algebraic structures are provided as an extension of two other
@@ -134,7 +138,7 @@ interface Semigroup t => Monoid t where
 \end{minted}
 
 The algebra structures design hierarchy of the mathcomp library is inspired by
-the Packing mathematical structures. The "ssralg" file defines some of the
+the Packing mathematical structures. The "ssralg.v" file defines some of the
 simple algebraic structures with their type, packers, and canonical properties.
 The hierarchy extends from Zmodule, rings to ring morphisms. The "countalg" file
 extends "ssralg" file to define countable types.
