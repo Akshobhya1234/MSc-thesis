@@ -22,7 +22,7 @@ structures, algorithms, and abstractions. Agda's type system allows for the
 definition of new types and operations that are tailored to the specific needs
 of a particular application or domain. Agda supports inductive types, simple
 types, and parameterized types \cite{10.1007/978-3-642-03359-9_6}. A data type
-in Agda can be declared using the keyword \inline{data}. 
+in Agda can be declared using the keyword \inline{data} or \inline{record}. 
 
 \label{code:Bool}
 \begin{minted}[breaklines,samepage]{Agda}
@@ -57,10 +57,96 @@ is the successor of a natural number. In the above definition, \inline{Nat} is
 an inductive type defined with base constant \inline{zero} and an inductive data
 constructor \inline{suc}. \inline{zero} and \inline{suc} are constructors, where
 \inline{suc} has a parameter of type \inline{Nat} and \inline{zero} has no
-parameters. Another way of defining a type is using the keyword \inline{record}.
-A record type can be defined by referencing other types and creating a synonym.
-An example of record type is discussed later in the chapter when we define
-algebraic structure. 
+parameters. 
+
+Another way of defining a type is using the keyword \inline{record}. A record
+type can be defined by referencing other types and creating a synonym. 
+
+\begin{minted}[breaklines,samepage]{Agda}
+  record Person : Set where
+  field
+    name : String
+    age : Nat
+\end{minted}
+
+In the example code, there are four things to notice.
+\begin{itemize}
+  \item \inline{Person} is the name of the data type.
+  \item In record type, parameters may be defined after the record's name
+  declaration or may be declared with \inline{field} keyword.
+  \item \inline{field} keyword indicates the start of field declaration.
+  \item \inline{name : String} and \inline{age : Nat} denotes that \inline{name}
+  and \inline{age} are fields of type \inline{String} and \inline{A}
+  respectively.
+\end{itemize}
+
+You can then create instances of this record type by providing values for the
+fields:
+
+\begin{minted}{Agda}
+alice : Person
+alice = record { name = "Alice" ; age = 25 }
+\end{minted}
+
+We can access the fields of a record using dot notation:
+\begin{minted}{Agda}
+nameOfAlice : String
+nameOfAlice = alice.name
+
+ageOfAlice : Nat
+ageOfAlice = alice.age
+\end{minted}
+
+We can use \inline{constructor} keyword in \inline{record} type declaration to
+define a constructor function for creating instances of the record type. This is
+particularly useful when you want to encapsulate certain logic or constraints
+while creating instances of the record. For example:
+
+\begin{minted}[breaklines,samepage]{Agda}
+record Person₁ : Set where
+  constructor makePerson
+  field
+    name : String
+    age : Nat
+\end{minted}
+
+We can use the constructor \inline{makePerson} to create instances of the \inline{Person₁}
+record:
+
+\begin{minted}[breaklines,samepage]{Agda}
+alice : Person₁
+alice = makePerson "Alice" 25
+\end{minted}
+
+In Agda, the types of fields within a \inline{record} can depend on the values
+of other fields within the same record. This way we can express the relationship
+or constraints between the components of a record. An example for this is the
+Agda's built-in $\Sigma$-type of dependent pairs.
+
+\begin{minted}[samepage,breaklines]{Agda}
+record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
+  constructor _,_
+  field
+    fst : A
+    snd : B fst
+\end{minted}
+
+The $\Sigma$ type represents pair of values where the type of the second value
+depends on the value of the first. The underscore in the constructor denotes
+where the argument goes. We see more example of this kind when we talk about
+functions later in the chapter. To instantiate this Σ record type, we need to
+provide an element of type \inline{A} and a value of type \inline{B fst}:
+
+\begin{minted}[samepage,breaklines]{Agda}
+alice : Σ String (λ _ → Nat)
+alice = "Alice" , 25
+\end{minted}
+
+\inline{Σ} is a dependent pair type constructor that takes two arguments of type
+\inline{String} and \inline{(λ _ → Nat)}. The underscore in \inline{λ _ → Nat}
+serves as a placeholder indicating that the type of the second component depends
+on the value of the first component. We see more examples of record type when we
+define algebraic structure later in the chapter. 
 
 \subsection{Functions in Agda}
 Those familiar with Haskell will find Agda to be somewhat familiar. For example,
@@ -125,32 +211,36 @@ are parsed. For example,
 
 \section{Type levels in Agda}
 In the above section we say that \inline{Bool} is a type of kind \inline{Set}.
+What we normally call \inline{Type} in programming, Agda calls it \inline{Set}.
 If \inline{Set} is a type of types, is it possible that \inline{Set} is it's own
-type? If we make \inline{Set} a type of itself, then the program becomes
-nonterminating \cite{AgdaTB}. But Agda is total that means all programs must
-terminate. This kind of paradox was introduced by Bertrand Russell and is called
-Russel's paradox.
+type? If we make \inline{Set} a type of itself, then the language becomes
+nonterminating \cite{AgdaTB}. 
 
-The naive set theory defines a set as well-defined collection of objects. The
-paradox \cite{russell2020principles} defines the set of all sets that are not
-the member of themselves. This develops to two kinds of contradiction.
+Bertrand Russell introduces a paradox when defining collection of all sets and
+is called Russell's paradox. The naive set theory defines a set as well-defined
+collection of objects. The paradox \cite{russell2020principles} defines the set
+of all sets that are not the member of themselves. This develops to two kinds of
+contradiction.
 \begin{itemize}
   \item If the set contains itself, then it should not be a member of itself by
   definition
   \item If the set does not contain itself then it is not a member of itself.
 \end{itemize}
 
-To overcome this paradox, Agda introduces a series of universes to create the
-type hierarchy, and each universe represents a level of types. A universe is a
+In Martin-Löf's type theory, when we make a \inline{Set} its own type, it causes
+inconsistency, by Girard's paradox \cite{coquand1986analysis}. To overcome this
+paradox, Agda introduces a series of universes to create the type hierarchy, and
+each universe represents a level of types \cite{sortSystem}. A universe is a
 type whose elements are type \cite{universeagda}. This primitive type is useful
 to define and prove theorems about functions that operate on large set. In Agda,
 not every type belongs to \inline{Set}. Since we cannot have a type \inline{Set
 : Set}, Agda provides a hierarchy of universes \inline{Set}, \inline{Set₁},
-\inline{Set₂} and so on. \inline{Set} is the basic universe level that contains
-non dependent types like \inline{Nat}, \inline{Bool}. \inline{Set₁} contains all
-types from \inline{Set} and allows dependent types likes \inline{List A} where
-\inline{A : Set}. Agda doesn't allow types at a given level to depend on types
-from higher universes.  
+\inline{Set₂} and so on. \inline{Set} stands for \inline{Set₀} and it is the
+base universe. From the definition of \inline{Bool} in section \ref{types},
+\inline{false} and \inline{true} is of type \inline{Bool}, the type of
+\inline{Bool} is \inline{Set}, \inline{Set} is of type \inline{Set₁}, and so on.
+Agda doesn't allow types at a given level to depend on types from higher
+universes.  
 
 We have seen that in Agda, not every type belongs to \inline{Set}. Every
 type belongs somewhere in the hierarchy \inline{Set₀}, \inline{Set₁},
@@ -166,9 +256,11 @@ equality generalized to an arbitrary level.
 \label{equality}
 In Chapter 2, when defining theory, we say that equation is of the form $t_1 =
 t_2$ where $t_1$ and $t_2$ are term expressions and $=$ represents equality
-relation. In dependent type theory, equality is a complex concept. Equality
-says that two things are "equal". But asking "when two things are equal" is non
-trivial. In \cite{musa}, a hierarchy of "sameness" is given.
+relation. In dependent type theory, equality is a complex concept. Equality says
+that two things are "equal". But asking "when two things are equal" is non
+trivial. In this section we discuss a hierarchy of "sameness" from
+\cite{bocquet2020coherence} and \cite{eremondi2022propositional}.
+
 \subsection{Syntactic equality}
 For some symbol $t_1 \text{and} t_2$, $t_1 = t_2$ if $t_1 and t_2$ are literally
 the same symbols. This is called synctatic equality.
@@ -201,12 +293,33 @@ clause to three equations which holds definitionally:
   \item[] \inline{false ^ false = false}
 \end{description}
 
+Some fundamental rules that Agda follows for definitional equality are:
+\begin{itemize}
+  \item \emph{Beta reduction} - We apply a lambda abstraction to an argument by
+  substituting the argument into the body of the function. In Agda, we can
+  replace the formal parameter of a lambda abstraction with an actual argument.
+  This leads to the simplification of the expression.
+  \item \emph{Congruence Rules} - If two expressions are equal, and you perform
+  an operation on both expressions, and the results should also be equal. In
+  Agda, if two expressions are defenitionally equal, we can replace the
+  sub-expressions with equal expressions that will result in equal expressions.
+  \item \emph{eta-expansion} - For record definition \inline{Person} given in
+  section \ref{types}, every \inline{ x : Person} is definitionally equal to
+  \inline{record {name = Person.name x ; age = Person.age x}}. It is based on
+  the principle that two functions are equal if they produce equal results for
+  all possible arguments. 
+\end{itemize}
+
+We limit the scope of definitional equality here. Some references to find more
+information about definitional equality are \cite{norell2007towards} and
+\cite{martin1984intuitionistic}. 
+
 \subsection{Propositional equality}
 When we write a proof to say that two programs are equal, this proof may not be
 a definitional equality. Instead this proof itself can be a program that
 expresses that two things are equal. In a universe polymorphic type system like
-Agda, types are classified into various levels denoted as $Set₀$, $Set₁$,
-$Set₂$, and so on. The definition of propositional equality in Agda standard
+Agda, types are classified into various levels denoted as \inline{Set₀}, \inline{Set₁},
+\inline{Set₂}, and so on. The definition of propositional equality in Agda standard
 library is universe polymorphic. That is a generic definition of propositional
 equality is given using universes that can be used in different levels.
 
@@ -219,8 +332,7 @@ In Agda, propositional equality $(\_ \equiv\_ )$ is defined for a type $A$ and
 an element $x \in A$ with a constructor \inline{refl} that provides evidence
 that $x \equiv x$. Therefore every value is equal to itself and there is no
 alternative way to show values are equal. From this definition of equality, we
-can prove that it is an equivalence relation\footnote{An equivalence relation is
-a relation that is reflexive, symmetric, and transitive}.
+can prove that it is an equivalence relation.
 
 \begin{minted}[breaklines,samepage]{Agda}
 sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
@@ -239,7 +351,86 @@ subst : ∀ {A : Set} {x y : A} (P : A → Set) → x ≡ y → P x → P y
 subst P refl px = px
 \end{minted}
 
+\subsection{Equivalence}
+
+In Agda's standard library, equivalence (\inline{_≈_}) is often preferred over
+propositional equality (\inline{_≡_}) when defining algebraic structures
+\cite{musa}. In Agda, equivalence is defined as a record type with three fields
+to say that the relation is reflexive, symmetric and transitive:
+
+\begin{minted}[breaklines,samepage]{Agda}
+record IsEquivalence : Set (a ⊔ ℓ) where
+  field
+    refl  : Reflexive _≈_
+    sym   : Symmetric _≈_
+    trans : Transitive _≈_
+\end{minted}
+
+In the above code, \inline{IsEquivalence} is defined over for carrier \inline{A
+: Set a} and binary relation \inline{_≈_ : REL A ℓ} that are parameters to the
+module 'Relation.Binary.Core'. We see why modules are parameterised with carrier
+set and equality relation later in the chapter when definig algebraic
+structures. The field \inline{refl} is of type \inline{Reflexive  _≈_} and is
+defined as:
+
+\begin{minted}[breaklines,samepage]{Agda}
+Reflexive : Rel A ℓ → Set _
+Reflexive _∼_ = ∀ {x} → x ∼ x
+\end{minted}
+
+Where \inline{_∼_} is a relation of type {Rel A ℓ} that says for all element
+\inline{x}, the elements are related to itself \inline{x ∼ x}.
+
+Symmetric relation is defined over a generalised symmetry that flip the order of arguments.
+
+\begin{minted}[samepage,breaklines]{Agda}
+Sym : REL A B ℓ₁ → REL B A ℓ₂ → Set _
+Sym P Q = P ⇒ flip Q
+\end{minted}
+The first line declares a module \inline{Sym} that takes two arguments:
+\inline{P} of type \inline{REL A B ℓ₁} and \inline{Q} of type \inline{REL B A
+ℓ₂}. Where \inline{A} and \inline{B} are carrier set over arbitrary universe
+level \inline{a} and \inline{b} respectively. The module result type \inline{Set
+_}, where the underscore represents a universe level that will be inferred.
+\inline{flip} is a function to flip the order of the arguments.
+
+\begin{minted}[samepage,breaklines]{Agda}
+Symmetric : Rel A ℓ → Set _
+Symmetric _∼_ = Sym _∼_ _∼_
+\end{minted}
+
+\inline{Symmetric} uses the previously defined \inline{Sym} that states that a
+relation \inline{_∼_} is symmetric if it satisfies the conditions of symmetry as
+defined in the \inline{Sym}.
+
+Similar to symmetric relation, transitivity is defined over generalised transitive relation as:
+
+\begin{minted}[samepage,breaklines]{Agda}
+Trans : REL A B ℓ₁ → REL B C ℓ₂ → REL A C ℓ₃ → Set _
+Trans P Q R = ∀ {i j k} → P i j → Q j k → R i k
+
+Transitive : Rel A ℓ → Set _
+Transitive _∼_ = Trans _∼_ _∼_ _∼_
+\end{minted}
+
 \section{Structure definition}
+A design decision was made in Agda standard library to define algebraic
+structures as record type. The category theory library \cite{hu2021formalizing}
+also follows the same design pattern to use record types. There are several
+advantages with using record type:
+\begin{itemize}
+  \item Record types provide a convenient and flexible way to bundle
+  together data and operations that satisfy certain algebraic properties. 
+  \item Algebraic structures may have dependent relationships between their
+  components. For example, the type of an identity element depends on the type
+  of elements in the set. Record types support dependent types,
+  allowing you to express these relationships accurately.
+  \item Records behave as modules. This allows us to export symbols in record
+  type and bring them to scope. We may also need to make sure doing so does not
+  create ambiguouity.
+  \item Record types have good IDE support(via Emacs)
+\end{itemize}
+
 Let us now try to define \inline{IsMonoid}, an algebraic structure in Agda.
 Monoid is an algebraic structure with a binary operation that satisfies
 associativity and has an identity element. In Agda we can define a structure as
@@ -248,7 +439,7 @@ parameters immediately after the record's name declaration or may be declared
 with \inline{field} keyword.
 
 \begin{minted}[samepage,breaklines]{Agda}
-record IsMonoid (A : Set) : Set₁ where
+record IsMonoid (A : Set) : Set where
   field
     e : A           
     op : A → A → A  
@@ -264,7 +455,7 @@ the binary operation. We also give the laws of monoid as its field. Another way
 to define a monoid structure is to parameterize the binary operation and the identity element.
 
 \begin{minted}[samepage,breaklines]{Agda}
-record IsMonoid {A : Set} (_∙_ : A → A → A) (ε : A) : Set where
+record IsMonoid₀ {A : Set} (_∙_ : A → A → A) (ε : A) : Set where
   field
     assoc : ∀ {x y z} → op x (op y z) ≡ op (op x y) z
     leftId : ∀ {x} → op e x ≡ x
@@ -278,7 +469,7 @@ encapsulated and self-contained representation of the algebraic structure, while
 having them after the record name allows more flexibility in choosing the
 carrier set and operation when creating instances of the record. 
 
-From the above definition of \inline{IsMonoid}, when we try to define
+From the above definition of \inline{IsMonoid₀}, when we try to define
 \inline{IsGroup}\footnote{Group is an algebraic structure that is a monoid with
 inverse operation.}, we see that both monoid and group have things in common.
 They both have a carrier set (\inline{A}), a binary operation (\inline{op}), and
@@ -299,10 +490,10 @@ are equal. When defining \inline{IsMonoid}, we use Agda's propositional equality
 (\inline{_≡_}) to compare the terms. However in practice, this definition of
 propositional equality is too strong and one prefers to use a finer equivalence
 relation \cite{musa}. Equivalence is useful when we want to capture "sameness"
-in a more flexible way, such as when dealing with quotient types. Agda standard
-library give a binary relation as an argument to the module and equivalence
-relation (\inline{isEquivalence}) as a field to the \inline{IsMagma} (defined
-later in the chapter) structure from which other structures are extended.
+in a more flexible way. Agda standard library give a binary relation as an
+argument to the module and equivalence relation (\inline{isEquivalence}) as a
+field to the \inline{IsMagma} (defined later in the chapter) structure from
+which other structures are extended.
  
 \begin{minted}[breaklines,samepage]{Agda}
   module Algebra.Structures
@@ -315,6 +506,23 @@ In the above code, we see that Agda standard library allows to define things in
 some arbitrary level. \inline{A} is a \inline{Set} in some level \inline{a} and
 \inline{_≈_} is a homogeneous binary relation \inline{Rel} on universe \inline{A
 ℓ}.
+
+Now we can define a magma structure in Agda with equivalence as:
+
+\begin{minted}[samepage,breaklines]{Agda}
+record IsMagma₀ {A : Set} (_∙_ : A → A → A) (ε : A) : Set where
+  field
+    isEquivalence : IsEquivalence _≈_
+\end{minted}
+
+Although the equivalence allow us to compate the terms, it becomes restrictive
+to play with equal terms. In this case, we can use congruence  that says that if
+two elements are equivalent, then applying certain operations to them should
+yield equivalent results. For example, let \inline{≈} be an equivalence relation
+on a set $A$, and let $f$ be an operation operation. The operation $f$ is said
+to be congruent with respect to ≈ if for all $x, y, z$ in $A$, if $x ≈ y$, then
+$f x = f y$. Therefore when defining a structure we give congruence with the
+operation.
 
 Let us understand how algebraic structure is defined in Agda standard library.
 An algebraic structure is defined in Agda standard library as a record type
@@ -357,7 +565,8 @@ input and return types as output.
   Op₂ A = A → A → A
 \end{minted}
 
-The subscript 2 represents that it is a binary operation. Similarly, the standard library defines \inline{Op₁}:
+The subscript 2 represents that it is a binary operation. Similarly, the
+standard library defines \inline{Op₁}:
 
 \begin{minted}[breaklines,samepage]{Agda}
   Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
@@ -370,9 +579,28 @@ versions, in practice there may be certain presentations that are useful. Paper
 a library, it is not practical to provide all ways of parameterised structures.
 Agda standard library provides a bundeled version of the structures. The bundled
 version of the structures contains the operations of the structures, sets and
-axioms. The structures are imported from "Algebra.Structures" so we can
-parameterize the definitions with equality that is used to compare the terms of
-the structure.
+axioms. Agda standard library defines the raw representation of a theory that is
+the definition of its signature. \inline{RawMagma} in Agda standard library is defined as:
+
+\begin{minted}[samepage,breaklines]{Agda}
+record RawMagma c ℓ : Set (suc (c ⊔ ℓ)) where
+  infixl 7 _∙_
+  infix  4 _≈_
+  field
+    Carrier : Set c
+    _≈_     : Rel Carrier ℓ
+    _∙_     : Op₂ Carrier
+
+  infix 4 _≉_
+  _≉_ : Rel Carrier _
+  x ≉ y = ¬ (x ≈ y)
+\end{minted}
+
+\inline{_≉_} is the inequality relation that states that two elements are not
+equal \inline{ x ≉ y} if they are not equal under the equivalence relation.
+Bundled version structures are defined by importing structures from
+'Algebra.Structures' so we can parameterize the definitions with equality that
+is used to compare the terms of the structure.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record Magma c ℓ : Set (suc (c ⊔ ℓ)) where
@@ -534,14 +762,25 @@ Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 \end{minted}
 
 \section{Direct Product in Agda}
-For two algebra $A$ and $B$ of the same theory with set $S_A$ and $S_B$
-respectively, the product of algebra is defined with carrier set $(S_A \times
-S_B)$ and for each operation $f$ in the theory is defined as:
+In Chapter 2, we define direct product of algebra. The standard library defines
+objects that are binary products of appropriate algebras, that in some cases
+behave as biproducts. However, this concept doesn't extend naturally to I-ary
+products. For the scope of the thesis we only talk about binary product. 
+
+The product of algebraic structures takes a more structured approach. It
+involves creating a new structure where the operations are carefully defined to
+combine the operations of the individual structures in a certain way such that
+they respect the individual structures' properties. For two algebra $A$ and $B$
+of the same theory with set $S_A$ and $S_B$ respectively, the product of algebra
+is defined with carrier set $(S_A \times S_B)$ and for each operation $f$ in the
+theory is defined as:
 \[f\ (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
 x_{1_B},x_{n_B} )\] where $x_{1_A},...,x_{n_B}$ are elements in $S_A$ and
-$x_{1_B},...,x_{n_B}$ are elements in $S_B$. The direct products of structures
-are defined in \inline{Algebra.Construct.DirectProducts} in Agda standard
-library. The direct product of magma structure is defined as:
+$x_{1_B},...,x_{n_B}$ are elements in $S_B$. 
+
+The direct products of structures are defined in
+\inline{Algebra.Construct.DirectProducts} in Agda standard library. The direct
+product of magma structure is defined as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 magma : Magma a ℓ₁ → Magma b ℓ₂ → Magma (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -566,7 +805,10 @@ and \inline{N}.
 \section{Equational Proofs in Agda}
 A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types
-that need to be verified by the compiler. \cite{kidney2020finiteness}.  
+that need to be verified by the compiler. \cite{kidney2020finiteness}.  A
+constructive equational proof in Agda refers to the process of proving a logical
+proposition using equational reasoning within Agda's type system
+\cite{murray2022constructive}. 
 
 In the section \ref{types}, we have seen how to define natural number and addition
 function on it. Now, we will write an inductive proof using pattern matching
@@ -579,31 +821,47 @@ comm zero (suc n) = cong suc (comm zero n)
 comm (suc m) n = cong suc (comm m n)
 \end{minted}
 
-In the above example, the proof \inline{comm zero zero} represents commutative
+In the above example, we see three cases:
+\begin{itemize}
+  \item Case 1: When \inline{m = n = zero}, Then \inline{zero + zero = zero}
+holds by reflexivity. The proof \inline{comm zero zero} represents commutative
 property where both \inline{m} and \inline{n} are \inline{zero}. The
 \inline{refl} function is used to prove that two expressions are equal using the
-reflexivity of equality. \inline{comm zero suc n} and \inline{suc m + n} are
-reduced recursively until the base case is reached. The \inline{cong} function
-is used to apply the inductive hypothesis to the successive \inline{suc}
-constructors. This is just a simple example of proof, but Agda allows us to
-express and verify more complex properties, such as type soundness, termination,
-and correctness of algorithms.
-
-In algebraic structure, consider the example to the proposition of the
-associative property x ∙ (y ∙ z) = (x ∙ y) ∙ z  for a semigroup i.e., a Magma
-with associative property (x ∙ (y ∙ z) = (x ∙ y) ∙ z). The proof can be written
-in Agda as:
+reflexivity of equality.
+\item Case 2: \inline{comm zero zero}, in this case, \inline{m} is \inline{zero}
+and \inline{n} is a successor of some natural number. The proof proceeds
+recursively using induction on \inline{n}. The recursive assumption is that
+\inline{comm zero n} is already proved. That is \inline{zero + n = n + zero}.
+Using this assumption, we can conclude that \inline{zero + suc n} is equal to
+\inline{suc n + zero}, by incrementing both sides of the equation with
+\inline{suc}.
+\item Case 3: \inline{comm (suc m) n}, In this case, \inline{m} is a successor
+of some natural number, and \inline{n} can be any natural number. The proof uses
+induction on \inline{m}. The inductive step relies on the assumption that
+\inline{comm m n} is true. The proof applies the successor function suc to both
+sides of the equation, to show that \inline{suc m + n} is equal to \inline{n +
+suc m}.
+\end{itemize}
+In algebraic structure, consider the example to the proposition of that $x ∙ (y
+∙ z) = y ∙ (x ∙ z)$  for a commutative semigroup i.e., a Magma with
+associativity $(x ∙ (y ∙ z) = (x ∙ y) ∙ z)$ and commutativity $(x ∙ y) = (y ∙
+x)$. The proof can be written in Agda as:
 
 \begin{minted}[breaklines,samepage]{Agda}
-x∙yz≈xy∙z : ∀ x y z → x ∙ (y ∙ z) ≈ (x ∙ y) ∙ z
-x∙yz≈xy∙z x y z = begin 
-  x ∙ (y ∙ z) ≈⟨ sym (assoc x y z) ⟩ 
-  (x ∙ y) ∙ z ∎
+x∙yz≈y∙xz :  ∀ x y z → x ∙ (y ∙ z) ≈ y ∙ (x ∙ z)
+x∙yz≈y∙xz x y z = begin
+  x ∙ (y ∙ z)    ≈⟨ sym (assoc x y z) ⟩
+  (x ∙ y) ∙ z    ≈⟨ ∙-congʳ (comm x y) ⟩
+  (y ∙ x) ∙ z    ≈⟨ assoc y x z ⟩
+  y ∙ (x ∙ z)    ∎
 \end{minted}
 
 To make proofs more readable, people have tried to emulate textual proofs, for
-example, by creating "begin" and "end" syntax. \inline{begin} indicates the start
-of the proof. \inline{begin} is a function that relates two objects.
+example, by creating "begin" and "end" syntax. \inline{begin} indicates the
+start of the proof. \inline{begin_} is a function that takes two type arguments
+\inline{x} and \inline{y}, and an argument of type x IsRelatedTo y. It returns a
+proof that \inline{x} is equivalent \inline{(∼)} to \inline{y}. The function
+simply uses pattern matching to extract the proof \inline{x∼y} and returns it.
 
 \begin{minted}{Agda}
 begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
@@ -618,20 +876,28 @@ step-∼ : ∀ x {y z} → y IsRelatedTo z → x ∼ y → x IsRelatedTo z
 step-∼ _ (relTo y∼z) x∼y = relTo (trans x∼y y∼z)
 \end{minted}
 
-similarly, step using equality is given as
+The \inline{step-∼} function provide a way to extend an equational proof using
+the relation \inline{IsRelatedTo} while maintaining the equality \inline{(∼)}.
+It takes an initial proof that \inline{x ∼ y}, a proof \inline{relTo y∼z} of
+\inline{y IsRelatedTo z}, and produces a proof of \inline{x IsRelatedTo z}. The
+\inline{trans} is the transitivity used to combine two proofs of relatedness.
+
+The \inline{step-≈} gives convenient syntax for invoking the \inline{step-∼}.
+step using equality is given as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 step-≈ = Base.step-∼
 syntax step-≈ x y≈z x≈y = x ≈⟨ x≈y ⟩ y≈z
 \end{minted}
 
-The termination (i.e., QED) of the proof is given using \inline{_∎} that relates object to itself.
+It provides a syntax shortcut for using the \inline{≈⟨ ⟩} notation, which allows
+you to chain relatedness proofs using equational reasoning.
+
+The termination (i.e., QED) of the proof is given using \inline{_∎} that relates
+object to itself.
 
 \begin{minted}[breaklines,samepage]{Agda}
 _∎ : ∀ x → x IsRelatedTo x
 x ∎ = relTo refl
 \end{minted}
-
-Agda supports quantifiers. Universal quantifier is denoted as \(\forall\) and
-existential quantifier is denoted as \(\exists\).
 
