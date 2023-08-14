@@ -59,11 +59,11 @@ constructor \inline{suc}. \inline{zero} and \inline{suc} are constructors, where
 \inline{suc} has a parameter of type \inline{Nat} and \inline{zero} has no
 parameters. 
 
-Another way of defining a type is using the keyword \inline{record}. A record
-type can be defined by referencing other types and creating a synonym. 
+A record type in Agda is defined by using the keyword \inline{record}. For
+example:
 
 \begin{minted}[breaklines,samepage]{Agda}
-  record Person : Set where
+record Person : Set where
   field
     name : String
     age : Nat
@@ -76,7 +76,7 @@ In the example code, there are four things to notice.
   declaration or may be declared with \inline{field} keyword.
   \item \inline{field} keyword indicates the start of field declaration.
   \item \inline{name : String} and \inline{age : Nat} denotes that \inline{name}
-  and \inline{age} are fields of type \inline{String} and \inline{A}
+  and \inline{age} are fields of type \inline{String} and \inline{Nat}
   respectively.
 \end{itemize}
 
@@ -145,8 +145,10 @@ alice = "Alice" , 25
 \inline{Σ} is a dependent pair type constructor that takes two arguments of type
 \inline{String} and \inline{(λ _ → Nat)}. The underscore in \inline{λ _ → Nat}
 serves as a placeholder indicating that the type of the second component depends
-on the value of the first component. We see more examples of record type when we
-define algebraic structure later in the chapter. 
+on the value of the first component. The underscore \inline{(_)} placeholder is
+often used in Agda to indicate that you don't need to provide a name for a
+variable when its value isn't explicitly used in the expression. We see more
+examples of record type when we define algebraic structure later in the chapter. 
 
 \subsection{Functions in Agda}
 Those familiar with Haskell will find Agda to be somewhat familiar. For example,
@@ -214,9 +216,9 @@ In the above section we say that \inline{Bool} is a type of kind \inline{Set}.
 What we normally call \inline{Type} in programming, Agda calls it \inline{Set}.
 If \inline{Set} is a type of types, is it possible that \inline{Set} is it's own
 type? If we make \inline{Set} a type of itself, then the language becomes
-nonterminating \cite{AgdaTB}. 
+non-terminating \cite{AgdaTB}. 
 
-Bertrand Russell introduces a paradox when defining collection of all sets and
+Bertrand Russell introduced a paradox when defining collection of all sets and
 is called Russell's paradox. The naive set theory defines a set as well-defined
 collection of objects. The paradox \cite{russell2020principles} defines the set
 of all sets that are not the member of themselves. This develops to two kinds of
@@ -263,17 +265,17 @@ trivial. In this section we discuss a hierarchy of "sameness" from
 
 \subsection{Syntactic equality}
 For some symbol $t_1 \text{and} t_2$, $t_1 = t_2$ if $t_1 and t_2$ are literally
-the same symbols. This is called synctatic equality.
+the same symbols. This is called syntactic equality.
 
 \subsection{Definitional equality}
 Definitional equality says that $t_1 = t_2$ when solving one symbol by applying
-some definitions leads to synctatic equality. Two programs are equal if they
+some definitions leads to syntactic equality. Two programs are equal if they
 compute to the same value. For example, $(\lambda x \rightarrow x + y) 5$ and $5
 + y$ are the same. $5 + y$ is obtained when we compute the value of the
 expression $ (\lambda x \rightarrow x + y) 5$.
 
 When we write a function in Agda, we add defining equations to Agda's
-definitional equality. For example, let us write a logical AND funciton
+definitional equality. For example, let us write a logical AND function
 (\inline{_^_}) in Agda:
 
 \begin{minted}[samepage,breaklines]{Agda}
@@ -324,35 +326,32 @@ library is universe polymorphic. That is a generic definition of propositional
 equality is given using universes that can be used in different levels.
 
 \begin{minted}[samepage,breaklines]{Agda}
-data _≡_ {A : Set} (x : A) : A → Set where
-  refl : x ≡ x
+data _≡_ {a} {A : Set a} (x : A) : A → Set a where
+  instance refl : x ≡ x
 \end{minted}
 
-In Agda, propositional equality $(\_ \equiv\_ )$ is defined for a type $A$ and
-an element $x \in A$ with a constructor \inline{refl} that provides evidence
-that $x \equiv x$. Therefore every value is equal to itself and there is no
-alternative way to show values are equal. From this definition of equality, we
-can prove that it is an equivalence relation.
+In the above definition, \inline{{a}} is an implicit parameter representing the
+universe level of the set. In Agda, propositional equality $(\_ \equiv\_ )$ is
+defined for any type $A$ and any element \inline{x} of type \inline{A}, the
+identifier \inline{refl} provides evidence that \inline{ x ≡ x}. Therefore every
+value is equal to itself and there is no alternative way to show values are
+equal. From this definition of equality, we can prove that it is an equivalence
+relation.
 
 \begin{minted}[breaklines,samepage]{Agda}
-sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+sym : Symmetric {A = A} _≡_
 sym refl = refl
 \end{minted}
 
 \begin{minted}[samepage,breaklines]{Agda}
-trans : ∀ {A : Set} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
-trans refl refl  =  refl
+trans : Transitive {A = A} _≡_
+trans refl eq = eq
 \end{minted}
 
-We can also show that equality also holds substitution introduced in Chapter 2.
-
-\begin{minted}[samepage,breaklines]{Agda}
-subst : ∀ {A : Set} {x y : A} (P : A → Set) → x ≡ y → P x → P y
-subst P refl px = px
-\end{minted}
+We see how \inline{Symmetric} and \inline{Transitive} are defined in subsection
+discussing equivalence.
 
 \subsection{Equivalence}
-
 In Agda's standard library, equivalence (\inline{_≈_}) is often preferred over
 propositional equality (\inline{_≡_}) when defining algebraic structures
 \cite{musa}. In Agda, equivalence is defined as a record type with three fields
@@ -368,8 +367,8 @@ record IsEquivalence : Set (a ⊔ ℓ) where
 
 In the above code, \inline{IsEquivalence} is defined over for carrier \inline{A
 : Set a} and binary relation \inline{_≈_ : REL A ℓ} that are parameters to the
-module 'Relation.Binary.Core'. We see why modules are parameterised with carrier
-set and equality relation later in the chapter when definig algebraic
+module 'Relation.Binary.Core'. We see why modules are parameterized with carrier
+set and equality relation later in the chapter when defining algebraic
 structures. The field \inline{refl} is of type \inline{Reflexive  _≈_} and is
 defined as:
 
@@ -381,7 +380,7 @@ Reflexive _∼_ = ∀ {x} → x ∼ x
 Where \inline{_∼_} is a relation of type {Rel A ℓ} that says for all element
 \inline{x}, the elements are related to itself \inline{x ∼ x}.
 
-Symmetric relation is defined over a generalised symmetry that flip the order of arguments.
+Symmetric relation is defined over a generalized symmetry that flip the order of arguments.
 
 \begin{minted}[samepage,breaklines]{Agda}
 Sym : REL A B ℓ₁ → REL B A ℓ₂ → Set _
@@ -390,9 +389,9 @@ Sym P Q = P ⇒ flip Q
 The first line declares a module \inline{Sym} that takes two arguments:
 \inline{P} of type \inline{REL A B ℓ₁} and \inline{Q} of type \inline{REL B A
 ℓ₂}. Where \inline{A} and \inline{B} are carrier set over arbitrary universe
-level \inline{a} and \inline{b} respectively. The module result type \inline{Set
-_}, where the underscore represents a universe level that will be inferred.
-\inline{flip} is a function to flip the order of the arguments.
+level. The module result type \inline{Set _}, where the underscore represents a
+universe level that will be inferred. \inline{flip} is a function to flip the
+order of the arguments.
 
 \begin{minted}[samepage,breaklines]{Agda}
 Symmetric : Rel A ℓ → Set _
@@ -403,7 +402,7 @@ Symmetric _∼_ = Sym _∼_ _∼_
 relation \inline{_∼_} is symmetric if it satisfies the conditions of symmetry as
 defined in the \inline{Sym}.
 
-Similar to symmetric relation, transitivity is defined over generalised transitive relation as:
+Similar to symmetric relation, transitivity is defined over generalized transitive relation as:
 
 \begin{minted}[samepage,breaklines]{Agda}
 Trans : REL A B ℓ₁ → REL B C ℓ₂ → REL A C ℓ₃ → Set _
@@ -427,7 +426,7 @@ advantages with using record type:
   allowing you to express these relationships accurately.
   \item Records behave as modules. This allows us to export symbols in record
   type and bring them to scope. We may also need to make sure doing so does not
-  create ambiguouity.
+  create ambiguity.
   \item Record types have good IDE support(via Emacs)
 \end{itemize}
 
@@ -490,7 +489,7 @@ are equal. When defining \inline{IsMonoid}, we use Agda's propositional equality
 (\inline{_≡_}) to compare the terms. However in practice, this definition of
 propositional equality is too strong and one prefers to use a finer equivalence
 relation \cite{musa}. Equivalence is useful when we want to capture "sameness"
-in a more flexible way. Agda standard library give a binary relation as an
+in a more flexible way. Agda standard library gives a binary relation as an
 argument to the module and equivalence relation (\inline{isEquivalence}) as a
 field to the \inline{IsMagma} (defined later in the chapter) structure from
 which other structures are extended.
@@ -515,14 +514,14 @@ record IsMagma₀ {A : Set} (_∙_ : A → A → A) (ε : A) : Set where
     isEquivalence : IsEquivalence _≈_
 \end{minted}
 
-Although the equivalence allow us to compate the terms, it becomes restrictive
+Although the equivalence allow us to compare the terms, it becomes restrictive
 to play with equal terms. In this case, we can use congruence  that says that if
 two elements are equivalent, then applying certain operations to them should
 yield equivalent results. For example, let \inline{≈} be an equivalence relation
-on a set $A$, and let $f$ be an operation operation. The operation $f$ is said
-to be congruent with respect to ≈ if for all $x, y, z$ in $A$, if $x ≈ y$, then
-$f x = f y$. Therefore when defining a structure we give congruence with the
-operation.
+on a set $S$ and operation $f : S × S → S$. The operation $f$ is said to be
+congruent with respect to the equivalence if, for all $a, b, c, d \in S$, $a ≈
+b$ and $c ≈ d$, then $f(a, c) ≈ f(b, d)$. Therefore when defining a structure we
+give congruence with the operation.
 
 Let us understand how algebraic structure is defined in Agda standard library.
 An algebraic structure is defined in Agda standard library as a record type
@@ -573,11 +572,11 @@ standard library defines \inline{Op₁}:
   Op₁ A = A → A
 \end{minted}
 
-Although parameterised structures are same as the unparameterised (unbundled)
+Although parameterized structures are same as the unparameterized (unbundled)
 versions, in practice there may be certain presentations that are useful. Paper
 \cite{al2019language} discuss ways to unbundle structure at will. When building
-a library, it is not practical to provide all ways of parameterised structures.
-Agda standard library provides a bundeled version of the structures. The bundled
+a library, it is not practical to provide all ways of parameterized structures.
+Agda standard library provides a bundled version of the structures. The bundled
 version of the structures contains the operations of the structures, sets and
 axioms. Agda standard library defines the raw representation of a theory that is
 the definition of its signature. \inline{RawMagma} in Agda standard library is defined as:
@@ -763,9 +762,15 @@ Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 
 \section{Direct Product in Agda}
 In Chapter 2, we define direct product of algebra. The standard library defines
-objects that are binary products of appropriate algebras, that in some cases
-behave as biproducts. However, this concept doesn't extend naturally to I-ary
-products. For the scope of the thesis we only talk about binary product. 
+objects that are biproducts of appropriate algebras. In the context of algebraic
+structures, a biproduct is defined in such a way that it encompasses the
+properties of both a direct product and a direct sum. In many cases, the
+biproduct coincides with the direct product when certain conditions are met.
+However, biproducts and direct products may have distinct properties and
+behaviors for many algebraic structures. For the scope of the thesis we do not
+make consider this distinction. There is currently an
+\MYhref{https://github.com/agda/agda-stdlib/issues/1907}{issue} in standard
+library to address this problem. 
 
 The product of algebraic structures takes a more structured approach. It
 involves creating a new structure where the operations are carefully defined to
