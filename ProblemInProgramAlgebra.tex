@@ -20,10 +20,10 @@ it is not clearly stated. In abstract algebra and algebraic structure these
 scenarios can be more common and this can be attributed to lack of naming
 convention that is followed in naming algebraic structures and it's properties.
 For example, consider algebraic structures ring and rng. Some mathematicians
-define ring as an algebraic structure that is an abelian group under addition
+define ring as an algebraic structure that is an Abelian group under addition
 and a monoid under multiplication. This definition is also named explicitly as
 ring with unit or ring with identity. Rng is defined as an algebraic structure
-that is an abelian group under addition and a semigroup under multiplication.
+that is an Abelian group under addition and a semigroup under multiplication.
 The same structure is also defined as ring without identity. However, these
 definitions are often interchanged i.e., some mathematicians define ring as ring
 without identity that is multiplication has no identity or is a semigroup. This
@@ -34,7 +34,7 @@ to imply the definition of intent when they are not explicitly defined.
 
 In Agda, a ring structure is defined as an algebraic structure with two binary
 operations $+$ and $*$, one unary operator $^{-1}$, and two elements $0$ and $1$
-on setoid $A$. $(A,+,^{-1},0)$ is an abelian group and $(A,*,1)$ is a monoid.
+on setoid $A$. $(A,+,^{-1},0)$ is an Abelian group and $(A,*,1)$ is a monoid.
 The binary operation $*$ distributes over $+$, that is multiplication
 distributes over addition, and it has annihilating zero.
 
@@ -50,7 +50,7 @@ field
 
 open IsAbelianGroup +-isAbelianGroup public
 \end{minted} 
-\inline{Rng} is defined as ringWihthoutOne that is a ring structure without
+\inline{Rng} is defined as \inline{ringWihthoutOne} that is a ring structure without
 multiplicative identity.
 
 \begin{minted}[breaklines,samepage]{Agda}
