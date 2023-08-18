@@ -509,7 +509,7 @@ some arbitrary level. \inline{A} is a \inline{Set} in some level \inline{a} and
 Now we can define a magma structure in Agda with equivalence as:
 
 \begin{minted}[samepage,breaklines]{Agda}
-record IsMagma₀ {A : Set} (_∙_ : A → A → A) (ε : A) : Set where
+record IsMagma₀ {A : Set} (_∙_ : A → A → A) : Set where
   field
     isEquivalence : IsEquivalence _≈_
 \end{minted}
@@ -810,7 +810,7 @@ and \inline{N}.
 \section{Equational Proofs in Agda}
 A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types
-that need to be verified by the compiler. \cite{kidney2020finiteness}.  A
+that need to be verified by the compiler \cite{kidney2020finiteness}. A
 constructive equational proof in Agda refers to the process of proving a logical
 proposition using equational reasoning within Agda's type system
 \cite{murray2022constructive}. 
@@ -828,12 +828,12 @@ comm (suc m) n = cong suc (comm m n)
 
 In the above example, we see three cases:
 \begin{itemize}
-  \item Case 1: When \inline{m = n = zero}, Then \inline{zero + zero = zero}
-holds by reflexivity. The proof \inline{comm zero zero} represents commutative
-property where both \inline{m} and \inline{n} are \inline{zero}. The
-\inline{refl} function is used to prove that two expressions are equal using the
-reflexivity of equality.
-\item Case 2: \inline{comm zero zero}, in this case, \inline{m} is \inline{zero}
+  \item Case 1: When \inline{comm zero zero}, that is $m = n = 0$. Then
+\inline{zero + zero = zero} holds by reflexivity. The proof \inline{comm zero
+zero} represents commutative property where both \inline{m} and \inline{n} are
+\inline{zero}. The \inline{refl} function is used to prove that two expressions
+are equal using the reflexivity of equality.
+\item Case 2: \inline{comm zero (suc n)}, in this case, \inline{m} is \inline{zero}
 and \inline{n} is a successor of some natural number. The proof proceeds
 recursively using induction on \inline{n}. The recursive assumption is that
 \inline{comm zero n} is already proved. That is \inline{zero + n = n + zero}.
