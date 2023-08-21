@@ -72,7 +72,7 @@ semigroup. The same confusion also arises in defining semiring and rig
 structures. \cite{enwiki:1133737666} states that the term rig originated as a
 joke that it is similar to rng that is missing the alphabet n and i to represent
 the identity does not exist for these structures. In Agda, the algebraic
-structure rig is defined as \inline{SemiringWithoutOne} where one is represents the
+structure rig is defined as \inline{SemiringWithoutOne} where one represents the
 multiplicative identity.
 
 For axioms of structures, the names are usually invented when defining the
@@ -99,12 +99,10 @@ property. Quasigroup of type (2,2,2) is a structure with three binary
 operations, a magma with division operation. Latin square property states that
 for each a, b in set Q there exists unique elements x, y in Q such that the
 following property is satisfied:
-\begin{center}
 \[a ∙ x = b\]
 \[y ∙ a = b\]
-\end{center}
 Another definition of quasigroup is given as type a (2,2,2) algebra in which for a
-set Q and binary operations ∙, \textbackslash{}, / quasigroup should satisfy
+set Q and binary operations $∙, \backslash, /$. Quasigroup should satisfy
 the below identities that implies left division and right division. 
 \[y = x ∙ (x \backslash y)\]
 \[y = x \backslash (x ∙ y)\]
@@ -137,8 +135,8 @@ overload names for structures also affects when defining types of quasigroup or
 loops such as bol loop and moufang loop.
 
 Since quasigroup is defined in terms of division operation, loop is also defined
-as a type (2,2,2) algebra in Agda. The definition of loop structure in Agda is
-as follows:
+as a type (2,2,2) algebra in Agda standard library. The definition of loop
+structure in Agda is as follows:
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsLoop (∙ \\ // : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
