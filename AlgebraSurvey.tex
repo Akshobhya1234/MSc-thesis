@@ -80,27 +80,35 @@ systems. Section 3 covers the morphism definitions. The properties and solvers
 are discussed in section 4. 
 
 \section{Algebraic Structures}
-The Agda standard library provides definitions with bundled versions of several
-algebraic structures. For example, a semigroup is derived from magma and a
-monoid from semigroup.
+In this section, we see characterization of monoid structure in different
+libraries. A monoid is a mathematical structure consisting of a set, an
+associative binary operation, and an identity element for that operation. In
+Agda standard library, algebraic structures are defined over setoid.
 
 \begin{minted}[breaklines,samepage]{Agda}
-record IsMagma (∙ : Op₂ A) : Set (a ⊔ ℓ) where
-field
-  isEquivalence : IsEquivalence _≈_
-  ∙-cong        : Congruent₂ ∙
+record IsMonoid (∙ : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
+  field
+    isSemigroup : IsSemigroup ∙
+    identity    : Identity ε ∙
 
-open IsEquivalence isEquivalence public
+  open IsSemigroup isSemigroup public
 \end{minted}
 
-\begin{minted}[breaklines,samepage]{Agda}
-record IsSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
-field
-  isMagma : IsMagma ∙
-  assoc   : Associative ∙
+\inline{IsMonoid} is defined as a record type over set \inline{A} and
+equivalence \inline{_≈_} that takes two parameters: \inline{∙}, is a binary
+operation \inline{Op₂ A} on a set A. \inline{ε}, an element. The \inline{Set (a
+⊔ ℓ)} specifies the universe level at which this record exists. \inline{field}
+keyword indicates the start of the field declaration. Field
+\inline{isSemigroup}, says that the binary operation \inline{∙} forms a
+semigroup, which means it is associative. The \inline{IsSemigroup} type is
+defined that proof of associativity for the binary operation. Field
+\inline{identity} indicates that \inline{ε} is an identity element for the
+binary operation \inline{∙}. The \inline{Identity} type says that \inline{ε}
+behaves as a left and right identity element for \inline{∙}.  Agda  opens the
+\inline{IsSemigroup} field \inline{isSemigroup} so that when you have an
+instance of \inline{IsMonoid}, you can directly access its \inline{isSemigroup}
+field without any additional qualifiers.
 
-open IsMagma isMagma public
-\end{minted}
 The same follows for the bundled definitions of respective structures. A
 hierarchical approach is adapted to define algebraic structures to make the
 system scalable with minimal redundancy. One exemption for this hierarchical
@@ -111,7 +119,43 @@ biased structure. The Agda standard library defines left, right, and bi
 semi-modules and modules. A similar hierarchical approach as other algebraic
 structures is followed in defining modules. For example, a module is defined
 using bimodules and bi-modules using bi-semimodules. An alternative definition
-of modules is given in "Algebra.Module.Structure.Biased". 
+of modules is given in "Algebra.Module.Structure.Biased".
+
+The algebra structures design hierarchy of the mathcomp library is inspired by
+the Packing mathematical structures. The "ssralg.v" file defines some of the
+simple algebraic structures with their type, packers, and canonical properties.
+The hierarchy extends from Zmodule, rings to ring morphisms. The "countalg" file
+extends "ssralg" file to define countable types. A monoid in mathcomp library is defined as:
+
+\begin{minted}[samepage,breaklines]{Coq}
+Module Monoid.
+
+Section Definitions.
+Variables (T : Type) (idm : T).
+
+Structure law := Law {
+  operator : T -> T -> T;
+  _ : associative operator;
+  _ : left_id idm operator;
+  _ : right_id idm operator
+}.
+Local Coercion operator : law >-> Funclass
+\end{minted}
+
+The definition starts a new Coq module named \inlineCode{Coq}{Monoid}. Modules
+in Coq are used to group related definitions and theorems together for better
+organization and encapsulation. A new section named
+\inlineCode{Coq}{Definitions} is opened to manage the scope of variables and
+definitions. Two variables within the scope of the definition section are:
+\inlineCode{Coq}{T} is a type variable representing the underlying set and
+\inline{idm} is a variable of type \inline{T} representing the identity element
+of the monoid. \inlineCode{Coq}{Structure law := Law { ... }} line represents
+the properties of a monoid. \inline{operator} is a binary operation of type
+\inlineCode{Coq}{T -> T -> T}. Next three lines denote associativity, left and
+right identity laws.  A local coercion is a way to tell Coq how to automatically
+convert objects of type \inline{law} into objects of type \inline{T -> T -> T}.
+It essentially tells Coq that when you treat an object of type law as a
+function, you should use its operator field as that function.
 
 In Idris 2, there is considerable overlap between abstract algebra and category
 theory. Some algebraic structures are provided as an extension of two other
@@ -127,32 +171,58 @@ terms of semigroup with an identity element. Idris addresses identity as a
 neutral element.
 
 \begin{minted}[breaklines,samepage]{Idris}
-interface Semigroup t where
-  (<+>) : t -> t -> t
-  semigroupOpIsAssociative : (l, c, r : t) -> l <+> (c <+> r) = (l <+> c) <+> r
-
+public export
 interface Semigroup t => Monoid t where
   neutral : t
+
   monoidNeutralIsNeutralL : (l : t) -> l <+> neutral = l
   monoidNeutralIsNeutralR : (r : t) -> neutral <+> r = r
 \end{minted}
 
-The algebra structures design hierarchy of the mathcomp library is inspired by
-the Packing mathematical structures. The "ssralg.v" file defines some of the
-simple algebraic structures with their type, packers, and canonical properties.
-The hierarchy extends from Zmodule, rings to ring morphisms. The "countalg" file
-extends "ssralg" file to define countable types.
+The definition is made public and available for exporting, making them
+accessible outside the module or scope where they are defined. An interface
+named \inlineCode{Idris}{Monoid} extends the Semigroup interface so that any
+type \inline{t} that wishes to be an instance of \inlineCode{Idris}{Monoid} must
+also satisfy the requirements of the Semigroup interface.
+\inlineCode{Idris}{neutral} represents the identity element for the binary
+operation defined on type \inline{t}.
+\inlineCode{Idris}{monoidNeutralIsNeutralL} and
+\inlineCode{Idris}{monoidNeutralIsNeutralR} specifies that for any value
+\inline{l} (or \inline{r}) of type \inline{t}, when you combine (using the
+\inline{<+>} operator) \inline{l} (or \inline{r}) with the neutral element on
+the left side (or right side), it should result in \inline{l} (or \inline{r}).
+\inline{neutral} element acts as an identity element on the binary operation.
 
-The mathlib extends the algebra hierarchy from semigroup to ordered fields. The
-library defines instances of free magma, free semigroup, free Abelian group,
-etc. An example of the semigroup structure definition in the library is given below:
+The mathlib library for Lean extends the algebra hierarchy from semigroup to
+ordered fields. The library defines instances of free magma, free semigroup,
+free Abelian group, etc. An example of the monoid structure definition in the
+library is given below:
 
-\begin{minted}[breaklines,samepage]{Coq}
-structure semigroup (G : Type u) :
-  Type u  
-  mul : G → G → G 
-  mul_assoc : forall (a b c : G), (a * b) * c = a * b * c
+\begin{minted}[breaklines,samepage]{Lean}
+@[ancestor semigroup mul_one_class, to_additive]
+class monoid (M : Type u) extends semigroup M, mul_one_class M :=
+(npow : ℕ → M → M := npow_rec)
+(npow_zero' : ∀ x, npow 0 x = 1 . try_refl_tac)
+(npow_succ' : ∀ (n : ℕ) x, npow n.succ x = x * npow n x . try_refl_tac)
 \end{minted}
+
+In Lean, classes can inherit properties and methods from other classes. The
+monoid class inherits from the \inlineCode{Lean}{semigroup} and
+\inlineCode{Lean}{mul_one_class} classes. \inlineCode{Lean}{to_additive}
+indicates that additive version of the monoid class should be generated. The
+parameter \inlineCode{Lean}{(M : Type u)} specifies that \inline{M} is a type
+parameter that is the underlying set and \inlineCode{Lean}{Type u} indicates
+that \inline{M} is of a certain universe level. \inlineCode{Lean}{monoid} class
+introduces an operation \inlineCode{Lean}{npow}, a power operation that takes a
+natural number and an element of the monoid and calculates the repeated
+application of the monoid's binary operation. The class provides two properties
+for this npow operation: \inlineCode{Lean}{npow_zero'} specifies that raising
+any element to the power of \inline{0} results in the identity element, and
+\inlineCode{Lean}{npow_succ'} specifies the recursive behavior of the
+\inlineCode{Lean}{npow} operation, where raising an element to a successor
+natural number is equivalent to multiplying it with the element raised to the
+previous power. The \inlineCode{Lean}{. try_refl_tac} suggests that Lean should
+try to automatically prove this property using reflexivity tactics.
 
 \note{In table \ref{tab:long}, every checkmark links to the implementation in the source code of the library.}
 \begin{longtable}{|l|l|l|l|l|}
