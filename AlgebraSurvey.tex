@@ -152,23 +152,18 @@ definitions. Two variables within the scope of the definition section are:
 of the monoid. \inlineCode{Coq}{Structure law := Law { ... }} line represents
 the properties of a monoid. \inline{operator} is a binary operation of type
 \inlineCode{Coq}{T -> T -> T}. Next three lines denote associativity, left and
-right identity laws.  A local coercion is a way to tell Coq how to automatically
-convert objects of type \inline{law} into objects of type \inline{T -> T -> T}.
-It essentially tells Coq that when you treat an object of type law as a
-function, you should use its operator field as that function.
+right identity laws.
 
 In Idris 2, there is considerable overlap between abstract algebra and category
 theory. Some algebraic structures are provided as an extension of two other
-algebraic structures. However, from semigroups, in the algebra hierarchy, the
-structures are defined in terms of relevant categories. The structures also
-include respective bundle definitions. A module is an Abelian group with the
-ring of scalars. The ring of scalars has an identity element. The library
-defines various algebraic structures that include semigroup, monoid, group,
-Abelian-group, semiring, and ring. It follows a hierarchical approach in
-defining structures similar to that in Agda. For example, a semigroup is defined
-as a set with a binary operation that is associative, and a monoid is defined in
-terms of semigroup with an identity element. Idris addresses identity as a
-neutral element.
+algebraic structures. The structures also include respective bundle definitions.
+A module is an Abelian group with the ring of scalars. The ring of scalars has
+an identity element. The library defines various algebraic structures that
+include semigroup, monoid, group, Abelian-group, semiring, and ring. It follows
+a hierarchical approach in defining structures similar to that in Agda. For
+example, a semigroup is defined as a set with a binary operation that is
+associative, and a monoid is defined in terms of semigroup with an identity
+element. Idris addresses identity as a neutral element.
 
 \begin{minted}[breaklines,samepage]{Idris}
 public export
@@ -182,11 +177,10 @@ interface Semigroup t => Monoid t where
 The definition is made public and available for exporting, making them
 accessible outside the module or scope where they are defined. An interface
 named \inlineCode{Idris}{Monoid} extends the Semigroup interface so that any
-type \inline{t} that wishes to be an instance of \inlineCode{Idris}{Monoid} must
-also satisfy the requirements of the Semigroup interface.
-\inlineCode{Idris}{neutral} represents the identity element for the binary
-operation defined on type \inline{t}.
-\inlineCode{Idris}{monoidNeutralIsNeutralL} and
+type \inline{t} that is an instance of \inlineCode{Idris}{Monoid} must also
+satisfy the requirements of the Semigroup interface. \inlineCode{Idris}{neutral}
+represents the identity element for the binary operation defined on type
+\inline{t}. \inlineCode{Idris}{monoidNeutralIsNeutralL} and
 \inlineCode{Idris}{monoidNeutralIsNeutralR} specifies that for any value
 \inline{l} (or \inline{r}) of type \inline{t}, when you combine (using the
 \inline{<+>} operator) \inline{l} (or \inline{r}) with the neutral element on
@@ -196,7 +190,7 @@ the left side (or right side), it should result in \inline{l} (or \inline{r}).
 The mathlib library for Lean extends the algebra hierarchy from semigroup to
 ordered fields. The library defines instances of free magma, free semigroup,
 free Abelian group, etc. An example of the monoid structure definition in the
-library is given below:
+library is given below: 
 
 \begin{minted}[breaklines,samepage]{Lean}
 @[ancestor semigroup mul_one_class, to_additive]
