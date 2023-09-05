@@ -1,10 +1,11 @@
 \chapter{Agda}
-Agda is a dependently typed programming language based on unified theory of
-dependent types and is an extension of Martin-Löf type theory \cite{AgdaDoc}.
-Agda allows programmers to define types that depend on values, to write
-functions that utilize these types, and to prove the correctness of the program
-in the same language\cite{AgdaTB}. Agda is also a proof assistant system. Agda
-is designed to help programmers to write and verify correct and efficient
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\SetupFloatingEnvironment{listing}{name=Source Code}
+Agda is a dependently typed programming language based on Martin-Löf type theory
+\cite{AgdaDoc}. Agda allows programmers to define types that depend on values,
+to write functions that utilize these types, and to prove the correctness of the
+program in the same language \cite{AgdaTB}. Agda is also a proof assistant
+system. Agda is designed to help programmers to write and verify correct
 programs by allowing them to express their intentions in a precise and formal
 way. Agda has been used in various applications such as formal verification,
 program synthesis, theorem proving, and automated reasoning
@@ -24,14 +25,13 @@ of a particular application or domain. Agda supports inductive types, simple
 types, and parameterized types \cite{10.1007/978-3-642-03359-9_6}. A data type
 in Agda can be declared using the keyword \inline{data} or \inline{record}. 
 
-\label{code:Bool}
 \begin{minted}[breaklines,samepage]{Agda}
 data Bool : Set where
   false : Bool 
   true : Bool
 \end{minted}
 
-In the example code \ref{code:Bool}, there are four things to notice.
+In the above example code, there are four things to notice.
 \begin{enumerate}
   \item \inline{data} is the keyword used to define a new data type. 
   \item \inline{Bool} is the name of the data type.
@@ -43,12 +43,13 @@ In the example code \ref{code:Bool}, there are four things to notice.
 Let us consider another example of inductive datatype\footnote{An inductive
 datatype is a datatype that is defined in terms of itself.} to define natural
 numbers \inline{Nat}. 
-\label{code:Nat}
+
 \begin{minted}[breaklines,samepage]{Agda}
 data Nat : Set where
   zero : Nat
   suc  : Nat -> Nat
 \end{minted}
+\label{code:Nat}
 
 We can see that for defining natural number, it is impractical to list all the
 constructors like how we did for \inline{Bool}. Instead, we give two ways to
@@ -98,9 +99,8 @@ ageOfAlice = alice.age
 \end{minted}
 
 We can use \inline{constructor} keyword in \inline{record} type declaration to
-define a constructor function for creating instances of the record type. This is
-particularly useful when you want to encapsulate certain logic or constraints
-while creating instances of the record. For example:
+define a constructor function for creating instances of the record type. For
+example:
 
 \begin{minted}[breaklines,samepage]{Agda}
 record Person₁ : Set where
@@ -177,8 +177,8 @@ not true = false
 \end{minted} 
 
 \inline{not} function takes an argument of type \inline{Bool}. The equal
-(\inline{=}) sign is used to say that when a clause on left hand side of the
-equal sign is seen, the right hand side is what's computed.  
+(\inline{=}) sign is used to say that when a clause on left-hand side of the
+equal sign is seen, the right-hand side is what's computed.  
 
 Similar to Haskell, Agda doesn't have the concept of multi-argument functions.
 For example, to define addition (\inline{add}) function on natural numbers
@@ -259,8 +259,8 @@ equality generalized to an arbitrary level.
 In Chapter 2, when defining theory, we say that equation is of the form $t_1 =
 t_2$ where $t_1$ and $t_2$ are term expressions and $=$ represents equality
 relation. In dependent type theory, equality is a complex concept. Equality says
-that two things are "equal". But asking "when two things are equal" is non
-trivial. In this section we discuss a hierarchy of "sameness" from
+that two things are "equal". But asking "when two things are equal" is
+nontrivial. In this section we discuss a hierarchy of "sameness" from
 \cite{bocquet2020coherence} and \cite{eremondi2022propositional}.
 
 \subsection{Syntactic equality}
@@ -287,15 +287,16 @@ x ^ y = false
 In Agda, not every equations we write holds literally. In the above example,
 only the equation \inline{true ^ true = true} holds. The equation \inline{x ^ y
 = false} overlaps with the first equation when both $x$ and $y$ are
-\inline{true}. This equation does not hold definitionally. Agda will split this
-clause to three equations which holds definitionally:
+\inline{true}. In Agda, when pattern matching, cases are tried in order from
+top to bottom. This equation does not hold definitionally. Agda will split this
+clause to three equations which holds definitionally \cite{abel2012agda}:
 \begin{description}
   \item[] \inline{false ^ true = false}
   \item[] \inline{true ^ false = false}
   \item[] \inline{false ^ false = false}
 \end{description}
 
-Some fundamental rules that Agda follows for definitional equality are:
+Some fundamental rules that Agda follows for definitional equality are: 
 \begin{itemize}
   \item \emph{Beta reduction} - We apply a lambda abstraction to an argument by
   substituting the argument into the body of the function. In Agda, we can
@@ -327,11 +328,11 @@ equality is given using universes that can be used in different levels.
 
 \begin{minted}[samepage,breaklines]{Agda}
 data _≡_ {a} {A : Set a} (x : A) : A → Set a where
-  instance refl : x ≡ x
+  refl : x ≡ x
 \end{minted}
 
 In the above definition, \inline{{a}} is an implicit parameter representing the
-universe level of the set. In Agda, propositional equality $(\_ \equiv\_ )$ is
+universe level of the set. In Agda, propositional equality \inline{_≡_} is
 defined for any type $A$ and any element \inline{x} of type \inline{A}, the
 identifier \inline{refl} provides evidence that \inline{ x ≡ x}. Therefore every
 value is equal to itself and there is no alternative way to show values are
@@ -367,7 +368,7 @@ record IsEquivalence : Set (a ⊔ ℓ) where
 
 In the above code, \inline{IsEquivalence} is defined over for carrier \inline{A
 : Set a} and binary relation \inline{_≈_ : REL A ℓ} that are parameters to the
-module 'Relation.Binary.Core'. We see why modules are parameterized with carrier
+module \inline{Relation.Binary.Core}. We see why modules are parameterized with carrier
 set and equality relation later in the chapter when defining algebraic
 structures. The field \inline{refl} is of type \inline{Reflexive  _≈_} and is
 defined as:
@@ -378,7 +379,9 @@ Reflexive _∼_ = ∀ {x} → x ∼ x
 \end{minted}
 
 Where \inline{_∼_} is a relation of type {Rel A ℓ} that says for all element
-\inline{x}, the elements are related to itself \inline{x ∼ x}.
+\inline{x}, the elements are related to itself \inline{x ∼ x}. Type-level
+functions refer to functions that operate on types rather than on values. They
+are functions that take types as input and return types as output.
 
 Symmetric relation is defined over a generalized symmetry that flip the order of arguments.
 
@@ -386,12 +389,12 @@ Symmetric relation is defined over a generalized symmetry that flip the order of
 Sym : REL A B ℓ₁ → REL B A ℓ₂ → Set _
 Sym P Q = P ⇒ flip Q
 \end{minted}
-The first line declares a module \inline{Sym} that takes two arguments:
-\inline{P} of type \inline{REL A B ℓ₁} and \inline{Q} of type \inline{REL B A
-ℓ₂}. Where \inline{A} and \inline{B} are carrier set over arbitrary universe
-level. The module result type \inline{Set _}, where the underscore represents a
-universe level that will be inferred. \inline{flip} is a function to flip the
-order of the arguments.
+The first line declares \inline{Sym} that takes two arguments: \inline{P} of
+type \inline{REL A B ℓ₁} and \inline{Q} of type \inline{REL B A ℓ₂}. Where
+\inline{A} and \inline{B} are carrier set over arbitrary universe level. The
+module result type \inline{Set _}, where the underscore represents a universe
+level that will be inferred. \inline{flip} is a function to flip the order of
+the arguments. 
 
 \begin{minted}[samepage,breaklines]{Agda}
 Symmetric : Rel A ℓ → Set _
@@ -479,14 +482,14 @@ operations and the carrier set.
 
 We may observe that all the algebraic structures have a carrier set. When
 defining algebraic structures in a module, we can make the carrier set as the
-argument of the module so it is accessible by all the structures defined under
+argument of the module, so it is accessible by all the structures defined under
 that module. The module declaration is treated as a top-level function that take
 the parameters of module as arguments. The parameters can be values and types
 but not other modules.
 
 In section \ref{equality}, we introduce different ways to say when two things
 are equal. When defining \inline{IsMonoid}, we use Agda's propositional equality
-(\inline{_≡_}) to compare the terms. However in practice, this definition of
+(\inline{_≡_}) to compare the terms. However, in practice, this definition of
 propositional equality is too strong and one prefers to use a finer equivalence
 relation \cite{musa}. Equivalence is useful when we want to capture "sameness"
 in a more flexible way. Agda standard library gives a binary relation as an
@@ -555,9 +558,7 @@ from another module.
 
 In the above definition, we see \inline{(∙ : Op₂ A)}, the binary operation.
 Instead of writing \inline{A → A → A}, Agda standard library defines a type
-level function \inline{Op₂}. Type-level functions refer to functions that
-operate on types rather than on values. They are functions that take types as
-input and return types as output.
+level function \inline{Op₂}.
 
 \begin{minted}[breaklines,samepage]{Agda}
   Op₂ : ∀ {ℓ} → Set ℓ → Set ℓ
@@ -598,7 +599,7 @@ record RawMagma c ℓ : Set (suc (c ⊔ ℓ)) where
 \inline{_≉_} is the inequality relation that states that two elements are not
 equal \inline{ x ≉ y} if they are not equal under the equivalence relation.
 Bundled version structures are defined by importing structures from
-'Algebra.Structures' so we can parameterize the definitions with equality that
+\inline{Algebra.Structures} so we can parameterize the definitions with equality that
 is used to compare the terms of the structure.
 
 \begin{minted}[breaklines,samepage]{Agda}
