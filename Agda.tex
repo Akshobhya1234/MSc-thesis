@@ -1,6 +1,4 @@
 \chapter{Agda}
-\newenvironment{code}{\captionsetup{type=listing}}{}
-\SetupFloatingEnvironment{listing}{name=Source Code}
 Agda is a dependently typed programming language based on Martin-Löf type theory
 \cite{AgdaDoc}. Agda allows programmers to define types that depend on values,
 to write functions that utilize these types, and to prove the correctness of the
@@ -403,9 +401,14 @@ Symmetric _∼_ = Sym _∼_ _∼_
 
 \inline{Symmetric} uses the previously defined \inline{Sym} that states that a
 relation \inline{_∼_} is symmetric if it satisfies the conditions of symmetry as
-defined in the \inline{Sym}.
+defined in the \inline{Sym}. \inline{Symmetric} will evaluate to type that
+\inline{∀ x y : A}, \inline{x ∼ y → y ∼ x} for relation \inline{∼} of type
+\inline{REL A ℓ}.
 
-Similar to symmetric relation, transitivity is defined over generalized transitive relation as:
+Similar to symmetric relation, transitivity is defined over generalized
+transitive relation and \inline{Transitive} will evaluate to type that \inline{∀
+i j k : A}, \inline{i ∼ j → j ∼ k → i ∼ k} for relation \inline{∼} of type
+\inline{REL A ℓ}.
 
 \begin{minted}[samepage,breaklines]{Agda}
 Trans : REL A B ℓ₁ → REL B C ℓ₂ → REL A C ℓ₃ → Set _
@@ -687,8 +690,12 @@ more difficult to maintain the conventions and requires carefully defining the
 structures.  
 
 \section{Morphism in Agda}
-A homomorphism is a structure preserving map between two structures. A
-homomorphism for two magma structures is defined as a record type:
+A homomorphism is a structure preserving map between two structures.  For two
+magma structures $(A,∙)$ and $(B,◦)$, homomorphism  \(f\) : \(A \ \rightarrow
+\ B\) is defined as:
+\[f(x\  ∙ \  y) \ = \ f(x) \ ◦ \  f(y)\] 
+
+In Agda, homomorphism for two magma structures is defined as a record type:
 
 \begin{minted}[breaklines,samepage]{Agda}
 module MagmaMorphisms (M₁ : RawMagma a ℓ₁) (M₂ : RawMagma b ℓ₂) where
