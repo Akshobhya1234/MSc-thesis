@@ -285,8 +285,8 @@ x ^ y = false
 In Agda, not every equations we write holds literally. In the above example,
 only the equation \inline{true ^ true = true} holds. The equation \inline{x ^ y
 = false} overlaps with the first equation when both $x$ and $y$ are
-\inline{true}. In Agda, when pattern matching, cases are tried in order from
-top to bottom. This equation does not hold definitionally. Agda will split this
+\inline{true}. This equation does not hold definitionally. In Agda, when pattern
+matching, cases are tried in order from top to bottom. Agda will split the above
 clause to three equations which holds definitionally \cite{abel2012agda}:
 \begin{description}
   \item[] \inline{false ^ true = false}
