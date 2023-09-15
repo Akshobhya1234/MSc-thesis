@@ -64,7 +64,7 @@
 \author[Akshobhya K M]{Akshobhya Katte Madhusudana\\\small{}Under the supervision of Dr. Jacques Carette}
 
 \institute[McMaster University]{McMaster University}
-\date{June $8^{\text{th}}$, 2023}
+\date{September $20^{\text{th}}$, 2023}
 
 \AtBeginSection[]
 {
@@ -121,21 +121,16 @@
 %------------------------------------------------------------------------------
 % Universal Algebra
 %------------------------------------------------------------------------------
-\section{Universal Algebra}
+\section{Research outline}
 
 \begin{frame}
-  \frametitle{Universal Algebra}
+  \frametitle{Research outline}
 
   \begin{enumerate}
-    \item A theory in universal algebra is defined as a tuple $(S,F,E)$ such that, $S$ is
-    a set of single sort $s$, $F$ is a finite set of function symbols with their
-    arities, and $E$ is a set of equations that are satisfied in $S$.
-    \item A signature of a theory $(S,F,E)$ is a pair ($S,F$) such that $S$ is set of
-    sorts and $F$ is set of operation names. An operation can be defined as a triple
-    $(f,[s_1,...,s_n],s)$ consisting of name, its arity, and the target sort. 
-    \item An algebra $A$ is defined as $A = (S_A,F_A)$ a mathematical structure consisting
-    of a domain and functions on the domain. Algebra provides an interpretation for
-    the carrier set $S$ and function symbols $F$ of a theory.    
+    \item What is the current coverage of algebraic structures in proof assistant systems?
+    \item How to characterize types of algebraic structures in Agda?. 
+    \item Define constructs of algebraic structures with proofs to it's properties in Agda
+    \item Abstract out the problems faced during characterization of algebraic structures and analyze each problem to provide plausible solution.    
   \end{enumerate}
 \end{frame}
 
@@ -483,7 +478,7 @@
     \item Identical structures e.g. Nearring (+-group, *-monoid)
   \end{enumerate}
 
-    \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
+    \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
       record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
       field
         isQuasiring : IsQuasiring + * 0# 1#
