@@ -1,78 +1,117 @@
 \chapter{Types of Algebraic Structures in Proof Assistant Systems - Survey}
 
-Proof assistant systems are computer software that helps to derive formal proofs
-with a joint effort of computers and humans. Proof assistants are used to
-formalize theories, and extend them by logical reasoning and defining
-properties\cite{2019arXiv191203028S}. Automated theorem proving is different
-from proof assistants in that they have less expressivity and make it almost
-impossible to define a generic mathematical theory. In \cite{BuildingDiamond},
-the authors discuss the difficulties in building the libraries that support
-these systems by providing tools to write proofs easily. One such problem is to
-structurally derive algebraic structures from one another in the hierarchy
-without explicitly defining axioms that become redundant. The author also
-proposes a solution to make use of the interrelationship in mathematics and thus
-reduce the efforts in building the library. A survey of coverage of algebraic
-structures in proof systems will help to identify the gaps in the system. A
-survey can provide insights into how well each proof assistant supports the
-formalization of algebraic structures, making it easier for researchers and
-developers to choose the right platform for their mathematical formalizations.
-We consider four proof assistant systems that are all dependently typed, higher
-order programming languages and supports, (at least partially) proof by
-reflection.
+A survey of coverage of algebraic structures in proof systems will help to
+identify the gaps in the system. A survey can provide insights into how well
+each proof assistant supports the formalization of algebraic structures, making
+it easier for researchers and developers to choose the right platform for their
+mathematical formalization. Researchers and developers may be inspired to work
+on formalizing missing algebraic structures, which can lead to improvements in
+the tools and expand their utility.
 
-Agda 2 is a proof assistant system where proofs are expressed in a functional
-programming style. The Agda standard library aims to provide tools to ease the
-effort of writing proofs and also programs. The current version of the Agda
-standard library, v1.7.1 is fully supported for the changes and developments in
-Agda version 2.6.2. 
+This chapter provides the coverage of algebraic structures in proof assistant
+systems. Since I was exposed to Agda in the coursework, it added bias to select
+systems that are comparable with Agda and thus eliminating systems such as Mizar
+and Isabelle. We consider four proof assistant systems that are all dependently
+typed higher order programming languages \cite{2019arXiv191203028S}. A standard
+library for a system is a collection of mathematical definitions with logical
+constructs, proof tactics, and utility functions that provide a foundational set
+of tools and definitions for users of these proof assistants
+\cite{kohlhase2021experiences}. For the scope of the thesis, we consider the
+libraries as standard library that are commonly used and referenced for the
+respective proof systems in the context of algebra. The aim of this chapter is
+to provide documentation for the algebraic coverage in the standard libraries of
+proof assistant systems Agda, Idris, Coq, and Lean. In this chapter, the latest
+available versions are considered i.e., Agda standard library v1.7.
+\cite{danielsson2011agda}, Idris 2.0 \cite{Brady2021Idris2Q}, The Mathematical
+Components Library v1.13.0 \cite{assia_mahboubi_2021_4457887}, and The Lean
+mathematical library\cite{10.1145/3372885.3373824}.
 
+The rest of the chapter is organized as follows. Section \ref{Proof_system}
+gives a brief overview on the proof systems that we discuss in this chapter.
+Experiment setup is discussed in Section \ref{experiment}. Section
+\ref{algebraic_structure} discuss how algebraic structures are defined in each
+system by taking Monoid as an example. Section \ref{table} provides a table that
+provides result of the survey.
+
+\section{Proof assistant systems}
+\label{Proof_system}
+This section provides an overview of proof assistant systems Coq, Idris, and
+Lean. We intentionally omit discussing Agda in this section since it is
+discussed in the previous chapter. 
+
+\subsection{Coq}
 Coq \cite{Paulin-Mohring2012} is a theorem proving system that is written in the
-Ocaml programming language. It was first released in 1989 and is one of the most
-widely used proof assistant systems to define mathematical definitions, theory
-and to write proofs. The mathematical components library (1.12.0) includes
-various topics from data structures to algebra. In this article, we consider the
-mathematical component repository (mathcomp) that contains formalized
-mathematical theories\cite{assia_mahboubi_2021_4457887}. The latest available
-release of mathcomp library is 1.12.0. The mathcomp library was started with the
-Four Colour Theorem to support formal proof of the odd order theorem. 
+Ocaml programming language. It is designed to assist in the formalization of
+mathematical theorems by using constructive and higher-order logic.  It was
+first released in 1989 and is one of the most widely used proof assistant
+systems to define mathematical definitions, theory and to write proofs. Coq
+specification language is called Gallina. Users can write functions and
+algorithms in Gallina and then formally verify their correctness within the Coq
+environment \cite{bertot2013interactive}. Coq provides an interactive proof
+development environment where users can interact with Coq through a command-line
+interface (or supported IDEs) to construct proofs.
 
-Idris is a functional programming language but is also used as a proof
-assistant system. The proofs are alike with Coq and the type system in Idris is
-uniform with Agda. Idris 2 is a self-hosted programming language that combines
-linear-type-system. In this chapter, Idris 2 and Idris is used interchangeably
-and refers to Idris 2. Currently, there are no official package managers for
-Idris 2. However, several versions are under development. 
+The mathematical components library (v1.13.0) \cite{assia_mahboubi_2021_4457887}
+includes various topics from data structures to algebra. The library provides an
+extensive collection of predefined data structures, algebraic structures (e.g.,
+groups, rings, fields), and mathematical concepts (e.g., natural numbers,
+integers, rational numbers) \cite{2019arXiv191203028S}. The mathcomp library was
+started with the Four Colour Theorem to support formal proof of the odd order
+theorem. 
 
-Lean \cite{10.1145/3372885.3373824} is an open-source project by Microsoft
-Research. Lean is a proof assistant system written in C++. The last official
+\subsection{Idris}
+Idris is a functional programming language and interactive theorem prover
+created by Dr. Edwin Brady. Idris is built on a foundation of dependent type
+theory. The proofs are alike with Coq and the type system in Idris is uniform
+with Agda \cite{brady2022idris}. Idris includes a totality checker, which helps
+ensure that functions are defined for all inputs and that programs are
+guaranteed to terminate \cite{brady2013idris}. Idris 2 is a self-hosted
+programming language that combines linear-type-system. Idris like Agda, supports
+literate programming, this helps code and documentation to be interleaved in a
+natural and readable way. This is helpful for creating well-documented, readable
+formalizations. In this chapter, Idris 2 and Idris is used interchangeably and
+refers to Idris 2. Currently, there are no official package managers for Idris
+2. However, several versions are under development. 
+
+\subsection{Lean}
+
+Lean \cite{de2015lean} is an open-source project by Microsoft Research. Lean is
+a proof assistant system written in C++. Lean is based on a foundation of
+dependent type theory, similar to Coq and Idris. Lean has a powerful
+metaprogramming system that allows users to extend the language and develop
+domain-specific features \cite{ebner2017metaprogramming}. The last official
 version of Lean was 3.4.2 and is now supported by the Lean community. Lean 4 is
 the latest version of Lean and is a complete rewrite of previous versions of
-Lean. The mathlib \cite{10.1145/3372885.3373824} library for Lean 3 has the most
+Lean. Lean has been used in various research projects and has seen adoption in
+both academia and industry. Lean has found applications in formal mathematics,
+formalization of mathematical proofs, software verification, and formal methods
+research. It has been used to verify complex software systems and to formalize
+significant mathematical results.
+
+Lean comes with a standard library that covers a wide range of mathematics,
+including number theory, algebra, analysis, and set theory. The mathematical
+library (mathlib) \cite{10.1145/3372885.3373824} library for Lean 3 has the most
 coverage of algebra compared to the other 3 proof assistant systems discussed in
 the paper. The mathlib library of Lean is also maintained by the Lean community
 for community versions of Lean. It was developed on a small library that was in
 Lean. It contained definitions of natural numbers, integers, and lists and had
 some coverage over algebra hierarchy. The latest version of mathlib has over
-2794 definitions of algebra \cite{2019arXiv191203028S}.
-
-The aim of this chapter is to provide documentation for the algebraic coverage
-in proof assistant systems Agda, Idris, Coq, and Lean. In this chapter, the
-latest available versions are considered i.e., Agda standard library v1.7.1, Idris
-2.0, The Mathematical Components Library v1.13.0, and The Lean mathematical
-library. 
+2794 definitions of algebra \cite{2019arXiv191203028S}. 
 
 \section{Experimental setup}
+\label{experiment}
 It is not time efficient to manually look for the definitions in a large
 library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
 are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
-to extract definitions. Thus, a part of the process of building the table
-~\ref{tab:long} was automated. Since the standard libraries are open source
-projects, it is difficult to maintain uniformity in the code. For example, the
-definition might start with a comment in the same line or structure parameters
-might be written in a new line. All this makes it difficult to correctly build
-the regular expression and will necessitate the task of verifying the results
-manually to some extent.   
+to extract definitions. To build the web crawler, we first manually select the
+source pages where the algebraic definitions can be found in each system.  Thus,
+a part of the process of building the table ~\ref{tab:long} was automated. Since
+the standard libraries are open source projects, it is difficult to maintain
+uniformity in the code. For example, the definition might start with a comment
+in the same line or structure parameters might be written in a new line. All
+this makes it difficult to correctly build the regular expression and will
+necessitate the task of verifying the results manually to some extent.   
 
 The rest of the chapter is structured as follows. Section 2 discusses the
 algebraic structure definitions and their coverage in the proof assistant
@@ -80,10 +119,13 @@ systems. Section 3 covers the morphism definitions. The properties and solvers
 are discussed in section 4. 
 
 \section{Algebraic Structures}
-In this section, we see characterization of monoid structure in different
-libraries. A monoid is a mathematical structure consisting of a set, an
-associative binary operation, and an identity element for that operation. In
-Agda standard library, algebraic structures are defined over setoid.
+\label{algebraic_structure}
+This section In this section, we see characterization of monoid structure in
+different libraries. A monoid is a mathematical structure consisting of a set,
+an associative binary operation, and an identity element for that operation.
+
+\subsection{Agda standard library}
+In Agda standard library, algebraic structures are defined over setoid.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsMonoid (∙ : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
@@ -119,13 +161,15 @@ biased structure. The Agda standard library defines left, right, and bi
 semi-modules and modules. A similar hierarchical approach as other algebraic
 structures is followed in defining modules. For example, a module is defined
 using bimodules and bi-modules using bi-semimodules. An alternative definition
-of modules is given in "Algebra.Module.Structure.Biased".
+of modules is given in \inline{Algebra.Module.Structure.Biased}.
 
+\subsection{The mathematical components library}
 The algebra structures design hierarchy of the mathcomp library is inspired by
-the Packing mathematical structures. The "ssralg.v" file defines some of the
-simple algebraic structures with their type, packers, and canonical properties.
-The hierarchy extends from Zmodule, rings to ring morphisms. The "countalg" file
-extends "ssralg" file to define countable types. A monoid in mathcomp library is defined as:
+the Packing mathematical structures. The \inlineCode{Coq}{ssralg.v} file defines
+some of the simple algebraic structures with their type, packers, and canonical
+properties. The hierarchy extends from Zmodule, rings to ring morphisms. The
+\inlineCode{Coq}{countalg} file extends \inlineCode{Coq}{ssralg} file to define
+countable types. A monoid in mathcomp library is defined as:
 
 \begin{minted}[samepage,breaklines]{Coq}
 Module Monoid.
@@ -153,6 +197,8 @@ of the monoid. \inlineCode{Coq}{Structure law := Law { ... }} line represents
 the properties of a monoid. \inline{operator} is a binary operation of type
 \inlineCode{Coq}{T -> T -> T}. Next three lines denote associativity, left and
 right identity laws.
+
+\subsection{Idris}
 
 In Idris 2, there is considerable overlap between abstract algebra and category
 theory. Some algebraic structures are provided as an extension of two other
@@ -187,10 +233,12 @@ represents the identity element for the binary operation defined on type
 the left side (or right side), it should result in \inline{l} (or \inline{r}).
 \inline{neutral} element acts as an identity element on the binary operation.
 
+\subsection{The mathematical library}
+
 The mathlib library for Lean extends the algebra hierarchy from semigroup to
 ordered fields. The library defines instances of free magma, free semigroup,
 free Abelian group, etc. An example of the monoid structure definition in the
-library is given below: 
+library is given below \cite{baanen2022use}: 
 
 \begin{minted}[breaklines,samepage]{Lean}
 @[ancestor semigroup mul_one_class, to_additive]
@@ -218,7 +266,9 @@ natural number is equivalent to multiplying it with the element raised to the
 previous power. The \inlineCode{Lean}{. try_refl_tac} suggests that Lean should
 try to automatically prove this property using reflexivity tactics.
 
-\note{In table \ref{tab:long}, every checkmark links to the implementation in the source code of the library.}
+\section{Result}
+\label{table}
+In table \ref{tab:long}, every checkmark links to the implementation in the source code of the library
 \begin{longtable}{|l|l|l|l|l|}
 \caption{ Algebraic structures in proof assistant systems} \label{tab:long} \\
 
@@ -330,6 +380,7 @@ try to automatically prove this property using reflexivity tactics.
 	HeytingField & \href{https://github.com/agda/agda-stdlib/blob/53433ec465de63d77a38e3e4f5d9d486c69544f2/src/Algebra/Apartness/Structures.Agda#L46}{\checkmark} & - & - &  - \\ \hline
 \end{longtable}
 
+\begin{comment}
 \section{Morphism}
 One of the benefits of the Agda standard library is that it provides morphisms
 for the structures defined in the library. The library defines homomorphism,
@@ -422,3 +473,4 @@ multiplication, a lie algebra is a lie ring. The library extends ring structure
 to define field and division ring covering many aspects of fields such as the
 existence of closure for a field, Galois correspondence, rupture field, and
 others.
+\end{comment}
