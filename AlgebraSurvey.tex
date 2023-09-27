@@ -105,22 +105,51 @@ library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
 are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
 to extract definitions. To build the web crawler, we first manually select the
-source pages where the algebraic definitions can be found in each system.  Thus,
-a part of the process of building the table ~\ref{tab:long} was automated. Since
-the standard libraries are open source projects, it is difficult to maintain
+source pages where the algebraic definitions can be found in each system. The
+regular expression will find the make use of the keyword used in each system to
+define algebraic structure. Thus, a part of the process of building the table
+~\ref{tab:long} was automated. We then verify manually to make sure the
+algebraic structures are correctly extracted by the web crawler. Since the
+standard libraries are open source projects, it is difficult to maintain
 uniformity in the code. For example, the definition might start with a comment
 in the same line or structure parameters might be written in a new line. All
 this makes it difficult to correctly build the regular expression and will
-necessitate the task of verifying the results manually to some extent.   
+necessitate the task of verifying the results manually to some extent. Section
+\ref{threat} will discuss the threat to validity of this approach.
 
-The rest of the chapter is structured as follows. Section 2 discusses the
-algebraic structure definitions and their coverage in the proof assistant
-systems. Section 3 covers the morphism definitions. The properties and solvers
-are discussed in section 4. 
+\section{Threat to Validity}
+\label{threat}
+In this section, we discuss threat to validity of the survey data. 
+\begin{itemize}
+
+  \item The libraries that we considered are under continuous
+  development. The definitions that our web crawler extracted may not reflect
+  the most recent code. We limit to a specific version of the library so that
+  all the definitions in that version are considered. 
+  \item  The threat in using regular expression is that it may not capture all
+  variations and formats of definitions. Some definitions may be missed, leading
+  to incomplete data. We manually verify the result to look for missing
+  definitions in the library.
+  \item Each proof assistant has different language features that regular
+  expressions need to account for. Ensuring that regular expressions work
+  seamlessly across multiple proof assistants is challenging. We build unique
+  regular expression for each system.
+  \item Different formalizations of algebraic structures may vary in their
+  definitions, naming conventions. For example, In Agda a ring without
+  multiplicative identity is called \inline{RingWithoutOne}. The same structure
+  in Idris is called \inline{Ring}. These changes in naming will necessitate to
+  manually verify the result in building the table \ref{tab:long}.
+  \item Regular expressions might capture irrelevant text that matches the
+  pattern but is not part of the actual definition. For example, the comments in
+  the source file may mislead the web crawler.
+  \item Regular expressions are typically pattern-based and may not consider the
+  broader context in which the definitions appear. This lack of context can
+  result in misinterpretations.
+\end{itemize} 
 
 \section{Algebraic Structures}
 \label{algebraic_structure}
-This section In this section, we see characterization of monoid structure in
+In this section, we see characterization of monoid structure in
 different libraries. A monoid is a mathematical structure consisting of a set,
 an associative binary operation, and an identity element for that operation.
 
