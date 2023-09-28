@@ -67,6 +67,12 @@
 \newcommand{\note}[1]{\begin{noteBox} \textbf{Note:} #1 \end{noteBox}}
 \newcommand{\important}[1]{\begin{importantBox} \textbf{Important:} #1 \end{importantBox}}
 
+\newcommand{\bluecheck}{}%
+\DeclareRobustCommand{\bluecheck}{%
+  \tikz\fill[scale=0.4, color=blue]
+  (0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;%
+}
+
 \usemintedstyle{colorful}
 \input{macros}
 
