@@ -21,17 +21,18 @@ libraries as standard library that are commonly used and referenced for the
 respective proof systems in the context of algebra. The aim of this chapter is
 to provide documentation for the algebraic coverage in the standard libraries of
 proof assistant systems Agda, Idris, Coq, and Lean. In this chapter, the latest
-available versions are considered i.e., Agda standard library v1.7.
-\cite{danielsson2011agda}, Idris 2.0 \cite{Brady2021Idris2Q}, The Mathematical
+available versions are considered i.e., Agda standard library v1.7
+\cite{AgdaStandardLibrary}, Idris 2.0 \cite{Brady2021Idris2Q}, The Mathematical
 Components Library v1.13.0 \cite{assia_mahboubi_2021_4457887}, and The Lean
 mathematical library\cite{10.1145/3372885.3373824}.
 
 The rest of the chapter is organized as follows. Section \ref{Proof_system}
 gives a brief overview on the proof systems that we discuss in this chapter.
-Experiment setup is discussed in Section \ref{experiment}. Section
-\ref{algebraic_structure} discuss how algebraic structures are defined in each
-system by taking Monoid as an example. Section \ref{table} provides a table that
-provides result of the survey.
+Experiment setup is discussed in Section \ref{experiment}. In Section
+\ref{threat}, we discuss threat to validity. Section \ref{algebraic_structure}
+discuss how algebraic structures are defined in each system by taking Monoid as
+an example. Section \ref{table} provides a table that provides result of the
+survey.
 
 \section{Proof assistant systems}
 \label{Proof_system}
@@ -106,7 +107,7 @@ are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
 to extract definitions. To build the web crawler, we first manually select the
 source pages where the algebraic definitions can be found in each system. The
-regular expression will find the make use of the keyword used in each system to
+regular expression will make use of the keyword used in each system to
 define algebraic structure. Thus, a part of the process of building the table
 ~\ref{tab:long} was automated. We then verify manually to make sure the
 algebraic structures are correctly extracted by the web crawler. Since the
@@ -125,7 +126,7 @@ In this section, we discuss threat to validity of the survey data.
   \item The libraries that we considered are under continuous
   development. The definitions that our web crawler extracted may not reflect
   the most recent code. We limit to a specific version of the library so that
-  all the definitions in that version are considered. 
+  all the definitions in that version are captured. 
   \item  The threat in using regular expression is that it may not capture all
   variations and formats of definitions. Some definitions may be missed, leading
   to incomplete data. We manually verify the result to look for missing
@@ -149,12 +150,13 @@ In this section, we discuss threat to validity of the survey data.
 
 \section{Algebraic Structures}
 \label{algebraic_structure}
-In this section, we see characterization of monoid structure in
+In this section, we discuss characterization of monoid structure in
 different libraries. A monoid is a mathematical structure consisting of a set,
 an associative binary operation, and an identity element for that operation.
 
 \subsection{Agda standard library}
-In Agda standard library, algebraic structures are defined over setoid.
+In Agda standard library, algebraic structures are
+defined over setoid \cite{danielsson2011agda}.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsMonoid (∙ : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
