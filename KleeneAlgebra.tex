@@ -2,10 +2,10 @@
 Kleene algebra is an algebraic structure named after Stephen Cole Kleene, for
 his contribution in the field of finite automata and regular expressions. Kleene
 algebras are used in various fields such as relational algebra, automata and
-formal theory, design and analysis of algorithms and program analysis and
+formal theory, design and analysis of algorithms, program analysis and
 compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes
-operations from regular expressions. The axiomization of the algebra if regular
-events was recently proposed in 1966 but it was in 1984, a completeness theorem
+operations from regular expressions. The axiomization of the algebra of regular
+events was recently proposed in 1966 but it was in 1984, that a completeness theorem
 for relational algebra with a proper subclass of Kleene algebra was given
 \cite{kozen1994completeness}. Although there are some differences in axioms of
 Kleene algebra, in this chapter we consider the axioms defined in
@@ -52,7 +52,7 @@ $(^{*})$ that satisfies the following axioms.
 \end{equation}
 where $\leq$ refers to the natural partial order: 
 \[a \leq b \leftrightarrow a + b = b\] In Agda we define the partial order
-axioms in terms of equality. \footnote{Kleene algebra with partial and pre order
+axioms in terms of equality. \footnote{Kleene algebra with partial and pre-order
 structures are defined in "Algebra.Ordered.Structures" in Agda standard
 library.}
 
@@ -81,7 +81,7 @@ StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
 StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
 \end{minted}
 
-The Kleene algebra can be structurally derived from idempotent semiring. In Agda
+The Kleene algebra can be structurally derived from idempotent semiring. In the Agda
 standard library, $+$ and $*$ operations are used to denote addition and
 multiplication. To keep the same template, ⋆ symbol is selected to denote the
 unary star operation. 
@@ -98,7 +98,7 @@ record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ 
 In the above definition, \inline{IsKleeneAlgebra} structure is defined as a
 record type with three fields. Since \inline{*} is used to denote binary
 multiplication operation, we use \inline{⋆} for the unary star operator. The
-field \inline{isIdempotentSemiring} makes an idempotentSemiring with operator
+field \inline{isIdempotentSemiring} makes an idempotentSemiring with the operator
 $+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
 \inline{starDestructive} are used to give the axioms for the star operator. We
 open \inline{isIdempotentSemiring} to bring its definitions into scope.
@@ -115,7 +115,7 @@ For Kleene algebra $(K_1,+_1,*_1,^{*_1},0_1,1_1)$ and
 $(K_2,+_2,*_2,^{*_2},0_2,1_2)$, the homomorphism $f: K_1 \rightarrow K_2$ can be
 defined by using the homomorphism of structure idempotent semiring and
 preserving the $^{*}$ operator. Formally, $f: K_1 \rightarrow K_2$ is a
-structure preserving map such that:
+structure-preserving map such that:
 \begin{itemize}
 \item $f$ preserves binary operation $+$: $f(x +_1 y) = f(x) +_2 f(y)$
 \item $f$ preserves binary operation $*$: $f(x *_1 y) = f(x) *_2 f(y)$
@@ -187,7 +187,7 @@ gives composition for star operator using transitive relation such that:
 \[g (f (x^{*_1})) = (g (f x) ^{*_2}) \text{ and } (g (f x) ^{*_2}) = (g (f x))^{*_3}\] 
 \[\Rightarrow g (f (x^{*_1})) = (g (f x))^{*_3}\] The composition of
 monomorphism and isomorphism can be defined similar to homomorphism and can be
-found in Agda standard library.
+found in the Agda standard library.
 
 \section{Direct Product}
 The \textit{direct product} of two Kleene algebra structures in Agda is defined
@@ -208,7 +208,7 @@ KleeneAlgebra K L = record
 
 where \inline{idempotentSemiring} is the product of two idempotent semiring structures.
 \section{Properties}
-In this section we prove some properties of Kleene algebra
+In this section, we prove some properties of Kleene algebra
 Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
 \begin{enumerate}
 \item $1\ +\ x^{*}\ =\ x^{*}$

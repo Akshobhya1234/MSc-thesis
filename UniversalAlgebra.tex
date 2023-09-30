@@ -5,7 +5,7 @@ in a general and abstract way. It provides a framework that allows
 mathematicians to study algebraic structures such as groups, rings, fields,
 lattices, and Boolean algebras, rather than studying them individually.
 Universal algebra provides constructs like homomorphisms, subalgebras, direct
-products, and more. These constructs help understand the algebraic structures
+products, and more. These constructs help us understand the algebraic structures
 and relationships between them. Algebraic structures, like monoids, loops,
 groups, and rings have similar properties. Universal algebra studies these
 structures by abstracting out the specific definitions and properties of
@@ -13,76 +13,18 @@ algebraic structures. Universal algebra will deal with these algebraic
 structures as axiomatic theories in equational first-order logic
 \cite{YSharoda}. 
 
-In this chapter we study the concepts from universal algebra that help
-understand the characterization of algebraic structures with its constructs in
-Agda in the later chapters. We assume the reader to have basic knowledge on set
+In this chapter, we study the concepts from universal algebra that help
+understand the characterization of algebraic structures with their constructs in
+Agda in the later chapters. We assume the reader to have basic knowledge of set
 theory (set, functions, and relations), knowledge of notation and concepts of
-first order logic. Section \ref{universe} defines terms like signature, theory,
-and algebra. We introduce constructs such as morphisms and direct product in
+first-order logic. Section \ref{universe} defines terms like signature, theory,
+and algebra. We introduce constructs such as morphisms and direct products in
 Section \ref{construct}. The definitions in this chapter are adapted from
 \cite{sankappanavar1981course}, \cite{wechler2012universal} and
 \cite{sannella2012foundations}. 
 
-\begin{comment}
-\section{Relation and function}
-In order to understand algebraic structures, it is essential to know some basics
-of relations and functions. In this section, we define relations and functions.
-We can start with defining a set.
-\begin{itemize}
-\item A set is a well-defined collection of objects. The elements or members of the
-set can be mathematical objects of any kind such as numbers, symbols, geometrical
-shapes, or even other sets. If $x$ is an object in set $S$ then we say x is an
-element of S and is denoted as $x \in S$.
-
-\item The \emph{Cartesian product} between two sets $X$ and $Y$,  $X \ \times\
-Y$ is defined as the set of pairs \(\{(x,y) :\ x \ \in\ X,\ y\ \in\ Y \}\). 
-
-\item A \emph{binary relation}  $R$ over sets $X$ and $Y$ is a subset of the
-Cartesian product $X \times Y$. Set $X$ is called the domain and set $Y$ is
-called the codomain of $R$.
-
-\item A relation $R$ is equivalence if it satisfies:
-\begin{enumerate}
-    \item Reflexive: A \emph{reflexive relation} $R$ on set $X$ is a subset on
-\(X \times X\) and $\forall x \in S, (x,x) \in R$
-
-    \item Symmetric: A \emph{symmetric relation} R on set X is a subset of \(X
-\times X\) such that \(\forall x y \in X,\ (x,y) \in R ⟺ (y,x) \in R \)
-
-    \item Transitive: A \emph{transitive relation} on set X is a subset of \(X
-\times X\) such that \(∀ x y z \in X \), if \((x,y) \in R\) and \((y,z) \in R \)
-then \((x,z) \in R\)
-\end{enumerate}
-In other words, a relation R is an \emph{equivalence} if it is reflexive, symmetric and transitive.
-
-\item In a relation, if every element in the domain $(X)$ is mapped to only one
-element in the codomain $(Y)$, then we call it a \emph{function}. This can be
-expressed using the notation:
-\[f:\ X \rightarrow\ Y\]
-\[x \ \mapsto\ f(x)\]
-For example, on the set of natural numbers $N$ to $N$ we can define a function as:
-\[f:\ N \rightarrow N\]
-\[x \ \mapsto\ x^{2}\]   
-\item Let $ X $ and $ Y $ be two sets, and $ f:X \rightarrow Y$ be a function then:
-\begin{enumerate}
-    \item The function $f$ is \textit{identity} if $X=Y$ and $f(x)\ =\ x,\
-    \forall x\ \in \ X$.
-    \item A function $f$ is \emph{injective} if $f$ maps distinct elements of
-    the domain to distinct elements of the codomain. $f$ is injective if
-    $f(x)=f(y) \Rightarrow x = y, \forall x,y \in X.$
-    \item A function is called \emph{surjective} if given $y \in Y$, there
-    exists $x\in X$ such that $f(x) = y$.
-    \item A function is called \emph{bijective} if it is both injective and
-    surjective.
-\end{enumerate}
-\item An \emph{operation} is defined as a function that can take zero or more inputs
-and maps them to a well-defined output value. The number of operands is the arity
-of the operation.
-\end{itemize}
-\end{comment}
-
 \section{Universe, type, and signature}
-Before we dive into defining algebra, we introduce to some concepts that are
+Before we dive into defining algebra, we introduce some concepts that are
 used later in the chapter.
 \begin{itemize}
     \item  A \emph{term} in logic represents an object in the domain of
@@ -90,12 +32,12 @@ used later in the chapter.
     \item  A \emph{function} $f: X \rightarrow Y$ is a mapping that associates each
     element of domain $(x \in X)$ with a unique element in co-domain $(y \in Y)$.
     \item  A \emph{function symbol} (or operation name) represents an operation
-    that maps elements of domain to unique element in the co-domain.
+    that maps the elements of domain to a unique element in the co-domain.
     \item The number of operands in a function (or operation) is the \emph{arity} of
     the operation.
-    \item A \emph{formula} is finite sequence of symbols from the set of alphabets of a
+    \item A \emph{formula} is a finite sequence of symbols from the set of alphabets of a
     language. A well-formed formula is a formula that is valid according
-    to the rules of the specific  language being used.
+    to the rules of the specific language being used.
     \item \emph{Term expressions} is a composition of terms with function symbols.
     \item For some formulas in propositional logic $(a,b)$, we say $a$ is a
     substitution instance of $b$ if and only if $a$ may be obtained from $b$ by
@@ -105,7 +47,7 @@ used later in the chapter.
 \label{universe}
 Logic allows us to describe properties of entities as formulas and provide
 reasoning about them. Equational logic limits these formulas (such as axioms
-or theorems) to  be universally quantified equations of the form $t_1 = t_2$.
+or theorems) to be universally quantified equations of the form $t_1 = t_2$.
 Here $t_1$ and $t_2$ are terms expressible in the language of theory. A
 proposition is true if it is derivable from other true propositions using
 inference rules. The three inference rules in equational logic described in
@@ -135,11 +77,11 @@ respectively.
     |F|,\text{and}\ x_1...x_n \in S_\Delta \]  
 
     \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is the
-    carrier set and $F$ is set of operation names.
+    carrier set and $F$ is the set of operation names.
 
     \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
     mathematical structure consisting of a carrier set $(A)$ and a family of
-    functions $(F_A)$ defined for each function symbols in the signature.
+    functions $(F_A)$ defined for each function symbol in the signature.
     Algebra provides an interpretation for the carrier set $A$ and function
     symbols $F_A$ of a theory.
 
@@ -162,7 +104,7 @@ structures. In this section, we will describe some of these constructions.
     y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\ \theta\
     f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
     
-    \item A \textit{morphism} is a structure preserving map between two
+    \item A \textit{morphism} is a structure-preserving map between two
     algebraic structures. It is an abstraction that generalizes the map between
     two structures or mathematical objects in general. If $A$ and $B$ are two
     algebras of same type $F$, then a homomorphism is defined as a function
@@ -184,7 +126,7 @@ structures. In this section, we will describe some of these constructions.
 
         \item Endomorphism: A homomorphism from an algebra $A$ to itself is
         called \textit{endomorphism}. In other words, if $f$ is a homomorphism on $A$
-        such that $f:A\rightarrow A$ then, f is an endomorphism.
+        such that $f: A \rightarrow A$ then, f is an endomorphism.
 
         \item Automorphism: An isomorphism from an algebra $A$ to itself is
         called \textit{automorphism}.

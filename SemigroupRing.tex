@@ -10,18 +10,18 @@ D\textsubscript{A}-rewriting system. Semigroup structures are also used in
 finite automata systems, probability theory and partial differential equations
 are explored in \cite{liaqat2021some}.
 
-Similarly, \textit{ring} is an algebraic structure that also have notable
+Similarly, \textit{ring} is an algebraic structure that also has notable
 applications such as in number theory \cite{noauthor_undated-eq}, in quantum
 computing \cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many
 other fields. Variations of ring structure such as a near-ring, quasi-ring, and
-Non-associative ring are being explored to make ring theory (study of ring
+Non-associative rings are explored to make ring theory (study of ring
 structures), more dynamic, concrete and useable. Now, the question arises: how
 can we encode these structures in Agda? We will explore this question in this
 chapter. The aim of this chapter is to define these structures and prove some
 properties in the Agda standard library that can help build other systems that
-uses these structures. 
+use these structures. 
 \section{Definition}
-A magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
+Magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
 that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we may
 observe that we can derive semigroups from magma by adding associative property.
 For binary operation \(∙\) on a set S, the associative property is defined as 
@@ -48,7 +48,7 @@ With this declaration of associativity and commutativity, we may further
 restrict the operations used to build a magma to one that is also associative to
 make it a semigroup. This we obtain the code below, semigroup that is
 structurally derived from magma.\footnote{Semigroup and commutative semigroup
-structure definitions with direct product and morphism constructs were
+structure definitions with the direct product and morphism constructs were
 previously defined in Agda standard library and hence will not be discussed in
 details in this chapter.}
 
@@ -80,8 +80,8 @@ ring on set $R$ is an algebraic structure with two binary operations $(+)$
 addition and $(*)$ multiplication. Addition $(R,+,⁻¹,0)$ is an Abelian group
 that is a group with commutative property. Multiplication $(R,*,1)$ is a unital
 magma that is a magma with identity. A group is a monoid with inverse property
-and a monoid is a semigroup with an identity element. A magma is called unital
-if it has identity. In non-associative ring, multiplication distributes over
+and a monoid is a semigroup with an identity element. Magma is called unital
+if it has an identity. In a non-associative ring, multiplication distributes over
 addition, and it has an annihilating zero. Formally, nonAssociativeRing
 $(R,+,*,^{-1},0,1)$ should satisfy the following axioms:
 \begin{itemize}
@@ -115,10 +115,10 @@ record IsNonAssociativeRing (+ * : Op₂ A) (-_ : Op₁ A) (0# 1# : A) : Set (a 
 
 We don't define \inline{IsNonAssociativeRing} with \inline{*-isUnitalMagma} to
 remove the redundant equivalence relation. This is discussed in Chapter 8. The
-same technique is followed when defining other ring like structures.
+same technique is followed when defining other ring-like structures.
 
 A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
-multiplication is a monoid and multiplication distributes over addition, and has
+multiplication is a monoid and multiplication distributes over addition and has
 an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axioms:
 \begin{itemize}
   \item $(Q,+,0)$ is a monoid:
@@ -151,7 +151,7 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 
 A quasiring with additive inverse is called a nearring. This implies that for
 the structure nearring, addition is a group, multiplication is a monoid,
-multiplication distributes over addition, and has an annihilating zero.
+multiplication distributes over addition and has an annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
@@ -164,7 +164,7 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
 \end{minted}
 
 Ring without one or rig or ring without unit is an algebraic structure with two
-binary operations with a unary and a nullary operations. For RingWithoutOne,
+binary operations with unary and nullary operations. For RingWithoutOne,
 multiplication distributes over addition and has an annihilating zero. A
 ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the following axiom:
 \begin{itemize}
@@ -196,12 +196,12 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
   open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 \section{Morphism} 
-A structure preserving map between two structures is called \textit{morphism}.
+A structure-preserving map between two structures is called \textit{morphism}.
 In this section morphism of RingWithoutOne structure is discussed. The
 homomorphism for ringWithoutOne structure can be defined using group
 homomorphism. For two group structures $(G_1,+_1,^{-1},e_1)$ and
 $(G_2,+_2,^{-1},e_2)$, homomorphism $f:(G_1,+_1,^{-1},e_1) \rightarrow
-(G_2,+_2,^{-1},e_2)$ is a structure preserving map such that:
+(G_2,+_2,^{-1},e_2)$ is a structure-preserving map such that:
 \begin{itemize}
   \item $f$ preserves the binary operation: $f(x +_1 y) = f(x) +_2 f(y)$
   \item $f$ preserves the inverse operation: $f(x⁻¹) = f(x)⁻¹$
@@ -278,7 +278,7 @@ y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ 
 (g (f y)))\]
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 \section{Direct Product}
-The \textit{direct product} of ring like structures in Agda.
+The \textit{direct product} of ring-like structures in Agda.
 
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
@@ -309,7 +309,7 @@ definitions can be found in the Agda standard library.
 \section{Properties}
 With these definitions, we can prove some frequently used properties and theories
 about the structures.\footnote{This section provides proof for properties that
-was contributed by the author and other properties can be found in Agda standard
+was contributed by the author and other properties can be found in the Agda standard
 library.}
 \subsection{Properties of Semigroup}
 Let $(S, ∙)$ be a semigroup then

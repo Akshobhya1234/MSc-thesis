@@ -10,14 +10,14 @@ the tools and expand their utility.
 
 This chapter provides the coverage of algebraic structures in proof assistant
 systems. Since I was exposed to Agda in the coursework, it added bias to select
-systems that are comparable with Agda and thus eliminating systems such as Mizar
+systems that are comparable with Agda thus eliminating systems such as Mizar
 and Isabelle. We consider four proof assistant systems that are all dependently
-typed higher order programming languages \cite{2019arXiv191203028S}. A standard
+typed higher-order programming languages \cite{2019arXiv191203028S}. A standard
 library for a system is a collection of mathematical definitions with logical
 constructs, proof tactics, and utility functions that provide a foundational set
 of tools and definitions for users of these proof assistants
 \cite{kohlhase2021experiences}. For the scope of the thesis, we consider the
-libraries as standard library that are commonly used and referenced for the
+libraries as standard libraries that are commonly used and referenced for the
 respective proof systems in the context of algebra. The aim of this chapter is
 to provide documentation for the algebraic coverage in the standard libraries of
 proof assistant systems Agda, Idris, Coq, and Lean. In this chapter, the latest
@@ -27,11 +27,11 @@ Components Library v1.13.0 \cite{assia_mahboubi_2021_4457887}, and The Lean
 mathematical library\cite{10.1145/3372885.3373824}.
 
 The rest of the chapter is organized as follows. Section \ref{Proof_system}
-gives a brief overview on the proof systems that we discuss in this chapter.
-Experiment setup is discussed in Section \ref{experiment}. In Section
-\ref{threat}, we discuss threat to validity. Section \ref{algebraic_structure}
+gives a brief overview of the proof systems that we discuss in this chapter.
+The experiment setup is discussed in Section \ref{experiment}. In Section
+\ref{threat}, we discuss the threat to validity. Section \ref{algebraic_structure}
 discuss how algebraic structures are defined in each system by taking Monoid as
-an example. Section \ref{table} provides a table that provides result of the
+an example. Section \ref{table} provides a table that provides the results of the
 survey.
 
 \section{Proof assistant systems}
@@ -41,15 +41,15 @@ Lean. We intentionally omit discussing Agda in this section since it is
 discussed in the previous chapter. 
 
 \subsection{Coq}
-Coq \cite{Paulin-Mohring2012} is a theorem proving system that is written in the
+Coq \cite{Paulin-Mohring2012} is a theorem-proving system that is written in the
 Ocaml programming language. It is designed to assist in the formalization of
 mathematical theorems by using constructive and higher-order logic.  It was
 first released in 1989 and is one of the most widely used proof assistant
-systems to define mathematical definitions, theory and to write proofs. Coq
-specification language is called Gallina. Users can write functions and
+systems to define mathematical definitions, and theory and to write proofs. The
+The Coq specification language is called Gallina. Users can write functions and
 algorithms in Gallina and then formally verify their correctness within the Coq
 environment \cite{bertot2013interactive}. Coq provides an interactive proof
-development environment where users can interact with Coq through a command-line
+development environment where users can interact with Coq through a command line
 interface (or supported IDEs) to construct proofs.
 
 The mathematical components library (v1.13.0) \cite{assia_mahboubi_2021_4457887}
@@ -67,11 +67,11 @@ theory. The proofs are alike with Coq and the type system in Idris is uniform
 with Agda \cite{brady2022idris}. Idris includes a totality checker, which helps
 ensure that functions are defined for all inputs and that programs are
 guaranteed to terminate \cite{brady2013idris}. Idris 2 is a self-hosted
-programming language that combines linear-type-system. Idris like Agda, supports
+programming language that combines linear-type systems. Idris like Agda, supports
 literate programming, this helps code and documentation to be interleaved in a
 natural and readable way. This is helpful for creating well-documented, readable
-formalizations. In this chapter, Idris 2 and Idris is used interchangeably and
-refers to Idris 2. Currently, there are no official package managers for Idris
+formalizations. In this chapter, Idris 2 and Idris are used interchangeably and
+refer to Idris 2. Currently, there are no official package managers for Idris
 2. However, several versions are under development. 
 
 \subsection{Lean}
@@ -96,12 +96,12 @@ coverage of algebra compared to the other 3 proof assistant systems discussed in
 the paper. The mathlib library of Lean is also maintained by the Lean community
 for community versions of Lean. It was developed on a small library that was in
 Lean. It contained definitions of natural numbers, integers, and lists and had
-some coverage over algebra hierarchy. The latest version of mathlib has over
+some coverage over the algebra hierarchy. The latest version of mathlib has over
 2794 definitions of algebra \cite{2019arXiv191203028S}. 
 
 \section{Experimental setup}
 \label{experiment}
-It is not time efficient to manually look for the definitions in a large
+It is not time-efficient to manually look for the definitions in a large
 library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
 are publicly available. We created a web crawler that extracts the code from the
 source code webpage and built a regular expression that is unique to each system
@@ -111,7 +111,7 @@ regular expression will make use of the keyword used in each system to
 define algebraic structure. Thus, a part of the process of building the table
 ~\ref{tab:long} was automated. We then verify manually to make sure the
 algebraic structures are correctly extracted by the web crawler. Since the
-standard libraries are open source projects, it is difficult to maintain
+standard libraries are open-source projects, it is difficult to maintain
 uniformity in the code. For example, the definition might start with a comment
 in the same line or structure parameters might be written in a new line. All
 this makes it difficult to correctly build the regular expression and will
@@ -134,12 +134,12 @@ In this section, we discuss threat to validity of the survey data.
   \item Each proof assistant has different language features that regular
   expressions need to account for. Ensuring that regular expressions work
   seamlessly across multiple proof assistants is challenging. We build unique
-  regular expression for each system.
+  regular expressions for each system.
   \item Different formalizations of algebraic structures may vary in their
-  definitions, naming conventions. For example, In Agda a ring without
+  definitions and naming conventions. For example, In Agda a ring without
   multiplicative identity is called \inline{RingWithoutOne}. The same structure
-  in Idris is called \inline{Ring}. These changes in naming will necessitate to
-  manually verify the result in building the table \ref{tab:long}.
+  in Idris is called \inline{Ring}. These changes in naming will necessitate 
+  manually verifying the result in building the table \ref{tab:long}.
   \item Regular expressions might capture irrelevant text that matches the
   pattern but is not part of the actual definition. For example, the comments in
   the source file may mislead the web crawler.
@@ -150,12 +150,17 @@ In this section, we discuss threat to validity of the survey data.
 
 \section{Algebraic Structures}
 \label{algebraic_structure}
-In this section, we discuss characterization of monoid structure in
-different libraries. A monoid is a mathematical structure consisting of a set,
-an associative binary operation, and an identity element for that operation.
+In this section, we discuss the characterization of monoid in different
+libraries. A monoid is a mathematical structure consisting of a set, an
+associative binary operation, and an identity element for that operation. This
+section discusses the definition of the monoid structure in each proof system
+and gives a brief overview of the syntax used in the definition. We note the
+files in which algebra definitions can be found in each system. We intentionally
+keep some overlap from the previous chapter when discussing the definition of
+monoid in Agda to have uniform coverage for each system.
 
 \subsection{Agda standard library}
-In Agda standard library, algebraic structures are
+In the Agda standard library, algebraic structures are
 defined over setoid \cite{danielsson2011agda}.
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -171,10 +176,10 @@ record IsMonoid (∙ : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
 equivalence \inline{_≈_} that takes two parameters: \inline{∙}, is a binary
 operation \inline{Op₂ A} on a set A. \inline{ε}, an element. The \inline{Set (a
 ⊔ ℓ)} specifies the universe level at which this record exists. \inline{field}
-keyword indicates the start of the field declaration. Field
+the keyword indicates the start of the field declaration. Field
 \inline{isSemigroup}, says that the binary operation \inline{∙} forms a
 semigroup, which means it is associative. The \inline{IsSemigroup} type is
-defined that proof of associativity for the binary operation. Field
+defined as proof of associativity for the binary operation. Field
 \inline{identity} indicates that \inline{ε} is an identity element for the
 binary operation \inline{∙}. The \inline{Identity} type says that \inline{ε}
 behaves as a left and right identity element for \inline{∙}.  Agda  opens the
@@ -226,8 +231,8 @@ definitions. Two variables within the scope of the definition section are:
 \inline{idm} is a variable of type \inline{T} representing the identity element
 of the monoid. \inlineCode{Coq}{Structure law := Law { ... }} line represents
 the properties of a monoid. \inline{operator} is a binary operation of type
-\inlineCode{Coq}{T -> T -> T}. Next three lines denote associativity, left and
-right identity laws.
+\inlineCode{Coq}{T -> T -> T}. The next three lines denote associativity and
+left and right identity laws.
 
 \subsection{Idris}
 
@@ -239,7 +244,7 @@ an identity element. The library defines various algebraic structures that
 include semigroup, monoid, group, Abelian-group, semiring, and ring. It follows
 a hierarchical approach in defining structures similar to that in Agda. For
 example, a semigroup is defined as a set with a binary operation that is
-associative, and a monoid is defined in terms of semigroup with an identity
+associative, and a monoid is defined in terms of a semigroup with an identity
 element. Idris addresses identity as a neutral element.
 
 \begin{minted}[breaklines,samepage]{Idris}
@@ -251,7 +256,7 @@ interface Semigroup t => Monoid t where
   monoidNeutralIsNeutralR : (r : t) -> neutral <+> r = r
 \end{minted}
 
-The definition is made public and available for exporting, making them
+The definition is made public and available for export, making them
 accessible outside the module or scope where they are defined. An interface
 named \inlineCode{Idris}{Monoid} extends the Semigroup interface so that any
 type \inline{t} that is an instance of \inlineCode{Idris}{Monoid} must also
@@ -282,7 +287,7 @@ class monoid (M : Type u) extends semigroup M, mul_one_class M :=
 In Lean, classes can inherit properties and methods from other classes. The
 monoid class inherits from the \inlineCode{Lean}{semigroup} and
 \inlineCode{Lean}{mul_one_class} classes. \inlineCode{Lean}{to_additive}
-indicates that additive version of the monoid class should be generated. The
+indicates that an additive version of the monoid class should be generated. The
 parameter \inlineCode{Lean}{(M : Type u)} specifies that \inline{M} is a type
 parameter that is the underlying set and \inlineCode{Lean}{Type u} indicates
 that \inline{M} is of a certain universe level. \inlineCode{Lean}{monoid} class
@@ -300,8 +305,8 @@ try to automatically prove this property using reflexivity tactics.
 \section{Result}
 \label{table}
 In table \ref{tab:long}, every checkmark links to the implementation in the
-source code of the library. In the Agda column, the checkmark in blue (\bluecheck) indicates
-the algebraic structures defined as part of this thesis. 
+source code of the library. In the Agda column, the checkmark in blue
+(\bluecheck) indicates the algebraic structures defined as part of this thesis. 
 \begin{longtable}{|l|l|l|l|l|}
 \caption{ Algebraic structures in proof assistant systems} \label{tab:long} \\
 
