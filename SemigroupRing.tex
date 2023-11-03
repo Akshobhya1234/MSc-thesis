@@ -21,10 +21,11 @@ chapter. The aim of this chapter is to define these structures and prove some
 properties in the Agda standard library that can help build other systems that
 use these structures. 
 \section{Definition}
-Magma is an algebraic structure with a set $S$ and a binary operation $∙$ such
-that, $\forall x,y \in S \Rightarrow (x ∙ y) \in S$. Following Figure 1.1, we may
-observe that we can derive semigroups from magma by adding associative property.
-For binary operation \(∙\) on a set S, the associative property is defined as 
+A semigroup is a mathematical structure that consists of a set equipped with an
+associative binary operation. Formally, a semigroup is defined as: 
+
+Let $S$ be a set, and let $∙$ be a binary operation on S, the structure $(S,∙)$
+is a semigroup if the following property holds:  
 \begin{equation}
 \forall\ x\ y\ z\ \in\ S ,\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
 \end{equation}
@@ -34,7 +35,8 @@ defined as
 \begin{equation}
 \forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\
 \end{equation}
-In Agda, we can define associativity and commutativity as follows:
+
+In Agda, the above predicates can be written as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 Associative : Op₂ A → Set _
@@ -44,13 +46,8 @@ Commutative : Op₂ A → Set _
 Commutative _∙_ = ∀ x y → (x ∙ y) ≈ (y ∙ x)
 \end{minted}
 
-With this declaration of associativity and commutativity, we may further
-restrict the operations used to build a magma to one that is also associative to
-make it a semigroup. This we obtain the code below, semigroup that is
-structurally derived from magma.\footnote{Semigroup and commutative semigroup
-structure definitions with the direct product and morphism constructs were
-previously defined in Agda standard library and hence will not be discussed in
-details in this chapter.}
+In Agda, we can define a semigroup as a record type to ensure that the
+properties of the semigroup are satisfied.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
@@ -60,11 +57,8 @@ field
 
 open IsMagma isMagma public
 \end{minted}
-In the above definition \inline{IsSemigroup} is a record type with two fields
-\inline{isMagma} and \inline{assoc}. $∙$ is a parameter of type \inline{Op₂ A}
-denotes the binary operation for the semiring. \inline{a ⊔ ℓ} is the least upper
-bound for the set. Similarly, commutative semigroup can be derived from
-semigroup as: 
+
+Similarly, commutative semigroup can be derived from semigroup as: 
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
@@ -75,7 +69,7 @@ field
 open IsSemigroup isSemigroup public
 \end{minted}
 
-Continuing on, we may encode various ring structures as follows: Non-associative
+We may encode various ring structures as follows: Non-associative
 ring on set $R$ is an algebraic structure with two binary operations $(+)$
 addition and $(*)$ multiplication. Addition $(R,+,⁻¹,0)$ is an Abelian group
 that is a group with commutative property. Multiplication $(R,*,1)$ is a unital
@@ -227,29 +221,8 @@ record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
 
 In the above definition of ringWithoutOne homomorphism
 \inline{IsRingWithoutOneHomomorphism} is defined as a record type with two
-fields \inline{+-isGroupHomomorphism} and \inline{*-homo}. A
-Homomorphism that is injective is called monomorphism and can be defined as:
+fields \inline{+-isGroupHomomorphism} and \inline{*-homo}.
 
-\begin{minted}[breaklines,samepage]{Agda}
-record IsRingWithoutOneMonomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
-  field
-    isRingWithoutOneHomomorphism : IsRingWithoutOneHomomorphism ⟦_⟧
-    injective                    : Injective ⟦_⟧
-
-  open IsRingWithoutOneHomomorphism isRingWithoutOneHomomorphism public
-\end{minted}
-
-A monomorphism that is bijective is called an isomorphism. Isomorphism of
-ringWithoutOne structure can be defined as:
-
-\begin{minted}[breaklines,samepage]{Agda}
-record IsRingWithoutOneIsoMorphism (⟦_⟧ : A → B) : Set (a ⊔ b ⊔ ℓ₁ ⊔ ℓ₂) where
-  field
-    isRingWithoutOneMonomorphism : IsRingWithoutOneMonomorphism ⟦_⟧
-    surjective                   : Surjective ⟦_⟧
-
-  open IsRingWithoutOneMonomorphism isRingWithoutOneMonomorphism public
-\end{minted}
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
