@@ -3,7 +3,7 @@ Quasigroups and loops find applications in various areas of mathematics,
 computer science, and beyond. For example, Einstein's formula of addition of
 velocities gives a loop structure \cite{ungar2007einstein}. In computer science,
 they are used in error-correcting codes and cryptography, where properties like
-uniqueness of solutions and efficient error detection play a crucial role
+uniqueness of solutions and error detection play a crucial role
 \cite{phillips2010automated}. The properties of loops help the development of
 efficient computational algorithms, in the areas of optimization, scheduling,
 and permutation-based problems \cite{khan2015mining}. In this chapter, we
@@ -35,11 +35,11 @@ y\ =\ (y\ ∙\ x)\ /\ x
 In Chapter 3, we may observe that Agda supports many unicode characters (UTF-8)
 that can be used in identifiers. However, there are some limitations in the use
 of certain characters due to their reserved status that can cause conflict with
-Agda's syntax. The backslash is used in Agda's syntax for various purposes, such
-as defining Unicode characters and escape sequences, which would result in
-potential conflicts if it were allowed as a regular identifier. To overcome this
-issue, for division operation, we use // and \textbackslash\textbackslash
-instead of / and \textbackslash \ respectively.
+Agda's syntax. Backslash ($\backslash$) is used in Agda's syntax for various
+purposes, such as defining Unicode characters and escape sequences, which would
+result in potential conflicts if it were allowed as an identifier. To overcome
+this issue, we use // and \textbackslash\textbackslash instead of / and
+\textbackslash \ respectively.
 
 We can write the above predicates in Agda as:
 
@@ -85,7 +85,8 @@ open IsMagma isMagma public
 \end{minted}
 In the above definition \inline{IsQuasigroup} is a record type with three binary
 operations $∙,\ \backslash\backslash \ //$ on setoid $A$. The structure has five
-fields. We restrict discussing the definition as it is covered in Chapter 3.
+fields. We restrict discussing the syntax of definition as it is covered in
+Chapter 3.
 
 A loop is a quasigroup that has an identity element. The identity axiom is given
 as:
@@ -117,31 +118,24 @@ field
 open IsQuasigroup isQuasigroup public
 \end{minted}
 
-A loop is called a \textit{right bol loop} if it satisfies the identity
-(Equation~\ref{eq_rightbol})
-\begin{equation}\label{eq_rightbol}
- ((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)
-\end{equation}
-A loop is called a \textit{left bol loop} if it satisfies the identity
-(Equation~\ref{eq_leftbol})
-\begin{equation}\label{eq_leftbol}
- x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z
-\end{equation}
-A loop is called \textit{middle bol loop} if it satisfies the identity
-(Equation~\ref{eq_middlebol}) 
-\begin{equation}\label{eq_middlebol}
-(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)
-\end{equation}
+Bol loops are nonassociative algebraic systems that satisfy a weakened form of
+the associative property. A loop is called a \textit{right bol loop} if it
+satisfies the right bol identity
+\[ ((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)\]
+A loop is called a \textit{left bol loop} if it satisfies the left bol identity
+\[ x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z\]
+A loop is called \textit{middle bol loop} if it satisfies the middle bol identity
+\[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\] 
+
 A left-right bol loop is called a \textit{moufang loop} if it satisfies the
-identity (Equation~\ref{eq_moufang})
-\begin{equation}\label{eq_moufang}
-(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)
-\end{equation} 
+moufang identity. Moufang loops have applications in the fields of geometry, and
+theoretical physics \cite{kunen1996moufang}.
+\[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
 \section{Morphism}
 A structure-preserving map f between two structures of the same type is called
 \textit{morphism} or homomorphism in general. That is \(f\) : \(A \ \rightarrow \
-B\) and ∙ is an operation on the structure then homomorphism is defined as
+B\) and $∙$ is an operation on the structure then homomorphism is defined as
 \[f(x\  ∙ \  y) \ = \ f(x) \ ∙ \  f(y)\] A homomorphism that is injective is
 called \textit{monomorphism}. If the structures are identical i.e., they are
 more than just similar in structure then we can compare the structures with
@@ -219,7 +213,6 @@ operations homomorphism (∙) for quasigroup is homomorphic using transitive
 relation \inline{≈₃-trans} such that \[g (f ((Q₁ ∙ x) y)) ≈ (g ((Q₂ ∙ f x) (f
 y)) \text{ and } g ((Q₂ ∙ f x) (f y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
 \[\Rightarrow g (f ((Q₁ ∙ x) y)) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
-\end{minted}
 
 Monomorphism and isomorphism composition constructs for quasigroup and loop are
 defined similar to homomorphism and can be found in the Agda standard library.
@@ -253,7 +246,10 @@ loop structure can be defined similarly to quasigroup as:
 In this section, we prove some properties of quasigroup, loop, middle bol loop, and moufang loop using
 Agda. The proofs are adapted from \cite{Stener2016MoufangL} and \cite{bruck1944some}.
 \subsection{Properties of Quasigroup}
-Let $(Q, ∙, /, \backslash)$ be a quasigroup then:
+Cancellative quasigroups are used in cryptographic protocols. Properties such as
+left and right cancellation can be used to ensure the confidentiality of data
+during encryption and decryption processes \cite{shcherbacov2003elements}. Let
+$(Q, ∙, /, \backslash)$ be a quasigroup then:
 \begin{enumerate}
 \item $Q$ is cancellative. A quasigroup is left cancellative if $x\ ∙\ y\ =\ x\ ∙\ z$ then
 $y\ =\ z$ and a quasigroup is right cancellative if $y\ ∙\ x\ =\ z\ ∙\ x$ then $y\ =\ z$. A
@@ -348,8 +344,10 @@ x//ε≈x x = begin
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Middle bol loop}
-Let $(M, ∙, /, \backslash)$ be a middle bol loop then the following
-identities hold.
+Middle Bol loops are used in combinatorial design theory to construct specific
+types of combinatorial designs. The proofs for properties of middle bol loop are
+adapted from \cite{jaiyeola2021new}. Let $(M, ∙, /, \backslash)$ be a middle bol loop then the
+following identities hold.
 \begin{enumerate}
 \item \(x\ ∙\ ((y\ ∙\ x)\ \backslash \ x)\ =\ y\ \backslash\ x\) 
 \item \(x\ ∙\ ((x\ ∙\ z)\ \backslash \ x)\ =\ x\ /\ z\)
@@ -415,13 +413,16 @@ x//xzx≈x//z x z = begin
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Moufang Loop}
-Let $(M, ∙, /, \backslash)$ be a moufang loop then the following identities
-holds.
+The properties of Moufang loops have application in computational mathematics
+and algorithm design. They provide insights into the efficient implementation of
+mathematical algorithms and data structures \cite{kunen1996moufang}. The proofs
+in this sub-section are adapted from \cite{Stener2016MoufangL}. Let $(M, ∙, /,
+\backslash)$ be a moufang loop then the following identities holds.
 \begin{enumerate}
 \item Moufang loop is alternative. A moufang loop is left alternative if it
 satisfies \((x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\), a moufang loop is right
-alternative if it satisfies \(x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y\) and if a moufang loop
-alternative if it is both left and right alternative. 
+alternative if it satisfies \(x\ ∙\ (y\ ∙\ y)\ =\ (x\ ∙ y)\ ∙\ y\) and if a
+moufang loop alternative if it is both left and right alternative. 
 \item Moufang loop is flexible. A Moufang loop is flexible if it satisfies
 flexible identity $(x\ ∙\ y)\ ∙\ x\ =\ x\ ∙\ (y\ ∙\ x)$
 \item $z\ ∙\ (x\ ∙\ (z\ ∙\ y))\ =\ ((z\ ∙\ x)\ ∙\ z)\ ∙\ y$

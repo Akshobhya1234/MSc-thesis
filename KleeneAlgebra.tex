@@ -5,7 +5,7 @@ algebras are used in various fields such as relational algebra, automata and
 formal theory, design and analysis of algorithms, program analysis and
 compiler optimization \cite{kozen1997kleene}. Kleene algebra generalizes
 operations from regular expressions. The axiomization of the algebra of regular
-events was recently proposed in 1966 but it was in 1984, that a completeness theorem
+events was proposed in 1966 but it was in 1984, that a completeness theorem
 for relational algebra with a proper subclass of Kleene algebra was given
 \cite{kozen1994completeness}. Although there are some differences in axioms of
 Kleene algebra, in this chapter we consider the axioms defined in
@@ -81,10 +81,10 @@ StarDestructive : Op₂ A → Op₂ A → Op₁ A → Set _
 StarDestructive _+_ _∙_ _* = (StarLeftDestructive _+_ _∙_ _*) × (StarRightDestructive _+_ _∙_ _*)
 \end{minted}
 
-The Kleene algebra can be structurally derived from idempotent semiring. In the Agda
+The Kleene algebra can be defined using idempotent semiring. In the Agda
 standard library, $+$ and $*$ operations are used to denote addition and
-multiplication. To keep the same template, ⋆ symbol is selected to denote the
-unary star operation. 
+multiplication. To keep the same template, ⋆ is selected to denote the unary
+star operation. 
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -102,14 +102,13 @@ field \inline{isIdempotentSemiring} makes an idempotentSemiring with the operato
 $+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
 \inline{starDestructive} are used to give the axioms for the star operator. We
 open \inline{isIdempotentSemiring} to bring its definitions into scope.
+
 \section{Morphism}
 A morphism of Kleene algebra is a function between two Kleene algebras that
 preserves the algebraic structure of the underlying semiring and the Kleene star
 operation. Morphisms of Kleene algebra are important in the study of regular
 languages and automata, as they allow us to relate the behavior of different
-automata and regular expressions to each other. Morphism of Kleene algebra help
-to generalize the theory of regular languages and finite automata to more
-general algebraic structures.
+automata and regular expressions to each other.
 
 For Kleene algebra $(K_1,+_1,*_1,^{*_1},0_1,1_1)$ and
 $(K_2,+_2,*_2,^{*_2},0_2,1_2)$, the homomorphism $f: K_1 \rightarrow K_2$ can be
@@ -132,6 +131,9 @@ field
 
 open IsSemiringHomomorphism isSemiringHomomorphism public
 \end{minted}
+
+By characterizing morphisms in Kleene algebra, researchers can gain insights
+into the structural properties between two regular languages.
 
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
@@ -178,24 +180,20 @@ KleeneAlgebra K L = record
 
 where \inline{idempotentSemiring} is the product of two idempotent semiring structures.
 \section{Properties}
-In this section, we prove some properties of Kleene algebra
-Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
+In this section, we prove some properties of Kleene algebra. The proofs are
+adapted from \cite{kozen1997kleene}.
+Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene
+algebra then:
 \begin{enumerate}
-\item $1\ +\ x^{*}\ =\ x^{*}$
-\item $x * x^{*} + x^{*} = x^{*}$
-\item $x^{*}\  + x^{*}\ *\ x\ =\ x^{*}$
-\item $0\ + x\ +\ x^{*}\ =\ x^{*}$
-\item $1\ + x\ +\ x^{*}\ =\ x^{*}$
-\item $x\ +\ x^{*}\ =\ x^{*}$
-\item $x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}$
-\item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
-\item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
-\item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
-\item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
-\end{enumerate}
-Proof:
-\begin{enumerate}
-\item
+  \setlength{\itemindent}{0em}
+  \item 
+\[1\ +\ x^{*}\ =\ x^{*}\] 
+\[x\ +\ x^{*}\ =\ x^{*}\]
+This property allows for the repetition and concatenation of language
+constructs. An application of this property is found in the development of
+pattern-matching algorithms in text processing and computational linguistics
+\cite{ulus2018pattern}.
+
 \begin{minted}[breaklines,samepage]{Agda}
 1+x⋆≈x⋆ : ∀ x → 1# + x ⋆ ≈ x ⋆
 1+x⋆≈x⋆ x = begin
@@ -207,52 +205,7 @@ Proof:
   1# + x * x ⋆ + x ⋆          ≈⟨ starExpansiveʳ x ⟩ 
   x ⋆                         ∎
 \end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-xx⋆+x⋆≈x⋆ : ∀ x → x * x ⋆ + x ⋆ ≈ x ⋆
-xx⋆+x⋆≈x⋆ x = begin
-  x * x ⋆ + x ⋆                    ≈⟨ +-comm _ _ ⟩ 
-  x ⋆ + x * x ⋆                    ≈⟨ +-congʳ (sym(starExpansiveʳ x)) ⟩
-  1# +  x * x ⋆ + x ⋆ + x * x ⋆    ≈⟨ +-assoc _ _ _ ⟩ 
-  1# + x * x ⋆ + (x ⋆ + x * x ⋆)   ≈⟨ +-congˡ(+-comm (x ⋆) ( x * x ⋆)) ⟩
-  1# + x * x ⋆ + (x * x ⋆ + x ⋆)   ≈⟨ +-assoc _ _ _ ⟩ 
-  1# + (x * x ⋆ + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ (sym (+-assoc _ _ _)) ⟩ 
-  1# + (x * x ⋆ + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ (+-congʳ (+-idem _)) ⟩ 
-  1# + (x * x ⋆ + x ⋆)             ≈⟨ sym( +-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
-  1# + x * x ⋆ + x ⋆               ≈⟨ starExpansiveʳ x ⟩ 
-  x ⋆                              ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
-x⋆+x⋆x≈x⋆ x = begin
-  x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
-  1# + x ⋆ + x ⋆ * x    ≈⟨ +-assoc _ _ _ ⟩
-  1# + (x ⋆ + x ⋆ * x)  ≈⟨ +-congˡ (+-comm (x ⋆) (x ⋆ * x)) ⟩  
-  1# + (x ⋆ * x + x ⋆)  ≈⟨ sym (+-assoc _ _ _) ⟩
-  1# + x ⋆ * x + x ⋆    ≈⟨ starExpansiveˡ x ⟩ 
-  x ⋆                   ∎
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-0+x+x⋆≈x⋆ : ∀ x → 0# + x + x ⋆ ≈ x ⋆
-0+x+x⋆≈x⋆ x = begin
-  0# + x + x ⋆    ≈⟨ +-assoc 0# x (x ⋆) ⟩
-  0# + (x + x ⋆)  ≈⟨ +-identityˡ ((x + x ⋆)) ⟩
-  (x + x ⋆)       ≈⟨ x+x⋆≈x⋆ x ⟩
-  x ⋆             ∎
 
-\end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
-1+x+x⋆≈x⋆ x = begin
-  1# + x + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
-  1# + (x + x ⋆) ≈⟨ +-congˡ (x+x⋆≈x⋆ x) ⟩ 
-  1# + x ⋆       ≈⟨ 1+x⋆≈x⋆ x ⟩ 
-  x ⋆            ∎
-\end{minted}
-\item
 \begin{minted}[breaklines,samepage]{Agda}
 x+x⋆≈x⋆ : ∀ x → x + x ⋆ ≈ x ⋆
 x+x⋆≈x⋆ x = begin
@@ -270,6 +223,72 @@ x+x⋆≈x⋆ x = begin
   x ⋆                             ∎
 \end{minted}
 \item
+The absorption property is used in the simplification of
+regular expressions.
+
+\[x * x^{*} + x^{*} = x^{*}\]
+\[x^{*}\  + x^{*}\ *\ x\ =\ x^{*}\] 
+
+They are used in the analysis of language hierarchies and the development of
+language recognition algorithms in natural language processing and computational
+linguistics \cite{desharnais2004modal}.
+
+\begin{minted}[breaklines,samepage]{Agda}
+xx⋆+x⋆≈x⋆ : ∀ x → x * x ⋆ + x ⋆ ≈ x ⋆
+xx⋆+x⋆≈x⋆ x = begin
+  x * x ⋆ + x ⋆                    ≈⟨ +-comm _ _ ⟩ 
+  x ⋆ + x * x ⋆                    ≈⟨ +-congʳ (sym(starExpansiveʳ x)) ⟩
+  1# +  x * x ⋆ + x ⋆ + x * x ⋆    ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + x * x ⋆ + (x ⋆ + x * x ⋆)   ≈⟨ +-congˡ(+-comm (x ⋆) ( x * x ⋆)) ⟩
+  1# + x * x ⋆ + (x * x ⋆ + x ⋆)   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x * x ⋆ + (x * x ⋆ + x ⋆)) ≈⟨ +-congˡ (sym (+-assoc _ _ _)) ⟩ 
+  1# + (x * x ⋆ + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ (+-congʳ (+-idem _)) ⟩ 
+  1# + (x * x ⋆ + x ⋆)             ≈⟨ sym( +-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
+  1# + x * x ⋆ + x ⋆               ≈⟨ starExpansiveʳ x ⟩ 
+  x ⋆                              ∎
+\end{minted}
+
+\begin{minted}[breaklines,samepage]{Agda}
+x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
+x⋆+x⋆x≈x⋆ x = begin
+  x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
+  1# + x ⋆ + x ⋆ * x    ≈⟨ +-assoc _ _ _ ⟩
+  1# + (x ⋆ + x ⋆ * x)  ≈⟨ +-congˡ (+-comm (x ⋆) (x ⋆ * x)) ⟩  
+  1# + (x ⋆ * x + x ⋆)  ≈⟨ sym (+-assoc _ _ _) ⟩
+  1# + x ⋆ * x + x ⋆    ≈⟨ starExpansiveˡ x ⟩ 
+  x ⋆                   ∎
+\end{minted}
+\item
+Zero and one element By the zero element property simplifies to $x^{*}$ That is
+the zero (and one) element does not alter the result when combined with language
+elements and their Kleene star. These properties are also used in regular
+expressions and pattern-matching algorithms.
+
+\[0\ + x\ +\ x^{*}\ =\ x^{*}\]
+\[1\ + x\ +\ x^{*}\ =\ x^{*} \]
+
+\begin{minted}[breaklines,samepage]{Agda}
+0+x+x⋆≈x⋆ : ∀ x → 0# + x + x ⋆ ≈ x ⋆
+0+x+x⋆≈x⋆ x = begin
+  0# + x + x ⋆    ≈⟨ +-assoc 0# x (x ⋆) ⟩
+  0# + (x + x ⋆)  ≈⟨ +-identityˡ ((x + x ⋆)) ⟩
+  (x + x ⋆)       ≈⟨ x+x⋆≈x⋆ x ⟩
+  x ⋆             ∎
+
+\end{minted}
+\begin{minted}[breaklines,samepage]{Agda}
+1+x+x⋆≈x⋆ : ∀ x → 1# + x + x ⋆ ≈ x ⋆
+1+x+x⋆≈x⋆ x = begin
+  1# + x + x ⋆   ≈⟨ +-assoc _ _ _ ⟩ 
+  1# + (x + x ⋆) ≈⟨ +-congˡ (x+x⋆≈x⋆ x) ⟩ 
+  1# + x ⋆       ≈⟨ 1+x⋆≈x⋆ x ⟩ 
+  x ⋆            ∎
+\end{minted}
+To prove the property:
+\item \[x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}\] We need to prove that $x^{*} + x *
+x^{*} + x^{*} ≈ x^{*}$. This proof can be used in Agda as shown in the proof
+below.
+
 \begin{minted}[breaklines,samepage]{Agda}
 x⋆+xx⋆+x⋆≈x⋆ : ∀ x → x ⋆ + x * x ⋆ + x ⋆ ≈ x ⋆
 x⋆+xx⋆+x⋆≈x⋆ x = begin
@@ -283,7 +302,9 @@ x⋆+xx⋆+x⋆≈x⋆ x = begin
 x⋆x⋆+x⋆≈x⋆ : ∀ x → x ⋆ * x ⋆ + x ⋆ ≈ x ⋆
 x⋆x⋆+x⋆≈x⋆ x =  starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆+x⋆≈x⋆ x) 
 \end{minted}
-\item
+
+\begin{comment}
+  \item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
 \begin{minted}[breaklines,samepage]{Agda}
 1+x⋆x⋆+x⋆≈x⋆ : ∀ x → 1# + x ⋆ * x ⋆ + x ⋆ ≈ x ⋆
 1+x⋆x⋆+x⋆≈x⋆ x = begin
@@ -292,7 +313,25 @@ x⋆x⋆+x⋆≈x⋆ x =  starDestructiveˡ x (x ⋆) (x ⋆) (x⋆+xx⋆+x⋆�
   1# + x ⋆               ≈⟨ 1+x⋆≈x⋆ x ⟩
   x ⋆                    ∎
 \end{minted}
-\item
+\end{comment}
+
+Here are some other notable properties of Kleene algebra along with their proofs
+in Agda.
+
+\item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
+
+\begin{minted}[breaklines,samepage]{Agda}
+x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈ y → 1# + x * y ⋆ + y ⋆ ≈ y ⋆
+x≈y⇒1+xy⋆≈y⋆ x y eq = begin
+  1# + x * y ⋆ + y ⋆   ≈⟨ +-assoc _ _ _ ⟩
+  1# + (x * y ⋆ + y ⋆) ≈⟨ +-congˡ (+-congʳ (*-congʳ (eq))) ⟩
+  1# + (y * y ⋆ + y ⋆) ≈⟨ sym(+-assoc _ _ _) ⟩ 
+  1# + y * y ⋆ + y ⋆   ≈⟨ starExpansiveʳ y ⟩ 
+  y ⋆                  ∎
+\end{minted}
+
+\item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
+
 \begin{minted}[breaklines,samepage]{Agda}
 ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ : ∀ x a b → a * x ≈ x * b → (x + a * (x * b ⋆)) + x * b ⋆ ≈ x * b ⋆
 ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ x a b eq = begin
@@ -308,19 +347,13 @@ ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ x a b eq = begin
 ax≈xb⇒a⋆x≈xb⋆ : ∀ x a b → a * x ≈ x * b → a ⋆ * x + x * b ⋆ ≈ x * b ⋆
 ax≈xb⇒a⋆x≈xb⋆ x a b eq = starDestructiveˡ a x ((x * b ⋆)) (ax≈xb⇒x+axb⋆+x⋆b≈xb⋆ x a b eq)
 \end{minted}
-\item
-\begin{minted}[breaklines,samepage]{Agda}
-x≈y⇒1+xy⋆≈y⋆ : ∀ x y → x ≈ y → 1# + x * y ⋆ + y ⋆ ≈ y ⋆
-x≈y⇒1+xy⋆≈y⋆ x y eq = begin
-  1# + x * y ⋆ + y ⋆   ≈⟨ +-assoc _ _ _ ⟩
-  1# + (x * y ⋆ + y ⋆) ≈⟨ +-congˡ (+-congʳ (*-congʳ (eq))) ⟩
-  1# + (y * y ⋆ + y ⋆) ≈⟨ sym(+-assoc _ _ _) ⟩ 
-  1# + y * y ⋆ + y ⋆   ≈⟨ starExpansiveʳ y ⟩ 
-  y ⋆                  ∎
-\end{minted}
-\item
+
+
+\item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
+
 \begin{minted}[breaklines,samepage]{Agda}
 [xy]⋆x+x[yx]⋆≈x[yx]⋆ : ∀ x y → (x * y) ⋆ * x + x * (y * x) ⋆ ≈ x * (y * x) ⋆
 [xy]⋆x+x[yx]⋆≈x[yx]⋆ x y = ax≈xb⇒a⋆x≈xb⋆ x (x * y) (y * x) (*-assoc x y x)
 \end{minted}
+
 \end{enumerate}

@@ -1,40 +1,38 @@
 \chapter{Theory of Semigroup and Ring in Agda}
 In early 20th century, mathematician Hilbert proposed the H\textsubscript{10}
-problem: does there exist a general approach to verify whether a general
-Diophantine equation is solvable\cite{larchey2020hilbert}. Although this problem
-was solved by 1970, In 1987 Siekmann and Szabo concluded that the unification
-problem of D\textsubscript{A}-rewriting system\cite{DARewriting} cannot be
-predicted. In \cite{deng2016characterizations}, the author uses a type (2,2,0)
-algebra that is a \textit{semigroup} to give a general construct of
-D\textsubscript{A}-rewriting system. Semigroup structures are also used in
-finite automata systems, probability theory and partial differential equations
-are explored in \cite{liaqat2021some}.
+problem: "Is there a general approach to verify whether a Diophantine equation
+is solvable ?" \cite{larchey2020hilbert}. Although this problem was solved by
+1970, In 1987 Siekmann and Szabo concluded that the unification problem of
+D\textsubscript{A}-rewriting system\cite{DARewriting} cannot be predicted. In
+\cite{deng2016characterizations}, the author uses a type (2,2,0) algebra that is
+a \textit{semigroup} to give a general construct of D\textsubscript{A}-rewriting
+system. Semigroup structures are also used in finite automata systems,
+probability theory and partial differential equations are explored in
+\cite{liaqat2021some}.
 
 Similarly, \textit{ring} is an algebraic structure that also has notable
-applications such as in number theory \cite{noauthor_undated-eq}, in quantum
-computing \cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many
-other fields. Variations of ring structure such as a near-ring, quasi-ring, and
-Non-associative rings are explored to make ring theory (study of ring
+applications in number theory \cite{noauthor_undated-eq}, in quantum computing
+\cite{netto2008influence}, in cryptography \cite{ringcrypt}, and many other
+fields. Variations of ring structure such as a near-ring, quasi-ring, and
+non-associative rings are explored to make ring theory (study of ring
 structures), more dynamic, concrete and useable. Now, the question arises: how
 can we encode these structures in Agda? We will explore this question in this
-chapter. The aim of this chapter is to define these structures and prove some
-properties in the Agda standard library that can help build other systems that
-use these structures. 
+chapter. This chapter aims to define these structures and prove some properties
+in the Agda standard library that can help build other systems that use these
+structures. 
+
 \section{Definition}
-A semigroup is a mathematical structure that consists of a set equipped with an
+A semigroup is an algebraic structure that consists of a set equipped with an
 associative binary operation. Formally, a semigroup is defined as: 
 
 Let $S$ be a set, and let $∙$ be a binary operation on S, the structure $(S,∙)$
-is a semigroup if the following property holds:  
-\begin{equation}
-\forall\ x\ y\ z\ \in\ S ,\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z
-\end{equation}
+is a semigroup if the following property holds:
+\[\forall\ x\ y\ z\ \in\ S ,\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z\]
+
 A semigroup that satisfies commutative property is called commutative
 semigroup. For binary operation \( ∙ \) on a set S, commutative property is
-defined as 
-\begin{equation}
-\forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\
-\end{equation}
+defined as:
+\[ \forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\ \]
 
 In Agda, the above predicates can be written as:
 
@@ -58,7 +56,7 @@ field
 open IsMagma isMagma public
 \end{minted}
 
-Similarly, commutative semigroup can be derived from semigroup as: 
+Similarly, commutative semigroup can be defined using semigroup as: 
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsCommutativeSemigroup (∙ : Op₂ A) : Set (a ⊔ ℓ) where
@@ -69,15 +67,15 @@ field
 open IsSemigroup isSemigroup public
 \end{minted}
 
-We may encode various ring structures as follows: Non-associative
-ring on set $R$ is an algebraic structure with two binary operations $(+)$
-addition and $(*)$ multiplication. Addition $(R,+,⁻¹,0)$ is an Abelian group
-that is a group with commutative property. Multiplication $(R,*,1)$ is a unital
-magma that is a magma with identity. A group is a monoid with inverse property
-and a monoid is a semigroup with an identity element. Magma is called unital
-if it has an identity. In a non-associative ring, multiplication distributes over
-addition, and it has an annihilating zero. Formally, nonAssociativeRing
-$(R,+,*,^{-1},0,1)$ should satisfy the following axioms:
+We may encode various ring structures as follows: Non-associative ring on set
+$R$ is an algebraic structure with two binary operations $(+)$ addition and
+$(*)$ multiplication. Addition $(R,+,⁻¹,0)$ is an Abelian group that is a group
+with commutative property. Multiplication $(R,*,1)$ is a unital magma that is a
+magma with identity. A group is a monoid with an inverse and a monoid is a
+semigroup with identity. A magma is called unital if it has an identity. In a
+non-associative ring, multiplication distributes over addition, and it has an
+annihilating zero. Formally, nonAssociativeRing $(R,+,*,^{-1},0,1)$ should
+satisfy the following axioms:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an Abelian Group:
    \begin{itemize}
@@ -143,9 +141,9 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
   open IsMonoid +-isMonoid public
 \end{minted}
 
-A quasiring with additive inverse is called a nearring. This implies that for
-the structure nearring, addition is a group, multiplication is a monoid,
-multiplication distributes over addition and has an annihilating zero.
+A quasiring with additive inverse is called a nearring. For the structure
+nearring, addition is a group, multiplication is a monoid, multiplication
+distributes over addition and has an annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ ℓ) where
@@ -158,9 +156,8 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
 \end{minted}
 
 Ring without one or rig or ring without unit is an algebraic structure with two
-binary operations with unary and nullary operations. For RingWithoutOne,
-multiplication distributes over addition and has an annihilating zero. A
-ringWithoutOne $(R,+,*,⁻¹,0)$ should satisfy the following axiom:
+binary operations with unary and nullary operations. A ringWithoutOne
+$(R,+,*,⁻¹,0)$ should satisfy the following axiom:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an Abelian Group:
    \begin{itemize}
@@ -189,6 +186,7 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
 
   open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
+
 \section{Morphism} 
 A structure-preserving map between two structures is called \textit{morphism}.
 In this section morphism of RingWithoutOne structure is discussed. The
@@ -250,6 +248,7 @@ transitive relation \inline{≈₃-trans} from $R₁$ to $R₃$ such that \[g (f
 y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ * g (f x))
 (g (f y)))\]
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
+
 \section{Direct Product}
 The \textit{direct product} of ring-like structures in Agda.
 
@@ -321,7 +320,10 @@ xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Commutative Semigroup}
-Let $(S, ∙)$ be a commutative semigroup then
+An application of semimedial property of commutative semigroup is seen in study
+of quasigroups and loops. Semimedial semigroups play a role in combinatorial
+design theory \cite{liaqat2021some}. The proofs in this section are adapted from
+\cite{deng2016characterizations}. Let $(S, ∙)$ be a commutative semigroup then
 \begin{enumerate}
 \item S is semimedial. The semigroup S is left semimedial if  \(
 (x\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ (x\ ∙\ z) \) and right
@@ -420,7 +422,11 @@ Proof:
 \end{minted}
 \end{enumerate}
 \subsection{Properties of Ring}
-Let $(R, +, *, -, 0, 1)$ be a ring structure then
+Properties of rings can be found in number theory and algebraic geometry, where
+they are used to study algebraic curves, surfaces, and other geometric objects.
+They help in understanding the properties of prime numbers, factorization, and
+algebraic varieties \cite{noauthor_undated-eq}. Let $(R, +, *, -, 0, 1)$ be a
+ring structure then
 \begin{enumerate}
 \item \(- 1\ *\ x\ =\ -x\)
 \item \(\text{if}\ x\ +\ x\ =\ 0\ \text{then}\ x\ =\ 0\)
