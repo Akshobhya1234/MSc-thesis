@@ -7,8 +7,7 @@ D\textsubscript{A}-rewriting system\cite{DARewriting} cannot be predicted. In
 \cite{deng2016characterizations}, the author uses a type (2,2,0) algebra that is
 a \textit{semigroup} to give a general construct of D\textsubscript{A}-rewriting
 system. Semigroup structures are also used in finite automata systems,
-probability theory and partial differential equations are explored in
-\cite{liaqat2021some}.
+probability theory and partial differential equations \cite{liaqat2021some}.
 
 Similarly, \textit{ring} is an algebraic structure that also has notable
 applications in number theory \cite{noauthor_undated-eq}, in quantum computing
@@ -23,13 +22,12 @@ structures.
 
 \section{Definition}
 A semigroup is an algebraic structure that consists of a set equipped with an
-associative binary operation. Formally, a semigroup is defined as: 
-
-Let $S$ be a set, and let $∙$ be a binary operation on S, the structure $(S,∙)$
-is a semigroup if the following property holds:
+associative binary operation. Formally, a semigroup is defined as: Let $S$ be a
+set, and let $∙$ be a binary operation on S, the structure $(S,∙)$ is a
+semigroup if the following property holds:
 \[\forall\ x\ y\ z\ \in\ S ,\ x\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ z\]
 
-A semigroup that satisfies commutative property is called commutative
+A semigroup that satisfies the commutative property is called a commutative
 semigroup. For binary operation \( ∙ \) on a set S, commutative property is
 defined as:
 \[ \forall\ x\ y\ \in\ S ,\ x\ ∙\ y\ =\ y\ ∙\ x\ \]
@@ -75,7 +73,7 @@ magma with identity. A group is a monoid with an inverse and a monoid is a
 semigroup with identity. A magma is called unital if it has an identity. In a
 non-associative ring, multiplication distributes over addition, and it has an
 annihilating zero. Formally, nonAssociativeRing $(R,+,*,^{-1},0,1)$ should
-satisfy the following axioms:
+satisfy the following identities:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an Abelian Group:
    \begin{itemize}
@@ -109,9 +107,9 @@ We don't define \inline{IsNonAssociativeRing} with \inline{*-isUnitalMagma} to
 remove the redundant equivalence relation. This is discussed in Chapter 8. The
 same technique is followed when defining other ring-like structures.
 
-A quasiring is a type $(2,2,0,0)$ algebraic structure for which both addition and
-multiplication is a monoid and multiplication distributes over addition and has
-an annihilating zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following axioms:
+A quasiring is an algebraic structure for which both addition and multiplication
+forms a monoid, multiplication distributes over addition and has an annihilating
+zero. A quasiring $(Q,+,*,0,1)$ should satisfy the following identities:
 \begin{itemize}
   \item $(Q,+,0)$ is a monoid:
   \begin{itemize}
@@ -142,7 +140,7 @@ record IsQuasiring (+ * : Op₂ A) (0# 1# : A) : Set (a ⊔ ℓ) where
 \end{minted}
 
 A quasiring with additive inverse is called a nearring. For the structure
-nearring, addition is a group, multiplication is a monoid, multiplication
+nearring, addition forms a group, multiplication forms a monoid, multiplication
 distributes over addition and has an annihilating zero.
 
 \begin{minted}[breaklines,samepage]{Agda}
@@ -155,9 +153,9 @@ record IsNearring (+ * : Op₂ A) (0# 1# : A) (_⁻¹ : Op₁ A) : Set (a ⊔ �
   open IsQuasiring isQuasiring public
 \end{minted}
 
-Ring without one or rig or ring without unit is an algebraic structure with two
-binary operations with unary and nullary operations. A ringWithoutOne
-$(R,+,*,⁻¹,0)$ should satisfy the following axiom:
+A ring without one or rig or ring without unit is an algebraic structure with
+two binary operations, a unary and a nullary operation. A ringWithoutOne
+$(R,+,*,⁻¹,0)$ should satisfy the following identities:
 \begin{itemize}
   \item $(R,+,⁻¹,0)$ is an Abelian Group:
    \begin{itemize}
@@ -200,11 +198,11 @@ $(G_2,+_2,^{-1},e_2)$, homomorphism $f:(G_1,+_1,^{-1},e_1) \rightarrow
   \item $f$ preserves the identity: $f(e_1) = e_2$ where $e_1$ is the identity
   in $G_1$ and $e_2$ is the identity in $G_2$
 \end{itemize}
-Homomorphism for ringWithoutOne is extended from group homomorphism such that
-got two ringWithoutOne structures $R_1$ and $R_2$, the homomorphism $f: R_1
-\rightarrow R_2$ is a group homomorphism and preserves the multiplication
-operation. That is $f$ is a group homomorphism and \(f(x *_1 y) = f(x) *_2
-f(y)\).
+In Agda, homomorphism for ringWithoutOne is defined using group homomorphism
+such that for two ringWithoutOne structures $R_1$ and $R_2$, the homomorphism
+$f: R_1 \rightarrow R_2$ is a group homomorphism and preserves the
+multiplication operation. That is $f$ is a group homomorphism and \(f(x *_1 y) =
+f(x) *_2 f(y)\).
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
@@ -217,9 +215,10 @@ record IsRingWithoutOneHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ 
     isMagmaHomomorphism to +-isMagmaHomomorphism)
 \end{minted} 
 
-In the above definition of ringWithoutOne homomorphism
-\inline{IsRingWithoutOneHomomorphism} is defined as a record type with two
-fields \inline{+-isGroupHomomorphism} and \inline{*-homo}.
+In the above definition, \inline{IsRingWithoutOneHomomorphism} is defined as a
+record type with two fields \inline{+-isGroupHomomorphism} and \inline{*-homo}.
+The definition of isomorphism and monomorphism can be found in the Agda standard
+library under the module \inline{Algebra.Morphism.Structures}.
 
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
@@ -250,7 +249,7 @@ y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ 
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 
 \section{Direct Product}
-The \textit{direct product} of ring-like structures in Agda.
+The \textit{direct product} of ring-like structures in Agda is defined as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
@@ -321,9 +320,9 @@ xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
 \end{enumerate}
 \subsection{Properties of Commutative Semigroup}
 An application of semimedial property of commutative semigroup is seen in study
-of quasigroups and loops. Semimedial semigroups play a role in combinatorial
-design theory \cite{liaqat2021some}. The proofs in this section are adapted from
-\cite{deng2016characterizations}. Let $(S, ∙)$ be a commutative semigroup then
+of quasigroups and loops \cite{liaqat2021some}. The proofs in this section are
+adapted from \cite{deng2016characterizations}. Let $(S, ∙)$ be a commutative
+semigroup then
 \begin{enumerate}
 \item S is semimedial. The semigroup S is left semimedial if  \(
 (x\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ (x\ ∙\ y)\ ∙\ (x\ ∙\ z) \) and right

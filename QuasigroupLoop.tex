@@ -1,6 +1,6 @@
 \chapter{Theory Of Quasigroup and Loop in Agda}
-Quasigroups and loops find applications in various areas of mathematics,
-computer science, and beyond. For example, Einstein's formula of addition of
+Quasigroups and loops find applications in various fields of mathematics,
+computer science, and physics. For example, Einstein's formula of addition of
 velocities gives a loop structure \cite{ungar2007einstein}. In computer science,
 they are used in error-correcting codes and cryptography, where properties like
 uniqueness of solutions and error detection play a crucial role
@@ -12,12 +12,10 @@ structure.
  
 \section{Definitions}
 A quasigroup is a set equipped with binary operations that satisfies the
-quasigroup property, ensuring the existence of unique left and right divisions
-for all elements in the set, without associativity. A quasigroup
-$(Q,∙/\backslash)$ is an algebra consisting of a set ($Q$) and three binary
-operations $∙$ (multiplication), $\backslash$ (left division), and $/$ (right
-division). These operations satisfy the following identities $\forall x y \in
-Q$:
+quasigroup property. Formally, a quasigroup $(Q,∙/\backslash)$ is an algebra
+consisting of a set ($Q$) and three binary operations $∙$ (multiplication),
+$\backslash$ (left division), and $/$ (right division). These operations satisfy
+the following identities $\forall x y \in Q$:
 
 \begin{equation} \label{eq_L-leftdivides}
 y\ =\ x\ ∙\ (x\ \backslash\ y)
@@ -132,23 +130,21 @@ moufang identity. Moufang loops have applications in the fields of geometry, and
 theoretical physics \cite{kunen1996moufang}.
 \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
+The definition of these structures is similar to \inline{IsLoop} and can be
+found in the Agda standard library in module \inline{Algebra.Structures}.
+
 \section{Morphism}
 A structure-preserving map f between two structures of the same type is called
-\textit{morphism} or homomorphism in general. That is \(f\) : \(A \ \rightarrow \
-B\) and $∙$ is an operation on the structure then homomorphism is defined as
-\[f(x\  ∙ \  y) \ = \ f(x) \ ∙ \  f(y)\] A homomorphism that is injective is
-called \textit{monomorphism}. If the structures are identical i.e., they are
-more than just similar in structure then we can compare the structures with
-isomorphism.
-
-For quasigroups $(Q_1,∙,\backslash \backslash ,//)$ and $(Q_2,\circ,\backslash ,/)$,
-homomorphism is defined as a structure preserving map \( f:(Q_1,∙,\backslash
-\backslash,//) \rightarrow (Q_2,\circ,\backslash,/) \) such that:
+homomorphism or morphism in general. For quasigroups $(Q_1,∙,\backslash
+\backslash ,//)$ and $(Q_2,\circ,\backslash ,/)$, homomorphism is defined as a
+function \( f:(Q_1,∙,\backslash \backslash,//) \rightarrow
+(Q_2,\circ,\backslash,/) \) such that:
 \begin{itemize}
   \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
   \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
   \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
 \end{itemize}
+
 In Agda, quasigroup homomorphism can be defined as:
 
 \begin{minted}[samepage,breaklines]{Agda}
@@ -165,9 +161,10 @@ record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ�
 
 The loop homomorphism preserves left and right divisions along with the identity
 element. The homomorphism $f$ preserves all the binary operations as quasigroup
-along with the identity element. That is if \( f:(L_1,∙,\backslash
-\backslash,//,e_1) \rightarrow (L_2,\circ,\backslash,/,e_2) \) is a loop homomorphism if
-it is a quasigroup homomorphism such that: 
+along with the identity element. For two loop structure $(L_1,∙,\backslash
+\backslash,//,e_1) \text{and} (L_2,\circ,\backslash,/,e_2) $, the function \(
+f:(L_1,∙,\backslash \backslash,//,e_1) \rightarrow (L_2,\circ,\backslash,/,e_2)
+\) is a loop homomorphism if it is a quasigroup homomorphism and: 
 \[f(e_1) = e_2\] where $e_1$ is the identity element of loop $L_1$ and $e_2$ is
 the identity element of loop $L_2$. In Agda, loop homomorphism can be defined
 using quasigroup homomorphism as:
@@ -181,15 +178,16 @@ record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) wh
   open IsQuasigroupHomomorphism isQuasigroupHomomorphism public
 \end{minted}
 
-The definitions of quasigroup and loop monomorphism and isomorphism can be
-defined similar to magma morphism discussed in Chapter 3. These definitions can
-be found in the Agda standard library
-\href{https://github.com/agda/agda-stdlib/blob/master/src/Algebra/Morphism/Structures.agda}{here}.
+The definitions of quasigroup loop monomorphism and isomorphism can be defined
+similarly to magma morphism discussed in Chapter 3. These definitions can be
+found in the Agda standard library under module
+\href{https://github.com/agda/agda-stdlib/blob/master/src/Algebra/Morphism/Structures.agda}{Algebra.Morphism.Structures}.
 
 \section{Morphism composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
-such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
-defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. 
+such that $g\ :\ b\ \rightarrow \ c$, then the composition of morphism can be
+defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. In Agda we can prove that the
+composition of quasigroup homomorphism is homomorphic as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 isQuasigroupHomomorphism
@@ -240,11 +238,12 @@ In the above code, \inline{zip} gives a $\Sigma$-type of dependent pairs.
 \inline{<*>} is used to convert the curried functions to a function on a pair.
 Currying a function is to break down a function that takes multiple arguments
 into a series of functions that take exactly one argument. The direct product of
-loop structure can be defined similarly to quasigroup as: 
+loop structure can be defined similarly to quasigroup. 
 
 \section{Properties}
-In this section, we prove some properties of quasigroup, loop, middle bol loop, and moufang loop using
-Agda. The proofs are adapted from \cite{Stener2016MoufangL} and \cite{bruck1944some}.
+In this section, we prove some properties of quasigroup, loop, middle bol loop,
+and moufang loop using Agda. The proofs for quasigroup and loop are adapted from
+\cite{Stener2016MoufangL} and \cite{bruck1944some}.
 \subsection{Properties of Quasigroup}
 Cancellative quasigroups are used in cryptographic protocols. Properties such as
 left and right cancellation can be used to ensure the confidentiality of data
