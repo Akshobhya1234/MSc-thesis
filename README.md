@@ -7,6 +7,6 @@ Run command `make build` in the root folder. It will create `build` folder conta
 ##Clean
 Run command `make clean` to delete build folder.
 
-`Thesis_Main` is the tex file that imports other chapters, assets, macros and styles. 
+`Thesis_Main.tex` is the tex file that imports other chapters, assets, macros and styles. 
 
 
