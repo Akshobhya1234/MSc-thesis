@@ -39,8 +39,7 @@ researchers explore new domains by building upon the existing definitions and
 theorems easily. The Agda standard library follows an algebra hierarchy that
 starts with magma as the initial structure from which other structures are
 defined. A magma is a set $S$ with a binary operation $∙$ such that, $\forall
-x,y \in S, (x ∙ y) \in S$. A magma with associativity is called a semigroup. A
-magma with division operation is called a quasigroup.
+x,y \in S, (x ∙ y) \in S$. A magma with associativity is called a semigroup.
 
 The definitions of constructs like homomorphism and direct product are given to
 us by universal algebra. Universal algebra provides a common framework by
@@ -50,42 +49,41 @@ constructs. An algebra in universal algebra is defined as an ordered pair
 $(S,F)$ where $S$ is a set and $F = (F_i:i\in I)$ is a finitary operations on A
 for some indexing set $I$ \cite{sannella2012foundations}. Certain constructs
 like morphisms and direct products help us to relate different mathematical
-objects and structures in a systematic and rigorous way. Morphisms
-allow us to understand how different algebraic structures are related to one
-another. Direct product, on the other hand, is a useful tool for combining
-structures, such as monoids, groups, or rings, to create new and more
-complex structures that retain many of the desirable properties of the original
-structures. This allows us to study and understand larger, more complex systems
-and their properties.
+objects and structures in a systematic and rigorous way. Morphisms allow us to
+understand how different algebraic structures are related to one another. Direct
+product, on the other hand, is a useful tool for combining structures, such as
+monoids, groups, or rings, to create new and more complex structures that retain
+the properties of the original structures. This allows us to study and
+understand larger, more complex systems and their properties.
 
 \section{Research Outline}
 To define the scope of our research, that is to study algebraic structures in
 proof assistant systems, we capture the current coverage of algebraic structures
 in the standard libraries of some commonly used proof assistant systems. As part
-of the survey, we consider four libraries: The Agda standard library (v1.7.1),
-the mathematical component library (1.12.0) for Coq, Idris 2, and mathematical
-library for Lean 3. In the effort to find the coverage of algebraic
-structures in these libraries, we develop a clickable table that directs to the
-definition of the structure in the source code of these systems. Through the
-survey, we establish our focus on contributing to the Agda standard
-library\footnote{I was exposed to Agda during coursework for my Master's degree,
-further adding bias to choosing Agda over other systems}.
+of the survey, we consider four libraries: The Agda standard library, the
+mathematical component library for Coq, Idris 2, and mathematical library for
+Lean 3. In the effort to find the coverage of algebraic structures in these
+libraries, we develop a clickable table that directs to the definition of the
+structure in the source code of these systems. Through the survey, we establish
+our focus on contributing to the Agda standard library\footnote{I was exposed to
+Agda during coursework for my Master's degree, further adding bias to choosing
+Agda over other systems}.
 
 Inspired by the ways algebraic structures are used in research, in this work we
 explore capturing a select subset of them in the Agda standard library. We study
-magma with division operation that is quasigroup and loop structures. By
+two important non-associative algebra that is quasigroup and loop structures. By
 defining them with their morphisms and direct product constructs, we can study
 their properties and relationships in a more systematic way. We also explore
 various types of loops such as bol-loop and moufang-loop and their properties.
 Semigroups are used in various fields such as probability theory and formal
-systems. One of the most commonly studied algebraic structure is ring. In this
-thesis, we study types of rings such as near-ring, quasi-ring, and
+systems. One of the most commonly studied algebraic structures is the ring. In
+this thesis, we study types of rings such as near-ring, quasi-ring, and
 non-associative ring. I was exposed to Kleene Algebra in discrete mathematics
 course. Inspired by the applications of Kleene algebra in finite state machines,
 regular expressions, and other branches of computer science, we study Kleene
 algebra by providing proof for its properties that may be used in developing
-other systems or applications. By contributing to the Agda standard library, we hope
-that this work will be used by others. 
+other systems or applications. By contributing to the Agda standard library, we
+hope that this work will be used by others. 
 
 As we explore capturing these structures in Agda, we encountered several
 problems. In this work, we abstract out these problems into five classes:
