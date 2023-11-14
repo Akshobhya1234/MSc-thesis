@@ -64,7 +64,7 @@
 \author[Akshobhya K M]{Akshobhya Katte Madhusudana\\\small{}Under the supervision of Dr. Jacques Carette}
 
 \institute[McMaster University]{McMaster University}
-\date{October $12^{\text{th}}$, 2023}
+\date{November $12^{\text{th}}$, 2023}
 
 \AtBeginSection[]
 {
@@ -128,9 +128,11 @@
 
   \begin{enumerate}
     \item What is the current coverage of algebraic structures in proof assistant systems?
-    \item How to characterize types of algebraic structures in Agda?. 
-    \item Define constructs of algebraic structures with proofs to it's properties in Agda
-    \item Abstract out the problems faced during characterization of algebraic structures and analyze each problem to provide plausible solution.    
+    \item How to characterize types of algebraic structures in Agda? 
+    \item Define constructs of algebraic structures with proofs to their properties in Agda
+    \item Abstract out the problems faced during the characterization of
+    algebraic structures and analyze each problem to provide plausible
+    solutions.    
   \end{enumerate}
 \end{frame}
 
@@ -142,9 +144,11 @@
 \begin{frame}
   \frametitle{Algebraic structures in proof systems}
   \begin{enumerate}
+    \item A survey of coverage of algebraic structures in proof systems will
+    help to identify the gaps in the system.
     \item Survey on standard libraries of four proof assistant systems Agda, Lean, Idris, and Coq.
     \item Create a web crawler to capture definitions of algebraic structures.
-    \item Create a clickable table that takes to definition in source library.
+    \item Create a clickable table that takes to the definition in the source library.
   \end{enumerate}
 
 \end{frame}
@@ -155,10 +159,11 @@
 \section{Theory of Quasigroup}
 
 \begin{frame}[fragile]
-  \frametitle{Theory of Quasigroup}  
+  \frametitle{Theory of Quasigroup and Loop}  
   \begin{columns}
     \begin{column}{0.4\textwidth}
-        Quasigroup division operation
+      Quasigroup is a set equipped with binary operations that satisfy the
+      following equation.
             \[y=x∙(x\backslash y)\]
             \[y=x\backslash(x∙y)\]
             \[y=(y/x)∙x\]
@@ -212,6 +217,7 @@
         \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
         \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
     \end{itemize}
+\\
 \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
     record IsQuasigroupHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
      field
@@ -227,24 +233,14 @@
   
   \begin{frame}[fragile]
     \frametitle{Properties of Quasigroup}  
-    \begin{columns}
-      \begin{column}{0.4\textwidth}
-            Properties of Quasigroup
-            \begin{enumerate}
-            \item $Q$ is cancellative.
-            \item \(\text{If}  x ∙ y = z \text{then}\ y = x \backslash z\)
-            \item \(\text{If}  x ∙ y = z \text{then}\ x = z / y\)
-            \end{enumerate}
-        Properties of Loop
-        \begin{enumerate}
-        \item \(x/x=e\) 
-        \item \(x\backslash x=e\)
-        \item \(e\backslash x=x\) 
-        \item \(x/e=x\) 
-        \end{enumerate}
-      \end{column}
-      \hfill
-      \begin{column}{0.575\textwidth}
+
+      Properties of cancellative quasigroups are used in cryptographic
+      protocols. Properties such as left and right cancellation can be
+      used to ensure the confidentiality of data during encryption and
+      decryption
+      \\ \\
+\begin{center}
+  \centering
   \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
     cancelˡ : LeftCancellative _∙_
     cancelˡ x y z eq = begin
@@ -253,8 +249,8 @@
       x \\ (x ∙ z) ≈⟨ leftDividesʳ x z ⟩
       z            ∎
   \end{minted}
-      \end{column}
-    \end{columns}
+\end{center}
+
   \end{frame}
 
   \begin{frame}[fragile]
@@ -329,37 +325,24 @@
   \end{frame}
 
   \begin{frame}[fragile]
-    \frametitle{Properties of types of loop}  
-    \begin{columns}
-      \begin{column}{0.4\textwidth}
-        Properties of Semigroup:
-        \begin{enumerate}
-            \item Semigroup is alternative.
-            \item Semigroup is flexible. 
-            \item  \((x ∙ y) ∙ (x ∙ x) = x ∙ (y ∙ (x ∙ x)). \)
-            \end{enumerate}
-        Properties of commutative Semigroup:
-        \begin{enumerate}
-            \item Semimedial
-            \item Middle Semimedial
-        \end{enumerate}
-      \end{column}
-      \hfill
-      \begin{column}{0.575\textwidth}
-        Properties of ring without one structure:
-        \begin{enumerate}
-        \item \(- (x * y) = - x * y\)
-        \item \(- (x * y) = x * - y\)
-        \end{enumerate}
-        Properties of Ring:
-        \begin{enumerate}
-            \item \(- 1\ * x = -x\)
-            \item \(\text{if}\ x + x =0 \text{then}\ x=0\)
-            \item \(x*(y-z)=x*y-x*z\)
-            \item \((y-z)*x=(y*x)-(z*x)\)
-        \end{enumerate}
-      \end{column}
-    \end{columns}
+    \frametitle{Properties of types of Ring}  
+        The properties of rings are used in studying number theory and algebraic
+        geometry, where they are used to study algebraic curves, surfaces, and
+        other geometric objects
+
+        \[\text{if}\ x + x =0 \text{then}\ x=0\]
+
+        \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
+          x+x≈x⇒x≈0 : ∀ x → x + x ≈ x → x ≈ 0#
+          x+x≈x⇒x≈0 x eq = begin
+            x           ≈⟨ sym(+-identityʳ x) ⟩
+            x + 0#      ≈⟨ +-congˡ (sym (-‿inverseʳ x)) ⟩
+            x + (x - x) ≈⟨ sym (+-assoc x x (- x)) ⟩
+            x + x - x   ≈⟨ +-congʳ(eq) ⟩
+            x - x       ≈⟨ -‿inverseʳ x ⟩
+            0#          ∎
+          \end{minted}
+
   \end{frame}
 
 %------------------------------------------------------------------------------
@@ -412,19 +395,21 @@
 
 \begin{frame}[fragile]
     \frametitle{Properties of Kleene Algebra}  
-        \begin{enumerate}
-            \item $1\ +\ x^{*}\ =\ x^{*}$
-            \item $x * x^{*} + x^{*} = x^{*}$
-            \item $x^{*}\  + x^{*}\ *\ x\ =\ x^{*}$
-            \item $0\ + x\ +\ x^{*}\ =\ x^{*}$
-            \item $1\ + x\ +\ x^{*}\ =\ x^{*}$
-            \item $x\ +\ x^{*}\ =\ x^{*}$
-            \item $x^{*}\ *\ x^{*}\ +\ x^{*} =\ x^{*}$
-            \item $1 \ +\ x^{*}\ *\ x^{*}\ + x^{*}\ =\ x^{*}$
-            \item $\text{If}\ a\ *\ x\ =\ x\ *\ b\ \text{then}, a^{*}\ *\ x\ +\ x\ *\ b^{*} =\ x\ *\ b^{*}$
-            \item $\text{If}\ x\ =\ y\ \text{then},\ 1\ +\ x\ *\ y^{*}\ + \ y^{*}\ =\ y^{*}$
-            \item $(x\ *\ y)^{*}\ *\ x\ +\ x\ *\ (y\ *\ x)^{*} =\ x\ *\ (y\ *\ x)^{*}$
-            \end{enumerate}
+    Applications of properties of Kleene Algebra are found in the development of
+    pattern-matching algorithms in text processing and computational linguistics
+    and regular expressions.
+    \\
+    \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
+      1+x⋆≈x⋆ : ∀ x → 1# + x ⋆ ≈ x ⋆
+      1+x⋆≈x⋆ x = begin
+        1# + x ⋆                    ≈⟨ +-congˡ (sym(starExpansiveʳ x)) ⟩ 
+        1# + (1# + x * x ⋆ + x ⋆)   ≈⟨ +-congˡ (+-assoc 1# (x * x ⋆) (x ⋆)) ⟩ 
+        1# + (1# + (x * x ⋆ + x ⋆)) ≈⟨ sym(+-assoc 1# 1# (x * x ⋆ + x ⋆)) ⟩ 
+        1# + 1# + (x * x ⋆ + x ⋆)   ≈⟨ +-congʳ (+-idem 1#) ⟩ 
+        1# + (x * x ⋆ + x ⋆)        ≈⟨ sym(+-assoc 1# (x * x ⋆) (x ⋆) ) ⟩ 
+        1# + x * x ⋆ + x ⋆          ≈⟨ starExpansiveʳ x ⟩ 
+        x ⋆                         ∎
+      \end{minted}
   \end{frame}
 %------------------------------------------------------------------------------
 % Problem in Program algebra
@@ -456,7 +441,7 @@
 \begin{frame}[fragile]
   \frametitle{Redundant field}
 
-  Duplicate field in structural inheritance: e.g. semiring (+-commutativeMonoid and *-monoid)
+  Duplicate field: e.g. semiring (+-commutativeMonoid and *-monoid)
 
     \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
       record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
@@ -508,7 +493,8 @@
   \begin{enumerate}
     \item Set the scope by doing a survey 
     \item Study select subset of types of algebraic structures in Agda
-    \item Analyze five problems that we encountered.
+    \item Analyze five problems that we encountered and provide plausible
+    solution.
   \end{enumerate}
 \end{frame}
 

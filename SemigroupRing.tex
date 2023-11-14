@@ -446,12 +446,12 @@ Proof:
 \begin{minted}[breaklines,samepage]{Agda}
 x+x≈x⇒x≈0 : ∀ x → x + x ≈ x → x ≈ 0#
 x+x≈x⇒x≈0 x eq = begin
-  x ≈⟨ sym(+-identityʳ x) ⟩
-  x + 0# ≈⟨ +-congˡ (sym (-‿inverseʳ x)) ⟩
+  x           ≈⟨ sym(+-identityʳ x) ⟩
+  x + 0#      ≈⟨ +-congˡ (sym (-‿inverseʳ x)) ⟩
   x + (x - x) ≈⟨ sym (+-assoc x x (- x)) ⟩
-  x + x - x ≈⟨ +-congʳ(eq) ⟩
-  x - x ≈⟨ -‿inverseʳ x ⟩
-  0# ∎
+  x + x - x   ≈⟨ +-congʳ(eq) ⟩
+  x - x       ≈⟨ -‿inverseʳ x ⟩
+  0#          ∎
 \end{minted}
 \item
 \begin{minted}[breaklines,samepage]{Agda}
