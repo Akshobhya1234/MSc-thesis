@@ -119,12 +119,36 @@
 \end{frame}
 
 %------------------------------------------------------------------------------
-% Universal Algebra
+% Definition
 %------------------------------------------------------------------------------
-\section{Research outline}
+\section{Definition}
 
 \begin{frame}
-  \frametitle{Research outline}
+  \frametitle{Definition}
+
+  \begin{itemize}
+
+    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is the
+    carrier set and $F$ is the set of operation names.
+
+    \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
+    mathematical structure consisting of a carrier set $(A)$ and a family of
+    functions $(F_A)$ defined for each function symbol in the signature.
+
+    \item The type (or language) of the algebra is a set of function symbols.
+    Each member of this set is assigned a positive number which is the arity of
+    the member.
+  \end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------
+% Universal Algebra
+%------------------------------------------------------------------------------
+\section{Research Outline}
+
+\begin{frame}
+  
+  \frametitle{Research Outline}
 
   \begin{enumerate}
     \item What is the current coverage of algebraic structures in proof assistant systems?
@@ -134,15 +158,16 @@
     algebraic structures and analyze each problem to provide plausible
     solutions.    
   \end{enumerate}
+
 \end{frame}
 
 %------------------------------------------------------------------------------
-% BACKGROUND
+% Algebraic Structures In Proof Systems
 %------------------------------------------------------------------------------
-\section{Algebraic structures in proof systems}
+\section{Algebraic Structures In Proof Systems}
 
 \begin{frame}
-  \frametitle{Algebraic structures in proof systems}
+  \frametitle{Algebraic Structures In Proof Systems}
   \begin{enumerate}
     \item A survey of coverage of algebraic structures in proof systems will
     help to identify the gaps in the system.
@@ -154,12 +179,12 @@
 \end{frame}
 
 %------------------------------------------------------------------------------
-% Quasigroup
+% Theory Of Quasigroup And Loop
 %------------------------------------------------------------------------------
-\section{Theory of Quasigroup}
+\section{Theory Of Quasigroup And Loop}
 
 \begin{frame}[fragile]
-  \frametitle{Theory of Quasigroup and Loop}  
+  \frametitle{Theory Of Quasigroup And Loop}  
   \begin{columns}
     \begin{column}{0.4\textwidth}
       Quasigroup is a set equipped with binary operations that satisfy the
@@ -187,8 +212,12 @@
   \end{columns}
 \end{frame}
 
+%------------------------------------------------------------------------------
+% Types Of And Loop
+%------------------------------------------------------------------------------
+
 \begin{frame}[fragile]
-  \frametitle{Types of Quasigroup}
+  \frametitle{Types Of And Loop}
 
   A loop is called a \textit{right bol loop} if it satisfies the identity
 
@@ -208,8 +237,12 @@
 
 \end{frame}
 
+%------------------------------------------------------------------------------
+% Quasigroup Homomorphism
+%------------------------------------------------------------------------------
+
 \begin{frame}[fragile]
-  \frametitle{Quasigroup homomorphism}
+  \frametitle{Quasigroup Homomorphism}
     A Quasigroup homomorphism \( f:(Q_1,∙,\backslash \backslash,//) \rightarrow
     (Q_2,\circ,\backslash,/) \)
     \begin{itemize}
@@ -231,10 +264,13 @@
 \end{minted}
 \end{frame}
   
+%------------------------------------------------------------------------------
+% Prove Properties Of Quasigroup
+%------------------------------------------------------------------------------
   \begin{frame}[fragile]
-    \frametitle{Properties of Quasigroup}  
+    \frametitle{Prove Properties Of Quasigroup}  
 
-      Properties of cancellative quasigroups are used in cryptographic
+      Properties of quasigroup are used in cryptographic
       protocols. Properties such as left and right cancellation can be
       used to ensure the confidentiality of data during encryption and
       decryption
@@ -253,11 +289,15 @@
 
   \end{frame}
 
+%------------------------------------------------------------------------------
+% Prove Properties of Types Of Loop
+%------------------------------------------------------------------------------
+
   \begin{frame}[fragile]
-    \frametitle{Properties of types of loop}  
+    \frametitle{Prove Properties of Types Of Loop}  
     \begin{columns}
       \begin{column}{0.4\textwidth}
-        Properties of middle bol loop
+        Properties Of Middle Bol Loop
         \begin{enumerate}
         \item \(x∙((y∙x)\backslash x)=y\backslash x\) 
         \item \(x∙((x∙z)\backslash x)=x/z\)
@@ -269,7 +309,7 @@
       \end{column}
       \hfill
       \begin{column}{0.575\textwidth}
-        Properties of Moufang loop:
+        Properties Of Moufang Loop:
         \begin{enumerate}
         \item Moufang loop is alternative.
         \item Moufang loop is flexible.
@@ -282,9 +322,9 @@
   \end{frame}
 
 %------------------------------------------------------------------------------
-% Semigroup and Ring
+% Theory Of Semigroup And Ring
 %------------------------------------------------------------------------------
-\section{Theory of Semigroup and Ring}
+\section{Theory Of Semigroup And Ring}
 
 \begin{frame}[fragile]
     \frametitle{Semigroup} 
@@ -302,35 +342,43 @@
         \[x\ ∙\ y\ =\ y\ ∙\ x\]
   \end{frame}
 
+%------------------------------------------------------------------------------
+% Ring (with multiplicative identity)
+%------------------------------------------------------------------------------
+
   \begin{frame}[fragile]
-    \frametitle{Ring}  
+    \frametitle{Ring (with multiplication identity)}  
+    The properties of rings are used in studying number theory and algebraic
+    geometry, where they are used to study algebraic curves, surfaces, and
+    other geometric objects
     Ring $(R,+,*,⁻¹,0,1)$
         \begin{itemize}
             \item $(R,+,⁻¹,0)$ is an Abelian Group:
              \begin{itemize}
-              \item Associativity: $\forall x,y,z \in R, x + (y + z) = (x + y) + z$
-              \item commutativity : $\forall x,y \in R, (x + y) = (y + x)$
-              \item Identity: $\forall x \in R, (x + 0) = x = (0 + x)$
-              \item Inverse: $\forall x \in R, (x + x⁻¹) = 0 = (x⁻¹ + x)$
+              \item Associativity: $ x + (y + z) = (x + y) + z$
+              \item commutativity : $ (x + y) = (y + x)$
+              \item Identity: $ (x + 0) = x = (0 + x)$
+              \item Inverse: $ (x + x⁻¹) = 0 = (x⁻¹ + x)$
             \end{itemize}
             \item $(R,*,1)$ is a monoid
             \begin{itemize}
-              \item Associativity: $\forall x,y,z \in R, x * (y * z) = (x * y) * z$
-              \item Identity: $\forall x,y \in R, (x * 1) = x = (1 * x)$
+              \item Associativity: $ x * (y * z) = (x * y) * z$
+              \item Identity: $ (x * 1) = x = (1 * x)$
             \end{itemize}
-            \item Multiplication distributes over addition: \(\forall x , y , z \in R, (x * (y + z)) = (x * y) + (x
+            \item Multiplication distributes over addition: \( (x * (y + z)) = (x * y) + (x
             * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
             \item Annihilating zero: \(\forall x \in R, (x * 0) = 0 = (0 * x)\)
           \end{itemize}
   \end{frame}
 
-  \begin{frame}[fragile]
-    \frametitle{Properties of types of Ring}  
-        The properties of rings are used in studying number theory and algebraic
-        geometry, where they are used to study algebraic curves, surfaces, and
-        other geometric objects
+%------------------------------------------------------------------------------
+% Prove Properties Of Ring
+%------------------------------------------------------------------------------
 
-        \[\text{if}\ x + x =0 \text{then}\ x=0\]
+  \begin{frame}[fragile]
+    \frametitle{Prove Properties Of Ring}  
+    Consider the proof for property of Ring
+        \[\text{If}\ x + x =0 \ \text{then}\ x=0\]
 
         \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
           x+x≈x⇒x≈0 : ∀ x → x + x ≈ x → x ≈ 0#
@@ -346,32 +394,36 @@
   \end{frame}
 
 %------------------------------------------------------------------------------
-% Kleene Algebra
+% Theory Of Kleene Algebra
 %------------------------------------------------------------------------------
-\section{Theory of Kleene Algebra}
+\section{Theory Of Kleene Algebra}
 
 \begin{frame}
-  \frametitle{Idempotent semiring}
+  \frametitle{Idempotent Semiring}
   An idempotent semiring $(S,+,*,0,1)$:
   \begin{itemize}
     \item $(S,+,0)$ is a commutative monoid:
     \begin{itemize}
-      \item Associativity: $\forall x,y,z \in S, x + (y + z) = (x + y) + z$
-      \item Identity: $\forall x \in S, (x + 0) = x = (0 + x)$
-      \item Commutativity: $\forall x,y \in S, (x + y) = (y + x)$
+      \item Associativity: $ x + (y + z) = (x + y) + z$
+      \item Identity: $ (x + 0) = x = (0 + x)$
+      \item Commutativity: $ (x + y) = (y + x)$
     \end{itemize}
     \item $(S,*,1)$ is a monoid:
     \begin{itemize}
-      \item Associativity: $ \forall x,y,z \in S, x * (y*z)  = (x*y)*z$
-      \item Identity: $\forall x \in S, (x * 1) = x = (1 * x)$
+      \item Associativity: $ x * (y*z)  = (x*y)*z$
+      \item Identity: $ (x * 1) = x = (1 * x)$
     \end{itemize}
-    \item Idempotent: $\forall x \in S, (x + x) = x$
-    \item Multiplication distributes over addition: \(\forall x , y , z \in S, (x * (y + z)) = (x * y) + (x
+    \item Idempotent: $ (x + x) = x$
+    \item Multiplication distributes over addition: \( (x * (y + z)) = (x * y) + (x
     * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-    \item Annihilating zero: \(\forall x \in S, (x * 0) = 0 = (0 * x)\)
+    \item Annihilating zero: \( (x * 0) = 0 = (0 * x)\)
     \end{itemize}
 
 \end{frame}
+
+%------------------------------------------------------------------------------
+% Kleene Algebra
+%------------------------------------------------------------------------------
 
 \begin{frame}[fragile]
   \frametitle{Kleene Algebra}
@@ -393,9 +445,13 @@
     \end{minted}
 \end{frame}
 
+%------------------------------------------------------------------------------
+% Prove Properties Of Kleene Algebra
+%------------------------------------------------------------------------------
+
 \begin{frame}[fragile]
-    \frametitle{Properties of Kleene Algebra}  
-    Applications of properties of Kleene Algebra are found in the development of
+    \frametitle{Prove Properties Of Kleene Algebra}  
+    Applications of Kleene Algebra are found in the development of
     pattern-matching algorithms in text processing and computational linguistics
     and regular expressions.
     \\
@@ -411,13 +467,15 @@
         x ⋆                         ∎
       \end{minted}
   \end{frame}
+
 %------------------------------------------------------------------------------
-% Problem in Program algebra
+% Problem In Programming Algebra
 %------------------------------------------------------------------------------
-\section{Problem in programming algebra}
+
+\section{Problem In Programming Algebra}
 
 \begin{frame}
-  \frametitle{Ambiguity and Equivalent}
+  \frametitle{Ambiguity And Equivalent}
   \begin{enumerate}
     \item Ambiguity in naming e.g. Ring and Rng, Nearring (*-semigroup/*-monoid). 
     \item Equivalent but structurally different e.g. Quasigroups
@@ -438,10 +496,14 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Redundant field}
+%------------------------------------------------------------------------------
+% Redundant Field
+%------------------------------------------------------------------------------
 
-  Duplicate field: e.g. semiring (+-commutativeMonoid and *-monoid)
+\begin{frame}[fragile]
+  \frametitle{Redundant Field}
+
+  Duplicate field: e.g. semiring without identity (+-commutativeMonoid and *-Semigroup)
 
     \begin{minted}[fontsize=\scriptsize,breaklines]{Agda}
       record IsSemiringWithoutOne (+ * : Op₂ A) (0# : A) : Set (a ⊔ ℓ) where
@@ -456,8 +518,12 @@
     \end{minted}
 \end{frame}
 
+%------------------------------------------------------------------------------
+% Equivalent And Identical
+%------------------------------------------------------------------------------
+
 \begin{frame}[fragile]
-  \frametitle{Equivalent and Identical}
+  \frametitle{Equivalent And Identical}
   \begin{enumerate} 
     \item Equivalent structures e.g. Bounded semilattice and Idempotent commutative monoid
     \item Identical structures e.g. Nearring (+-group, *-monoid)
@@ -484,6 +550,7 @@
 %------------------------------------------------------------------------------
 % CONCLUSION
 %------------------------------------------------------------------------------
+
 \section{Conclusion}
 
 \begin{frame}
@@ -491,10 +558,12 @@
 
   To sum up, we\ldots{}
   \begin{enumerate}
-    \item Set the scope by doing a survey 
-    \item Study select subset of types of algebraic structures in Agda
-    \item Analyze five problems that we encountered and provide plausible
-    solution.
+    \item Identify gaps in proof systems by survey
+    \item Define structures with constructs and provide proof to their properties in
+    Agda.
+    \item Abstract out the problems faced during the characterization of
+    algebraic structures and analyze each problem to provide plausible
+    solutions.    
   \end{enumerate}
 \end{frame}
 
