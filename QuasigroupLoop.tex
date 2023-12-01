@@ -1,4 +1,4 @@
-\chapter{Theory Of Quasigroup and Loop in Agda}
+\chapter{Theory Of Quasigroup And Loop In Agda}
 Quasigroups and loops find applications in various fields of mathematics,
 computer science, and physics. For example, Einstein's formula of addition of
 velocities gives a loop structure \cite{ungar2007einstein}. In computer science,
@@ -183,7 +183,7 @@ similarly to magma morphism discussed in Chapter 3. These definitions can be
 found in the Agda standard library under module
 \MYhref{https://github.com/agda/agda-stdlib/blob/master/src/Algebra/Morphism/Structures.agda}{Algebra.Morphism.Structures}.
 
-\section{Morphism composition}
+\section{Morphism Composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then the composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. In Agda we can prove that the
@@ -244,7 +244,7 @@ loop structure can be defined similarly to quasigroup.
 In this section, we prove some properties of quasigroup, loop, middle bol loop,
 and moufang loop using Agda. The proofs for quasigroup and loop are adapted from
 \cite{Stener2016MoufangL} and \cite{bruck1944some}.
-\subsection{Properties of Quasigroup}
+\subsection{Properties Of Quasigroup}
 Cancellative quasigroups are used in cryptographic protocols. Properties such as
 left and right cancellation can be used to ensure the confidentiality of data
 during encryption and decryption processes \cite{shcherbacov2003elements}. Let
@@ -297,7 +297,7 @@ x≈z//y x y z eq = begin
 \end{minted}
 \end{enumerate}
 
-\subsection{Properties of Loop}
+\subsection{Properties Of Loop}
 Properties of division operation hold for a loop.\\
 Let $(L, ∙, /, \backslash, e)$ be a Loop with identity $x\ ∙\ e\ =\ x\ =\ e\ ∙\ x$
 then the following properties holds 
@@ -342,7 +342,7 @@ x//ε≈x x = begin
   x            ∎
 \end{minted}
 \end{enumerate}
-\subsection{Properties of Middle bol loop}
+\subsection{Properties Of Middle Bol Loop}
 Middle Bol loops are used in combinatorial design theory to construct specific
 types of combinatorial designs. The proofs for properties of the middle bol loop are
 adapted from \cite{jaiyeola2021new}. Let $(M, ∙, /, \backslash, e)$ be a middle bol loop then the
@@ -411,7 +411,7 @@ x//xzx≈x//z x z = begin
   x // z              ∎    
 \end{minted}
 \end{enumerate}
-\subsection{Properties of Moufang Loop}
+\subsection{Properties Of Moufang Loop}
 The properties of Moufang loops have applications in computational mathematics
 and algorithm design. They provide insights into the efficient implementation of
 mathematical algorithms and data structures \cite{kunen1996moufang}. The proofs

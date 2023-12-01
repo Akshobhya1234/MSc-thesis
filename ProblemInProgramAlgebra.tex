@@ -1,4 +1,4 @@
-\chapter{Problem in Programming Algebra}
+\chapter{Problem In Programming Algebra}
 Algebraic structures show variations in syntax and semantics depending on the
 system or language in which they are defined. Each system discussed in Chapter 3
 have their own style of defining structures in the standard libraries. For
@@ -20,7 +20,7 @@ they are structurally different. This chapter identifies and classifies five
 important problems that arise when defining types of algebraic structures in
 proof assistant systems.
 
-\section{Ambiguity in naming}
+\section{Ambiguity In Naming}
 Ambiguity arises when something can be interpreted in more than one way. The
 example of a quasigroup having more than one definition can give rise to a
 scenario of making an incorrect interpretation of the algebraic structure when
@@ -99,7 +99,7 @@ structure. As an example when defining Kleene Algebra in Chapter 7,
 (inspired from what is used in literature). Due to the lack of standardized
 names, many names can be coined for the same axiom. 
 
-\section{Equivalent but structurally different}
+\section{Equivalent But Structurally Different}
 Quasigroup structure is an example that can be defined in two ways that are
 equivalent but structurally different. A type (2) Quasigroup can be defined as a
 set Q and binary operation ∙ that forms a magma and satisfies the Latin square
@@ -177,7 +177,7 @@ loops such as bol loop and moufang loop. Since quasigroup is defined in terms of
 division operation, the loop is also defined as a type (2,2,2) algebra in the Agda
 standard library.
 
-\section{Redundant field in structural inheritance}
+\section{Redundant Field In Structural Inheritance}
 Redundancy arises when there is duplication of the same field. In programming
 redundant code is considered a bad practice and is usually avoided by
 modularizing and creating functions that perform similar tasks. In algebraic
@@ -239,7 +239,7 @@ commonly used in literature and other systems. Agda 2.0 removed redundancy by
 unfolding the structure. This solution should ensure that the structure exports
 the unfolded structure whose properties can be imported when required.
 
-\section{Identical structures}
+\section{Identical Structures}
 In abstract algebra when formalizing algebraic structures from the hierarchy,
 the same algebraic structure can be derived from two or more structures. One
 such example is Nearring. Nearring is a group under addition, a monoid under
@@ -279,7 +279,7 @@ this becomes tedious and may go to a point at which this can be impractical
 especially when formalizing structures at higher levels in the algebra
 hierarchy.
 
-\section{Equivalent structures}
+\section{Equivalent Structures}
 Consider the example of idempotent commutative monoid and bounded semilattice.
 Both idempotent commutative monoid and bounded semilattice are equivalent
 structures that are also of same type. It is redundant to define two different

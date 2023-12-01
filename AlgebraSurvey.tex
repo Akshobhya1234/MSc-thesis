@@ -1,4 +1,4 @@
-\chapter{Types of Algebraic Structures in Proof Assistant Systems - Survey}
+\chapter{Types Of Algebraic Structures In Proof Assistant Systems - Survey}
 
 A survey of coverage of algebraic structures in proof systems will help to
 identify the gaps in the system. A survey can provide insights into how well
@@ -34,7 +34,7 @@ discuss how algebraic structures are defined in each system by taking Monoid as
 an example. Section \ref{table} provides a table that provides the results of the
 survey.
 
-\section{Proof assistant systems}
+\section{Proof Assistant Systems}
 \label{Proof_system}
 This section provides an overview of proof assistant systems Coq, Idris, and
 Lean. We intentionally omit discussing Agda in this section since it is
@@ -99,7 +99,7 @@ Lean. It contained definitions of natural numbers, integers, and lists and had
 some coverage over the algebra hierarchy. The latest version of mathlib has over
 2794 definitions of algebra \cite{2019arXiv191203028S}. 
 
-\section{Experimental setup}
+\section{Experimental Setup}
 \label{experiment}
 It is not time-efficient to manually look for the definitions in a large
 library. The source code of the standard libraries of Agda, Idris, Coq, and Lean
@@ -118,7 +118,7 @@ this makes it difficult to correctly build the regular expression and will
 necessitate the task of verifying the results manually to some extent. Section
 \ref{threat} will discuss the threat to validity of this approach.
 
-\section{Threat to Validity}
+\section{Threat To Validity}
 \label{threat}
 In this section, we discuss threat to validity of the survey data. 
 \begin{itemize}
@@ -158,7 +158,7 @@ and gives a brief overview of the syntax used in the definition. We
 intentionally keep some overlap from the previous chapter when discussing the
 definition of monoid in Agda to have uniform coverage for each system.
 
-\subsection{Agda standard library}
+\subsection{Agda Standard Library}
 In the Agda standard library, algebraic structures are
 defined over setoid \cite{danielsson2011agda}.
 
@@ -198,7 +198,7 @@ structures is followed in defining modules. For example, a module is defined
 using bimodules and bi-modules using bi-semimodules. An alternative definition
 of modules is given in \inline{Algebra.Module.Structure.Biased}.
 
-\subsection{The mathematical components library}
+\subsection{The Mathematical Components Library}
 The algebra structures design hierarchy of the mathcomp library is inspired by
 the Packing mathematical structures. The \inlineCode{Coq}{ssralg.v} file defines
 some of the simple algebraic structures with their type, packers, and canonical
@@ -268,7 +268,7 @@ represents the identity element for the binary operation defined on type
 the left side (or right side), it should result in \inline{l} (or \inline{r}).
 \inline{neutral} element acts as an identity element on the binary operation.
 
-\subsection{The mathematical library}
+\subsection{The Mathematical Library}
 
 The mathlib library for Lean extends the algebra hierarchy from semigroup to
 ordered fields. The library defines instances of free magma, free semigroup,

@@ -1,4 +1,4 @@
-\chapter{Theory of Semigroup and Ring in Agda}
+\chapter{Theory Of Semigroup And Ring In Agda}
 In early 20th century, mathematician Hilbert proposed the H\textsubscript{10}
 problem: "Is there a general approach to verify whether a Diophantine equation
 is solvable ?" \cite{larchey2020hilbert}. Although this problem was solved by
@@ -220,7 +220,7 @@ record type with two fields \inline{+-isGroupHomomorphism} and \inline{*-homo}.
 The definition of isomorphism and monomorphism can be found in the Agda standard
 library under the module \inline{Algebra.Morphism.Structures}.
 
-\section{Morphism composition}
+\section{Morphism Composition}
 If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
 such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
 defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
@@ -282,7 +282,7 @@ With these definitions, we can prove some frequently used properties and theorie
 about the structures.\footnote{This section provides proof for properties that
 was contributed by the author and other properties can be found in the Agda standard
 library.}
-\subsection{Properties of Semigroup}
+\subsection{Properties Of Semigroup}
 Let $(S, ∙)$ be a semigroup then
 \begin{enumerate}
 \item S is alternative. The Semigroup S left alternative if \((x\ ∙\ x)\ ∙\ y\ =\ x\ ∙\ (x\ ∙\ y)\ \) and right alternative is
@@ -318,7 +318,7 @@ xy∙xx≈x∙yxx : ∀ x y → (x ∙ y) ∙ (x ∙ x) ≈ x ∙ (y ∙ (x ∙ 
 xy∙xx≈x∙yxx x y = assoc x y ((x ∙ x))
 \end{minted}
 \end{enumerate}
-\subsection{Properties of Commutative Semigroup}
+\subsection{Properties Of Commutative Semigroup}
 An application of semimedial property of commutative semigroup is seen in study
 of quasigroups and loops \cite{liaqat2021some}. The proofs in this section are
 adapted from \cite{deng2016characterizations}. Let $(S, ∙)$ be a commutative
@@ -369,7 +369,7 @@ middleSemimedial x y z = begin
   (x ∙ z) ∙ (y ∙ x) ∎
 \end{minted}
 \end{enumerate}
-\subsection{Properties of Ring without one}
+\subsection{Properties Of Ring Without One}
 Let $(R, +, *, -, 0)$ be ring without one structure then:
 \begin{enumerate}
 \item \(- (x\ *\ y)\ =\ - x\ *\ y\)
@@ -420,7 +420,7 @@ Proof:
 	∎
 \end{minted}
 \end{enumerate}
-\subsection{Properties of Ring}
+\subsection{Properties Of Ring}
 Properties of rings can be found in number theory and algebraic geometry, where
 they are used to study algebraic curves, surfaces, and other geometric objects.
 They help in understanding the properties of prime numbers, factorization, and
