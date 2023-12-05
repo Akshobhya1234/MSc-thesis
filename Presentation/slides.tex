@@ -8,9 +8,7 @@
 \usepackage{amsmath}
 \usepackage{latexsym}
 \usepackage{url}
-
 \usepackage{listings}
-
 \usepackage{mathtools}
 \usepackage{calc}
 \usepackage{lmodern}
@@ -19,7 +17,9 @@
 \usepackage{graphicx}
 
 \usepackage{newunicodechar}
-
+\usepackage{fourier}
+\usepackage{comment}
+\usepackage{mathrsfs}
 
 \newunicodechar{λ}{\ensuremath{\mathnormal\lambda}}
 \newunicodechar{∙}{\ensuremath{\mathnormal\cdot}}
@@ -64,7 +64,7 @@
 \author[Akshobhya K M]{Akshobhya Katte Madhusudana\\\small{}Under the supervision of Dr. Jacques Carette}
 
 \institute[McMaster University]{McMaster University}
-\date{November $29^{\text{th}}$, 2023}
+\date{December $8^{\text{th}}$, 2023}
 
 \AtBeginSection[]
 {
@@ -147,7 +147,7 @@
 \section{Research Outline}
 
 \begin{frame}
-  
+
   \frametitle{Research Outline}
 
   \begin{enumerate}
@@ -231,7 +231,7 @@
 
   \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
-  A left-right bol loop is called a \textit{moufang loop} if it satisfies identity
+  A left-right bol loop is called a \textit{moufang loop} if it satisfies the identity
 
   \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
@@ -348,9 +348,7 @@
 
   \begin{frame}[fragile]
     \frametitle{Ring (with multiplication identity)}  
-    The properties of rings are used in studying number theory and algebraic
-    geometry, where they are used to study algebraic curves, surfaces, and
-    other geometric objects
+
     Ring $(R,+,*,⁻¹,0,1)$
         \begin{itemize}
             \item $(R,+,⁻¹,0)$ is an Abelian Group:
@@ -376,8 +374,12 @@
 %------------------------------------------------------------------------------
 
   \begin{frame}[fragile]
-    \frametitle{Prove Properties Of Ring}  
-    Consider the proof for property of Ring
+    \frametitle{Prove Properties Of Ring}
+    The properties of rings are used in studying number theory and algebraic
+    geometry, where they are used to study algebraic curves, surfaces, and
+    other geometric objects.\\
+
+    Consider the proof for a property of Ring
         \[\text{If}\ x + x =0 \ \text{then}\ x=0\]
 
         \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
@@ -559,11 +561,11 @@
   To sum up, we\ldots{}
   \begin{enumerate}
     \item Identify gaps in proof systems by survey
-    \item Define structures with constructs and provide proof to their properties in
-    Agda.
+    \item Define structures with constructs and provide proof to their
+    properties in the Agda standard library.
     \item Abstract out the problems faced during the characterization of
     algebraic structures and analyze each problem to provide plausible
-    solutions.    
+    solutions.
   \end{enumerate}
 \end{frame}
 
