@@ -128,8 +128,8 @@
 
   \begin{itemize}
 
-    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is the
-    carrier set and $F$ is the set of operation names.
+    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a
+    carrier set and $F$ is a collection of operation names.
 
     \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
     mathematical structure consisting of a carrier set $(A)$ and a family of
@@ -151,9 +151,9 @@
   \frametitle{Research Outline}
 
   \begin{enumerate}
-    \item What is the current coverage of algebraic structures in proof assistant systems?
-    \item How to characterize types of algebraic structures in Agda? 
-    \item Define constructs of algebraic structures with proofs to their properties in Agda
+    \item What is the current coverage of algebraic structures in proof assistants?
+    \item How can algebraic structures be characterized in Agda? 
+    \item Define constructs of algebraic structures with proofs of their properties in Agda
     \item Abstract out the problems faced during the characterization of
     algebraic structures and analyze each problem to provide plausible
     solutions.    
@@ -164,16 +164,16 @@
 %------------------------------------------------------------------------------
 % Algebraic Structures In Proof Systems
 %------------------------------------------------------------------------------
-\section{Algebraic Structures In Proof Systems}
+\section{Algebraic Structures in Proof Systems}
 
 \begin{frame}
   \frametitle{Algebraic Structures In Proof Systems}
   \begin{enumerate}
-    \item A survey of coverage of algebraic structures in proof systems will
+    \item A survey of the coverage of algebraic structures in a proof system will
     help to identify the gaps in the system.
-    \item Survey on standard libraries of four proof assistant systems Agda, Lean, Idris, and Coq.
-    \item Create a web crawler to capture definitions of algebraic structures.
-    \item Create a clickable table that takes to the definition in the source library.
+    \item We Surveyed the standard libraries of four proof assistant systems: Agda, Lean, Idris, and Coq.
+    \item We created a web crawler to capture definitions of algebraic structures.
+    \item We created a clickable table that takes one to the definition in the source library.
   \end{enumerate}
 
 \end{frame}
@@ -181,19 +181,19 @@
 %------------------------------------------------------------------------------
 % Theory Of Quasigroup And Loop
 %------------------------------------------------------------------------------
-\section{Theory Of Quasigroup And Loop}
+\section{Theory of Quasigroup and Loop}
 
 \begin{frame}[fragile]
   \frametitle{Theory Of Quasigroup And Loop}  
   \begin{columns}
     \begin{column}{0.4\textwidth}
-      Quasigroup is a set equipped with binary operations that satisfy the
+      A Quasigroup is a set equipped with binary operations that satisfy the
       following equation.
             \[y=x∙(x\backslash y)\]
             \[y=x\backslash(x∙y)\]
             \[y=(y/x)∙x\]
             \[y=(y∙x)/x\]
-      Loop is a quasigroup with identity:
+      A Loop is a quasigroup with identity:
       \[x∙e=e∙x=x\]
     \end{column}
     \hfill
@@ -217,21 +217,21 @@
 %------------------------------------------------------------------------------
 
 \begin{frame}[fragile]
-  \frametitle{Types Of And Loop}
+  \frametitle{Types of Quasigroup and Loop}
 
-  A loop is called a \textit{right bol loop} if it satisfies the identity
+  A loop is called a \textit{right bol loop} if it satisfies the identity:
 
    \[((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)\]
 
-  A loop is called a \textit{left bol loop} if it satisfies the identity
+  A loop is called a \textit{left bol loop} if it satisfies the identity:
 
    \[x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z\]
 
-  A loop is called \textit{middle bol loop} if it satisfies the identity
+  A loop is called \textit{middle bol loop} if it satisfies the identity:
 
   \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
-  A left-right bol loop is called a \textit{moufang loop} if it satisfies the identity
+  A left-right bol loop is called a \textit{moufang loop} if it satisfies the identity:
 
   \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\]
 
@@ -244,7 +244,7 @@
 \begin{frame}[fragile]
   \frametitle{Quasigroup Homomorphism}
     A Quasigroup homomorphism \( f:(Q_1,∙,\backslash \backslash,//) \rightarrow
-    (Q_2,\circ,\backslash,/) \)
+    (Q_2,\circ,\backslash,/) \):
     \begin{itemize}
         \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
         \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
@@ -273,7 +273,7 @@
       Properties of quasigroup are used in cryptographic
       protocols. Properties such as left and right cancellation can be
       used to ensure the confidentiality of data during encryption and
-      decryption
+      decryption.
       \\ \\
 \begin{center}
   \centering
@@ -297,7 +297,7 @@
     \frametitle{Prove Properties of Types Of Loop}  
     \begin{columns}
       \begin{column}{0.4\textwidth}
-        Properties Of Middle Bol Loop
+        Properties of a Middle Bol Loop
         \begin{enumerate}
         \item \(x∙((y∙x)\backslash x)=y\backslash x\) 
         \item \(x∙((x∙z)\backslash x)=x/z\)
@@ -309,7 +309,7 @@
       \end{column}
       \hfill
       \begin{column}{0.575\textwidth}
-        Properties Of Moufang Loop:
+        Properties of a Moufang Loop:
         \begin{enumerate}
         \item Moufang loop is alternative.
         \item Moufang loop is flexible.
@@ -324,7 +324,7 @@
 %------------------------------------------------------------------------------
 % Theory Of Semigroup And Ring
 %------------------------------------------------------------------------------
-\section{Theory Of Semigroup And Ring}
+\section{Theory of Semigroup and Ring}
 
 \begin{frame}[fragile]
     \frametitle{Semigroup} 
@@ -349,7 +349,7 @@
   \begin{frame}[fragile]
     \frametitle{Ring (with multiplication identity)}  
 
-    Ring $(R,+,*,⁻¹,0,1)$
+    Let $(R,+,*,⁻¹,0,1)$ be a Ring. Then:
         \begin{itemize}
             \item $(R,+,⁻¹,0)$ is an Abelian Group:
              \begin{itemize}
@@ -378,7 +378,7 @@
     Rings are used in studying number theory and algebraic geometry, where they
     are used to study algebraic curves, surfaces, and other geometric objects.\\
 
-    Consider the proof for a property of Ring
+    Consider the following proof for a property of Ring:
         \[\text{If}\ x + x =0 \ \text{then}\ x=0\]
 
         \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
@@ -397,11 +397,11 @@
 %------------------------------------------------------------------------------
 % Theory Of Kleene Algebra
 %------------------------------------------------------------------------------
-\section{Theory Of Kleene Algebra}
+\section{Theory of Kleene Algebra}
 
 \begin{frame}
   \frametitle{Idempotent Semiring}
-  An idempotent semiring $(S,+,*,0,1)$:
+  Let $(S,+,*,0,1)$ be an idempotent semiring. Then:
   \begin{itemize}
     \item $(S,+,0)$ is a commutative monoid:
     \begin{itemize}
@@ -473,7 +473,7 @@
 % Problem In Programming Algebra
 %------------------------------------------------------------------------------
 
-\section{Problem In Programming Algebra}
+\section{Problem in Programming Algebra}
 
 \begin{frame}
   \frametitle{Ambiguity And Equivalent}
@@ -483,7 +483,7 @@
   \end{enumerate}
   \begin{columns}
     \begin{column}{0.4\textwidth}
-      A quasigroup with Latin square property is a type (2) algebra.
+      A quasigroup with the Latin square property is a type (2) algebra.
       \[a ∙ x = b\]
       \[y ∙ a = b\]
     \end{column}
@@ -526,8 +526,8 @@
 \begin{frame}[fragile]
   \frametitle{Equivalent And Identical}
   \begin{enumerate} 
-    \item Equivalent structures e.g. Bounded semilattice and Idempotent commutative monoid
-    \item Identical structures e.g. Nearring (+-group, *-monoid)
+    \item Equivalent structures e.g. bounded semilattice and idempotent commutative monoid
+    \item Identical structures e.g. nearring (+-group, *-monoid)
   \end{enumerate}
 
     \begin{minted}[fontsize=\scriptsize,breaklines,samepage]{Agda}
@@ -557,12 +557,12 @@
 \begin{frame}
   \frametitle{Conclusion}
 
-  To sum up, we\ldots{}
+  To sum up, we:
   \begin{enumerate}
-    \item Identify gaps in proof systems by survey
-    \item Define structures with constructs and provide proof to their
-    properties in the Agda standard library.
-    \item Abstract out the problems faced during the characterization of
+    \item Identified gaps in proof systems by conducting a survey.
+    \item Defined structures with constructs and proved their properties in
+    the Agda standard library.
+    \item Abstracted out the problems faced during the characterization of
     algebraic structures and analyze each problem to provide plausible
     solutions.
   \end{enumerate}
