@@ -771,27 +771,41 @@ Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 \end{minted}
 
 \section{Direct Product In Agda}
-In Chapter 2, we define the direct product of algebra. The standard library defines
-objects that are bi-products of appropriate algebras. In the context of algebraic
-structures, a bi-product is defined in such a way that it encompasses the
-properties of both a direct product and a direct sum. In many cases, the
-bi-product coincides with the direct product when certain conditions are met.
-However, bi-products and direct products may have distinct properties and
-behaviors for many algebraic structures. For the scope of the thesis, we do not
-consider this distinction. There is currently an
-\MYhref{https://github.com/agda/agda-stdlib/issues/1907}{issue} in the standard
-library to address this problem. 
+In \cite{sannella2012foundations}, for two $\Sigma$-algebra $A$ and $B$, the
+product algebra ($A \times B$) is the $\Sigma$-algebra defined as:
+\begin{itemize}
+  \item $|A \times B|$ = $|A| \times |B|$ 
+  \item for each operation $f$ in $\Sigma$: $f\
+  (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
+  x_{1_B},x_{n_B} )$ where $x_{1_A},...,x_{n_B}$ are elements in $A$ and
+  $x_{1_B},...,x_{n_B}$ are elements in $B$. 
+\end{itemize}
 
-The product of algebraic structures takes a more structured approach. It
-involves creating a new structure where the operations are carefully defined to
-combine the operations of the individual structures in a certain way such that
-they respect the individual structures' properties. For two algebra $A$ and $B$
-of the same theory with set $S_A$ and $S_B$ respectively, the product of algebra
-is defined with carrier set $(S_A \times S_B)$ and for each operation $f$ in the
-theory is defined as:
-\[f\ (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
-x_{1_B},x_{n_B} )\] where $x_{1_A},...,x_{n_B}$ are elements in $S_A$ and
-$x_{1_B},...,x_{n_B}$ are elements in $S_B$. 
+Recall the definition of direct product defined in Chapter 2. For a family of
+algebra $\{ A_i | i \in I \}$, indexed by some arbitrary set $I$ and
+$\omega_{A_i}$ be the corresponding n-ary operator on $A_i$, the direct product
+algebra $A$ is defined as \cite{wechler2012universal}: 
+\begin{itemize}
+  \item $A = \displaystyle \prod_{i\in I} A_i$
+  \item $\omega_A : A^{n} \rightarrow A$ = $ \omega_A(a_1,...a_n)(i) =
+    \omega_{A_i} (a_1(i),...,a_n(i)) \forall i \in I$
+\end{itemize}
+where element $a \in A$ is a function from indexing set $I$ to $\bigcup A_i$
+such that $i \in I, a(i) \in A$.
+
+The direct sum of two algebraic structures $A$ and $B$ is an algebra denoted as
+$A \bigoplus B$. The underlying set of $|A \bigoplus B|$ is the disjoint union
+of the underlying sets of $A$ and $B$, and the operations are defined separately
+on each component. If $A$ has operations $f_1, f_2, ... f_n$ and $B$ has
+operations $g_1,g_2, ... g_2$, then $A \bigoplus B$ has operations $f_1, f_2,
+... f_n,g_1,g_2, ... g_2$ defined component-wise \cite{directproduct}. 
+
+The standard library defines objects that are products of appropriate algebras.
+In many cases, the product coincides with the direct sum when certain conditions
+are met \cite{szabo2000linear}. For the scope of the thesis, we do not consider
+this distinction. There is currently an
+\MYhref{https://github.com/agda/agda-stdlib/issues/1907}{issue} in the standard
+library to address this problem.
 
 The difference between direct product and cartesian product is mainly related
 to the type of mathematical structures you are dealing with. Cartesian product
