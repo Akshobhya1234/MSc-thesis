@@ -53,9 +53,9 @@ proposition is true if it is derivable from other true propositions using
 inference rules. The three inference rules in equational logic described in
 \cite{gries2013logical} are:
 \begin{itemize}
-    \item Leibniz equality: Two expressions are equal if one expression can be
-    substituted with other without changing the truth statement. \[\frac{t_1
-    = t_2}{t[x \mapsto t_1] = t[x \mapsto t_2]}\]
+    \item Leibniz equality: If two expressions are equal, then one expression
+    can be substituted with the other without changing the truth statement.
+    \[\frac{t_1 = t_2}{t[x \mapsto t_1] = t[x \mapsto t_2]}\]
     \item Transitivity: If $t_1 = t_2$ and $t_2 = t_3$ then $t_1 = t_3$.
     \[{\frac{t_1 = t_2\ t_2 = t_3}{t_1 = t_3}}\]
     \item Substitution: For predicate $p$, if $p\ t$ is true, it remains true on all
@@ -67,8 +67,9 @@ respectively.
 
 \begin{itemize}
     \item A \textit{theory} in universal algebra is defined as a tuple $(S,F,E)$
-    such that $S$ is the carrier set, $F$ is a finite set of function symbols
-    with their arities, and $E$ is a set of equations that are satisfied in $S$.
+    such that $S$ is a set of sort single sort, $F$ is a finite set of function
+    symbols with their arities, and $E$ is a set of equations that are satisfied
+    in $S$.
 
     \item A \emph{sub theory} of a theory $(S,F,E)$ is defined as
     $(S_\Delta,F_\Delta,E_\Delta)$ such that $S_\Delta \subseteq S$. The operations
@@ -76,12 +77,12 @@ respectively.
     \[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
     |F|,\text{and}\ x_1...x_n \in S_\Delta \]  
 
-    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is the
-    carrier set and $F$ is the set of operation names.
+    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a set
+    of single sort and $F$ is the set of operation names.
 
     \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
-    mathematical structure consisting of a carrier set $(A)$ and a family of
-    functions $(F_A)$ defined for each function symbol in the signature.
+    mathematical structure that has a domain $(A)$ and a family of functions
+    $(F_A)$ defined for each function symbol in the signature on this domain.
     Algebra provides an interpretation for the carrier set $A$ and function
     symbols $F_A$ of a theory.
 
@@ -104,7 +105,7 @@ structures. In this section, we will describe some of these constructions.
     y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\ \theta\
     f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
     
-    \item A \textit{morphism} is a structure-preserving map between two
+    \item A \textit{homomorphism} is a structure-preserving map between two
     algebraic structures. It is an abstraction that generalizes the map between
     two structures or mathematical objects in general. If $A$ and $B$ are two
     algebras of same type $F$, then a homomorphism is defined as a function
