@@ -66,25 +66,31 @@ language, $xs$ and $ts$ denotes list of symbols and list of expressions
 respectively. 
 
 \begin{itemize}
-    \item A \textit{theory} in universal algebra is defined as a tuple $(S,F,E)$
-    such that $S$ is a set of sort single sort, $F$ is a finite set of function
-    symbols with their arities, and $E$ is a set of equations that are satisfied
-    in $S$.
-
-    \item A \emph{sub theory} of a theory $(S,F,E)$ is defined as
-    $(S_\Delta,F_\Delta,E_\Delta)$ such that $S_\Delta \subseteq S$. The operations
-    in sub theory $(op_\Delta \in |F_\Delta|)$ is defined as
-    \[op_\Delta\ x_1...x_n = op\ x_1...x_n \in S_\Delta,\forall op \in
-    |F|,\text{and}\ x_1...x_n \in S_\Delta \]  
 
     \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a set
-    of single sort and $F$ is the set of operation names.
+    of single sort. $F$ is the collection of operation names.
 
     \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
     mathematical structure that has a domain $(A)$ and a family of functions
     $(F_A)$ defined for each function symbol in the signature on this domain.
     Algebra provides an interpretation for the carrier set $A$ and function
     symbols $F_A$ of a theory.
+
+    \item Let $E$ be a set of equations, then model $(Mod_\Sigma(E))$ denotes
+    the class of $\Sigma$-algebra satisfying all the equations in $E$.
+    \[Mod_\Sigma(E) = \{ A | A \text{ is a } \Sigma-algebra \text{ and A } \models E \} =
+    Mod[⟨\Sigma,E⟩]\]
+
+    \item For a $\Sigma$-algebra $A$, the theory of $A$ ($Th(A_\Sigma)$) denotes
+    the set of all equations satisfied in $A$. \[Th(A_\Sigma) = \{ e | e \text{is
+    an equation and }A \models e \}\]
+
+    \item A presentation is a pair $(\Sigma,E)$ where $\Sigma$ denotes the
+    signature and $E$ is a set of equations.
+    
+    \item A theory can be defined in terms of presentation as a pair $(\Sigma,
+    E)$ that is a presentation such that $E$ is closed. A set of equations ($E$)
+    is closed if $E = Th_\Sigma(Mod_\Sigma(E))$.
 
     \item The type (or language) of the algebra is a set of function symbols.
     Each member of this set is assigned a positive number which is the arity of
