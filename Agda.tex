@@ -9,8 +9,18 @@ way. Agda has been used in various applications such as formal verification,
 program synthesis, theorem proving, and automated reasoning
 \cite{2019arXiv191203028S}. It is also used by researchers and academicians to
 teach and explore the concepts of functional programming, type theory, and
-formal methods. This chapter provides a brief overview of programming in Agda in
-the context of algebraic structures. 
+formal methods. 
+
+In this chapter, we'll discuss several concepts in Agda. Section \ref{types},
+explores types and functions, understanding how they work in Agda. Section
+\ref{level} and \ref{equality} discuss the type levels and equality in Agda
+respectively. Characterization of algebraic structures with respect to the Agda
+standard library is discussed in section \ref{structure}. The chapter also
+covers essential constructs such as homomorphism, isomorphism, and direct
+product in Agda in section \ref{morphism} and section \ref{directproduct}. We do
+not discuss other constructs like quotient algebra \cite{wechler2012universal}
+to keep uniformity with what is in the Agda standard library. Finally, section
+\ref{proof} discusses equational proofs in Agda.
 
 \section{Types And Functions In Agda}
 \label{types}
@@ -210,6 +220,7 @@ are parsed. For example,
 \inline{infixl 5 _+_}
 
 \section{Type Levels In Agda}
+\label{level}
 In the above section, we say that \inline{Bool} is a type of kind \inline{Set}.
 What we normally call \inline{Type} in programming, Agda calls it \inline{Set}.
 If \inline{Set} is a type of type, is it possible that \inline{Set} is its own
@@ -419,6 +430,7 @@ Transitive _∼_ = Trans _∼_ _∼_ _∼_
 \end{minted}
 
 \section{Structure Definition}
+\label{structure}
 A design decision was made in the Agda standard library to define algebraic
 structures as record types. The category theory library \cite{hu2021formalizing}
 also follows the same design pattern to use record types. There are several
@@ -692,6 +704,7 @@ more difficult to maintain the conventions and requires carefully defining the
 structures.  
 
 \section{Morphism In Agda}
+\label{morphism}
 A homomorphism is a structure-preserving map between two structures.  For two
 magma structures $(A,∙)$ and $(B,◦)$, homomorphism  \(f\) : \(A \ \rightarrow
 \ B\) is defined as:
@@ -771,6 +784,7 @@ Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 \end{minted}
 
 \section{Direct Product In Agda}
+\label{directproduct}
 In Chapter 2, we define the direct product of algebra. The standard library defines
 objects that are bi-products of appropriate algebras. In the context of algebraic
 structures, a bi-product is defined in such a way that it encompasses the
@@ -826,6 +840,7 @@ and \inline{N}. \inline{zip} gives a $\Sigma$-type of dependent pairs.
 and \inline{N}.
 
 \section{Equational Proofs In Agda}
+\label{proof}
 A proof is a sequence of steps that transform one expression into another using
 a set of rules. Agda allows us to declare properties of functions and data types
 that need to be verified by the compiler \cite{kidney2020finiteness}. A
