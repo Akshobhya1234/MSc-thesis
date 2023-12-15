@@ -67,30 +67,31 @@ respectively.
 
 \begin{itemize}
 
-    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a set
-    of single sort. $F$ is the collection of operation names.
+    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a
+    carrier set. $F$ is the collection of operation names.
 
-    \item A \emph{$\Sigma$-algebra} $A$ is defined as pair $A = (A,F_A)$, a
-    mathematical structure that has a domain $(A)$ and a family of functions
-    $(F_A)$ defined for each function symbol in the signature on this domain.
-    Algebra provides an interpretation for the carrier set $A$ and function
-    symbols $F_A$ of a theory.
-
-    \item Let $E$ be a set of equations, then model $(Mod_\Sigma(E))$ denotes
-    the class of $\Sigma$-algebra satisfying all the equations in $E$.
-    \[Mod_\Sigma(E) = \{ A | A \text{ is a } \Sigma-algebra \text{ and A } \models E \} =
-    Mod[⟨\Sigma,E⟩]\]
+    \item A \emph{$\Sigma$-algebra} in \cite{sannella2012foundations} is defined
+    as: "A $\Sigma$-algebra $A$ consists of an S-Sorted set $|A|$ of carrier
+    sets and for each $f: x_1 \times ... \times x_n \rightarrow x $ in $\Sigma$,
+    a function ($f: x_1 \times ... \times x_n \rightarrow x$): $|A|_{x_1} \times
+    ... \times |A|_{x_n}$".
+ 
+    \item Let $E$ be a set of $\Sigma$-equations, then model $(Mod_\Sigma(E))$
+    denotes the class of $\Sigma$-algebra satisfying all the $\Sigma$-equations
+    in $E$.
+    \[Mod_\Sigma(E) = \{ A | A \text{ is a } \Sigma\text{-algebra} \text{ and A
+    } \models E \} = Mod[⟨\Sigma,E⟩]\]
 
     \item For a $\Sigma$-algebra $A$, the theory of $A$ ($Th(A_\Sigma)$) denotes
-    the set of all equations satisfied in $A$. \[Th(A_\Sigma) = \{ e | e \text{is
-    an equation and }A \models e \}\]
+    the set of all $\Sigma$-equations satisfied in $A$. \[Th(A_\Sigma) = \{ e |
+    e \text{is an equation and }A \models e \}\]
 
     \item A presentation is a pair $(\Sigma,E)$ where $\Sigma$ denotes the
-    signature and $E$ is a set of equations.
+    signature and $E$ is a set of $\Sigma$-equations.
     
     \item A theory can be defined in terms of presentation as a pair $(\Sigma,
-    E)$ that is a presentation such that $E$ is closed. A set of equations ($E$)
-    is closed if $E = Th_\Sigma(Mod_\Sigma(E))$.
+    E)$ that is a presentation such that $E$ is closed. A set of
+    $\Sigma$-equations ($E$) is closed if $E = Th_\Sigma(Mod_\Sigma(E))$.
 
     \item The type (or language) of the algebra is a set of function symbols.
     Each member of this set is assigned a positive number which is the arity of
