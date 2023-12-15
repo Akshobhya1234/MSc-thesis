@@ -104,9 +104,9 @@ $+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
 open \inline{isIdempotentSemiring} to bring its definitions into scope.
 
 \section{Morphism}
-A morphism of Kleene algebra is a function between two Kleene algebras that
+A homomorphism of Kleene algebra is a function between two Kleene algebras that
 preserves the algebraic structure of the underlying semiring and the Kleene star
-operation. Morphisms of Kleene algebra are important in the study of regular
+operation. Homomorphisms of Kleene algebra are important in the study of regular
 languages and automata, as they allow us to relate the behavior of different
 automata and regular expressions to each other.
 
@@ -132,13 +132,13 @@ field
 open IsSemiringHomomorphism isSemiringHomomorphism public
 \end{minted}
 
-By characterizing morphisms in Kleene algebra, researchers can gain insights
-into the structural properties between two regular languages.
+By characterizing these constructs in Kleene algebra, researchers can gain
+insights into the structural properties between two regular languages.
 
 \section{Morphism Composition}
-If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
-such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
-defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+If $f$ is a homomorphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a
+homomorphism such that $g\ :\ b\ \rightarrow \ c$, then composition of
+homomorphisms can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 
 \begin{minted}[samepage,breaklines]{Agda}
 isKleeneAlgebraHomomorphism

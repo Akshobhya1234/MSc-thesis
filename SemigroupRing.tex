@@ -186,8 +186,8 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
 \end{minted}
 
 \section{Morphism} 
-A structure-preserving map between two structures is called \textit{morphism}.
-In this section morphism of RingWithoutOne structure is discussed. The
+A structure-preserving map between two structures is called a homomorphism. In
+this section, the homomorphism of RingWithoutOne structure is discussed. The
 homomorphism for ringWithoutOne structure can be defined using group
 homomorphism. For two group structures $(G_1,+_1,^{-1},e_1)$ and
 $(G_2,+_2,^{-1},e_2)$, homomorphism $f:(G_1,+_1,^{-1},e_1) \rightarrow
@@ -221,9 +221,9 @@ The definition of isomorphism and monomorphism can be found in the Agda standard
 library under the module \inline{Algebra.Morphism.Structures}.
 
 \section{Morphism Composition}
-If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
-such that $g\ :\ b\ \rightarrow \ c$, then composition of morphism can be
-defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
+If $f$ is a homomorphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a
+homomorphism such that $g\ :\ b\ \rightarrow \ c$, then composition of
+homomorphisms can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.
 
 \begin{minted}[breaklines,samepage]{Agda}
   isRingWithoutOneHomomorphism

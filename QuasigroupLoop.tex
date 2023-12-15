@@ -134,11 +134,11 @@ The definition of these structures is similar to \inline{IsLoop} and can be
 found in the Agda standard library in module \inline{Algebra.Structures}.
 
 \section{Morphism}
-A structure-preserving map f between two structures of the same type is called
-homomorphism or morphism in general. For quasigroups $(Q_1,∙,\backslash
-\backslash ,//)$ and $(Q_2,\circ,\backslash ,/)$, homomorphism is defined as a
-function \( f:(Q_1,∙,\backslash \backslash,//) \rightarrow
-(Q_2,\circ,\backslash,/) \) such that:
+A structure-preserving map $f$ between two structures of same type is called a
+homomorphism. For quasigroups $(Q_1,∙,\backslash \backslash ,//)$ and
+$(Q_2,\circ,\backslash ,/)$, homomorphism is defined as a function \(
+f:(Q_1,∙,\backslash \backslash,//) \rightarrow (Q_2,\circ,\backslash,/) \) such
+that:
 \begin{itemize}
   \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
   \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
@@ -179,15 +179,15 @@ record IsLoopHomomorphism (⟦_⟧ : A → B) : Set (a ⊔ ℓ₁ ⊔ ℓ₂) wh
 \end{minted}
 
 The definitions of quasigroup loop monomorphism and isomorphism can be defined
-similarly to magma morphism discussed in Chapter 3. These definitions can be
-found in the Agda standard library under module
+similarly to magma homomorphism as discussed in Chapter 3. These definitions can
+be found in the Agda standard library under module
 \MYhref{https://github.com/agda/agda-stdlib/blob/master/src/Algebra/Morphism/Structures.agda}{Algebra.Morphism.Structures}.
 
 \section{Morphism Composition}
-If $f$ is a morphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a morphism
-such that $g\ :\ b\ \rightarrow \ c$, then the composition of morphism can be
-defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. In Agda we can prove that the
-composition of quasigroup homomorphism is homomorphic as:
+If $f$ is a homomorphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a
+homomorphism such that $g\ :\ b\ \rightarrow \ c$, then the composition of
+homomorphism can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. In Agda we
+can prove that the composition of quasigroup homomorphism is homomorphic as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 isQuasigroupHomomorphism

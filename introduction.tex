@@ -48,13 +48,14 @@ It helps us to study the commonalities of algebraic structures and define their
 constructs. An algebra in universal algebra is defined as an ordered pair
 $(S,F)$ where $S$ is a set and $F = (F_i:i\in I)$ is a finitary operations on A
 for some indexing set $I$ \cite{sannella2012foundations}. Certain constructs
-like morphisms and direct products help us to relate different mathematical
-objects and structures in a systematic and rigorous way. Morphisms allow us to
-understand how different algebraic structures are related to one another. Direct
-product, on the other hand, is a useful tool for combining structures, such as
-monoids, groups, or rings, to create new and more complex structures that retain
-the properties of the original structures. This allows us to study and
-understand larger, more complex systems and their properties.
+like homomorphisms, isomorphisms and direct products help us to relate different
+mathematical objects and structures in a systematic and rigorous way.
+Homomorphisms allow us to understand how different algebraic structures are
+related to one another. Direct product, on the other hand, is a useful tool for
+combining structures, such as monoids, groups, or rings, to create new and more
+complex structures that retain the properties of the original structures. This
+allows us to study and understand larger, more complex systems and their
+properties.
 
 \section{Research Outline}
 To define the scope of our research, that is to study algebraic structures in
@@ -72,18 +73,19 @@ Agda over other systems}.
 Inspired by the ways algebraic structures are used in research, in this work we
 explore capturing a select subset of them in the Agda standard library. We study
 two important non-associative algebra that is quasigroup and loop structures. By
-defining them with their morphisms and direct product constructs, we can study
-their properties and relationships in a more systematic way. We also explore
-various types of loops such as bol-loop and moufang-loop and their properties.
-Semigroups are used in various fields such as probability theory and formal
-systems. One of the most commonly studied algebraic structures is the ring. In
-this thesis, we study types of rings such as near-ring, quasi-ring, and
-non-associative ring. I was exposed to Kleene Algebra in discrete mathematics
-course. Inspired by the applications of Kleene algebra in finite state machines,
-regular expressions, and other branches of computer science, we study Kleene
-algebra by providing proof for its properties that may be used in developing
-other systems or applications. By contributing to the Agda standard library, we
-hope that this work will be used by others. 
+defining them with their constructs like homomorphism, monomorphism,
+isomorphism, and direct product constructs, we can study their properties and
+relationships in a more systematic way. We also explore various types of loops
+such as bol-loop and moufang-loop and their properties. Semigroups are used in
+various fields such as probability theory and formal systems. One of the most
+commonly studied algebraic structures is the ring. In this thesis, we study
+types of rings such as near-ring, quasi-ring, and non-associative ring. I was
+exposed to Kleene Algebra in discrete mathematics course. Inspired by the
+applications of Kleene algebra in finite state machines, regular expressions,
+and other branches of computer science, we study Kleene algebra by providing
+proof for its properties that may be used in developing other systems or
+applications. By contributing to the Agda standard library, we hope that this
+work will be used by others. 
 
 As we explore capturing these structures in Agda, we encountered several
 problems. In this work, we abstract out these problems into five classes:
