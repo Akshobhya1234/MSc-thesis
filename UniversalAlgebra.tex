@@ -67,27 +67,32 @@ respectively.
 
 \begin{itemize}
 
-    \item A \textit{signature} is a pair $\Sigma = (S,F)$ such that $S$ is a
-    carrier set. $F$ is the collection of operation names.
+    \item A \textit{signature} is a set $\Sigma$. The elements of the set are
+    called operation symbols (or function names) together with the arity
+    function $ar: \Sigma \rightarrow \mathbb{N} $ that assigns each operation symbol with
+    its finite arity.
 
-    \item A \emph{$\Sigma$-algebra} in \cite{sannella2012foundations} is defined
-    as: "A $\Sigma$-algebra $A$ consists of an S-Sorted set $|A|$ of carrier
-    sets and for each $f: x_1 \times ... \times x_n \rightarrow x $ in $\Sigma$,
-    a function ($f: x_1 \times ... \times x_n \rightarrow x$): $|A|_{x_1} \times
-    ... \times |A|_{x_n}$".
- 
-    \item Let $E$ be a set of $\Sigma$-equations, then model $(Mod_\Sigma(E))$
+    \item A \textit{realization} of an n-ary function name in a set $A$ is an
+    n-ary function on $A$. 
+
+    \item A \emph{$\Sigma$-algebra} in \cite{wechler2012universal} is defined
+    as: "Given a signature $\Sigma$, a $\Sigma$-algebra $A$ is a pair $A =
+    (A,\Sigma^{A})$ consisting of a set $A$ called the carrier of $A$ and a
+    family of realizations $\Sigma^{A} = (\sigma^{A}|\sigma \in \Sigma)$ of
+    realizations $\sigma^{A}$ of operation symbols $\sigma$ from $\Sigma$".
+
+    \item Let $E$ be a set of $\Sigma$-equations, then \emph{model} $(Mod_\Sigma(E))$
     denotes the class of $\Sigma$-algebra satisfying all the $\Sigma$-equations
     in $E$.
     \[Mod_\Sigma(E) = \{ A | A \text{ is a } \Sigma\text{-algebra} \text{ and A
     } \models E \} = Mod[⟨\Sigma,E⟩]\]
 
-    \item For a $\Sigma$-algebra $A$, the theory of $A$ ($Th(A_\Sigma)$) denotes
-    the set of all $\Sigma$-equations satisfied in $A$. \[Th(A_\Sigma) = \{ e |
-    e \text{is an equation and }A \models e \}\]
+    \item For a $\Sigma$-algebra $A$, the \emph{theory} of $A$ ($Th(A_\Sigma)$)
+    denotes the set of all $\Sigma$-equations satisfied in $A$. \[Th(A_\Sigma) =
+    \{ e | e \text{is an equation and }A \models e \}\]
 
-    \item A presentation is a pair $(\Sigma,E)$ where $\Sigma$ denotes the
-    signature and $E$ is a set of $\Sigma$-equations.
+    \item A \emph{presentation} is a pair $(\Sigma,E)$ where $\Sigma$ denotes
+    the signature and $E$ is a set of $\Sigma$-equations.
     
     \item A theory can be defined in terms of presentation as a pair $(\Sigma,
     E)$ that is a presentation such that $E$ is closed. A set of
