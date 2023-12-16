@@ -185,7 +185,7 @@ record IsRingWithoutOne (+ * : Op₂ A) (-_ : Op₁ A) (0# : A) : Set (a ⊔ ℓ
   open IsAbelianGroup +-isAbelianGroup public
 \end{minted}
 
-\section{Morphism} 
+\section{Homomorphism} 
 A structure-preserving map between two structures is called a homomorphism. In
 this section, the homomorphism of RingWithoutOne structure is discussed. The
 homomorphism for ringWithoutOne structure can be defined using group
@@ -220,7 +220,7 @@ record type with two fields \inline{+-isGroupHomomorphism} and \inline{*-homo}.
 The definition of isomorphism and monomorphism can be found in the Agda standard
 library under the module \inline{Algebra.Morphism.Structures}.
 
-\section{Morphism Composition}
+\section{Composition of Homomorphism}
 If $f$ is a homomorphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a
 homomorphism such that $g\ :\ b\ \rightarrow \ c$, then composition of
 homomorphisms can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$.

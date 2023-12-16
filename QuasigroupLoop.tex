@@ -133,7 +133,7 @@ theoretical physics \cite{kunen1996moufang}.
 The definition of these structures is similar to \inline{IsLoop} and can be
 found in the Agda standard library in module \inline{Algebra.Structures}.
 
-\section{Morphism}
+\section{Homomorphism}
 A structure-preserving map $f$ between two structures of same type is called a
 homomorphism. For quasigroups $(Q_1,∙,\backslash \backslash ,//)$ and
 $(Q_2,\circ,\backslash ,/)$, homomorphism is defined as a function \(
@@ -183,7 +183,7 @@ similarly to magma homomorphism as discussed in Chapter 3. These definitions can
 be found in the Agda standard library under module
 \MYhref{https://github.com/agda/agda-stdlib/blob/master/src/Algebra/Morphism/Structures.agda}{Algebra.Morphism.Structures}.
 
-\section{Morphism Composition}
+\section{Composition of Homomrphism}
 If $f$ is a homomorphism such that $f\ :\ a \ \rightarrow \ b$ and $g$ is a
 homomorphism such that $g\ :\ b\ \rightarrow \ c$, then the composition of
 homomorphism can be defined as $g \ ∘\ f\ :\ a \ \rightarrow \ c$. In Agda we
