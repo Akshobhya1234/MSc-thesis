@@ -18,10 +18,10 @@ understand the characterization of algebraic structures with their constructs in
 Agda in the later chapters. We assume the reader to have basic knowledge of set
 theory (set, functions, and relations), knowledge of notation and concepts of
 first-order logic. Section \ref{universe} defines terms like signature, theory,
-and algebra. We introduce constructs such as morphisms and direct products in
-Section \ref{construct}. The definitions in this chapter are adapted from
-\cite{sankappanavar1981course}, \cite{wechler2012universal} and
-\cite{sannella2012foundations}. 
+and algebra. We introduce constructs such as homomorphisms, monomorphisms,
+isomorphisms, and direct products in Section \ref{construct}. The definitions in
+this chapter are adapted from \cite{sankappanavar1981course},
+\cite{wechler2012universal} and \cite{sannella2012foundations}. 
 
 \section{Universe, Type, and Signature}
 Before we dive into defining algebra, we introduce some concepts that are
@@ -104,20 +104,20 @@ structures. In this section, we will describe some of these constructions.
     y_i$ holds for \(1\leq i \leq n\) then $f^{A}(x_1,...,x_n)\ \theta\
     f^{A}(y_1,....,y_n)$ holds \cite{sankappanavar1981course}.
     
-    \item A \textit{morphism} is a structure-preserving map between two
+    \item A \textit{homomorphism} is a structure-preserving map between two
     algebraic structures. It is an abstraction that generalizes the map between
     two structures or mathematical objects in general. If $A$ and $B$ are two
     algebras of same type $F$, then a homomorphism is defined as a function
     $\alpha: A \rightarrow B$ such that: \[ \alpha\ (f^{A}(a_1....a_n))\ =\
-    f^{B}\ ((\alpha\ a_1)....(\alpha\ a_n))\] For each n-ary $f$ in $F$ and
-    each sequence $a_1....a_n$ from $A$.
+    f^{B}\ ((\alpha\ a_1)....(\alpha\ a_n))\] For each n-ary $f$ in $F$ and each
+    sequence $a_1....a_n$ from $A$.
 
     Some variants of homomorphism are:
     \begin{enumerate}
         \item  Monomorphism: For two algebras $A$ and $B$, if \(\alpha : A
         \rightarrow B \) is a homomorphism from $A$ to $B$, and if \(\alpha\)
         satisfies one-to-one mapping (i.e., \(\alpha\) is injective) then the
-        morphism \(\alpha\) is called a \textit{monomorphism}.
+        homomorphism \(\alpha\) is called a \textit{monomorphism}.
 
         \item Isomorphism: For algebra $A$ and $B$, a homomorphism $f:A → B$ is
         an isomorphism if it has an inverse, i.e. there is a homomorphism
@@ -133,14 +133,14 @@ structures. In this section, we will describe some of these constructions.
 
         \item Epimorphism: For two algebras $A$ and $B$, if \(\alpha : A
         \rightarrow B \) is a homomorphism from $A$ to $B$, and if \(\alpha\) is
-        surjective then the morphism \(\alpha\) is called a
+        surjective then the homomorphism \(\alpha\) is called a
         \textit{epimorphism}.
     \end{enumerate}
 
-    \item For algebras $A$, $B$, and $C$ the \textit{composition of morphisms}
-    $f:\ A \ \rightarrow \ B$ and $g:\ B \rightarrow\ C$ is denoted by the
-    function $g\ \circ \ f\ :\ A\ \rightarrow \ C$ and is defined as $(g\ \circ
-    \ f)\ a = \ g\ (f\ a), \ \forall \ a\ \in\ A$. In
+    \item For algebras $A$, $B$, and $C$ the \textit{composition of
+    homomorphisms} $f:\ A \ \rightarrow \ B$ and $g:\ B \rightarrow\ C$ is
+    denoted by the function $g\ \circ \ f\ :\ A\ \rightarrow \ C$ and is defined
+    as $(g\ \circ \ f)\ a = \ g\ (f\ a), \ \forall \ a\ \in\ A$. In
     \cite{sankappanavar1981course}, the author proves that the composite of two
     homomorphisms (monomorphisms/isomorphisms) is also a homomorphism
     (monomorphism/isomorphism).
