@@ -10,23 +10,23 @@ the tools and expand their utility.
 
 This chapter provides the coverage of algebraic structures in proof assistant
 systems. Since I was exposed to Agda in the coursework, it added bias to select
-systems that are comparable with Agda thus eliminating systems such as Mizar
-and Isabelle. We consider four proof assistant systems that are all dependently
+systems that are comparable with Agda thus eliminating systems such as Mizar and
+Isabelle. We consider four proof assistant systems that are all dependently
 typed higher-order programming languages \cite{2019arXiv191203028S}. A standard
 library for a system is a collection of mathematical definitions with logical
 constructs, proof tactics, and utility functions that provide a foundational set
 of tools and definitions for users of these proof assistants
 \cite{kohlhase2021experiences}. For the scope of the thesis, we consider the
 libraries as standard libraries that are commonly used and referenced for the
-respective proof systems in the context of algebra. The aim of this chapter is
-to provide documentation for the algebraic coverage in the standard libraries of
-proof assistant systems Agda, Idris, Coq, and Lean. In this chapter, the latest
+respective proof systems in the context of algebra. This chapter aims to provide
+documentation for the algebraic coverage in the standard libraries of proof
+assistant systems Agda, Idris, Coq, and Lean. In this chapter, the latest
 available versions are considered i.e., Agda standard library v1.7
 \cite{danielsson2011agda}, Idris 2.0 \cite{Brady2021Idris2Q}, The Mathematical
 Components Library v1.13.0 \cite{assia_mahboubi_2021_4457887}, and The Lean
 mathematical library\cite{10.1145/3372885.3373824}.
 
-The rest of the chapter is organized as follows. Section \ref{Proof_system}
+The rest of the chapter is organized as follows: Section \ref{Proof_system}
 gives a brief overview of the proof systems that we discuss in this chapter.
 The experiment setup is discussed in Section \ref{experiment}. In Section
 \ref{threat}, we discuss the threat to validity. Section \ref{algebraic_structure}
@@ -41,12 +41,12 @@ Lean. We intentionally omit discussing Agda in this section since it is
 discussed in the previous chapter. 
 
 \subsection{Coq}
-Coq \cite{Paulin-Mohring2012} is a theorem-proving system that is written in the
 OCaml programming language. It is designed to assist in the formalization of
-mathematical theorems by using constructive and higher-order logic.  It was
-first released in 1989 and is one of the most widely used proof assistant
-systems to define mathematical definitions, and theory and to write proofs. The
-Coq specification language is called Gallina. Users can write functions and
+Coq \cite{Paulin-Mohring2012} is a theorem-proving system that is written in the
+mathematical theorems by using constructive and higher-order logic. It was first
+released in 1989 and is one of the most widely used proof assistant systems to
+define mathematical definitions, and theory and to write proofs. The Coq
+specification language is called Gallina. Users can write functions and
 algorithms in Gallina and then formally verify their correctness within the Coq
 environment \cite{bertot2013interactive}. Coq provides an interactive proof
 development environment where users can interact with Coq through a command line
@@ -127,7 +127,7 @@ In this section, we discuss threat to validity of the survey data.
   development. The definitions that our web crawler extracted may not reflect
   the most recent code. We limit to a specific version of the library so that
   all the definitions in that version are captured. 
-  \item  The threat in using regular expression is that it may not capture all
+  \item The threat in using regular expression is that it may not capture all
   variations and formats of definitions. Some definitions may be missed, leading
   to incomplete data. We manually verify the result to look for missing
   definitions in the library.
@@ -150,17 +150,17 @@ In this section, we discuss threat to validity of the survey data.
 
 \section{Algebraic Structures}
 \label{algebraic_structure}
-In this section, we discuss the characterization of monoid in different
-libraries. A monoid is a mathematical structure consisting of a set, an
-associative binary operation, and an identity element for that operation. This
-section discusses the definition of the monoid structure in each proof system
-and gives a brief overview of the syntax used in the definition. We
+In this section, we discuss the characterization of the monoid structure in
+different libraries. A monoid is a mathematical structure consisting of a set,
+an associative binary operation, and an identity element for that operation.
+This section discusses the definition of the monoid structure in each proof
+system and gives a brief overview of the syntax used in the definition. We
 intentionally keep some overlap from the previous chapter when discussing the
 definition of monoid in Agda to have uniform coverage for each system.
 
 \subsection{Agda Standard Library}
-In the Agda standard library, algebraic structures are
-defined over setoid \cite{danielsson2011agda}.
+In the Agda standard library, algebraic structures are defined over a setoid
+\cite{danielsson2011agda}.
 
 \begin{minted}[breaklines,samepage]{Agda}
 record IsMonoid (∙ : Op₂ A) (ε : A) : Set (a ⊔ ℓ) where
@@ -181,7 +181,7 @@ semigroup, which means it is associative. The \inline{IsSemigroup} type is
 defined as proof of associativity for the binary operation. Field
 \inline{identity} indicates that \inline{ε} is an identity element for the
 binary operation \inline{∙}. The \inline{Identity} type says that \inline{ε}
-behaves as a left and right identity element for \inline{∙}.  Agda  opens the
+behaves as a left and right identity element for \inline{∙}. Agda opens the
 \inline{IsSemigroup} field \inline{isSemigroup} so that when you have an
 instance of \inline{IsMonoid}, you can directly access its \inline{isSemigroup}
 field without any additional qualifiers.
@@ -204,7 +204,7 @@ the Packing mathematical structures. The \inlineCode{Coq}{ssralg.v} file defines
 some of the simple algebraic structures with their type, packers, and canonical
 properties. The hierarchy extends from Zmodule, rings to ring morphisms. The
 \inlineCode{Coq}{countalg} file extends \inlineCode{Coq}{ssralg} file to define
-countable types. A monoid in mathcomp library is defined as:
+countable types. A monoid in the mathcomp library is defined as:
 
 \begin{minted}[samepage,breaklines]{Coq}
 Module Monoid.
@@ -238,10 +238,10 @@ left and right identity laws.
 In Idris 2, there is considerable overlap between abstract algebra and category
 theory. Some algebraic structures are provided as an extension of two other
 algebraic structures. The structures also include respective bundle definitions.
-A module is an Abelian group with the ring of scalars. The ring of scalars has
-an identity element. The library defines various algebraic structures that
-include semigroup, monoid, group, Abelian-group, semiring, and ring. It follows
-a hierarchical approach in defining structures similar to that in Agda. For
+A module is an Abelian group with a ring of scalars. The ring of scalars has an
+identity element. The library defines various algebraic structures that include
+semigroup, monoid, group, Abelian-group, semiring, and ring. It follows a
+hierarchical approach in defining structures similar to that in Agda. For
 example, a semigroup is defined as a set with a binary operation that is
 associative, and a monoid is defined in terms of a semigroup with an identity
 element. Idris addresses identity as a neutral element.
@@ -263,7 +263,7 @@ satisfy the requirements of the Semigroup interface. \inlineCode{Idris}{neutral}
 represents the identity element for the binary operation defined on type
 \inline{t}. \inlineCode{Idris}{monoidNeutralIsNeutralL} and
 \inlineCode{Idris}{monoidNeutralIsNeutralR} specifies that for any value
-\inline{l} (or \inline{r}) of type \inline{t}, when you combine (using the
+\inline{l} (or \inline{r}) of type \inline{t} when you combine (using the
 \inline{<+>} operator) \inline{l} (or \inline{r}) with the neutral element on
 the left side (or right side), it should result in \inline{l} (or \inline{r}).
 \inline{neutral} element acts as an identity element on the binary operation.

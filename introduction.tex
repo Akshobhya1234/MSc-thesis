@@ -16,14 +16,14 @@ via proof search tools. For the scope of the thesis, we only discuss types of
 algebraic structures in proof systems.
 
 For any software system to be robust, all its dependencies must similarly be
-robust. The standard libraries of these systems should support the user with
-the necessary functionalities to be able to use the system easily without having to
+robust. The standard libraries of these systems should support the user with the
+necessary functionalities to be able to use the system easily without having to
 define all functionalities. The paper \cite{BuildingDiamond} explores techniques
 to generate libraries with minimum human effort. Although generated libraries
-can define algebraic concepts, they are not considered "standard library" for
-any proof system. For now, building standard libraries for proof systems relies
-on human efforts. This led to the question of what is the current scope of
-algebraic structures in the standard libraries of proof assistant systems. A
+can define algebraic concepts, they are not considered the "standard library"
+for any proof system. For now, building standard libraries for proof systems
+relies on human efforts. This led to the question of what is the current scope
+of algebraic structures in the standard libraries of proof assistant systems. A
 survey of the coverage of algebraic structures in the standard libraries of
 proof assistant systems can help us understand which algebraic structures are
 already supported by various proof assistants, and which structures are still
@@ -75,20 +75,20 @@ explore capturing a select subset of them in the Agda standard library. We study
 two important non-associative algebra that is quasigroup and loop structures. By
 defining them with their constructs like homomorphism, monomorphism,
 isomorphism, and direct product constructs, we can study their properties and
-relationships in a more systematic way. We also explore various types of loops
-such as bol-loop and moufang-loop and their properties. Semigroups are used in
+relationships more systematically. We also explore various types of loops such
+as bol-loop and moufang-loop and their properties. Semigroups are used in
 various fields such as probability theory and formal systems. One of the most
 commonly studied algebraic structures is the ring. In this thesis, we study
 types of rings such as near-ring, quasi-ring, and non-associative ring. I was
-exposed to Kleene Algebra in discrete mathematics course. Inspired by the
+exposed to Kleene algebra in discrete mathematics course. Inspired by the
 applications of Kleene algebra in finite state machines, regular expressions,
 and other branches of computer science, we study Kleene algebra by providing
 proof for its properties that may be used in developing other systems or
 applications. By contributing to the Agda standard library, we hope that this
 work will be used by others. 
 
-As we explore capturing these structures in Agda, we encountered several
-problems. In this work, we abstract out these problems into five classes:
+As we explored capturing these structures in Agda, we encountered several
+problems. In this work, we abstract these problems into five classes:
 \begin{enumerate}
 \item Ambiguity in naming structures.
 \item Equivalent structures that are structurally different.
@@ -106,7 +106,7 @@ next three chapters 5, 6 and 7 are dedicated to discussing the structures in
 detail. Chapter 5 explores quasigroup and loop structures with their variations.
 Chapter 6 discusses the properties of semigroup and ring. Chapter 7 explores
 Kleene algebra, definition, construct and properties in Agda. Chapter 8
-describes the various problems we faced during this work, as well as advice on
+describes various problems we faced during this work, as well as advice on
 handling common issues in programming algebra in proof systems. Finally,
 Chapter 9 concludes this work with notes on related future works and some
 closing thoughts.
