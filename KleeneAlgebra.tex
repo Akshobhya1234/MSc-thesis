@@ -161,9 +161,9 @@ gives composition for star operator using transitive relation such that:
 monomorphism and isomorphism can be defined similar to homomorphism and can be
 found in the Agda standard library.
 
-\section{Direct Product}
-The \textit{direct product} of two Kleene algebra structures in Agda is defined
-using the product definition of idempotent semiring structure as:
+\section{Product Algebra}
+The product of two Kleene algebra structures in Agda is defined using the
+product definition of idempotent semiring structure as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 KleeneAlgebra : KleeneAlgebra a ℓ₁ → KleeneAlgebra b ℓ₂ → KleeneAlgebra (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -178,7 +178,8 @@ KleeneAlgebra K L = record
 } where module K = KleeneAlgebra K;  module L = KleeneAlgebra L
 \end{minted}
 
-where \inline{idempotentSemiring} is the product of two idempotent semiring structures.
+where \inline{idempotentSemiring} is the product of two idempotent semiring
+structures.
 \section{Properties}
 In this section, we prove some properties of Kleene algebra. The proofs are
 adapted from \cite{kozen1997kleene}.
