@@ -158,6 +158,16 @@ structures. In this section, we will describe some of these constructions.
     homomorphisms (monomorphisms/isomorphisms) is also a homomorphism
     (monomorphism/isomorphism).
     
+    \item \textit{Product algebra}: For two $\Sigma$-algebra $A$ and $B$, the
+    product algebra ($A \times B$) is the $\Sigma$-algebra defined as:
+    \begin{itemize}
+      \item $|A \times B|$ = $|A| \times |B|$ 
+      \item for each operation $f$ in $\Sigma$: $f\
+      (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
+      x_{1_B},x_{n_B} )$ where $x_{1_A},...,x_{n_B}$ are elements in $A$ and
+      $x_{1_B},...,x_{n_B}$ are elements in $B$. 
+    \end{itemize}
+
     \item \textit{Direct product}: For set of algebra $\{ A_i | i \in I \}$ of
     same type indexed by some arbitrary set $I$, the cartesian product of the
     underlying sets is defined as $A = \displaystyle \prod_{i\in I} A_i$. Let
@@ -166,6 +176,15 @@ structures. In this section, we will describe some of these constructions.
     \omega_{A_i} (a_1(i),...,a_n(i)) \forall i \in I\] where element $a \in A$
     is a function from indexing set $I$ to $\bigcup A_i$ such that $i \in I,
     a(i) \in A$. The algebra $A$ equipped with all $\omega_A$ on $A$ is the
-    direct product of $A_i$. Each $A_i$ is called the direct factor of $A$.
+    direct product of $A_i$. Each $A_i$ is called the direct factor of $A$. 
+
+    \item The \textit{direct sum} of two algebraic structures $A$ and $B$ is an
+    algebra denoted as $A \bigoplus B$. The underlying set of $|A \bigoplus B|$
+    is the disjoint union of the underlying sets of $A$ and $B$, and the
+    operations are defined separately on each component. If $A$ has operations
+    $f_1, f_2, ... f_n$ and $B$ has operations $g_1,g_2, ... g_2$, then $A
+    \bigoplus B$ has operations $f_1, f_2, ... f_n,g_1,g_2, ... g_2$ defined
+    component-wise \cite{directproduct}. 
+    
 
 \end{itemize}

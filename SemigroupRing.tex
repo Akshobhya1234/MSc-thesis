@@ -248,8 +248,8 @@ y)) ≈ (g ((R₂ * f x) (f y)) \text{ and } g ((R₂ * f x) (f y))) ≈ ((R₃ 
 (g (f y)))\]
 \[\Rightarrow g (f ((R₁ * x) y)) ≈ ((R₃ * g (f x)) (g (f y)))\]
 
-\section{Direct Product}
-The \textit{direct product} of ring-like structures in Agda is defined as:
+\section{Product Algebra}
+The product of ring-like structures in Agda is defined as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 ringWithoutOne : RingWithoutOne a ℓ₁ → 
@@ -272,9 +272,9 @@ ringWithoutOne R S = record
   } where module R = RingWithoutOne R; module S = RingWithoutOne S
 \end{minted}
 
-The definition of direct product is similar to quasigroups discussed in Chapter
-5. The direct products of \inline{nonAssociativeRing}, \inline{quasiring}, and
-\inline{nearring} can be defined similar to \inline{ringWithoutOne}. These
+The definition of product is similar to quasigroups discussed in Chapter 5. The
+definitions of products of \inline{nonAssociativeRing}, \inline{quasiring}, and
+\inline{nearring} can be defined similarly to \inline{ringWithoutOne}. These
 definitions can be found in the Agda standard library.
 
 \section{Properties}

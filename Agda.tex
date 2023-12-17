@@ -783,41 +783,30 @@ Surjective : (A → B) → Set (a ⊔ b ⊔ ℓ₂)
 Surjective f = ∀ y → ∃ λ x → f x ≈₂ y
 \end{minted}
 
-\section{Direct Product In Agda}
+\section{Product Algebra}
 \label{directproduct}
-In Chapter 2, we define the direct product of algebra. The standard library defines
-objects that are bi-products of appropriate algebras. In the context of algebraic
-structures, a bi-product is defined in such a way that it encompasses the
-properties of both a direct product and a direct sum. In many cases, the
-bi-product coincides with the direct product when certain conditions are met.
-However, bi-products and direct products may have distinct properties and
-behaviors for many algebraic structures. For the scope of the thesis, we do not
-consider this distinction. There is currently an
+Recall the definition of product, direct product, and direct sum discussed in
+Chapter 2. A co-product of an algebra is the dual of the product algebra
+\cite{sannella2012foundations}. A bi-product of algebra is an algebra that is
+both a product and a co-product. The standard library defines objects that are
+products of appropriate algebras and calls them as direct products. In many
+cases, the bi-product coincides with the direct product when certain conditions
+are met \cite{szabo2000linear}. For the scope of the thesis, we do not consider
+this distinction. There is currently an
 \MYhref{https://github.com/agda/agda-stdlib/issues/1907}{issue} in the standard
 library to address this problem. 
 
-The product of algebraic structures takes a more structured approach. It
-involves creating a new structure where the operations are carefully defined to
-combine the operations of the individual structures in a certain way such that
-they respect the individual structures' properties. For two algebra $A$ and $B$
-of the same theory with set $S_A$ and $S_B$ respectively, the product of algebra
-is defined with carrier set $(S_A \times S_B)$ and for each operation $f$ in the
-theory is defined as:
-\[f\ (x_{1_A},x_{1_B})...(x_{n_A},x_{n_B}) = (f_A\ x_{1_A}...x_{n_b}\ ,\ f_B\
-x_{1_B},x_{n_B} )\] where $x_{1_A},...,x_{n_B}$ are elements in $S_A$ and
-$x_{1_B},...,x_{n_B}$ are elements in $S_B$. 
+The difference between a direct product and a cartesian product is mainly
+related to the type of mathematical structures you are dealing with. Cartesian
+product refers to sets with no additional structure. The Cartesian product of
+two sets $A$ and $B$, denoted as $A × B$, is a new set that contains ordered
+pairs $(a, b)$ where $a$ is an element from set $A$, and $b$ is an element from
+set $B$. A direct product typically deals with algebraic structures, such as
+groups, rings, or vector spaces.
 
-The difference between direct product and cartesian product is mainly related
-to the type of mathematical structures you are dealing with. Cartesian product
-refers to sets with no additional structure. The Cartesian product of two sets $A$
-and $B$, denoted as $A × B$, is a new set that contains ordered pairs $(a, b)$ where
-$a$ is an element from set $A$, and $b$ is an element from set $B$. A direct product
-typically deals with algebraic structures, such as groups, rings, or vector
-spaces.
-
-The direct products of structures are defined in
-\inline{Algebra.Construct.DirectProducts} in Agda standard library. The direct
-product of magma structure is defined as:
+The products of various structures are defined under the module
+\mintinline[breaklines,breakafter=.]{Agda}{Algebra.Construct.DirectProducts} in Agda standard library. The product
+of magma structure is defined as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 magma : Magma a ℓ₁ → Magma b ℓ₂ → Magma (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
