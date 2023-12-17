@@ -215,9 +215,9 @@ y)) \text{ and } g ((Q₂ ∙ f x) (f y))) ≈ ((Q₃ ∙ g (f x)) (g (f y)))\]
 Monomorphism and isomorphism composition constructs for quasigroup and loop are
 defined similar to homomorphism and can be found in the Agda standard library.
 
-\section{Direct Product}
-The \textit{direct product} $M \ \times \ N$ of two quasigroups $M$ and $N$ is
-defined in Agda as:
+\section{Product Algebra}
+The product algebra $M \ \times \ N$ of two quasigroups $M$ and $N$ is defined
+in Agda as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 quasigroup : Quasigroup a ℓ₁ → Quasigroup b ℓ₂ → Quasigroup (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -237,8 +237,8 @@ quasigroup M N = record
 In the above code, \inline{zip} gives a $\Sigma$-type of dependent pairs.
 \inline{<*>} is used to convert the curried functions to a function on a pair.
 Currying a function is to break down a function that takes multiple arguments
-into a series of functions that take exactly one argument. The direct product of
-loop structure can be defined similarly to quasigroup. 
+into a series of functions that take exactly one argument. The product of loop
+structure can be defined similarly to quasigroup. 
 
 \section{Properties}
 In this section, we prove some properties of quasigroup, loop, middle bol loop,
