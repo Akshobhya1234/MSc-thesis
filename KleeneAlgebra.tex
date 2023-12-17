@@ -180,10 +180,15 @@ KleeneAlgebra K L = record
 
 where \inline{idempotentSemiring} is the product of two idempotent semiring structures.
 \section{Properties}
-In this section, we prove some properties of Kleene algebra. The proofs are
-adapted from \cite{kozen1997kleene}.
-Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene
-algebra then:
+Property of union $(a+b)^{*} = a^{*}*(b*(a^{*}))^{*}$ require monotonicity to
+prove \cite{broda2014kleene}. Since the identities of Kleene algebra with
+partial order are defined in terms of equality ($a \leq b \leftrightarrow a + b
+= b$), these properties become non-provable. For the scope of the thesis, we
+omit discussing properties that require monotonicity. In this section, we prove
+some properties of Kleene algebra. The proofs are adapted from
+\cite{kozen1997kleene}. 
+
+Let $(K, +, *, ^{*}, 0, 1)$ be a Kleene algebra then:
 \begin{enumerate}
   \setlength{\itemindent}{0em}
   \item 
