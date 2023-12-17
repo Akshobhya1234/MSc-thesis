@@ -115,16 +115,16 @@ Another definition of quasigroup is given as type a (2,2,2) algebra in which a
 set $Q$ and binary operations $∙, \backslash, /$. In Chapter 5, we define
 quasigroup with three binary operations that satisfy the below identities.
 
-\begin{equation} \label{eq_L-leftdivides}
+\begin{equation} \label{eq_L-leftdivides1}
   x\ ∙\ (x\ \backslash\ y) \ = \ y
 \end{equation}
-\begin{equation} \label{eq_L-rightdivides}
+\begin{equation} \label{eq_L-rightdivides1}
   x\ \backslash\ (x\ ∙\ y)\ = \ y
 \end{equation}
-\begin{equation} \label{eq_R-leftdivides}
+\begin{equation} \label{eq_R-leftdivides1}
   (y\ /\ x)\ ∙\ x \ =\ y
 \end{equation}
-\begin{equation} \label{eq_Rirightdivides}
+\begin{equation} \label{eq_Rirightdivides1}
   (y\ ∙\ x)\ /\ x \ =\ y
 \end{equation}
 
@@ -138,12 +138,12 @@ from \cite{shcherbacov2003elements}.
 Let $(Q, ∙)$ be a quasigroup (satisfies Latin square property). Since $ a ∙ x =
 b$, we can associate this with an operation such that $a ∙ x = b \mapsto a
 \backslash b = x$. We can substitute this in equation $a ∙ x = b$ to get $a ∙ (a
-\backslash b) = b \forall a,b \in Q$ which is \ref{eq_L-leftdivides}.
+\backslash b) = b \forall a,b \in Q$ which is \ref{eq_L-leftdivides1}.
 
 Similarly, $y ∙ a = b \mapsto a / b = y$. Substituting this we get $ (a / b) ∙ a
-= y$ which is \ref{eq_R-leftdivides}.
+= y$ which is \ref{eq_R-leftdivides1}.
 
-Equation \ref{eq_L-rightdivides} and \ref{eq_Rirightdivides}, follows from the
+Equation \ref{eq_L-rightdivides1} and \ref{eq_Rirightdivides1}, follows from the
 definition of operation $\backslash$ and $/$. That is $x \backslash (x ∙ y) = y \mapsto x
 ∙ y = x ∙ y$ and $(y ∙ x) /x \mapsto y ∙ x = y ∙ x$.
 
@@ -153,16 +153,16 @@ the existence of a unique solution of equation $ a ∙ x = b$ and $y ∙ a = b$.
 
 To prove the existence of a solution, let $x = a\backslash b$ and $y = b / a$.
 Substituting $x$ and $y$ in above equation, we get $a ∙ x = a ∙ (a \backslash b)
-= b$ from equation \ref{eq_L-leftdivides} and $ y ∙ a = (b / a) ∙ a = b$ from
-equation \ref{eq_R-leftdivides}.
+= b$ from equation \ref{eq_L-leftdivides1} and $ y ∙ a = (b / a) ∙ a = b$ from
+equation \ref{eq_R-leftdivides1}.
 
 To prove the uniqueness of the solution, we can assume there exist two solutions
 $x_1$ and $x_2$ that is $a ∙ x_1 = b$ and $a ∙ x_2 = b$. Then $x_1 = a
 \backslash b$. Therefore we get $x_1 = a \backslash b = a \backslash (a ∙ x_2) =
-x_2$ from equation \ref{eq_R-leftdivides}
+x_2$ from equation \ref{eq_R-leftdivides1}
 
 Similarly, if $y_1$ and $y_2$ two solutions that is $y_1 ∙ a = b$ and $y_2 ∙ a = b$, we get 
-$y_1 = b / a = (y_2 ∙ a) / a = y_2$ from equation \ref{eq_Rirightdivides}.
+$y_1 = b / a = (y_2 ∙ a) / a = y_2$ from equation \ref{eq_Rirightdivides1}.
 
 \end{enumerate}
 
