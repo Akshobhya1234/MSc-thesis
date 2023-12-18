@@ -12,28 +12,28 @@ Kleene algebra, in this chapter we consider the axioms defined in
 \cite{kozen1994completeness}
 
 \section{Definition}
-A set S with two binary operations $+$ and $*$ generally called addition and
+A set $S$ with two binary operations $+$ and $*$ generally called addition and
 multiplication such that $(S,+,0)$ is a commutative monoid, $(S,*,1)$ is a
 monoid, and $*$ distributes over $+$ with annihilating zero is called a
 semiring. A semiring satisfying idempotent property is called idempotent
 semiring. An idempotentSemiring $(S,+,*,0,1)$ should satisfy the following
 axioms:
 \begin{itemize}
-\item $(S,+,0)$ is a commutative monoid:
-\begin{itemize}
-  \item Associativity: $\forall x,y,z \in S, x + (y + z) = (x + y) + z$
-  \item Identity: $\forall x \in S, (x + 0) = x = (0 + x)$
-  \item Commutativity: $\forall x,y \in S, (x + y) = (y + x)$
-\end{itemize}
-\item $(S,*,1)$ is a monoid:
-\begin{itemize}
-  \item Associativity: $ \forall x,y,z \in S, x * (y*z)  = (x*y)*z$
-  \item Identity: $\forall x \in S, (x * 1) = x = (1 * x)$
-\end{itemize}
-\item Idempotent: $\forall x \in S, (x + x) = x$
-\item Multiplication distributes over addition: \(\forall x , y , z \in S, (x * (y + z)) = (x * y) + (x
-* z)\) and \( (x + y) * z = (x * z) + (y * z) \)
-\item Annihilating zero: \(\forall x \in S, (x * 0) = 0 = (0 * x)\)
+  \item $(S,+,0)$ is a commutative monoid:
+  \begin{itemize}
+    \item Associativity: $\forall x,y,z \in S, x + (y + z) = (x + y) + z$
+    \item Identity: $\forall x \in S, (x + 0) = x = (0 + x)$
+    \item Commutativity: $\forall x,y \in S, (x + y) = (y + x)$
+  \end{itemize}
+  \item $(S,*,1)$ is a monoid:
+  \begin{itemize}
+    \item Associativity: $ \forall x,y,z \in S, x * (y*z) = (x*y)*z$
+    \item Identity: $\forall x \in S, (x * 1) = x = (1 * x)$
+  \end{itemize}
+  \item Idempotent: $\forall x \in S, (x + x) = x$
+  \item Multiplication distributes over addition: \(\forall x , y , z \in S, (x * (y + z)) = (x * y) + (x
+  * z)\) and \( (x + y) * z = (x * z) + (y * z) \)
+  \item Annihilating zero: \(\forall x \in S, (x * 0) = 0 = (0 * x)\)
 \end{itemize}
 
 A Kleene Algebra over set S that is an idempotent semiring with unary operator
@@ -62,7 +62,7 @@ StarRightExpansive e _+_ _∙_ _* = ∀ x → (e + (x ∙ (x *))) + (x *) ≈ (x
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarLeftExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
-StarLeftExpansive e _+_ _∙_ _* = ∀ x →  (e + ((x *) ∙ x)) + (x *) ≈ (x *)
+StarLeftExpansive e _+_ _∙_ _* = ∀ x → (e + ((x *) ∙ x)) + (x *) ≈ (x *)
 \end{minted}
 \begin{minted}[breaklines,samepage]{Agda}
 StarExpansive : A → Op₂ A → Op₂ A → Op₁ A → Set _
@@ -98,8 +98,8 @@ record IsKleeneAlgebra (+ * : Op₂ A) (⋆ : Op₁ A) (0# 1# : A) : Set (a ⊔ 
 In the above definition, \inline{IsKleeneAlgebra} structure is defined as a
 record type with three fields. Since \inline{*} is used to denote binary
 multiplication operation, we use \inline{⋆} for the unary star operator. The
-field \inline{isIdempotentSemiring} makes an idempotentSemiring with the operator
-$+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
+field \inline{isIdempotentSemiring} makes an idempotent semiring with the
+operator $+,*,0\#, \text{ and } 1\#$. Fields \inline{starExpansive} and
 \inline{starDestructive} are used to give the axioms for the star operator. We
 open \inline{isIdempotentSemiring} to bring its definitions into scope.
 
@@ -259,7 +259,7 @@ x⋆+x⋆x≈x⋆ : ∀ x → x ⋆ + x ⋆ * x ≈ x ⋆
 x⋆+x⋆x≈x⋆ x = begin
   x ⋆ + x ⋆ * x         ≈⟨ +-congʳ (sym (1+x⋆≈x⋆ x)) ⟩
   1# + x ⋆ + x ⋆ * x    ≈⟨ +-assoc _ _ _ ⟩
-  1# + (x ⋆ + x ⋆ * x)  ≈⟨ +-congˡ (+-comm (x ⋆) (x ⋆ * x)) ⟩  
+  1# + (x ⋆ + x ⋆ * x)  ≈⟨ +-congˡ (+-comm (x ⋆) (x ⋆ * x)) ⟩
   1# + (x ⋆ * x + x ⋆)  ≈⟨ sym (+-assoc _ _ _) ⟩
   1# + x ⋆ * x + x ⋆    ≈⟨ starExpansiveˡ x ⟩ 
   x ⋆                   ∎

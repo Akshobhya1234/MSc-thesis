@@ -32,7 +32,7 @@ used later in the chapter.
     \item  A \emph{function} $f: X \rightarrow Y$ is a mapping that associates each
     element of domain $(x \in X)$ with a unique element in co-domain $(y \in Y)$.
     \item  A \emph{function symbol} (or operation name) represents an operation
-    that maps the elements of domain to a unique element in the co-domain.
+    that maps the elements of the domain to a unique element in the co-domain.
     \item The number of operands in a function (or operation) is the \emph{arity} of
     the operation.
     \item A \emph{formula} is a finite sequence of symbols from the set of alphabets of a
@@ -61,16 +61,16 @@ inference rules. The three inference rules in equational logic described in
     \item Substitution: For predicate $p$, if $p\ t$ is true, it remains true on all
     conditions. \[\frac{p t}{p(t[xs \mapsto ts])}\]
 \end{itemize}
-where $t,t_1,t_2, \text{and} t_3$ are term expressions, $x$ is some symbol in the
-language, $xs$ and $ts$ denotes list of symbols and list of expressions
+where $t,t_1,t_2, \text{and} t_3$ are term expressions, $x$ is some symbol in
+the language, $xs$ and $ts$ denote the list of symbols and expressions
 respectively. 
 
 \begin{itemize}
 
     \item A \textit{signature} is a set $\Sigma$. The elements of the set are
     called operation symbols (or function names) together with the arity
-    function $ar: \Sigma \rightarrow \mathbb{N} $ that assigns each operation symbol with
-    its finite arity.
+    function $ar: \Sigma \rightarrow \mathbb{N} $ that assigns each operation
+    symbol with its finite arity.
 
     \item A \textit{realization} of an n-ary function name in a set $A$ is an
     n-ary function on $A$. 
@@ -186,5 +186,4 @@ structures. In this section, we will describe some of these constructions.
     \bigoplus B$ has operations $f_1, f_2, ... f_n,g_1,g_2, ... g_2$ defined
     component-wise \cite{directproduct}. 
     
-
 \end{itemize}

@@ -111,9 +111,9 @@ a ∙ x = b
 \begin{equation}
 y ∙ a = b
 \end{equation}
-Another definition of quasigroup is given as type a (2,2,2) algebra in which a
-set $Q$ and binary operations $∙, \backslash, /$. In Chapter 5, we define
-quasigroup with three binary operations that satisfy the below identities.
+Another definition of quasigroup is given as type a (2,2,2). In Chapter 5, we
+defined quasigroup with three binary operations ($∙, \backslash, /$) that
+satisfy the identities below.
 
 \begin{equation} \label{eq_L-leftdivides1}
   x\ ∙\ (x\ \backslash\ y) \ = \ y
@@ -135,34 +135,34 @@ from \cite{shcherbacov2003elements}.
 
 \begin{enumerate}
   \item 
-Let $(Q, ∙)$ be a quasigroup (satisfies Latin square property). Since $ a ∙ x =
-b$, we can associate this with an operation such that $a ∙ x = b \mapsto a
-\backslash b = x$. We can substitute this in equation $a ∙ x = b$ to get $a ∙ (a
-\backslash b) = b \forall a,b \in Q$ which is \ref{eq_L-leftdivides1}.
+  Let $(Q, ∙)$ be a quasigroup (satisfies Latin square property). Since $ a ∙ x =
+  b$, we can associate this with an operation such that $a ∙ x = b \mapsto a
+  \backslash b = x$. We can substitute this in equation $a ∙ x = b$ to get $a ∙ (a
+  \backslash b) = b \forall a,b \in Q$ which is \ref{eq_L-leftdivides1}.
 
-Similarly, $y ∙ a = b \mapsto a / b = y$. Substituting this we get $ (a / b) ∙ a
-= y$ which is \ref{eq_R-leftdivides1}.
+  Similarly, $y ∙ a = b \mapsto a / b = y$. Substituting this we get $ (a / b) ∙ a
+  = y$ which is \ref{eq_R-leftdivides1}.
 
-Equation \ref{eq_L-rightdivides1} and \ref{eq_Rirightdivides1}, follows from the
-definition of operation $\backslash$ and $/$. That is $x \backslash (x ∙ y) = y \mapsto x
-∙ y = x ∙ y$ and $(y ∙ x) /x \mapsto y ∙ x = y ∙ x$.
+  Equation \ref{eq_L-rightdivides1} and \ref{eq_Rirightdivides1}, follows from the
+  definition of operation $\backslash$ and $/$. That is $x \backslash (x ∙ y) = y \mapsto x
+  ∙ y = x ∙ y$ and $(y ∙ x) /x \mapsto y ∙ x = y ∙ x$.
 
 \item 
-Let $(Q,∙, \backslash, /)$ be a quasigroup (satisfies division). We need to show
-the existence of a unique solution of equation $ a ∙ x = b$ and $y ∙ a = b$.
+  Let $(Q,∙, \backslash, /)$ be a quasigroup (satisfies division). We need to show
+  the existence of a unique solution of equation $ a ∙ x = b$ and $y ∙ a = b$.
 
-To prove the existence of a solution, let $x = a\backslash b$ and $y = b / a$.
-Substituting $x$ and $y$ in above equation, we get $a ∙ x = a ∙ (a \backslash b)
-= b$ from equation \ref{eq_L-leftdivides1} and $ y ∙ a = (b / a) ∙ a = b$ from
-equation \ref{eq_R-leftdivides1}.
+  To prove the existence of a solution, let $x = a\backslash b$ and $y = b / a$.
+  Substituting $x$ and $y$ in above equation, we get $a ∙ x = a ∙ (a \backslash b)
+  = b$ from equation \ref{eq_L-leftdivides1} and $ y ∙ a = (b / a) ∙ a = b$ from
+  equation \ref{eq_R-leftdivides1}.
 
-To prove the uniqueness of the solution, we can assume there exist two solutions
-$x_1$ and $x_2$ that is $a ∙ x_1 = b$ and $a ∙ x_2 = b$. Then $x_1 = a
-\backslash b$. Therefore we get $x_1 = a \backslash b = a \backslash (a ∙ x_2) =
-x_2$ from equation \ref{eq_R-leftdivides1}
+  To prove the uniqueness of the solution, we can assume there exist two solutions
+  $x_1$ and $x_2$ that is $a ∙ x_1 = b$ and $a ∙ x_2 = b$. Then $x_1 = a
+  \backslash b$. Therefore we get $x_1 = a \backslash b = a \backslash (a ∙ x_2) =
+  x_2$ from equation \ref{eq_R-leftdivides1}
 
-Similarly, if $y_1$ and $y_2$ two solutions that is $y_1 ∙ a = b$ and $y_2 ∙ a = b$, we get 
-$y_1 = b / a = (y_2 ∙ a) / a = y_2$ from equation \ref{eq_Rirightdivides1}.
+  Similarly, if $y_1$ and $y_2$ two solutions that is $y_1 ∙ a = b$ and $y_2 ∙ a = b$, we get 
+  $y_1 = b / a = (y_2 ∙ a) / a = y_2$ from equation \ref{eq_Rirightdivides1}.
 
 \end{enumerate}
 
@@ -269,20 +269,20 @@ open IsQuasiring isQuasiring public
   }
 \end{minted}
 
-In some literature, nearring is defined such that multiplication is a semigroup.
-This can be attributed to the problem of ambiguity. It can be analyzed that
-having two different definitions for the same structure is not a good practice.
-If nearring is defined using quasiring then it should also give an instance of
-an additive group without having to construct it when using the above
-formalization. This solution might solve the problem at first but in practice,
-this becomes tedious and may go to a point at which this can be impractical
-especially when formalizing structures at higher levels in the algebra
-hierarchy.
+In some literature, a nearring is defined such that multiplication is a
+semigroup. This can be attributed to the problem of ambiguity. It can be
+analyzed that having two different definitions for the same structure is not a
+good practice. If nearring is defined using quasiring then it should also give
+an instance of an additive group without having to construct it when using the
+above formalization. This solution might solve the problem at first but in
+practice, this becomes tedious and may go to a point at which this can be
+impractical especially when formalizing structures at higher levels in the
+algebra hierarchy.
 
 \section{Equivalent Structures}
 Consider the example of idempotent commutative monoid and bounded semilattice.
 Both idempotent commutative monoid and bounded semilattice are equivalent
-structures that are also of same type. It is redundant to define two different
+structures that are also of the same type. It is redundant to define two different
 structures from different hierarchies. Instead, in Agda, aliasing may be used to
 say that the bounded semilattice is same as the idempotent commutative monoid.
 Idempotent commutative monoid is defined and an aliasing for bounded semilattice

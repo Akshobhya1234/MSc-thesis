@@ -3,8 +3,8 @@ Quasigroups and loops find applications in various fields of mathematics,
 computer science, and physics. For example, Einstein's formula of addition of
 velocities gives a loop structure \cite{ungar2007einstein}. In computer science,
 they are used in error-correcting codes and cryptography, where properties like
-uniqueness of solutions and error detection play a crucial role
-\cite{phillips2010automated}. The properties of loops help the development of
+uniqueness of solution and error detection play a crucial role
+\cite{phillips2010automated}. The properties of loops help in the development of
 efficient computational algorithms, in the areas of optimization, scheduling,
 and permutation-based problems \cite{khan2015mining}. In this chapter, we
 formalize two important non-associative algebras - quasigroup, and loop
@@ -81,10 +81,10 @@ field
 
 open IsMagma isMagma public
 \end{minted}
-In the above definition \inline{IsQuasigroup} is a record type with three binary
-operations $∙,\ \backslash\backslash \ //$ on setoid $A$. The structure has five
-fields. We restrict discussing the syntax of definition as it is covered in
-Chapter 3.
+In the above definition, \inline{IsQuasigroup} is a record type with three
+binary operations $∙,\ \backslash\backslash \ //$ on setoid $A$. The structure
+has five fields. We restrict discussing the syntax of the definition as it is
+covered in Chapter 3.
 
 A loop is a quasigroup that has an identity element. The identity axiom is given
 as:
@@ -116,13 +116,13 @@ field
 open IsQuasigroup isQuasigroup public
 \end{minted}
 
-Bol loops are nonassociative algebraic systems that satisfy a weakened form of
+Bol loops are non-associative algebraic systems that satisfy a weakened form of
 the associative property. A loop is called a \textit{right bol loop} if it
-satisfies the right bol identity
+satisfies the right-bol identity
 \[ ((z\ ∙\ x)\ ∙\ y)\ ∙\ x\ =\ z\ ∙\ ((\ x\ ∙\ y)\ ∙\ x)\]
-A loop is called a \textit{left bol loop} if it satisfies the left bol identity
+A loop is called a \textit{left bol loop} if it satisfies the left-bol identity
 \[ x\ ∙\ (y\ ∙\ (x\ ∙\ z))\ =\ (x\ ∙\ (y\ ∙\ x))\ ∙\ z\]
-A loop is called \textit{middle bol loop} if it satisfies the middle bol identity
+A loop is called \textit{middle bol loop} if it satisfies the middle-bol identity
 \[(z\ ∙\ x)\ ∙\ (y\ ∙\ z)\ =\ z\ ∙\ ((x\ ∙\ y)\ ∙\ z)\] 
 
 A left-right bol loop is called a \textit{moufang loop} if it satisfies the
@@ -141,7 +141,8 @@ f:(Q_1,∙,\backslash \backslash,//) \rightarrow (Q_2,\circ,\backslash,/) \) suc
 that:
 \begin{itemize}
   \item $f$ preserves the binary operation: $f(x∙y) = f(x) \circ f(y)$
-  \item $f$ preserves the left division operation : $f(x\backslash \backslash y) = f(x)\backslash f(y)$
+  \item $f$ preserves the left division operation : $f(x\backslash \backslash y)
+  = f(x)\backslash f(y)$
   \item $f$ preserves the right division operation: $f(x//y) = f(x)/f(y)$
 \end{itemize}
 
