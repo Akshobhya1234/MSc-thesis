@@ -265,8 +265,8 @@ equality generalized to an arbitrary level.
 
 \section{Equality}
 \label{equality}
-In Chapter 2, when defining theory, we said the equation is of the form $t_1 =
-t_2$ where $t_1$ and $t_2$ are term expressions and $=$ represents equality
+In Chapter 2, when defining theory, we said that an equation is of the form $t_1
+= t_2$ where $t_1$ and $t_2$ are term expressions and $=$ represents equality
 relation. In dependent type theory, equality is a complex concept. Equality says
 that two things are "equal". But asking "when two things are equal" is
 nontrivial. In this section, we discuss a hierarchy of "sameness" from
@@ -466,10 +466,10 @@ record IsMonoid (A : Set) : Set where
     rightId : ∀ {x} → op x e ≡ x
 \end{minted}
 
-In the above example, we \inline{IsMonoid} structure has a parameter \inline{A :
-Set} with fields \inline{e} - the identity element and \inline{op} - the binary
-operation. We give the laws of monoid structure as its field. Another way to
-define a monoid structure is to parameterize the binary operation and the
+In the above example, we see that \inline{IsMonoid} structure has a parameter
+\inline{A : Set} with fields \inline{e} - the identity element and \inline{op} -
+the binary operation. We give the laws of monoid structure as its field. Another
+way to define a monoid structure is to parameterize the binary operation and the
 identity element.
 
 \begin{minted}[samepage,breaklines]{Agda}
@@ -807,7 +807,7 @@ groups, rings, or vector spaces.
 
 The products of various structures are defined under the module
 \mintinline[breaklines,breakafter=.]{Agda}{Algebra.Construct.DirectProducts} in
-Agda standard library. The product of magma structure is defined as:
+the Agda standard library. The product of magma structure is defined as:
 
 \begin{minted}[breaklines,samepage]{Agda}
 magma : Magma a ℓ₁ → Magma b ℓ₂ → Magma (a ⊔ b) (ℓ₁ ⊔ ℓ₂)
@@ -838,7 +838,7 @@ constructive equational proof in Agda refers to the process of proving a logical
 proposition using equational reasoning within Agda's type system
 \cite{murray2022constructive}. 
 
-In section \ref{types}, we saw how to define the natural number and addition
+In section \ref{types}, we have seen how to define natural numbers and addition
 function on it. Now, we will write an inductive proof using pattern matching
 that states that the addition of two natural numbers is commutative.
 
@@ -928,4 +928,3 @@ object to itself.
 _∎ : ∀ x → x IsRelatedTo x
 x ∎ = relTo refl
 \end{minted}
-
